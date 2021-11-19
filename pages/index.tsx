@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Event from '../components/event'
 import { GetStaticProps } from 'next'
 
 const Home = ({ events }) => {
@@ -24,13 +25,15 @@ const Home = ({ events }) => {
         <h1 className="text-6xl sm:text-7xl lg:text-8-xl font-bold text-yellow-400">
           Events
         </h1>
-        {Object.keys(events).map(key => (
-          <div className="px-20" key={key}>
-            <p className="mt-3 text-2xl" key={key}>
-              {events[key].name}
-            </p>
-          </div>
-        ))}
+        <div className="flex flex-row items-center justify-center">
+          {Object.keys(events).map(key => (          
+            <Event key={key} name={events[key].name} slug={events[key].slug}>
+              <p className="mt-3 text-2xl" key={key}>
+                {events[key].name}
+              </p>
+            </Event>
+          ))}
+        </div>
       </main>
     </div>
   )
