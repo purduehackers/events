@@ -36,8 +36,7 @@ const Home = ({ events }) => {
 }
 
 export const getStaticProps: GetStaticProps = async ()  => {
-  // const events = await fetch(`${server}/api/fetchEvents`).then(r => r.json())
-  const events = [{ name: '', slug: '', start: 'TBD', end: 'TBD' }]
+  const events = await fetch(`${server}/api/fetchEvents`).then(r => r.json())
   return {
     props: { events }
   }
