@@ -6,13 +6,6 @@ const past = dt => new Date(dt) < new Date()
 const now = (start, end) =>
   new Date() > new Date(start) && new Date() < new Date(end)
 
-type Props = {
-  name: string,
-  slug: string,
-  start: string,
-  end: string
-}
-
 const Event = ({ name, slug, start, end }) => {
   return (
     <Link href="/[slug]" as={`/${slug}`} passHref>
