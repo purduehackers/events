@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { GetStaticProps } from 'next'
 
-const Home = () => {
+const Home = ({ events }) => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2 font-title">
       <Head>
@@ -20,19 +20,27 @@ const Home = () => {
           </a>{'\' '}
           Event RSVP service.
         </p>
+
+        <h1 className="text-6xl sm:text-7xl lg:text-8-xl font-bold text-yellow-400">
+          Events
+        </h1>
+        {Object.keys(events).map(key => (
+          <div className="px-20" key={key}>
+            <p className="mt-3 text-2xl" key={key}>
+              {events[key].name}
+            </p>
+          </div>
+        ))}
       </main>
     </div>
   )
 }
 
 export const getStaticProps: GetStaticProps = async ()  => {
+  const events = await fetch('http://localhost:3000/api/fetchEvents').then(r => r.json())
   return {
-    props: {}
+    props: { events }
   }
-}
-
-interface Props {
-
 }
 
 export default Home
