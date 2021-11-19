@@ -9,9 +9,11 @@ type Props = {
 const Event: React.FC<Props> = ({ name, slug}) => {
   return (
     <Link href="/[slug]" as={`/${slug}`} passHref>
-      <div className="bg-gray-200 rounded-lg">
-        <h1>{name}</h1>
-      </div>
+      <a href="#">
+        <div className="bg-gray-200 rounded-lg">
+          <h1>{name}</h1>
+        </div>
+      </a>
     </Link>
   )
 }
