@@ -20,8 +20,8 @@ const Event: React.FC<Props> = ({ name, slug, start, end }) => {
         <div className={past(end) ? "bg-gray-200 rounded-lg p-5" : "bg-yellow-400 rounded-lg p-5 hover:scale-105 transform transition"}>
           <p>
             <strong>{start === 'TBD' ? 'TBD' : tt('{MM} {Do}').render(new Date(start))}</strong>{' '}
-            {start === 'TBD' ? 'TBD' : tt('{h}:{mm}').render(new Date(start))}–
-            {end === 'TBD' ? 'TBD' : tt('{h}:{mm} {a}').render(new Date(end))}
+            {start === 'TBD' ? '' : tt('{h}:{mm}').render(new Date(start)) + "—"}
+            {end === 'TBD' ? '' : tt('{h}:{mm} {a}').render(new Date(end))}
           </p>
           <h1 className="text-xl">{name}</h1>
         </div>
