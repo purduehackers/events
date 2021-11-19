@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import { server } from '../config'
 import Event from '../components/event'
 import { GetStaticProps } from 'next'
 
@@ -35,7 +36,7 @@ const Home = ({ events }) => {
 }
 
 export const getStaticProps: GetStaticProps = async ()  => {
-  const events = await fetch('http://localhost:3000/api/fetchEvents').then(r => r.json())
+  const events = await fetch(`${server}/api/fetchEvents`).then(r => r.json())
   return {
     props: { events }
   }
