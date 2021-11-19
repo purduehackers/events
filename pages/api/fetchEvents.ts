@@ -1,5 +1,6 @@
 import { AirtablePlusPlus, AirtablePlusPlusRecord } from 'airtable-plusplus'
 import { NextApiRequest, NextApiResponse } from 'next'
+import { orderBy } from 'lodash'
 
 const airtable = new AirtablePlusPlus({
   apiKey: process.env.AIRTABLE_API_KEY,
@@ -23,12 +24,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     id,
     name: fields['Event Name'],
     desc: fields['Event Description'],
-    start: fields['Event Date & Start Time'],
-    end: fields['Event Date & End Time'],
+    start: fields['Event Date & Start Time'] || 'TBD',
+    end: fields['Event Date & End Time'] || 'TBD',
     loc: fields['Event Location'],
     gMap: fields['Location Map Link (optional)'] || false,
     slug: fields.Slug
   }))
 
-  res.json(events)
+  res.json(orderBy(events, 'start'))
 }
