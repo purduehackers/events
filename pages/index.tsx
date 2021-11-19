@@ -10,22 +10,19 @@ const Home = ({ events }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex flex-col items-center justify-top mt-20 w-full flex-1 px-5 text-center sm:px-20 sm:justify-center sm:m-0">
-        <h1 className="text-6xl sm:text-7xl lg:text-8-xl font-bold text-yellow-400">
-          Well hello!
+      <main className="flex flex-col items-center justify-top mt-20 w-full flex-1 px-5 text-center sm:px-20">
+        <h1 className="text-4xl sm:text-7xl lg:text-8-xl font-bold text-yellow-400">
+          Purdue Hackers Events
         </h1>
-        <p className="mt-3 text-2xl">
-          You've stumbled across{' '}
+        <p className="mt-3 text-1xl sm:text-2xl">
+          Check out & sign up for{' '}
           <a href="https://purduehackers.com" target="_blank" className="text-yellow-400 hover:text-yellow-500 transition">
             Purdue Hackers
           </a>{'\' '}
-          Event RSVP service.
+          upcoming events.
         </p>
 
-        <h1 className="text-6xl sm:text-7xl lg:text-8-xl font-bold text-yellow-400">
-          Events
-        </h1>
-        <div className="flex flex-row items-center justify-center">
+        <div className="flex flex-row items-center justify-center mt-50">
           {Object.keys(events).map(key => (          
             <Event key={key} name={events[key].name} slug={events[key].slug}>
               <p className="mt-3 text-2xl" key={key}>
