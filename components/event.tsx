@@ -13,7 +13,7 @@ type Props = {
   end: string
 }
 
-const Event: React.FC<Props> = ({ name, slug, start, end }) => {
+const Event = ({ name, slug, start, end }) => {
   return (
     <Link href="/[slug]" as={`/${slug}`} passHref>
       <a href="#">
