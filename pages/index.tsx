@@ -25,7 +25,7 @@ const Home = ({ events }) => {
           </p>
         </div>
         
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 auto-rows-fr auto-cols-fr mt-16 sm:mt-28">
+        <div className="container grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-3 auto-rows-fr auto-cols-fr mt-16 sm:mt-28">
           {Object.keys(events).map(key => (          
             <Event key={key} name={events[key].name} slug={events[key].slug} start={events[key].start} end={events[key].end} />
           ))}
