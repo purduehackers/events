@@ -7,7 +7,7 @@ const past = dt => new Date(dt) < new Date()
 const Event = ({ name, slug, start, end }) => {
   return (
     <Link href="/[slug]" as={`/${slug}`} passHref>
-      <a href="#" className="text-black hover:text-black">
+      <a href="#">
         
         <div className={`col-span-1 flex flex-col rounded-lg p-5 sm:min-h-full ${past(end)
           ? "bg-gray-200" : "bg-yellow-400 hover:scale-105 transform transition"}`}>

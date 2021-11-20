@@ -6,7 +6,7 @@ const Slug = ({ event }) => {
   return (
     <main>
       <h1>{event.name}</h1>
-      <h1 dangerouslySetInnerHTML={{ __html: event.desc }} className=""></h1>
+      <h1 dangerouslySetInnerHTML={{ __html: event.desc }}></h1>
     </main>
   )
 }
@@ -28,7 +28,10 @@ export const getStaticProps: GetStaticProps = async ({ params })  => {
 
   event.desc = event.desc !== undefined
     ? marked.marked(event.desc).replace(new RegExp('</p>\n<p>', 'g'), '</p><br/><p>')
+      .replace(new RegExp('<a', 'g'), '<a class="desc"')
     : 'No description exists for this event...yet!'
+
+  console.log(event.desc)
 
   return { props: { event } }
 }
