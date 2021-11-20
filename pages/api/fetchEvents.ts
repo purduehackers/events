@@ -22,13 +22,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const airtableEvents = (await airtable.read()) as unknown as AirtablePlusPlusRecord<AirtableFields>[]
   const events = airtableEvents.map(({ id, fields }) => ({
     id,
-    name: fields['Event Name'] || 'Mysterious Event',
-    desc: fields['Event Description'] || 'No description exists for this event...yet!',
-    start: fields['Event Date & Start Time'] || 'TBD',
-    end: fields['Event Date & End Time'] || 'TBD',
-    loc: fields['Event Location'] || 'TBD',
-    gMap: fields['Location Map Link (optional)'] || false,
-    slug: fields.Slug || 'mysterious_event'
+    name: fields['Event Name'] ?? 'Mysterious Event',
+    desc: fields['Event Description'] ?? 'No description exists for this event...yet!',
+    start: fields['Event Date & Start Time'] ?? 'TBD',
+    end: fields['Event Date & End Time'] ?? 'TBD',
+    loc: fields['Event Location'] ?? 'TBD',
+    gMap: fields['Location Map Link (optional)'] ?? false,
+    slug: fields.Slug ?? 'mysterious_event'
   }))
 
   res.json(orderBy(events, 'start'))
