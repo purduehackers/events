@@ -7,7 +7,7 @@ const Home = ({ events }) => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen font-title">
       <Head>
-        <title>Purdue Hackers RSVP</title>
+        <title>Events — Purdue Hackers</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
