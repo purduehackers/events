@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { Clock, MapPin } from 'react-feather'
-import * as marked from 'marked'
+import { marked } from 'marked'
 import tt from 'tinytime'
 import { server } from '../config'
 
@@ -57,7 +57,7 @@ export const getStaticProps: GetStaticProps = async ({ params })  => {
     .then(r => r.json())
     .then(events => events.find(event => event.slug === slug))
 
-  event.desc = marked.marked(event.desc)
+  event.desc = marked(event.desc)
     .replace(new RegExp('</p>\n<p>', 'g'), '</p><br/><p>')
     .replace(new RegExp('<a', 'g'), '<a class="desc"')
 
