@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import { GetStaticPaths, GetStaticProps } from 'next'
+import { Clock, MapPin } from 'react-feather'
 import * as marked from 'marked'
 import tt from 'tinytime'
 import { server } from '../config'
@@ -18,13 +19,13 @@ const Slug = ({ event }) => {
               {event.name}
             </h1>
             <p className="mt-3 text-1xl sm:text-2xl flex flex-row gap-x-1 items-center justify-center">
-              <span><img src="feather-clock.svg"></img></span>
+              <span><Clock color="black" /></span>
               <strong>{event.start === 'TBD' ? 'Date TBD' : tt('{MM} {Do}').render(new Date(event.start))}</strong>{' '}
               {event.start === 'TBD' ? '' : tt('{h}:{mm}').render(new Date(event.start)) + "—"}
               {event.end === 'TBD' ? '' : tt('{h}:{mm} {a}').render(new Date(event.end))}
             </p>
             <p className="mt-1 text-1xl sm:text-2xl flex flex-row gap-x-1 items-center justify-center">
-              <span><img src="feather-map-pin.svg"></img></span>
+              <span><MapPin color="black" /></span>
               <strong>{event.loc === 'TBD' ? 'Location TBD' :
                   event.gMap
                   ? <a href={event.gMap} target="_blank" className="text-yellow-500 hover:text-yellow-400 transition">{event.loc}</a>
@@ -34,7 +35,7 @@ const Slug = ({ event }) => {
       </div>
       <div className="container mx-auto p-8 px-4 md:px-16 lg:px-72 xl:px-96">
         <div className="border-2 border-dashed p-4 border-yellow-400">
-          <p dangerouslySetInnerHTML={{ __html: event.desc }} className="text-l"></p>
+          <div dangerouslySetInnerHTML={{ __html: event.desc }} className="text-l"></div>
         </div>
       </div>
     </div>
