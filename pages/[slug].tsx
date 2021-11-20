@@ -13,7 +13,7 @@ const Slug = ({ event }) => {
         <title>{event.name} — Purdue Hackers</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      
+
       <BackButton />
 
       <div className="flex flex-col items-center justify-top mt-0 w-full flex-1 px-5 pb-8 sm:pb-16 text-center sm:px-20 bg-gray-100">
@@ -64,7 +64,7 @@ export const getStaticProps: GetStaticProps = async ({ params })  => {
     .replace(new RegExp('</p>\n<p>', 'g'), '</p><br/><p>')
     .replace(new RegExp('<a', 'g'), '<a class="desc"')
 
-  return { props: { event } }
+  return { props: { event }, revalidate: 10 }
 }
 
 export default Slug
