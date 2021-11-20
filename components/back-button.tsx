@@ -3,16 +3,16 @@ import Link from 'next/dist/client/link'
 import { ArrowLeft } from 'react-feather'
 
 const BackButton = () => (
-  <Link href="/" passHref>
     <div className="bg-gray-100">
-      <div className="w-1/2 sm:w-1/4">
-        <a href="#" className="flex flex-row p-2 text-yellow-500 hover:text-yellow-400 transition px-4 xl:px-32 py-4">
-          <ArrowLeft />
-          All Events
+      <div className="">
+      <Link href="/" passHref>
+        <a href="#" className="flex flex-row justify-left p-2 text-yellow-500 hover:text-yellow-400 transition ml-4 mr:0 xl:ml-32 py-4 w-max">
+            <ArrowLeft />
+            All Events
         </a>
+      </Link>
       </div>
     </div>
-  </Link>
 )
 
 export default BackButton
