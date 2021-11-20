@@ -5,14 +5,14 @@ import { GetStaticProps } from 'next'
 
 const Home = ({ events }) => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen font-title">
+    <div className="min-h-screen font-title">
       <Head>
         <title>Events — Purdue Hackers</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex flex-col items-center justify-top mt-0 w-full flex-1 px-5 text-center sm:px-20">
-        <div className="mt-20 w-full">
+      <div className="flex flex-col items-center justify-top mt-0 w-full flex-1 px-5 pb-8 sm:pb-16 text-center sm:px-20 bg-gray-100">
+        <div className="mt-8 sm:mt-16">
           <h1 className="text-4xl sm:text-7xl lg:text-8-xl font-bold text-yellow-400">
             Purdue Hackers Events
           </h1>
@@ -24,13 +24,12 @@ const Home = ({ events }) => {
             upcoming events.
           </p>
         </div>
-        
-        <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:auto-cols-fr mt-16 sm:mt-28">
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:auto-cols-fr p-8 sm:pt-14 px-5 sm:px-20 text-center">
           {Object.keys(events).map(key => (          
             <Event key={key} name={events[key].name} slug={events[key].slug} start={events[key].start} end={events[key].end} />
           ))}
         </div>
-      </main>
     </div>
   )
 }
