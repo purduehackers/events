@@ -54,11 +54,9 @@ export const getStaticProps: GetStaticProps = async ({ params })  => {
     .then(r => r.json())
     .then(events => events.find(event => event.slug === slug))
 
-  event.desc = marked.marked(event.desc)
+  event.desc = event.desc !== undefined ? marked.marked(event.desc)
     .replace(new RegExp('</p>\n<p>', 'g'), '</p><br/><p>')
-    .replace(new RegExp('<a', 'g'), '<a class="desc"')
-
-  console.log(event.desc)
+    .replace(new RegExp('<a', 'g'), '<a class="desc"') : ''
 
   return { props: { event } }
 }
