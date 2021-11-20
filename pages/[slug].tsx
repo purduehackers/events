@@ -3,6 +3,7 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import { Clock, MapPin } from 'react-feather'
 import { marked } from 'marked'
 import tt from 'tinytime'
+import BackButton from '../components/back-button'
 import { server } from '../config'
 
 const Slug = ({ event }) => {
@@ -12,6 +13,8 @@ const Slug = ({ event }) => {
         <title>{event.name} — Purdue Hackers</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      
+      <BackButton />
 
       <div className="flex flex-col items-center justify-top mt-0 w-full flex-1 px-5 pb-8 sm:pb-16 text-center sm:px-20 bg-gray-100">
         <div className="mt-8 sm:mt-16">
