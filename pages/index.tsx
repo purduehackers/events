@@ -18,7 +18,7 @@ const Home = ({ events }) => {
           </h1>
           <p className="mt-3 text-1xl sm:text-2xl">
             Check out & sign up for{' '}
-            <a href="https://purduehackers.com" target="_blank" className="text-yellow-400 hover:text-yellow-500 transition">
+            <a href="https://purduehackers.com" target="_blank" className="text-yellow-500 hover:text-yellow-400 transition">
               Purdue Hackers
             </a>{'\' '}
             upcoming events.
