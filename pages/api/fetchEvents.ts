@@ -23,7 +23,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const events = airtableEvents.map(({ id, fields }) => ({
     id,
     name: fields['Event Name'] ?? 'Mysterious Event',
-    desc: fields['Event Description'] ?? 'No description exists for this event...yet!',
+    desc: fields['Event Description'] ?? 'We\'re still working on this event...check back later for more details!',
     start: fields['Event Date & Start Time'] ?? 'TBD',
     end: fields['Event Date & End Time'] ?? 'TBD',
     loc: fields['Event Location'] ?? 'TBD',

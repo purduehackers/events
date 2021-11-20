@@ -32,9 +32,11 @@ const Slug = ({ event }) => {
             </p>
           </div>
       </div>
-
-      <h1>{event.name}</h1>
-      <h1 dangerouslySetInnerHTML={{ __html: event.desc }}></h1>
+      <div className="container mx-auto p-8 px-4 md:px-16 lg:px-72 xl:px-96">
+        <div className="border-2 border-dashed p-4 border-yellow-400">
+          <p dangerouslySetInnerHTML={{ __html: event.desc }} className="text-l"></p>
+        </div>
+      </div>
     </div>
   )
 }
