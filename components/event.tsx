@@ -3,15 +3,13 @@ import Link from 'next/link'
 import tt from 'tinytime'
 
 const past = dt => new Date(dt) < new Date()
-const now = (start, end) =>
-  new Date() > new Date(start) && new Date() < new Date(end)
 
 const Event = ({ name, slug, start, end }) => {
   return (
     <Link href="/[slug]" as={`/${slug}`} passHref>
       <a href="#">
         
-        <div className={`col-span-1 flex flex-col rounded-lg p-5 ${past(end)
+        <div className={`col-span-1 flex flex-col rounded-lg p-5 sm:min-h-full ${past(end)
           ? "bg-gray-200" : "bg-yellow-400 hover:scale-105 transform transition"}`}>
           <p>
             <strong>{start === 'TBD' ? 'TBD' : tt('{MM} {Do}').render(new Date(start))}</strong>{' '}
