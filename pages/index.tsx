@@ -69,7 +69,8 @@ const Home = ({ events }) => {
 export const getStaticProps: GetStaticProps = async ()  => {
   const events = await fetch(`${server}/api/fetchEvents`).then(r => r.json())
   return {
-    props: { events }
+    props: { events },
+    revalidate: 10
   }
 }
 
