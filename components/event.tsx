@@ -8,7 +8,7 @@ const Event = ({ name, slug, start, end }) => (
   <Link href="/[slug]" as={`/${slug}`} passHref>
     <a href="#">
       
-      <div className={`col-span-1 flex flex-col rounded-lg p-5 sm:min-h-full ${past(end)
+      <div className={`col-span-1 flex flex-col rounded-lg justify-center p-5 sm:min-h-full ${past(end)
         ? "bg-gray-200" : "bg-yellow-400 hover:scale-105 transform transition"}`}>
         <p>
           {start === 'TBD' ? 'TBD' : tt('{MM} {Do}').render(new Date(start))}{' '}
