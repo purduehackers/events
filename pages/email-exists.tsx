@@ -20,10 +20,10 @@ const EmailConfirm = () => {
             While you're waiting, you should join the Purdue Hackers Discord server if you aren't there already!{' '}
             You'll join a community of creative makers at Purdue, and you'll be the first to hear about new events.
           </p>
-          <div className="pt-5 w-max">
+          <div>
             <a href="https://bit.ly/PurdueHackersDiscord" target="_blank">
-              <div className="flex flex-row gap-x-1 rounded-lg shadow-md bg-blue-discord p-2 px-4 text-center hover:scale-105 transform transition">
-                <h1 className="font-bold text-white">Join Discord</h1>
+              <div className="rounded-lg shadow-md bg-blue-discord p-2 px-4 text-center hover:scale-105 transform transition">
+                <h1 className="font-bold text-white text-center">Join Discord</h1>
               </div>
             </a>
           </div>
