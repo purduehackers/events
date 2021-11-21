@@ -29,7 +29,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     end: fields['Event Date & End Time'] ?? 'TBD',
     loc: fields['Event Location'] ?? 'TBD',
     gMap: fields['Location Map Link (optional)'] ?? false,
-    calLink: fields['Calendar Link'],
+    calLink: fields['Calendar Link'] ?? false,
     slug: fields.Slug ?? 'mysterious_event'
   }))
 
