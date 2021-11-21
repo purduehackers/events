@@ -53,7 +53,7 @@ const Slug = ({ event }) => {
           </div>
         </div>
       </div>
-      <div className={`container mx-auto px-4 md:px-16 lg:px-72 xl:px-96 mb-16
+      <div className={`container mx-auto px-4 mb-8 md:px-16 lg:px-72 xl:px-96
       ${event.calLink === undefined || event.loc === 'TBD' || past(event.end) ? 'hidden' : ''}`}>
         <div className="rounded-lg shadow-md bg-gray-200 p-4 flex flex-col justify-top">
           <h1 className="font-bold text-xl sm:text-2xl">Get a reminder for this event</h1>
