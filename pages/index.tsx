@@ -4,8 +4,15 @@ import Event from '../components/event'
 import Footer from '../components/footer'
 import StyledLink from '../components/styled-link'
 import { GetStaticProps } from 'next'
+import Link from 'next/link'
+import { orderBy } from 'lodash'
 
 const Home = ({ events }) => {
+  const past = dt => new Date(dt) < new Date()
+  const upcomingEvents = events.filter(event => !past(event.end))
+  // const upcomingEvents = []
+  const pastEvents = orderBy(events.filter(event => past(event.end)), 'end', 'desc')
+
   return (
     <div className="min-h-screen pb-32 overflow-hidden block relative font-title">
       <Head>
@@ -26,10 +33,34 @@ const Home = ({ events }) => {
           </p>
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:auto-cols-fr p-8 sm:pt-14 px-5 sm:px-20 text-center">
-          {Object.keys(events).map(key => (          
-            <Event key={key} name={events[key].name} slug={events[key].slug} start={events[key].start} end={events[key].end} />
+      <div className="flex flex-col p-8 sm:pt-14 px-5 sm:px-20 text-left gap-y-4">
+        <h1 className={`text-2xl sm:text-3xl font-bold underline ${Object.keys(upcomingEvents).length === 0 ? 'hidden' : ''}`}>Upcoming events</h1>
+        <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:auto-cols-fr text-center">
+          {Object.keys(upcomingEvents).map(key => (          
+            <Event key={key} name={upcomingEvents[key].name} slug={upcomingEvents[key].slug} start={upcomingEvents[key].start} end={upcomingEvents[key].end} />
           ))}
+        </div>
+      </div>
+      {Object.keys(upcomingEvents).length === 0 && (
+        <div className="container mx-auto px-4 md:px-16 lg:px-72 xl:px-96">
+          <div className="rounded-lg shadow-lg bg-gray-200 p-4 flex flex-col justify-center gap-y-3">
+            <h1 className="text-2xl sm:text-3xl font-bold text-center">More events coming soon...</h1>
+            <p>
+              Want to be the first to hear about new events?{' '}
+              <StyledLink destination="https://bit.ly/PurdueHackersDiscord" color="blue-discord" transitionColor="blue-discord-light">
+                Hop in our Discord!
+              </StyledLink>
+            </p>
+          </div>
+        </div>
+      )}
+      <div className="flex flex-col p-8 sm:pt-14 px-5 sm:px-20 text-left gap-y-4">
+        <h1 className="text-2xl sm:text-3xl font-bold underline">Past events</h1>
+        <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:auto-cols-fr text-center">
+          {Object.keys(pastEvents).map(key => (          
+            <Event key={key} name={pastEvents[key].name} slug={pastEvents[key].slug} start={pastEvents[key].start} end={pastEvents[key].end} />
+          ))}
+        </div>
       </div>
       <Footer />
     </div>

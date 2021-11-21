@@ -22,7 +22,7 @@ const EmailConfirm = () => {
           </p>
           <div className="pt-5 w-max">
             <a href="https://bit.ly/PurdueHackersDiscord" target="_blank">
-              <div className="flex flex-row gap-x-1 rounded-lg shadow-md bg-discord-blue p-2 px-4 text-center hover:scale-105 transform transition">
+              <div className="flex flex-row gap-x-1 rounded-lg shadow-md bg-blue-discord p-2 px-4 text-center hover:scale-105 transform transition">
                 <h1 className="font-bold text-white">Join Discord</h1>
               </div>
             </a>

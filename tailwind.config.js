@@ -9,7 +9,10 @@ module.exports = {
     },
     extend: {
       colors: {
-        'discord-blue': '#807cfc'
+        blue: {
+          'discord': '#807cfc',
+          'discord-light': '#9b98fa'
+        }
       }
     }
   },
