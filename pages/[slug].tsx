@@ -41,7 +41,7 @@ const Slug = ({ event }) => {
       <div className="container mx-auto p-8 px-4 md:px-16 lg:px-72 xl:px-96">
         <div className="border-2 border-dashed p-4 border-yellow-400">
           <div dangerouslySetInnerHTML={{ __html: event.desc }} className="text-l"></div>
-          <div className={`pt-5 w-max ${!event.calLink || event.loc === 'TBD' || past(event.end) ? 'hidden' : ''}`}>
+          <div className={`pt-5 w-max ${event.calLink === undefined || event.loc === 'TBD' || past(event.end) ? 'hidden' : ''}`}>
             <a href={event.calLink} target="_blank">
               <div className="rounded-lg shadow-md bg-yellow-400 p-2 text-center hover:scale-105 transform transition">
                 <h1 className="font-bold">Add to Google Calendar</h1>
