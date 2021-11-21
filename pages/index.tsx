@@ -16,7 +16,7 @@ const Home = ({ events }) => {
           <h1 className="text-4xl sm:text-7xl lg:text-8-xl font-bold text-yellow-400">
             Purdue Hackers Events
           </h1>
-          <p className="mt-3 text-1xl sm:text-2xl">
+          <p className="mt-3 text-lg sm:text-2xl">
             Check out & sign up for{' '}
             <a href="https://purduehackers.com" target="_blank" className="text-yellow-500 hover:text-yellow-400 transition">
               Purdue Hackers
