@@ -6,13 +6,15 @@ import { marked } from 'marked'
 import tt from 'tinytime'
 import BackButton from '../components/back-button'
 import RSVPForm from '../components/rsvp-form'
+import StyledLink from '../components/styled-link'
 import { server } from '../config'
+import Footer from '../components/footer'
 
 const past = dt => new Date(dt) < new Date()
 
 const Slug = ({ event }) => {
   return (
-    <div className="min-h-screen font-title">
+    <div className="min-h-screen pb-32 overflow-hidden block relative font-title">
       <Head>
         <title>{event.name} — Purdue Hackers</title>
         <link rel="icon" href="/favicon.ico" />
@@ -35,7 +37,7 @@ const Slug = ({ event }) => {
               <span><MapPin color="black" /></span>
               <strong>{event.loc === 'TBD' ? 'Location TBD' :
                   event.gMap
-                  ? <a href={event.gMap} target="_blank" className="text-yellow-500 hover:text-yellow-400 transition">{event.loc}</a>
+                  ? <StyledLink destination={event.gMap}>{event.loc}</StyledLink>
                   : event.loc}</strong>
             </p>
           </div>
@@ -76,6 +78,7 @@ const Slug = ({ event }) => {
           </p>
         </div>
       </div>
+      <Footer />
     </div>
   )
 }

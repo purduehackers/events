@@ -1,11 +1,13 @@
 import Head from 'next/head'
 import { server } from '../config'
 import Event from '../components/event'
+import Footer from '../components/footer'
+import StyledLink from '../components/styled-link'
 import { GetStaticProps } from 'next'
 
 const Home = ({ events }) => {
   return (
-    <div className="min-h-screen font-title">
+    <div className="min-h-screen pb-32 overflow-hidden block relative font-title">
       <Head>
         <title>Events — Purdue Hackers</title>
         <link rel="icon" href="/favicon.ico" />
@@ -17,10 +19,9 @@ const Home = ({ events }) => {
             Purdue Hackers Events
           </h1>
           <p className="mt-3 text-lg sm:text-2xl">
-            Check out & sign up for{' '}
-            <a href="https://purduehackers.com" target="_blank" className="text-yellow-500 hover:text-yellow-400 transition">
+            Check out & sign up for{' '}<StyledLink destination="https://purduehackers.com">
               Purdue Hackers
-            </a>{'\' '}
+            </StyledLink>{'\' '}
             upcoming events.
           </p>
         </div>
@@ -29,7 +30,8 @@ const Home = ({ events }) => {
           {Object.keys(events).map(key => (          
             <Event key={key} name={events[key].name} slug={events[key].slug} start={events[key].start} end={events[key].end} />
           ))}
-        </div>
+      </div>
+      <Footer />
     </div>
   )
 }
