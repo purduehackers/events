@@ -1,14 +1,19 @@
-import { GetStaticPaths, GetStaticProps } from 'next'
+import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import { server } from '../../config'
 
 const EmailSlug = ({ event }) => {
   const router = useRouter()
   const email = router.query.email
-  const add = fetch(`${server}/api/addToMailingList`, {
-    method: 'POST',
-    body: JSON.stringify({ event, email })
-  }).then(r => r.json())
+
+  let r
+  if (email) {
+    r = fetch(`${server}/api/addToMailingList`, {
+      mode: 'cors',
+      method: 'POST',
+      body: JSON.stringify({ event, email })
+    }).then(r => r.json())
+  }
 
   return (
     <h1>hi</h1>
@@ -16,7 +21,7 @@ const EmailSlug = ({ event }) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const events = await fetch(`${server}/api/fetchEvents`).then(r => r.json())
+  const events = await fetch(`${server}/api/fetchEvents`).then(r => r.json()).catch(err => console.log(err))
   const paths = events.map((event) => ({
     params: { slug: event.slug }
   }))
