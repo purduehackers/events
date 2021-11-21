@@ -56,6 +56,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ({ params })  => {
   const { slug } = params
+
   const event = await fetch(`${server}/api/fetchEvents`)
     .then(r => r.json())
     .then(events => events.find(event => event.slug === slug))
