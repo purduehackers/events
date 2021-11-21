@@ -15,7 +15,7 @@ const Event = ({ name, slug, start, end }) => (
           {start === 'TBD' ? '' : tt('{h}:{mm}').render(new Date(start)) + "—"}
           {end === 'TBD' ? '' : tt('{h}:{mm} {a}').render(new Date(end))}
         </p>
-        <h1 className="text-2xl font-bold">{name}</h1>
+        <h1 className={`text-2xl sm:text-${name.length < 30 ? '2xl' : 'xl'} font-bold`}>{name}</h1>
       </div>
     </a>
   </Link>
