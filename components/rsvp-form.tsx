@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const RSVPForm = ({ slug }) => {
+const RSVPForm = ({ eventName, slug }) => {
   const [email, setEmail] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [done, setDone] = useState(false)
@@ -9,10 +9,10 @@ const RSVPForm = ({ slug }) => {
     e.preventDefault()
     setSubmitting(true)
     let submission = await fetch(
-      '/api/addEmail',
+      '/api/verifyEmail',
       {
         method: 'POST',
-        body: JSON.stringify({ email, slug }),
+        body: JSON.stringify({ email, eventName, slug }),
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json'
@@ -45,7 +45,7 @@ const RSVPForm = ({ slug }) => {
         <p className="text-red-500 text-sm">Something went wrong—please try again. If you keep seeing this, send an email to mstanciu@purdue.edu.</p>
       )}
       {done && (
-        <p className="text-green-500 text-sm">All done! We'll remind you about the event a day before.</p>
+        <p className="text-green-500 text-sm">✉️ 🚀 All done! Now check your inbox & verify your email in order to receive the reminder.</p>
       )}
     </div>
   )

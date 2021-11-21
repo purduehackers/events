@@ -58,7 +58,7 @@ const Slug = ({ event }) => {
         <div className="rounded-lg shadow-md bg-gray-200 p-4 flex flex-col justify-top">
           <h1 className="font-bold text-xl sm:text-2xl">Get a reminder for this event</h1>
           <p>We'll send you an email reminder a day before the event. We won't use your email for anything else.</p>
-          <RSVPForm slug={event.slug}></RSVPForm>
+          <RSVPForm eventName={event.name} slug={event.slug}></RSVPForm>
         </div>
       </div>
       <div className={`container mx-auto px-4 mb-8 md:px-16 lg:px-72 xl:px-96
