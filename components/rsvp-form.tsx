@@ -42,7 +42,7 @@ const RSVPForm = ({ slug }) => {
         </button>
       </form>
       {error && (
-        <p className="text-red-500 text-sm">Something went wrong. Please try again.</p>
+        <p className="text-red-500 text-sm">Something went wrong—please try again. If you keep seeing this, send an email to mstanciu@purdue.edu.</p>
       )}
       {done && (
         <p className="text-green-500 text-sm">All done! We'll remind you about the event a day before.</p>
