@@ -19,14 +19,12 @@ const RSVPForm = ({ destination }) => {
         }
       }
     )
-    console.log(submission)
     if (submission.ok) {
       submission = await submission.json()
       setEmail('')
       setSubmitting(false)
       setDone(true)
     } else {
-      // submission = await submission.json()
       setSubmitting(false)
       setError('Something went wrong')
     }
