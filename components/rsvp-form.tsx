@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const RSVPForm = ({ destination }) => {
+const RSVPForm = ({ slug }) => {
   const [email, setEmail] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [done, setDone] = useState(false)
@@ -12,7 +12,7 @@ const RSVPForm = ({ destination }) => {
       '/api/addEmail',
       {
         method: 'POST',
-        body: JSON.stringify({ email, destination }),
+        body: JSON.stringify({ email, slug }),
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json'
