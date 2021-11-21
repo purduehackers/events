@@ -6,6 +6,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@tailwindcss/forms": "^0.3.4",
     "airtable-plusplus": "^0.3.2",
     "lodash": "^4.17.21",
     "marked": "^4.0.4",

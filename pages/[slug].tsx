@@ -50,6 +50,11 @@ const Slug = ({ event }) => {
           </div>
         </div>
       </div>
+      <div className="container mx-auto px-4 md:px-16 lg:px-72 xl:px-96">
+        <div className="rounded-lg shadow-md bg-gray-200 p-4 flex flex-column justify-top">
+          <h1 className="font-bold text-xl">Get a reminder for this event</h1>
+        </div>
+      </div>
     </div>
   )
 }
