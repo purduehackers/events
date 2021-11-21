@@ -1,9 +1,11 @@
 import Head from 'next/head'
 import { GetStaticPaths, GetStaticProps } from 'next'
+import Link from 'next/link'
 import { Clock, MapPin } from 'react-feather'
 import { marked } from 'marked'
 import tt from 'tinytime'
 import BackButton from '../components/back-button'
+import RSVPForm from '../components/rsvp-form'
 import { server } from '../config'
 
 const past = dt => new Date(dt) < new Date()
@@ -50,9 +52,27 @@ const Slug = ({ event }) => {
           </div>
         </div>
       </div>
-      <div className="container mx-auto px-4 md:px-16 lg:px-72 xl:px-96">
-        <div className="rounded-lg shadow-md bg-gray-200 p-4 flex flex-column justify-top">
-          <h1 className="font-bold text-xl">Get a reminder for this event</h1>
+      <div className={`container mx-auto px-4 md:px-16 lg:px-72 xl:px-96
+      ${event.calLink === undefined || event.loc === 'TBD' || past(event.end) ? 'hidden' : ''}`}>
+        <div className="rounded-lg shadow-md bg-gray-200 p-4 flex flex-col justify-top">
+          <h1 className="font-bold text-xl sm:text-2xl">Get a reminder for this event</h1>
+          <p>We'll send you an email reminder a day before the event. We won't use your email for anything else.</p>
+          <RSVPForm {...event.slug}></RSVPForm>
+        </div>
+      </div>
+      <div className={`container mx-auto px-4 mb-8 md:px-16 lg:px-72 xl:px-96
+      ${past(event.end) ? '' : 'hidden'}`}>
+        <div className="rounded-lg shadow-md bg-gray-200 p-4 flex flex-col justify-top">
+          <h1 className="font-bold text-xl sm:text-2xl line-through">Get a reminder for this event</h1>
+          <p className="mt-2">Unfortunately, this event already happened...but check out{' '}
+            <span>
+              <Link href="/" passHref>
+                <a href="#" className="text-yellow-500 hover:text-yellow-400 transition">
+                  the events we're going to run in the future!
+                </a>
+              </Link>
+            </span>
+          </p>
         </div>
       </div>
     </div>
