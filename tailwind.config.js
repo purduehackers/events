@@ -6,6 +6,11 @@ module.exports = {
     fontFamily: {
       'title': '"IBM Plex Sans", system-ui, Roboto, sans-serif',
       'sans': '"Inter", sans-serif'
+    },
+    extend: {
+      colors: {
+        'discord-blue': '#807cfc'
+      }
     }
   },
   variants: {

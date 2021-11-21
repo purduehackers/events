@@ -10,7 +10,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     from: 'Purdue Hackers <mailgun@ph.matthewstanciu.me>',
     to: `${email}, mailgun@ph.matthewstanciu.me`,
     subject: `Purdue Hackers: Please verify your email`,
-    template: 'verify-your-email', 'h:X-Mailgun-Variables': JSON.stringify({ eventName, list: slug })
+    template: 'verify-your-email', 'h:X-Mailgun-Variables': JSON.stringify({ eventName, list: slug, email })
   }
 
   mg.messages().send(data)
