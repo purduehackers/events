@@ -10,7 +10,6 @@ import { orderBy } from 'lodash'
 const Home = ({ events }) => {
   const past = dt => new Date(dt) < new Date()
   const upcomingEvents = events.filter(event => !past(event.end))
-  // const upcomingEvents = []
   const pastEvents = orderBy(events.filter(event => past(event.end)), 'end', 'desc')
 
   return (

@@ -96,7 +96,7 @@ export const getStaticProps: GetStaticProps = async ({ params })  => {
 
   event.desc = marked(event.desc)
     .replace(new RegExp('</p>\n<p>', 'g'), '</p><br/><p>')
-    .replace(new RegExp('<a', 'g'), '<a class="desc"')
+    .replace(new RegExp('<a', 'g'), '<a class="desc" target="_blank"')
 
   return { props: { event }, revalidate: 10 }
 }
