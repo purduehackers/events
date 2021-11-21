@@ -29,7 +29,7 @@ const Slug = ({ event }) => {
             </h1>
             <p className="mt-3 text-1xl sm:text-2xl flex flex-row gap-x-1 items-center justify-center">
               <span><Clock color="black" /></span>
-              <strong>{event.start === 'TBD' ? 'Date TBD' : tt('{MM} {Do}').render(new Date(event.start))}</strong>{' '}
+              <strong>{event.start === 'TBD' ? 'Date TBD' : tt(`${past(event.end) ? '{MM} {Do}, {YYYY}' : '{MM} {Do}'}`).render(new Date(event.start))}</strong>{' '}
               {event.start === 'TBD' ? '' : tt('{h}:{mm}').render(new Date(event.start)) + "—"}
               {event.end === 'TBD' ? '' : tt('{h}:{mm} {a}').render(new Date(event.end))}
             </p>
