@@ -7,7 +7,6 @@
   },
   "dependencies": {
     "airtable-plusplus": "^0.3.2",
-    "github-slugger": "^1.4.0",
     "lodash": "^4.17.21",
     "marked": "^4.0.4",
     "next": "latest",
