@@ -45,7 +45,7 @@ const RSVPForm = ({ eventName, slug }) => {
         <p className="text-red-500 text-sm">Something went wrong—please try again. If you keep seeing this, send an email to mstanciu@purdue.edu.</p>
       )}
       {done && (
-        <p className="text-green-500 text-sm">✉️ 🚀 All done! Now check your inbox & verify your email in order to receive the reminder.</p>
+        <p className="text-green-500 text-sm">✉️ 🚀 Yay! Now check your inbox & verify your email in order to receive the reminder.</p>
       )}
     </div>
   )
