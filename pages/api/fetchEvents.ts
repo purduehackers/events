@@ -14,6 +14,7 @@ interface AirtableFields {
   "Event Date & End Time": string;
   "Event Location": string;
   "Location Map Link (optional)": string;
+  "Calendar Link": string;
   "Event Description": string;
   "Slug": string;
 }
@@ -28,6 +29,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     end: fields['Event Date & End Time'] ?? 'TBD',
     loc: fields['Event Location'] ?? 'TBD',
     gMap: fields['Location Map Link (optional)'] ?? false,
+    calLink: fields['Calendar Link'],
     slug: fields.Slug ?? 'mysterious_event'
   }))
 
