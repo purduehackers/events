@@ -19,7 +19,7 @@ const Home = ({ events }) => {
             Purdue Hackers Events
           </h1>
           <p className="mt-3 text-lg sm:text-2xl">
-            Check out & sign up for{' '}<StyledLink destination="https://purduehackers.com">
+            Check out & sign up for{' '}<StyledLink destination="https://purduehackers.com" newTab>
               Purdue Hackers
             </StyledLink>{'\' '}
             upcoming events.

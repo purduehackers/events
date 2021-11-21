@@ -37,7 +37,7 @@ const Slug = ({ event }) => {
               <span><MapPin color="black" /></span>
               <strong>{event.loc === 'TBD' ? 'Location TBD' :
                   event.gMap
-                  ? <StyledLink destination={event.gMap}>{event.loc}</StyledLink>
+                  ? <StyledLink destination={event.gMap} newTab>{event.loc}</StyledLink>
                   : event.loc}</strong>
             </p>
           </div>
