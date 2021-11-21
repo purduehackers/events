@@ -4,6 +4,7 @@ import Mailgun from 'mailgun-js'
 export default (req: NextApiRequest, res: NextApiResponse) => (
   new Promise(resolve => {
     const { event, email } = JSON.parse(req.body)
+    console.log('Adding email', email)
     const list = event.slug
     const mailgun = Mailgun
     const mg = mailgun({ apiKey: process.env.MAILGUN_API_KEY, domain: 'ph.matthewstanciu.me' })
