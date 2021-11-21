@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import Link from 'next/link'
-import { Clock, MapPin } from 'react-feather'
+import { Clock, MapPin, Calendar } from 'react-feather'
 import { marked } from 'marked'
 import tt from 'tinytime'
 import BackButton from '../components/back-button'
@@ -45,7 +45,8 @@ const Slug = ({ event }) => {
           <div dangerouslySetInnerHTML={{ __html: event.desc }} className="text-l"></div>
           <div className={`pt-5 w-max ${event.calLink === undefined || event.loc === 'TBD' || past(event.end) ? 'hidden' : ''}`}>
             <a href={event.calLink} target="_blank">
-              <div className="rounded-lg shadow-md bg-yellow-400 p-2 text-center hover:scale-105 transform transition">
+              <div className="flex flex-row gap-x-1 rounded-lg shadow-md bg-yellow-400 p-2 text-center hover:scale-105 transform transition">
+                <Calendar color="black" />
                 <h1 className="font-bold">Add to Google Calendar</h1>
               </div>
             </a>
