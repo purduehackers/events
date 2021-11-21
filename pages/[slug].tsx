@@ -68,13 +68,9 @@ const Slug = ({ event }) => {
         <div className="rounded-lg shadow-md bg-gray-200 p-4 flex flex-col justify-top">
           <h1 className="font-bold text-xl sm:text-2xl line-through">Get a reminder for this event</h1>
           <p className="mt-2">Unfortunately, this event already happened...but check out{' '}
-            <span>
-              <Link href="/" passHref>
-                <a href="#" className="text-yellow-500 hover:text-yellow-400 transition">
-                  the events we're going to run in the future!
-                </a>
-              </Link>
-            </span>
+            <StyledLink destination="/">
+              the events we're going to run in the future
+            </StyledLink>!
           </p>
         </div>
       </div>
