@@ -57,16 +57,16 @@ const Slug = ({ event }) => {
       </div>
       <div className={`container mx-auto px-4 mb-8 md:px-16 lg:px-72 xl:px-96
       ${event.calLink === undefined || event.loc === 'TBD' || past(event.end) ? 'hidden' : ''}`}>
-        <div className="rounded-lg shadow-md bg-gray-200 p-4 flex flex-col justify-top">
-          <h1 className="font-bold text-xl sm:text-2xl">Get a reminder for this event</h1>
-          <p>We'll send you an email reminder a day before the event. We won't use your email for anything else.</p>
+        <div className="rounded-lg shadow-md bg-gray-200 p-4 flex flex-col justify-top gap-y-1">
+          <h1 className="font-bold text-xl sm:text-2xl">RSVP for this event</h1>
+          <p>Enter your email and we'll send you reminder about the event a day before. We won't use your email for anything else.</p>
           <RSVPForm eventName={event.name} slug={event.slug}></RSVPForm>
         </div>
       </div>
       <div className={`container mx-auto px-4 mb-8 md:px-16 lg:px-72 xl:px-96
       ${past(event.end) ? '' : 'hidden'}`}>
         <div className="rounded-lg shadow-md bg-gray-200 p-4 flex flex-col justify-top">
-          <h1 className="font-bold text-xl sm:text-2xl line-through">Get a reminder for this event</h1>
+          <h1 className="font-bold text-xl sm:text-2xl line-through">RSVP for this event</h1>
           <p className="mt-2">Unfortunately, this event already happened...but check out{' '}
             <StyledLink destination="/">
               the events we're going to run in the future

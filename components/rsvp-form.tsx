@@ -32,7 +32,7 @@ const RSVPForm = ({ eventName, slug }) => {
 
   return (
     <div className="flex flex-col items-left mt-6">
-      <p className="text-sm text-gray-500">Enter your email</p>
+      <p className="text-sm text-gray-500 ml-1">Enter your email</p>
       <form onSubmit={onSubmit} className="flex flex-row items-left gap-x-2 mb-1">
         <input type="email" name="email" id="email" value={email} placeholder="phacker@purdue.edu"
         onChange={(e) => setEmail(e.target.value)} className="rounded border-none outline-none"></input>
