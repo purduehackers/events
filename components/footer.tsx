@@ -1,8 +1,6 @@
-import StyledLink from "./styled-link"
-
-const Footer = () => (
-  <div className="bg-gray-100 text-center bottom-0 m-0 absolute w-full py-8 px-4">
-    <p>Made with 💛 by the{' '}<StyledLink destination="https://purduehackers.com" newTab>Purdue Hackers</StyledLink> executive team.</p>
+const Footer = ({ ...props }) => (
+  <div className="bg-gray-100 text-center bottom-0 m-0 absolute w-full py-8 px-4 whitespace-pre">
+    {props.children}
   </div>
 )
 
