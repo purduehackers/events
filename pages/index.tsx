@@ -1,11 +1,11 @@
 import Head from 'next/head'
-import { server } from '../config'
 import Event from '../components/event'
 import Footer from '../components/footer'
 import StyledLink from '../components/styled-link'
 import { GetStaticProps } from 'next'
 import Link from 'next/link'
 import { orderBy } from 'lodash'
+import { fetchEvents } from '../lib/fetchEvents'
 
 const Home = ({ events }) => {
   const past = dt => new Date(dt) < new Date()
@@ -74,8 +74,8 @@ const Home = ({ events }) => {
 }
 
 export const getStaticProps: GetStaticProps = async ()  => {
-  const events = await fetch(`${server}/api/fetchEvents`).then(r => r.json())
-  events.map(event => console.log(event.slug))
+  const events = await fetchEvents()
+
   return {
     props: { events },
     revalidate: 10

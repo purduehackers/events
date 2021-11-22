@@ -1,14 +1,13 @@
 import Head from 'next/head'
 import { GetStaticPaths, GetStaticProps } from 'next'
-import Link from 'next/link'
 import { Clock, MapPin, Calendar } from 'react-feather'
 import { marked } from 'marked'
 import tt from 'tinytime'
 import BackButton from '../components/back-button'
 import RSVPForm from '../components/rsvp-form'
 import StyledLink from '../components/styled-link'
-import { server } from '../config'
 import Footer from '../components/footer'
+import { fetchEvents } from '../lib/fetchEvents'
 
 const past = dt => new Date(dt) < new Date()
 
@@ -80,7 +79,7 @@ const Slug = ({ event }) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const events = await fetch(`${server}/api/fetchEvents`).then(r => r.json())
+  const events = await fetchEvents()
   const paths = events.map((event) => ({
     params: { slug: event.slug }
   }))
@@ -90,8 +89,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ({ params })  => {
   const { slug } = params
-  const event = await fetch(`${server}/api/fetchEvents`)
-    .then(r => r.json())
+  const event = await fetchEvents()
     .then(events => events.find(event => event.slug === slug))
 
   event.desc = marked(event.desc)

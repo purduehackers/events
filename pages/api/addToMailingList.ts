@@ -1,12 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { server } from '../../config'
 import Mailgun from 'mailgun-js'
 
 export default (req: NextApiRequest, res: NextApiResponse) => (
   new Promise(resolve => {
     const { list, email, eventName } = req.query
 
-    console.log(`Adding eamil ${email} to mailing list ${list}`)
+    console.log(`Adding email ${email} to mailing list ${list}`)
     const mailgun = Mailgun
     const mg = mailgun({ apiKey: process.env.MAILGUN_API_KEY, domain: 'ph.matthewstanciu.me' })
   
@@ -28,11 +27,10 @@ export default (req: NextApiRequest, res: NextApiResponse) => (
           address: email as string,
           name: email as string,
         }).then(() => {
-          // console.log(`Added user ${email} to mailing list ${list}!`)
-          resolve(res.redirect(`${server}/email-confirm?eventName=${eventName}`))
+          resolve(res.redirect(`/email-confirm?eventName=${eventName}`))
         }).catch(error => {
           if (error.toString().includes('Address already exists')) {
-            resolve(res.redirect(`${server}/email-exists`))
+            resolve(res.redirect(`/email-exists`))
           }
         })
       })
