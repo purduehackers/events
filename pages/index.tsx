@@ -45,10 +45,17 @@ const Home = ({ events }) => {
           <div className="rounded-lg shadow-lg bg-gray-200 p-4 flex flex-col justify-center gap-y-3">
             <h1 className="text-2xl sm:text-3xl font-bold text-center">More events coming soon...</h1>
             <p>
+              There aren't any upcoming events we're currently ready to announce. Check back soon though!
+            </p>
+            <p>
               Want to be the first to hear about new events?{' '}
-              <StyledLink destination="https://bit.ly/PurdueHackersDiscord" color="blue-discord" transitionColor="blue-discord-light">
-                Hop in our Discord!
-              </StyledLink>
+              <span>
+                <Link href="https://bit.ly/PurdueHackersDiscord" passHref>
+                  <a href="#" target="_blank" className="text-blue-discord hover:text-blue-discord-light transition">
+                    Hop in our Discord!
+                  </a>
+                </Link>
+            </span>
             </p>
           </div>
         </div>
