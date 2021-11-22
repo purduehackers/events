@@ -1,6 +1,7 @@
 import { AirtablePlusPlus, AirtablePlusPlusRecord } from 'airtable-plusplus'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { orderBy } from 'lodash'
+import GHSlugger from 'github-slugger'
 
 const airtable = new AirtablePlusPlus({
   apiKey: process.env.AIRTABLE_API_KEY,
@@ -20,6 +21,7 @@ interface AirtableFields {
 }
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
+  const slugger = new GHSlugger
   const airtableEvents = (await airtable.read()) as unknown as AirtablePlusPlusRecord<AirtableFields>[]
   const events = airtableEvents.map(({ id, fields }) => ({
     id,
@@ -30,8 +32,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     loc: fields['Event Location'] ?? 'TBD',
     gMap: fields['Location Map Link (optional)'] ?? false,
     calLink: fields['Calendar Link'] ?? false,
-    slug: fields.Slug ?? 'mysterious_event'
+    slug: slugger.slug(fields['Event Name'])
   }))
+
+  events.map(event => {
+    console.log('slugged:', event.slug)
+  })
 
   res.json(orderBy(events, 'start'))
 }
