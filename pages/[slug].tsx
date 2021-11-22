@@ -57,7 +57,7 @@ const Slug = ({ event }) => {
       ${event.calLink === undefined || event.loc === 'TBD' || past(event.end) ? 'hidden' : ''}`}>
         <div className="rounded-lg shadow-md bg-gray-200 p-4 flex flex-col justify-top gap-y-1">
           <h1 className="font-bold text-xl sm:text-2xl">RSVP for this event</h1>
-          <p>Enter your email and we'll send you reminder about the event a day before. We won't use your email for anything else.</p>
+          <p>Enter your email and we'll send you reminder about the event the day before it happens. We won't use your email for anything else.</p>
           <RSVPForm eventName={event.name} slug={event.slug}></RSVPForm>
         </div>
       </div>
