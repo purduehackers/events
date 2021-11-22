@@ -1,8 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import tt from 'tinytime'
-
-const past = dt => new Date(dt) < new Date()
+import { past } from '../lib/past'
 
 const Event = ({ name, slug, start, end }) => (
   <Link href="/[slug]" as={`/${slug}`} passHref>
