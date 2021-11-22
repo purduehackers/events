@@ -12,7 +12,7 @@ import { past } from '../lib/past'
 
 const Slug = ({ event }) => {
   return (
-    <div className="min-h-screen pb-32 overflow-hidden block relative font-title">
+    <div className="min-h-screen overflow-hidden block relative font-title">
       <Head>
         <title>{event.name} — Purdue Hackers</title>
         <link rel="icon" href="/favicon.ico" />
@@ -72,7 +72,6 @@ const Slug = ({ event }) => {
           </p>
         </div>
       </div>
-      <Footer />
     </div>
   )
 }
