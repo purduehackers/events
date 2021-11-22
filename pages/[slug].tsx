@@ -9,6 +9,7 @@ import StyledLink from '../components/styled-link'
 import Footer from '../components/footer'
 import { fetchEvents } from '../lib/fetchEvents'
 import { past } from '../lib/past'
+import ponderings from '../lib/footerPonderings'
 
 const Slug = ({ event }) => {
   return (
@@ -72,7 +73,9 @@ const Slug = ({ event }) => {
           </p>
         </div>
       </div>
-      <Footer />
+      <Footer>
+        {ponderings[Math.floor(Math.random() * ponderings.length)]}
+      </Footer>
     </div>
   )
 }

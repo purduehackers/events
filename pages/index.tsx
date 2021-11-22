@@ -68,7 +68,9 @@ const Home = ({ events }) => {
           ))}
         </div>
       </div>
-      <Footer />
+      <Footer>
+        <p>Made with 💛 by the{' '}<StyledLink destination="https://purduehackers.com" newTab>Purdue Hackers</StyledLink> executive team.</p>
+      </Footer>
     </div>
   )
 }
