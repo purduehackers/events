@@ -32,12 +32,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     loc: fields['Event Location'] ?? 'TBD',
     gMap: fields['Location Map Link (optional)'] ?? false,
     calLink: fields['Calendar Link'] ?? false,
-    slug: slugger.slug(fields['Event Name'])
+    slug: fields['Custom Slug'] ?? slugger.slug(fields['Event Name'])
   }))
-
-  events.map(event => {
-    console.log('slugged:', event.slug)
-  })
 
   res.json(orderBy(events, 'start'))
 }
