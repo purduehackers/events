@@ -8,8 +8,7 @@ import RSVPForm from '../components/rsvp-form'
 import StyledLink from '../components/styled-link'
 import Footer from '../components/footer'
 import { fetchEvents } from '../lib/fetchEvents'
-
-const past = dt => new Date(dt) < new Date()
+import { past } from '../lib/past'
 
 const Slug = ({ event }) => {
   return (

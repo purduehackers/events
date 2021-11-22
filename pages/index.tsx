@@ -6,9 +6,9 @@ import { GetStaticProps } from 'next'
 import Link from 'next/link'
 import { orderBy } from 'lodash'
 import { fetchEvents } from '../lib/fetchEvents'
+import { past } from '../lib/past'
 
 const Home = ({ events }) => {
-  const past = dt => new Date(dt) < new Date()
   const upcomingEvents = events.filter(event => !past(event.end))
   const pastEvents = orderBy(events.filter(event => past(event.end)), 'end', 'desc')
 
