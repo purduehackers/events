@@ -10,15 +10,18 @@ const mg = mailgun({ apiKey: process.env.MAILGUN_API_KEY, domain: 'ph.matthewsta
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { token } = req.query
   if (token !== process.env.MAILGUN_API_KEY) {
-    console.log('incorrect api key!')
     return res.status(401).send('incorrect api key!')
   }
 
-  const events = await fetchEvents().then(events => events.filter(event => !past(event.start)))
+  const events = await fetchEvents()
+  .then(events => events.filter(event => !past(event.start)))
+  .then(events => events.filter(event => eventHappensTomorrow(event.start)))
   events.map(event => {
-    if (eventHappensTomorrow(event.start)) {
-      sendEmail(event)
-    }
+    sendEmail(event)
+  })
+
+  events.map(event => {
+    console.log(event.name)
   })
 
   res.json({ ok: true })
@@ -27,10 +30,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 const eventHappensTomorrow = (eventStart: string): boolean => {
   const now = new Date()
   const eventDate = new Date(eventStart)
-  const millisecondsPerDay = 1000 * 60 * 60 * 24
   const timeDiff = eventDate.getTime() - now.getTime()
 
-  return Math.floor(timeDiff / millisecondsPerDay) < 2
+  return Math.floor(timeDiff) < 172800000
 }
 
 const sendEmail = (event): void => {
