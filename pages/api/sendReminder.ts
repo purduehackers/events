@@ -9,8 +9,10 @@ const mg = mailgun({ apiKey: process.env.MAILGUN_API_KEY, domain: 'ph.matthewsta
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { token } = req.body
+  console.log(req.body)
   if (token !== process.env.MAILGUN_API_KEY) {
-    return res.status(401).end()
+    console.log('incorrect api key!')
+    return res.status(401).send('incorrect api key!')
   }
 
   const events = await fetchEvents().then(events => events.filter(event => !past(event.start)))
