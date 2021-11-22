@@ -8,8 +8,7 @@ const mailgun = Mailgun
 const mg = mailgun({ apiKey: process.env.MAILGUN_API_KEY, domain: 'ph.matthewstanciu.me' })
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const { token } = req.body
-  console.log(req.body)
+  const { token } = req.query
   if (token !== process.env.MAILGUN_API_KEY) {
     console.log('incorrect api key!')
     return res.status(401).send('incorrect api key!')
