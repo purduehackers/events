@@ -10,9 +10,19 @@ import Footer from '../components/footer'
 import { fetchEvents } from '../lib/fetchEvents'
 import { past } from '../lib/past'
 import ponderings from '../lib/footerPonderings'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 
 const Slug = ({ event }) => {
-  const randomPondering = ponderings[Math.floor(Math.random() * ponderings.length)]
+  const router = useRouter()
+  const [pondering, setPondering] = useState('')
+
+  useEffect(() => {
+    if (router.isReady) {
+      setPondering(ponderings[Math.floor(Math.random() * ponderings.length)])
+    }
+  })
+
   return (
     <div className="min-h-screen pb-32 overflow-hidden block relative font-title">
       <Head>
@@ -74,9 +84,9 @@ const Slug = ({ event }) => {
           </p>
         </div>
       </div>
-      <div className={randomPondering.includes('stargazing') ? 'whitespace-pre' : ''}>
+      <div className={pondering.includes('stargazing') ? 'whitespace-pre' : ''}>
         <Footer>
-          {randomPondering}
+          {pondering}
         </Footer>
       </div>
     </div>
