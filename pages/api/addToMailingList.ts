@@ -17,8 +17,8 @@ export default (req: NextApiRequest, res: NextApiResponse) => (
           await mg.post('/lists', {
             address: `${list}@ph.matthewstanciu.me`,
             description: list
-          }).then(r => {
-          }).catch(error => {})
+          })
+          .catch(err => {})
         }
       })
       .then(() => {
