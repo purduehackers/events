@@ -15,7 +15,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   const events = await fetchEvents().then(events => events.filter(event => !past(event.start)))
   events.map(event => {
-    if (eventHappensToday(event.start)) {
+    if (eventHappensTomorrow(event.start)) {
       sendEmail(event)
     }
   })
@@ -23,18 +23,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   res.json({ ok: true })
 }
 
-const eventHappensToday = (eventStart: string): boolean => {
+const eventHappensTomorrow = (eventStart: string): boolean => {
   const now = new Date()
   const eventDate = new Date(eventStart)
   const millisecondsPerDay = 1000 * 60 * 60 * 24
   const timeDiff = eventDate.getTime() - now.getTime()
 
-  return Math.floor(timeDiff / millisecondsPerDay) < 1
+  return Math.floor(timeDiff / millisecondsPerDay) < 2
 }
 
 const sendEmail = (event): void => {
   const { name, start, end, loc, slug } = event
-  const parsedStart = tt('{h}:{mm}').render(new Date(start))
+  const parsedStart = tt('{dddd} from {h}:{mm}').render(new Date(start))
   const parsedEnd = tt('{h}:{mm} {a}').render(new Date(end))
 
   const data = {
@@ -46,10 +46,10 @@ const sendEmail = (event): void => {
 
   mg.messages().send(data)
   .then((r) => {
-    console.log('Successfully sent verification email!')
+    console.log(`Successfully sent reminder email to ${event.slug}`)
     console.log(r)
   })
   .catch(err => {
-    console.log('Error sending verification email: ' + err)
+    console.log('Error sending reminder email: ' + err)
   })
 }
