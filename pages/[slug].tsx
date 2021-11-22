@@ -12,6 +12,7 @@ import { past } from '../lib/past'
 import ponderings from '../lib/footerPonderings'
 
 const Slug = ({ event }) => {
+  const randomPondering = ponderings[Math.floor(Math.random() * ponderings.length)]
   return (
     <div className="min-h-screen pb-32 overflow-hidden block relative font-title">
       <Head>
@@ -73,9 +74,11 @@ const Slug = ({ event }) => {
           </p>
         </div>
       </div>
-      <Footer>
-        {ponderings[Math.floor(Math.random() * ponderings.length)]}
-      </Footer>
+      <div className={randomPondering.includes('stargazing') ? 'whitespace-pre' : ''}>
+        <Footer>
+          {randomPondering}
+        </Footer>
+      </div>
     </div>
   )
 }
