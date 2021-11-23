@@ -15,7 +15,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
 
-const Slug = ({ event }: { event: any }) => {
+const Slug = ({ event }: { event: Event }) => {
   const router = useRouter()
   const [pondering, setPondering] = useState('')
   const [mounted, setMounted] = useState(false)
