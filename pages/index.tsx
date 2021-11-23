@@ -10,10 +10,10 @@ import { fetchEvents } from '../lib/fetchEvents'
 import { past } from '../lib/past'
 import { useTheme } from 'next-themes'
 
-const Home = ({ events }: { events: any }) => {
+const Home = ({ events }: { events: Array<Event> }) => {
   const { resolvedTheme } = useTheme()
-  const upcomingEvents = events.filter((event: any) => !past(event.end))
-  const pastEvents = orderBy(events.filter((event: any) => past(event.end)), 'end', 'desc')
+  const upcomingEvents = events.filter((event: Event) => !past(event.end))
+  const pastEvents = orderBy(events.filter((event: Event) => past(event.end)), 'end', 'desc')
 
   return (
     <div className="min-h-screen pb-32 overflow-hidden block relative font-title dark:bg-gray-900">
@@ -44,7 +44,7 @@ const Home = ({ events }: { events: any }) => {
       <div className="flex flex-col p-8 sm:pt-14 px-5 sm:px-20 text-left gap-y-4 lg:max-w-screen-2xl mx-auto">
         <h1 className={`text-2xl sm:text-3xl font-bold underline ml-1 ${Object.keys(upcomingEvents).length === 0 ? 'hidden' : ''}`}>Upcoming events</h1>
         <div className="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-4 gap-3 sm:auto-cols-fr text-center">
-          {Object.keys(upcomingEvents).map(key => (          
+          {Object.keys(upcomingEvents).map((key: any) => (          
             <Event key={key} name={upcomingEvents[key].name} slug={upcomingEvents[key].slug} start={upcomingEvents[key].start} end={upcomingEvents[key].end} />
           ))}
         </div>
