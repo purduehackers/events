@@ -7,7 +7,7 @@ export default (req: NextApiRequest, res: NextApiResponse) => (
 
     console.log(`Adding email ${email} to mailing list ${list}`)
     const mailgun = Mailgun
-    const mg = mailgun({ apiKey: `${process.env.MAILGUN_API_KEY}`, domain: 'ph.matthewstanciu.me' })
+    const mg = mailgun({ apiKey: `${process.env.MAILGUN_API_KEY}`, domain: 'purduehackers.com' })
   
     mg.get('/lists/pages')
       .then(pages => pages.items)
@@ -15,14 +15,14 @@ export default (req: NextApiRequest, res: NextApiResponse) => (
       .then(async item => {
         if (item === undefined) {
           await mg.post('/lists', {
-            address: `${list}@ph.matthewstanciu.me`,
+            address: `${list}@purduehackers.com`,
             description: list
           })
           .catch(err => {})
         }
       })
       .then(() => {
-        mg.lists(`${list}@ph.matthewstanciu.me`).members().create({
+        mg.lists(`${list}@purduehackers.com`).members().create({
           subscribed: true,
           address: email as string,
           name: email as string,
