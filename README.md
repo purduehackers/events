@@ -1,10 +1,10 @@
-# Purdue Hackers RSVP Service
+# 🗓 Purdue Hackers Events
 
-A simple service for RSVPing to Purdue Hackers events.
+A website where you can check out all Purdue Hackers events & RSVP for upcoming events.
+
+🛠 Built with Next.js, Tailwind, & TypeScript.
 
 ## How it works
 Organizers add event details to an Airtable base. All upcoming events are displayed on the homepage.
 
-Every time a new event is added to Airtable, a page is automatically generated for that event, filling in the name, date/time, and description, along with a link to add it to your calendar and an email form. An email is automatically sent to everyone who RSVPed a day before the event.
-
-This is still a work-in-progress! I'm using it as an opportunity to learn how to use Tailwind & familiarize myself a little bit with TypeScript.
+Every time a new event is added to Airtable, a page is automatically generated for that event with all the data filled in, in addition to an email form that you can fill out to RSVP for the event. At 12pm the day before each event, an email is automatically sent to everyone who RSVPed reminding them of the event.
