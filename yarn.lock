@@ -197,12 +197,24 @@
   dependencies:
     mini-svg-data-uri "^1.2.3"
 
+"@types/emoji-regex@^9.2.0":
+  version "9.2.0"
+  resolved "https://registry.yarnpkg.com/@types/emoji-regex/-/emoji-regex-9.2.0.tgz#2e117de04f5fa561c5dcbe43a860ecd856517525"
+  integrity sha512-Q2BaUWiokKV2ZWk15twerRiNIex/VOGIz3pAgPMk6JZAeuGT9oAm/kA2Ri9InUtPc84bY0UQZzn/Pd2yUd33Ig==
+  dependencies:
+    emoji-regex "*"
+
 "@types/form-data@^2.5.0":
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/@types/form-data/-/form-data-2.5.0.tgz#5025f7433016f923348434c40006d9a797c1b0e8"
   integrity sha512-23/wYiuckYYtFpL+4RPWiWmRQH2BjFuqCUi2+N3amB1a1Drv+i/byTrGvlLwRVLFNAZbwpbQ7JvTK+VCAPMbcg==
   dependencies:
     form-data "*"
+
+"@types/lodash@^4.14.177":
+  version "4.14.177"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.177.tgz#f70c0d19c30fab101cad46b52be60363c43c4578"
+  integrity sha512-0fDwydE2clKe9MNfvXHBHF9WEahRuj+msTuQqOmAApNORFvhMYZKNGGJdCzuhheVjMps/ti0Ak/iJPACMaevvw==
 
 "@types/mailgun-js@^0.22.12":
   version "0.22.12"
@@ -990,6 +1002,16 @@ elliptic@^6.5.3:
     minimalistic-assert "^1.0.1"
     minimalistic-crypto-utils "^1.0.1"
 
+emoji-regex@*:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/emoji-regex/-/emoji-regex-10.0.0.tgz#96559e19f82231b436403e059571241d627c42b8"
+  integrity sha512-KmJa8l6uHi1HrBI34udwlzZY1jOEuID/ft4d8BSSEdRyap7PwBEt910453PJa5MuGvxkLqlt4Uvhu7tttFHViw==
+
+emoji-regex@^9.2.2:
+  version "9.2.2"
+  resolved "https://registry.yarnpkg.com/emoji-regex/-/emoji-regex-9.2.2.tgz#840c8803b0d8047f4ff0cf963176b32d4ef3ed72"
+  integrity sha512-L18DaJsXSUk2+42pv8mLs5jJT2hqFkFE4j21wOmgbUqsZ2hL72NsUU785g9RXgo3s0ZNgVl42TiHp3ZtOv/Vyg==
+
 emojis-list@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/emojis-list/-/emojis-list-2.1.0.tgz#4daa4d9db00f9819880c79fa457ae5b09a1fd389"
@@ -1279,10 +1301,13 @@ get-uri@^2.0.0:
     ftp "~0.3.10"
     readable-stream "2"
 
-github-slugger@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/github-slugger/-/github-slugger-1.4.0.tgz#206eb96cdb22ee56fdc53a28d5a302338463444e"
-  integrity sha512-w0dzqw/nt51xMVmlaV1+JRzN+oCa1KfcgGEWhxUG16wbdA+Xnt/yoFO8Z8x/V82ZcZ0wy6ln9QDup5avbhiDhQ==
+github-slugger-typescript@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/github-slugger-typescript/-/github-slugger-typescript-1.1.0.tgz#d05ee3e096543fcc270ad8d056287b2efc7d5a22"
+  integrity sha512-SZWZ7pUeQ4IJKSAaJoGN+VuoDowdpeG4xEsl1+3phFpnZP7EmXeTNFyDTBUnq4+RE0W8A/bg0ojZJuZcGdB0rw==
+  dependencies:
+    "@types/emoji-regex" "^9.2.0"
+    emoji-regex "^9.2.2"
 
 glob-parent@^5.1.2, glob-parent@~5.1.0, glob-parent@~5.1.2:
   version "5.1.2"
