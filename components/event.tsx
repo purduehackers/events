@@ -12,7 +12,7 @@ const Event = ({ name, slug, start, end }) => (
         <p>
           {start === 'TBD' ? 'TBD' : tt(`${past(end) ? '{MM} {Do}, {YYYY} •' : '{dddd}. {MM} {Do} •'}`)
             .render(new Date(start))
-            .replace('day', '').replace('nes', '').replace('ur', '')}{' '}
+            .replace('day', '').replace('nes', '').replace('Satur', 'Sat')}{' '}
           {start === 'TBD' ? '' : tt('{h}:{mm}').render(new Date(start)) + "—"}
           {end === 'TBD' ? '' : tt('{h}:{mm} {a}').render(new Date(end))}
         </p>
