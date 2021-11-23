@@ -1,16 +1,24 @@
+import { useTheme } from 'next-themes'
 import { useRouter } from 'next/router'
 import BackButton from '../components/back-button'
+import ThemeButton from '../components/theme-button'
 
 const EmailConfirm = () => {
   const router = useRouter()
   const { eventName } = router.query
+  const { theme, setTheme, resolvedTheme } = useTheme()
 
   return (
     <main>
-      <BackButton bg="bg-white" />
+      <div className="flex flex-row bg-gray-100 dark:bg-gray-800">
+        <BackButton />
+        {resolvedTheme && (
+          <ThemeButton />
+        )}
+      </div>
       <div className="flex items-center justify-center h-screen -my-12 sm:-my-14">
         <div className="container mx-auto px-4 md:px-16 lg:px-72 xl:px-96">
-          <div className="rounded-lg shadow-md bg-gray-200 p-4 flex flex-col justify-center gap-y-3">
+          <div className="rounded-lg shadow-md bg-gray-200 dark:bg-gray-700 p-4 flex flex-col justify-center gap-y-3">
             <h1 className="text-2xl sm:text-3xl font-bold text-center">🎉 You're on the list!</h1>
             <p className={eventName ? '' : 'hidden'}>
               Thanks for signing up to receive a reminder for{' '}<strong>{eventName}</strong>! You'll receive an email from us
