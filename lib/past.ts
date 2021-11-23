@@ -1,1 +1,1 @@
-export const past = dt => new Date(dt) < new Date()
+export const past = (dt: string) => new Date(dt) < new Date()

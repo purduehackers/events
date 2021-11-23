@@ -8,7 +8,7 @@
   "dependencies": {
     "@tailwindcss/forms": "^0.3.4",
     "airtable-plusplus": "^0.3.2",
-    "github-slugger": "^1.4.0",
+    "github-slugger-typescript": "^1.1.0",
     "lodash": "^4.17.21",
     "mailgun-js": "^0.22.0",
     "marked": "^4.0.4",
@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "@types/form-data": "^2.5.0",
+    "@types/lodash": "^4.14.177",
     "@types/mailgun-js": "^0.22.12",
     "@types/marked": "^4.0.1",
     "@types/node": "^16.11.9",
