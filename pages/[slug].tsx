@@ -44,7 +44,7 @@ const Slug = ({ event }) => {
 
       <div className="flex flex-col items-center justify-top mt-0 w-full flex-1 px-5 pb-8 sm:pb-16 text-center sm:px-20 bg-gray-100 dark:bg-gray-800">
         <div className="mt-8 sm:mt-16">
-            <h1 className="text-4xl sm:text-7xl lg:text-8-xl font-bold text-yellow-400 dark:text-yellow-500">
+            <h1 className="text-4xl sm:text-7xl lg:text-8-xl font-bold text-yellow-450 dark:text-yellow-500">
               {event.name}
             </h1>
             <p className="mt-3 text-1xl sm:text-2xl flex flex-row gap-x-1 font-bold items-center justify-center dark:text-gray-200">
@@ -78,7 +78,7 @@ const Slug = ({ event }) => {
       <div className={`container mx-auto px-4 mb-8 md:px-16 lg:px-72 xl:px-96
       ${event.calLink === undefined || event.loc === 'TBD' || past(event.end) ? 'hidden' : ''}`}>
         <div className="rounded-lg shadow-md bg-gray-200 dark:bg-gray-700 p-4 flex flex-col justify-top gap-y-1">
-          <h1 className="font-bold text-xl sm:text-2xl dark:text-white dark:font-extrabold">RSVP for this event</h1>
+          <h1 className="font-bold text-2xl dark:text-white dark:font-extrabold">RSVP for this event</h1>
           <p>Enter your email and we'll send you reminder about the event the day before it happens. We won't use your email for anything else.</p>
           <RSVPForm eventName={event.name} slug={event.slug}></RSVPForm>
         </div>
