@@ -79,7 +79,7 @@ const Index = ({ events }: { events: Array<Event> }) => {
         </div>
       </div>
       <Footer>
-        <p>Made with 💛 by the{' '}<StyledLink destination="https://purduehackers.com" newTab>Purdue Hackers</StyledLink> executive team.</p>
+        <p>Made with 💛 by the{' '}<StyledLink destination="https://purduehackers.com" newTab>Purdue Hackers</StyledLink> organizing team.</p>
         <FooterLinks />
       </Footer>
     </div>
