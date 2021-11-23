@@ -12,6 +12,9 @@ module.exports = {
         blue: {
           'discord': '#807cfc',
           'discord-light': '#9b98fa'
+        },
+        yellow: {
+          450: '#F8AF18'
         }
       }
     }
