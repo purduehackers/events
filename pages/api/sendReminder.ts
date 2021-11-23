@@ -5,7 +5,7 @@ import tt from 'tinytime'
 import Mailgun from 'mailgun-js'
 
 const mailgun = Mailgun
-const mg = mailgun({ apiKey: process.env.MAILGUN_API_KEY, domain: 'ph.matthewstanciu.me' })
+const mg = mailgun({ apiKey: `${process.env.MAILGUN_API_KEY}`, domain: 'ph.matthewstanciu.me' })
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { token } = req.query
@@ -16,7 +16,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const events = await fetchEvents()
   .then(events => events.filter(event => !past(event.start)))
   .then(events => events.filter(event => eventHappensTomorrow(event.start)))
-  events.map(event => {
+  events.map((event: any) => {
     sendEmail(event)
   })
 
@@ -35,7 +35,7 @@ const eventHappensTomorrow = (eventStart: string): boolean => {
   return Math.floor(timeDiff) < 172800000
 }
 
-const sendEmail = (event): void => {
+const sendEmail = (event: Event): void => {
   const { name, start, end, loc, slug } = event
   const parsedStart = tt('{dddd} from {h}:{mm}').render(new Date(start))
   const parsedEnd = tt('{h}:{mm} {a}').render(new Date(end))

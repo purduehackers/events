@@ -7,11 +7,11 @@ export default (req: NextApiRequest, res: NextApiResponse) => (
 
     console.log(`Adding email ${email} to mailing list ${list}`)
     const mailgun = Mailgun
-    const mg = mailgun({ apiKey: process.env.MAILGUN_API_KEY, domain: 'ph.matthewstanciu.me' })
+    const mg = mailgun({ apiKey: `${process.env.MAILGUN_API_KEY}`, domain: 'ph.matthewstanciu.me' })
   
     mg.get('/lists/pages')
       .then(pages => pages.items)
-      .then(items => items.find(item => item.name === list))
+      .then(items => items.find((item: any) => item.name === list))
       .then(async item => {
         if (item === undefined) {
           await mg.post('/lists', {

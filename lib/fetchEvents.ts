@@ -1,10 +1,9 @@
 import { AirtablePlusPlus, AirtablePlusPlusRecord } from 'airtable-plusplus'
-import { NextApiRequest, NextApiResponse } from 'next'
 import { orderBy } from 'lodash'
-import GHSlugger from 'github-slugger'
+import { GithubSlugger } from 'github-slugger-typescript'
 
 const airtable = new AirtablePlusPlus({
-  apiKey: process.env.AIRTABLE_API_KEY,
+  apiKey: `${process.env.AIRTABLE_API_KEY}`,
   baseId: 'appsGNvjNvL5rmGUM',
   tableName: 'Events'
 })
@@ -18,10 +17,11 @@ interface AirtableFields {
   "Calendar Link": string;
   "Event Description": string;
   "Slug": string;
+  "Custom Slug": string;
 }
 
 export const fetchEvents = async () => {
-  const slugger = new GHSlugger
+  const slugger = new GithubSlugger
   const airtableEvents = (await airtable.read()) as unknown as AirtablePlusPlusRecord<AirtableFields>[]
   const events = airtableEvents.map(({ id, fields }) => ({
     id,

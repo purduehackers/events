@@ -4,7 +4,7 @@ import Mailgun from 'mailgun-js'
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { email, eventName, slug } = req.body
   const mailgun = Mailgun
-  const mg = mailgun({ apiKey: process.env.MAILGUN_API_KEY, domain: 'ph.matthewstanciu.me' })
+  const mg = mailgun({ apiKey: `${process.env.MAILGUN_API_KEY}`, domain: 'ph.matthewstanciu.me' })
 
   const data = {
     from: 'Purdue Hackers <mailgun@ph.matthewstanciu.me>',
