@@ -14,6 +14,7 @@ import ponderings from '../lib/footerPonderings'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
+import FooterLinks from '../components/footer-links'
 
 const Slug = ({ event }: { event: Event }) => {
   const router = useRouter()
@@ -29,7 +30,7 @@ const Slug = ({ event }: { event: Event }) => {
   })
 
   return (
-    <div className="min-h-screen pb-32 overflow-hidden block relative font-title dark:bg-gray-900">
+    <div className="min-h-screen pb-40 overflow-hidden block relative font-title dark:bg-gray-900">
       <Head>
         <title>{event.name} — Purdue Hackers</title>
         <link rel="icon" href="/favicon.ico" />
@@ -96,7 +97,8 @@ const Slug = ({ event }: { event: Event }) => {
       </div>
       <div className={pondering.includes('stargazing') ? 'whitespace-pre' : ''}>
         <Footer>
-          {pondering}
+          <p>{pondering}</p>
+          <FooterLinks />
         </Footer>
       </div>
     </div>

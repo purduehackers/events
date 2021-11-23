@@ -9,14 +9,15 @@ import { orderBy } from 'lodash'
 import { fetchEvents } from '../lib/fetchEvents'
 import { past } from '../lib/past'
 import { useTheme } from 'next-themes'
+import FooterLinks from '../components/footer-links'
 
-const Home = ({ events }: { events: Array<Event> }) => {
+const Index = ({ events }: { events: Array<Event> }) => {
   const { resolvedTheme } = useTheme()
   const upcomingEvents = events.filter((event: Event) => !past(event.end))
   const pastEvents = orderBy(events.filter((event: Event) => past(event.end)), 'end', 'desc')
 
   return (
-    <div className="min-h-screen pb-32 overflow-hidden block relative font-title dark:bg-gray-900">
+    <div className="min-h-screen pb-36 overflow-hidden block relative font-title dark:bg-gray-900">
       <Head>
         <title>Events — Purdue Hackers</title>
         <link rel="icon" href="/favicon.ico" />
@@ -79,6 +80,7 @@ const Home = ({ events }: { events: Array<Event> }) => {
       </div>
       <Footer>
         <p>Made with 💛 by the{' '}<StyledLink destination="https://purduehackers.com" newTab>Purdue Hackers</StyledLink> executive team.</p>
+        <FooterLinks />
       </Footer>
     </div>
   )
@@ -93,4 +95,4 @@ export const getStaticProps: GetStaticProps = async ()  => {
   }
 }
 
-export default Home
+export default Index

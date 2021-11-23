@@ -5,7 +5,7 @@ type StyledLinkProps = {
   color?: string;
   transitionColor?: string;
   newTab?: boolean;
-  children?: string;
+  children?: any;
 }
 
 const StyledLink = ({ destination, color = "yellow-500", transitionColor = "yellow-400", newTab = false, ...props }: StyledLinkProps) => (
