@@ -19,7 +19,7 @@ const Slug = ({ event }) => {
   const router = useRouter()
   const [pondering, setPondering] = useState('')
   const [mounted, setMounted] = useState(false)
-  const { theme, setTheme } = useTheme()
+  const { theme, setTheme, resolvedTheme } = useTheme()
 
   useEffect(() => {
     if (router.isReady) {
@@ -37,7 +37,9 @@ const Slug = ({ event }) => {
 
       <div className="flex flex-row bg-gray-100 dark:bg-gray-800">
         <BackButton />
-        <ThemeButton />
+        {resolvedTheme && (
+          <ThemeButton />
+        )}
       </div>
 
       <div className="flex flex-col items-center justify-top mt-0 w-full flex-1 px-5 pb-8 sm:pb-16 text-center sm:px-20 bg-gray-100 dark:bg-gray-800">
@@ -46,13 +48,13 @@ const Slug = ({ event }) => {
               {event.name}
             </h1>
             <p className="mt-3 text-1xl sm:text-2xl flex flex-row gap-x-1 font-bold items-center justify-center dark:text-gray-200">
-              <span><Clock color={mounted && theme === 'dark' ? '#E5E7EB' : 'black'} /></span>
+              <span><Clock color={mounted && resolvedTheme === 'dark' ? '#E5E7EB' : 'black'} /></span>
               {event.start === 'TBD' ? 'Date TBD' : tt(`${past(event.end) ? '{MM} {Do}, {YYYY}' : '{dddd}, {MM} {Do} •'}`).render(new Date(event.start))}{' '}
               {event.start === 'TBD' ? '' : tt('{h}:{mm}').render(new Date(event.start)) + "—"}
               {event.end === 'TBD' ? '' : tt('{h}:{mm} {a}').render(new Date(event.end))}
             </p>
             <p className="mt-1 text-1xl sm:text-2xl flex flex-row gap-x-1 items-center justify-center dark:text-gray-200">
-              <span><MapPin color={mounted && theme === 'dark' ? '#E5E7EB' : 'black'} /></span>
+              <span><MapPin color={mounted && resolvedTheme === 'dark' ? '#E5E7EB' : 'black'} /></span>
               <strong>{event.loc === 'TBD' ? 'Location TBD' :
                   event.gMap
                   ? <StyledLink destination={event.gMap} newTab>{event.loc}</StyledLink>
