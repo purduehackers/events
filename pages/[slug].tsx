@@ -65,7 +65,7 @@ const Slug = ({ event }) => {
             <a href={event.calLink} target="_blank">
               <div className="flex flex-row gap-x-1 rounded-lg shadow-md bg-yellow-400 dark:bg-yellow-500 p-2 text-center hover:scale-105 transform transition">
                 <Calendar color="black" />
-                <h1 className="font-bold dark:text-black">Add to Google Calendar</h1>
+                <h1 className="font-bold dark:text-black transition">Add to Google Calendar</h1>
               </div>
             </a>
           </div>
