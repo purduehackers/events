@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import { ArrowLeft } from 'react-feather'
 
-const BackButton = ({ bg = 'bg-gray-100' }) => (
+const BackButton = ({ bg = 'bg-gray-100 dark:bg-gray-800' }) => (
     <div className={`${bg}`}>
       <div className="">
       <Link href="/" passHref>

@@ -13,15 +13,15 @@ const Home = ({ events }) => {
   const pastEvents = orderBy(events.filter(event => past(event.end)), 'end', 'desc')
 
   return (
-    <div className="min-h-screen pb-32 overflow-hidden block relative font-title">
+    <div className="min-h-screen pb-32 overflow-hidden block relative font-title dark:bg-gray-900">
       <Head>
         <title>Events — Purdue Hackers</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="flex flex-col items-center justify-top mt-0 w-full flex-1 px-5 pb-8 sm:pb-16 text-center sm:px-20 bg-gray-100">
+      <div className="flex flex-col items-center justify-top mt-0 w-full flex-1 px-5 pb-8 sm:pb-16 text-center sm:px-20 bg-gray-100 dark:bg-gray-800">
         <div className="mt-8 sm:mt-16">
-          <h1 className="text-4xl sm:text-7xl lg:text-8-xl font-bold text-yellow-400">
+          <h1 className="text-4xl sm:text-7xl lg:text-8-xl font-bold text-yellow-400 dark:text-yellow-500">
             Purdue Hackers Events
           </h1>
           <p className="mt-3 text-lg sm:text-2xl">
