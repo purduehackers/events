@@ -5,7 +5,7 @@ import tt from 'tinytime'
 import Mailgun from 'mailgun-js'
 
 const mailgun = Mailgun
-const mg = mailgun({ apiKey: `${process.env.MAILGUN_API_KEY}`, domain: 'ph.matthewstanciu.me' })
+const mg = mailgun({ apiKey: `${process.env.MAILGUN_API_KEY}`, domain: 'purduehackers.com' })
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { token } = req.query
@@ -41,8 +41,8 @@ const sendEmail = (event: Event): void => {
   const parsedEnd = tt('{h}:{mm} {a}').render(new Date(end))
 
   const data = {
-    from: 'Purdue Hackers <mailgun@ph.matthewstanciu.me>',
-    to: `${slug}@ph.matthewstanciu.me`,
+    from: 'Purdue Hackers <events@purduehackers.com>',
+    to: `${slug}@purduehackers.com`,
     subject: `Reminder: ${name} is happening tomorrow!`,
     template: 'event-reminder', 'h:X-Mailgun-Variables': JSON.stringify({ name, start: parsedStart, end: parsedEnd, loc })
   }
