@@ -16,6 +16,9 @@ module.exports = {
         yellow: {
           450: '#F8AF18'
         }
+      },
+      screens: {
+        'xs': '375px'
       }
     }
   },

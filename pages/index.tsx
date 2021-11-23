@@ -43,7 +43,7 @@ const Home = ({ events }) => {
       </div>
       <div className="flex flex-col p-8 sm:pt-14 px-5 sm:px-20 text-left gap-y-4 lg:max-w-screen-2xl mx-auto">
         <h1 className={`text-2xl sm:text-3xl font-bold underline ml-1 ${Object.keys(upcomingEvents).length === 0 ? 'hidden' : ''}`}>Upcoming events</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:auto-cols-fr text-center">
+        <div className="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-4 gap-3 sm:auto-cols-fr text-center">
           {Object.keys(upcomingEvents).map(key => (          
             <Event key={key} name={upcomingEvents[key].name} slug={upcomingEvents[key].slug} start={upcomingEvents[key].start} end={upcomingEvents[key].end} />
           ))}
