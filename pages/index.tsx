@@ -8,8 +8,10 @@ import Link from 'next/link'
 import { orderBy } from 'lodash'
 import { fetchEvents } from '../lib/fetchEvents'
 import { past } from '../lib/past'
+import { useTheme } from 'next-themes'
 
 const Home = ({ events }) => {
+  const { resolvedTheme } = useTheme()
   const upcomingEvents = events.filter(event => !past(event.end))
   const pastEvents = orderBy(events.filter(event => past(event.end)), 'end', 'desc')
 
@@ -21,7 +23,9 @@ const Home = ({ events }) => {
       </Head>
 
       <div className="flex flex-row bg-gray-100 dark:bg-gray-800">
-        <ThemeButton />
+        {resolvedTheme && (
+          <ThemeButton />
+        )}
       </div>
 
       <div className="flex flex-col items-center justify-top mt-0 w-full flex-1 px-5 pb-8 sm:pb-16 text-center sm:px-20 bg-gray-100 dark:bg-gray-800">
