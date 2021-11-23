@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Event from '../components/event'
 import Footer from '../components/footer'
 import StyledLink from '../components/styled-link'
+import ThemeButton from '../components/theme-button'
 import { GetStaticProps } from 'next'
 import Link from 'next/link'
 import { orderBy } from 'lodash'
@@ -18,6 +19,10 @@ const Home = ({ events }) => {
         <title>Events — Purdue Hackers</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
+      <div className="flex flex-row bg-gray-100 dark:bg-gray-800">
+        <ThemeButton />
+      </div>
 
       <div className="flex flex-col items-center justify-top mt-0 w-full flex-1 px-5 pb-8 sm:pb-16 text-center sm:px-20 bg-gray-100 dark:bg-gray-800">
         <div className="mt-8 sm:mt-16">
