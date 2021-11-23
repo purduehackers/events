@@ -5,7 +5,7 @@ interface Event {
   start: string;
   end: string;
   loc: string;
-  gMap: string | boolean;
-  calLink: string | boolean;
+  gMap: string;
+  calLink: string;
   slug: string;
 }
