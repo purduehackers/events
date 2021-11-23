@@ -1,11 +1,11 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 
-const RSVPForm = ({ eventName, slug }) => {
+const RSVPForm = ({ eventName, slug }: { eventName: string, slug: string }) => {
   const [email, setEmail] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [done, setDone] = useState(false)
   const [error, setError] = useState('')
-  const onSubmit = async (e) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setSubmitting(true)
     let submission = await fetch(

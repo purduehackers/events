@@ -15,7 +15,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
 
-const Slug = ({ event }) => {
+const Slug = ({ event }: { event: any }) => {
   const router = useRouter()
   const [pondering, setPondering] = useState('')
   const [mounted, setMounted] = useState(false)
@@ -112,11 +112,18 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return { paths, fallback: 'blocking' }
 }
 
-export const getStaticProps: GetStaticProps = async ({ params })  => {
+type Params = {
+  params: {
+    slug: string
+  }
+}
+
+export const getStaticProps = async ({ params }: Params)  => {
   const { slug } = params
   const event = await fetchEvents()
     .then(events => events.find(event => event.slug === slug))
 
+  // @ts-ignore
   event.desc = marked(event.desc)
     .replace(new RegExp('</p>\n<p>', 'g'), '</p><br/><p>')
     .replace(new RegExp('<a', 'g'), '<a class="desc" target="_blank"')
