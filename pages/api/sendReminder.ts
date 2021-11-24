@@ -3,6 +3,13 @@ import { fetchEvents } from '../../lib/fetchEvents'
 import { past } from '../../lib/past'
 import tt from 'tinytime'
 import Mailgun from 'mailgun-js'
+import { AirtablePlusPlus } from 'airtable-plusplus'
+
+const airtable = new AirtablePlusPlus({
+  apiKey: `${process.env.AIRTABLE_API_KEY}`,
+  baseId: 'appsGNvjNvL5rmGUM',
+  tableName: 'Events'
+})
 
 const mailgun = Mailgun
 const mg = mailgun({ apiKey: `${process.env.MAILGUN_API_KEY}`, domain: 'purduehackers.com' })
@@ -15,13 +22,16 @@ export default (req: NextApiRequest, res: NextApiResponse) => (
     }
   
     fetchEvents()
-    .then(events => events.filter(event => !past(event.start)))
-    .then(events => events.filter(event => eventHappensTomorrow(event.start)))
+    .then(events => events.filter(event => !past(event.start) && eventHappensTomorrow(event.start) && !event.emailSent))
     .then((events) => {
       if (events.length > 0) {
         events.map(async (event: any) => {
           console.log('sending email to ' + event.name)
           await sendEmail(event)
+          .then(async () => {
+            console.log('marking complete...')
+            await markSent(event)
+          })
           .then(() => {
             console.log('done!')
             resolve(res.json({ ok: true }))
@@ -66,5 +76,11 @@ const sendEmail = async (event: Event): Promise<void> => {
   })
   .catch(err => {
     console.log('Error sending reminder email: ' + err)
+  })
+}
+
+const markSent = async (event: Event): Promise<void> => {
+  await airtable.updateWhere(`{Event Name} = '${event.name}'`, {
+    'Reminder Email Sent': true
   })
 }

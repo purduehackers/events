@@ -18,6 +18,7 @@ interface AirtableFields {
   "Event Description": string;
   "Slug": string;
   "Custom Slug": string;
+  "Reminder Email Sent": boolean;
 }
 
 export const fetchEvents = async () => {
@@ -26,12 +27,13 @@ export const fetchEvents = async () => {
   const events = airtableEvents.map(({ id, fields }) => ({
     id,
     name: fields['Event Name'] ?? 'Mysterious Event',
-    desc: fields['Event Description'] ?? 'We\'re still working on this event...check back later for more details!',
+    desc: fields['Event Description'] ?? `We're still working on this event...check back later for more details!`,
     start: fields['Event Date & Start Time'] ?? 'TBD',
     end: fields['Event Date & End Time'] ?? 'TBD',
     loc: fields['Event Location'] ?? 'TBD',
     gMap: fields['Location Map Link (optional)'] ?? false,
     calLink: fields['Calendar Link'] ?? false,
+    emailSent: fields['Reminder Email Sent'] ?? false,
     slug: fields['Custom Slug'] ?? slugger.slug(fields['Event Name'])
   }))
 
