@@ -6,7 +6,7 @@ const FooterLinks = () => (
     <StyledLink destination="https://purduehackers.com" newTab>
       <Home />
     </StyledLink>
-    <StyledLink destination="https://github.com/purduehackers" newTab>
+    <StyledLink destination="https://github.com/MatthewStanciu/purduehackers-events" newTab>
       <GitHub />
     </StyledLink>
     <StyledLink destination="https://instagram.com/purduehackers" newTab>
