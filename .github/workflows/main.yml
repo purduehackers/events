@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  refresh-feed:
+  send-reminder-emails:
     runs-on: ubuntu-latest
     steps:
       - name: Fetch API Data 📦
