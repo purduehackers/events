@@ -29,7 +29,8 @@ export const generateUUID = async (email: string): Promise<string> => {
 }
 
 export const verifyUUID = async (email: string, uuid: string): Promise<boolean> => {
-  if (typeof email === undefined || typeof uuid === undefined) return false
+  console.log(email, uuid)
+  if (email === undefined || uuid === undefined) return false
   const emailRecord = (await airtable.read({
     filterByFormula: `Email = '${email}'`
   }))[0]
