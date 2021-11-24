@@ -27,7 +27,7 @@ const EmailConfirm = () => {
           </p>
           <p>
             If you did that and you're still seeing this, shoot an email to{' '}
-            <StyledLink destination="mailto:mstanciu@purdue.edu">mstanciu@purdue.edu</StyledLink>.
+            <StyledLink destination="mailto:mstanciu@purdue.edu" color="text-blue-600 hover:text-blue-500">mstanciu@purdue.edu</StyledLink>.
           </p>
         </div>
       </div>
