@@ -9,4 +9,5 @@ interface PHEvent {
   calLink: string;
   slug: string;
   emailSent: boolean;
+  unlisted: boolean;
 }
