@@ -45,7 +45,7 @@ const eventHappensTomorrow = (eventStart: string): boolean => {
   return Math.floor(timeDiff) < 172800000
 }
 
-const sendEmail = (event: Event): void => {
+const sendEmail = async (event: Event): Promise<void> => {
   const { name, start, end, loc, slug } = event
   const parsedStart = tt('{dddd} from {h}:{mm}').render(new Date(start))
   const parsedEnd = tt('{h}:{mm} {a}').render(new Date(end))
@@ -57,7 +57,7 @@ const sendEmail = (event: Event): void => {
     template: 'event-reminder', 'h:X-Mailgun-Variables': JSON.stringify({ name, start: parsedStart, end: parsedEnd, loc })
   }
 
-  mg.messages().send(data)
+  await mg.messages().send(data)
   .then((r) => {
     console.log(`Successfully sent reminder email to ${event.slug}`)
     console.log(r)
