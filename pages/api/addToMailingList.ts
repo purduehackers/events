@@ -10,7 +10,7 @@ export default (req: NextApiRequest, res: NextApiResponse) => (
     const mailgun = Mailgun
     const mg = mailgun({ apiKey: `${process.env.MAILGUN_API_KEY}`, domain: 'purduehackers.com' })
   
-    uuidIsValid(email, uuid)
+    uuidIsValid(email as string, uuid as string)
     .then(valid => {
       if (!valid) {
         resolve(res.redirect('/email-verification-failed'))
@@ -33,12 +33,14 @@ export default (req: NextApiRequest, res: NextApiResponse) => (
             subscribed: true,
             address: email as string,
             name: email as string,
-          }).then(() => {
-            deleteUUIDRecord(email)
+          })
+          .then(() => {
+            deleteUUIDRecord(email as string)
             .then(() => {
               resolve(res.redirect(`/email-confirm?eventName=${eventName}`))
             })
-          }).catch(error => {
+          })
+          .catch(error => {
             if (error.toString().includes('Address already exists')) {
               resolve(res.redirect(`/email-exists`))
             }

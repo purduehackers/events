@@ -28,7 +28,7 @@ export const generateUUID = async (email: string): Promise<string> => {
   return uuid
 }
 
-export const uuidIsValid = async (email: string|string[], uuid: string|string[]): Promise<boolean> => {
+export const uuidIsValid = async (email: string, uuid: string): Promise<boolean> => {
   const emailRecord = (await airtable.read({
     filterByFormula: `Email = '${email}'`
   }))[0]
@@ -36,6 +36,6 @@ export const uuidIsValid = async (email: string|string[], uuid: string|string[])
   return emailRecord?.fields['UUID'] === uuid ?? false
 }
 
-export const deleteUUIDRecord = async (email: string|string[]): Promise<void> => {
+export const deleteUUIDRecord = async (email: string): Promise<void> => {
   await airtable.deleteWhere(`Email = '${email}'`)
 }
