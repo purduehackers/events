@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import Mailgun from 'mailgun-js'
-import { deleteUUIDRecord, uuidIsValid } from '../../lib/uuid'
+import { uuidIsValid } from '../../lib/uuid'
 
 export default (req: NextApiRequest, res: NextApiResponse) => (
   new Promise(resolve => {
@@ -36,21 +36,11 @@ export default (req: NextApiRequest, res: NextApiResponse) => (
             name: email as string,
           })
           .then(async () => {
-            console.log('Deleting UUID record...')
-            await deleteUUIDRecord(email as string)
-            .then(() => {
-              console.log('Done!')
-              resolve(res.redirect(`/email-confirm?eventName=${eventName}`))
-            })
+            resolve(res.redirect(`/email-confirm?eventName=${eventName}`))
           })
           .catch(async (error) => {
             if (error.toString().includes('Address already exists')) {
-              console.log('Deleting UUID record...')
-              await deleteUUIDRecord(email as string)
-              .then(() => {
-                console.log('Done!')
-                resolve(res.redirect(`/email-exists`))
-              })
+              resolve(res.redirect(`/email-exists`))
             }
           })
         })

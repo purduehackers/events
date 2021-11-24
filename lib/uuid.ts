@@ -35,7 +35,3 @@ export const uuidIsValid = async (email: string, uuid: string): Promise<boolean>
 
   return emailRecord?.fields['UUID'] === uuid ?? false
 }
-
-export const deleteUUIDRecord = async (email: string): Promise<void> => {
-  await airtable.deleteWhere(`Email = '${email}'`).then((r) => console.log('Deleted', r))
-}
