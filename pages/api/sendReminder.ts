@@ -16,10 +16,12 @@ const mg = mailgun({ apiKey: `${process.env.MAILGUN_API_KEY}`, domain: 'purdueha
 
 export default (req: NextApiRequest, res: NextApiResponse) => (
   new Promise(resolve => {
-    const { Authorization } = req.headers
-    // const { token } = req.query
-    if (Authorization !== `Bearer ${process.env.MAILGUN_API_KEY}`) {
+    const { authorization } = req.headers
+    console.log(req.headers)
+    console.log(authorization)
+    if (authorization !== `Bearer ${process.env.MAILGUN_API_KEY}`) {
       resolve(res.status(401).send('incorrect api key!'))
+      return
     }
   
     fetchEvents()
