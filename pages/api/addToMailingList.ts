@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import Mailgun from 'mailgun-js'
-import { uuidIsValid } from '../../lib/uuid'
+import { verifyUUID } from '../../lib/uuid'
 
 export default (req: NextApiRequest, res: NextApiResponse) => (
   new Promise(resolve => {
@@ -10,7 +10,7 @@ export default (req: NextApiRequest, res: NextApiResponse) => (
     const mailgun = Mailgun
     const mg = mailgun({ apiKey: `${process.env.MAILGUN_API_KEY}`, domain: 'purduehackers.com' })
   
-    uuidIsValid(email as string, uuid as string)
+    verifyUUID(email as string, uuid as string)
     .then(valid => {
       if (!valid) {
         console.log(`${email} did not provide the right UUID. Skipping...`)
