@@ -42,7 +42,10 @@ export default (req: NextApiRequest, res: NextApiResponse) => (
           })
           .catch(error => {
             if (error.toString().includes('Address already exists')) {
-              resolve(res.redirect(`/email-exists`))
+              deleteUUIDRecord(email as string)
+              .then(() => {
+                resolve(res.redirect(`/email-exists`))
+              })
             }
           })
         })
