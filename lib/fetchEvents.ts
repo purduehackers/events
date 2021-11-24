@@ -4,7 +4,7 @@ import { GithubSlugger } from 'github-slugger-typescript'
 
 const airtable = new AirtablePlusPlus({
   apiKey: `${process.env.AIRTABLE_API_KEY}`,
-  baseId: 'appsGNvjNvL5rmGUM',
+  baseId: 'appfaalz9AzKDwSup',
   tableName: 'Events'
 })
 
