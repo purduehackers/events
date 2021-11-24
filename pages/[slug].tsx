@@ -16,7 +16,7 @@ import { useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
 import FooterLinks from '../components/footer-links'
 
-const Slug = ({ event }: { event: Event }) => {
+const Slug = ({ event }: { event: PHEvent }) => {
   const router = useRouter()
   const [pondering, setPondering] = useState('')
   const { resolvedTheme } = useTheme()
@@ -121,7 +121,7 @@ type Params = {
 export const getStaticProps = async ({ params }: Params)  => {
   const { slug } = params
   const event = await fetchEvents()
-    .then(events => events.find(event => event.slug === slug))
+    .then((events: Array<PHEvent>) => events.find((event: PHEvent) => event.slug === slug))
 
   // @ts-ignore
   event.desc = marked(event.desc)
