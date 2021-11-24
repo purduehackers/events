@@ -6,7 +6,7 @@ import ThemeButton from '../components/theme-button'
 const EmailConfirm = () => {
   const router = useRouter()
   const { eventName } = router.query
-  const { theme, setTheme, resolvedTheme } = useTheme()
+  const { resolvedTheme } = useTheme()
 
   return (
     <main>
