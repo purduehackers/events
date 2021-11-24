@@ -19,6 +19,7 @@ interface AirtableFields {
   "Slug": string;
   "Custom Slug": string;
   "Reminder Email Sent": boolean;
+  "Unlisted": boolean;
 }
 
 export const fetchEvents = async (): Promise<PHEvent[]> => {
@@ -34,6 +35,7 @@ export const fetchEvents = async (): Promise<PHEvent[]> => {
     gMap: fields['Location Map Link (optional)'] ?? false,
     calLink: fields['Calendar Link'] ?? false,
     emailSent: fields['Reminder Email Sent'] ?? false,
+    unlisted: fields['Unlisted'] ?? false,
     slug: fields['Custom Slug'] ?? slugger.slug(fields['Event Name'])
   }))
 
