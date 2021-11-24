@@ -20,9 +20,11 @@ export default (req: NextApiRequest, res: NextApiResponse) => (
     .then(events => {
       if (events.length > 0) {
         events.map(async (event: any) => {
+          console.log('sending email to ' + event.name)
           await sendEmail(event)
         })
       } else {
+        console.log('No emails to send.')
         resolve(res.status(200).send('No emails to send.'))
       }
     })
