@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "@tailwindcss/forms": "^0.3.4",
+    "@types/uuid": "^8.3.3",
     "airtable-plusplus": "^0.3.2",
     "github-slugger-typescript": "^1.1.0",
     "lodash": "^4.17.21",
@@ -17,7 +18,8 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-feather": "^2.0.9",
-    "tinytime": "^0.2.6"
+    "tinytime": "^0.2.6",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/form-data": "^2.5.0",
