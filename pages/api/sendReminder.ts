@@ -60,8 +60,13 @@ const eventHappensTomorrow = (eventStart: string): boolean => {
 
 const sendEmail = async (event: Event): Promise<void> => {
   const { name, start, end, loc, slug } = event
-  const parsedStart = tt('{dddd} from {h}:{mm}').render(new Date(start))
-  const parsedEnd = tt('{h}:{mm} {a}').render(new Date(end))
+  const startDate = new Date(start)
+  const endDate = new Date(end)
+  // Vercel is on UTC, so we need to subtract 5 hours to make it eastern time
+  startDate.setHours(startDate.getHours() - 5)
+  endDate.setHours(endDate.getHours() - 5)
+  const parsedStart = tt('{dddd} from {h}:{mm}').render(startDate)
+  const parsedEnd = tt('{h}:{mm} {a}').render(endDate)
 
   const data = {
     from: 'Purdue Hackers <events@purduehackers.com>',
