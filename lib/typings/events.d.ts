@@ -8,4 +8,5 @@ interface Event {
   gMap: string;
   calLink: string;
   slug: string;
+  emailSent: boolean;
 }
