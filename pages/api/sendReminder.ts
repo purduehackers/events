@@ -17,9 +17,9 @@ export default (req: NextApiRequest, res: NextApiResponse) => (
     fetchEvents()
     .then(events => events.filter(event => !past(event.start)))
     .then(events => events.filter(event => eventHappensTomorrow(event.start)))
-    .then(events => {
+    .then(async (events) => {
       if (events.length > 0) {
-        events.map(async (event: any) => {
+        await events.map(async (event: any) => {
           console.log('sending email to ' + event.name)
           await sendEmail(event)
         })
