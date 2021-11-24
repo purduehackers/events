@@ -17,22 +17,24 @@ export default (req: NextApiRequest, res: NextApiResponse) => (
     fetchEvents()
     .then(events => events.filter(event => !past(event.start)))
     .then(events => events.filter(event => eventHappensTomorrow(event.start)))
-    .then(async (events) => {
+    .then((events) => {
       if (events.length > 0) {
-        await events.map(async (event: any) => {
+        events.map(async (event: any) => {
           console.log('sending email to ' + event.name)
           await sendEmail(event)
+          .then(() => {
+            console.log('done!')
+            resolve(res.json({ ok: true }))
+          })
+          .catch((err) => {
+            console.log('err')
+            resolve(res.status(500).send('Error sending email: ' + err))
+          })
         })
       } else {
         console.log('No emails to send.')
         resolve(res.status(200).send('No emails to send.'))
       }
-    })
-    .then(() => {
-      resolve(res.json({ ok: true }))
-    })
-    .catch((err) => {
-      resolve(res.status(500).send('Error sending email: ' + err))
     })
   })
 )
