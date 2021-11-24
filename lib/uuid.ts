@@ -32,9 +32,8 @@ export const uuidIsValid = async (email: string|string[], uuid: string|string[])
   const emailRecord = (await airtable.read({
     filterByFormula: `Email = '${email}'`
   }))[0]
-  if (typeof emailRecord === undefined) return false
 
-  return emailRecord.fields['UUID'] === uuid
+  return emailRecord?.fields['UUID'] === uuid ?? false
 }
 
 export const deleteUUIDRecord = async (email: string|string[]): Promise<void> => {
