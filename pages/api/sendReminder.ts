@@ -7,25 +7,33 @@ import Mailgun from 'mailgun-js'
 const mailgun = Mailgun
 const mg = mailgun({ apiKey: `${process.env.MAILGUN_API_KEY}`, domain: 'purduehackers.com' })
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const { token } = req.query
-  if (token !== process.env.MAILGUN_API_KEY) {
-    return res.status(401).send('incorrect api key!')
-  }
-
-  const events = await fetchEvents()
-  .then(events => events.filter(event => !past(event.start)))
-  .then(events => events.filter(event => eventHappensTomorrow(event.start)))
-  events.map((event: any) => {
-    sendEmail(event)
+export default (req: NextApiRequest, res: NextApiResponse) => (
+  new Promise(resolve => {
+    const { token } = req.query
+    if (token !== process.env.MAILGUN_API_KEY) {
+      resolve(res.status(401).send('incorrect api key!'))
+    }
+  
+    fetchEvents()
+    .then(events => events.filter(event => !past(event.start)))
+    .then(events => events.filter(event => eventHappensTomorrow(event.start)))
+    .then(events => {
+      if (events.length > 0) {
+        events.map(async (event: any) => {
+          await sendEmail(event)
+        })
+      } else {
+        resolve(res.status(200).send('No emails to send.'))
+      }
+    })
+    .then(() => {
+      resolve(res.json({ ok: true }))
+    })
+    .catch((err) => {
+      resolve(res.status(500).send('Error sending email: ' + err))
+    })
   })
-
-  events.map(event => {
-    console.log(event.name)
-  })
-
-  res.json({ ok: true })
-}
+)
 
 const eventHappensTomorrow = (eventStart: string): boolean => {
   const now = new Date()
