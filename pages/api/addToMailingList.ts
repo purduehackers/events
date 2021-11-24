@@ -13,6 +13,7 @@ export default (req: NextApiRequest, res: NextApiResponse) => (
     uuidIsValid(email as string, uuid as string)
     .then(valid => {
       if (!valid) {
+        console.log(`${email} did not provide the right UUID. Skipping...`)
         resolve(res.redirect('/email-verification-failed'))
         return
       } else {
@@ -35,15 +36,19 @@ export default (req: NextApiRequest, res: NextApiResponse) => (
             name: email as string,
           })
           .then(() => {
+            console.log('Deleting UUID record...')
             deleteUUIDRecord(email as string)
             .then(() => {
+              console.log('Done!')
               resolve(res.redirect(`/email-confirm?eventName=${eventName}`))
             })
           })
           .catch(error => {
             if (error.toString().includes('Address already exists')) {
+              console.log('Deleting UUID record...')
               deleteUUIDRecord(email as string)
               .then(() => {
+                console.log('Done!')
                 resolve(res.redirect(`/email-exists`))
               })
             }
