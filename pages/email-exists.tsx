@@ -1,11 +1,9 @@
 import { useTheme } from 'next-themes'
-import { useRouter } from 'next/router'
 import BackButton from '../components/back-button'
 import ThemeButton from '../components/theme-button'
 
 const EmailConfirm = () => {
-  const router = useRouter()
-  const { theme, setTheme, resolvedTheme } = useTheme()
+  const { resolvedTheme } = useTheme()
 
   return (
     <main>
