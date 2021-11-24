@@ -7,7 +7,7 @@ const airtable = new AirtablePlusPlus({
   tableName: 'Emails'
 })
 
-export const generateUUID = async (email: string): Promise<void> => {
+export const generateUUID = async (email: string): Promise<string> => {
   const uuid = uuidv4()
 
   const emailRecords = await airtable.read({
@@ -24,13 +24,19 @@ export const generateUUID = async (email: string): Promise<void> => {
       'UUID': uuid 
     })
   }
+
+  return uuid
 }
 
-export const uuidIsValid = async (email: string, uuid: string): Promise<boolean> => {
+export const uuidIsValid = async (email: string|string[], uuid: string|string[]): Promise<boolean> => {
   const emailRecord = (await airtable.read({
     filterByFormula: `Email = '${email}'`
   }))[0]
   if (typeof emailRecord === undefined) return false
 
   return emailRecord.fields['UUID'] === uuid
+}
+
+export const deleteUUIDRecord = async (email: string|string[]): Promise<void> => {
+  await airtable.deleteWhere(`Email = '${email}'`)
 }
