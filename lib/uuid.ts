@@ -12,7 +12,7 @@ export const generateUUID = async (email: string): Promise<void> => {
 
   const emailRecords = await airtable.read({
     filterByFormula: `Email = '${email}'`
-  }) as unknown as AirtablePlusPlusRecord<{ name: string; uuid: string }>[]
+  }) as unknown as AirtablePlusPlusRecord<{ email: string; uuid: string }>[]
 
   if (emailRecords.length === 0) {
     await airtable.create({
@@ -20,7 +20,7 @@ export const generateUUID = async (email: string): Promise<void> => {
       'UUID': uuid
     })
   } else {
-    await airtable.updateWhere(`Name = '${email}'`, {
+    await airtable.updateWhere(`Email = '${email}'`, {
       'UUID': uuid 
     })
   }
