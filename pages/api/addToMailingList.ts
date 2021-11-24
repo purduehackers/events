@@ -35,18 +35,18 @@ export default (req: NextApiRequest, res: NextApiResponse) => (
             address: email as string,
             name: email as string,
           })
-          .then(() => {
+          .then(async () => {
             console.log('Deleting UUID record...')
-            deleteUUIDRecord(email as string)
+            await deleteUUIDRecord(email as string)
             .then(() => {
               console.log('Done!')
               resolve(res.redirect(`/email-confirm?eventName=${eventName}`))
             })
           })
-          .catch(error => {
+          .catch(async (error) => {
             if (error.toString().includes('Address already exists')) {
               console.log('Deleting UUID record...')
-              deleteUUIDRecord(email as string)
+              await deleteUUIDRecord(email as string)
               .then(() => {
                 console.log('Done!')
                 resolve(res.redirect(`/email-exists`))
