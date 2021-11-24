@@ -19,7 +19,7 @@ import FooterLinks from '../components/footer-links'
 const Slug = ({ event }: { event: Event }) => {
   const router = useRouter()
   const [pondering, setPondering] = useState('')
-  const { theme, setTheme, resolvedTheme } = useTheme()
+  const { resolvedTheme } = useTheme()
 
   useEffect(() => {
     if (router.isReady) {
@@ -68,7 +68,7 @@ const Slug = ({ event }: { event: Event }) => {
             <a href={event.calLink} target="_blank">
               <div className="flex flex-row gap-x-1 rounded-lg shadow-md bg-yellow-400 dark:bg-yellow-500 p-2 text-center hover:scale-105 transform transition">
                 <Calendar color="black" />
-                <h1 className="font-bold dark:text-black transition">Add to Google Calendar</h1>
+                <h1 className="font-bold text-black dark:text-black transition">Add to Google Calendar</h1>
               </div>
             </a>
           </div>
