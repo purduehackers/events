@@ -21,7 +21,7 @@ interface AirtableFields {
   "Reminder Email Sent": boolean;
 }
 
-export const fetchEvents = async () => {
+export const fetchEvents = async (): Promise<PHEvent[]> => {
   const slugger = new GithubSlugger
   const airtableEvents = (await airtable.read()) as unknown as AirtablePlusPlusRecord<AirtableFields>[]
   const events = airtableEvents.map(({ id, fields }) => ({

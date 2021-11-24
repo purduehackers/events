@@ -1,4 +1,4 @@
-interface Event {
+interface PHEvent {
   id: string;
   name: string;
   desc: string;

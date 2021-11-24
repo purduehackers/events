@@ -11,10 +11,10 @@ import { past } from '../lib/past'
 import { useTheme } from 'next-themes'
 import FooterLinks from '../components/footer-links'
 
-const Index = ({ events }: { events: Array<Event> }) => {
+const Index = ({ events }: { events: Array<PHEvent> }) => {
   const { resolvedTheme } = useTheme()
-  const upcomingEvents = events.filter((event: Event) => !past(event.end))
-  const pastEvents = orderBy(events.filter((event: Event) => past(event.end)), 'end', 'desc')
+  const upcomingEvents = events.filter((event: PHEvent) => !past(event.end))
+  const pastEvents = orderBy(events.filter((event: PHEvent) => past(event.end)), 'end', 'desc')
 
   return (
     <div className="min-h-screen pb-36 overflow-hidden block relative font-title dark:bg-gray-900">
@@ -45,8 +45,8 @@ const Index = ({ events }: { events: Array<Event> }) => {
       <div className="flex flex-col p-8 sm:pt-14 px-5 sm:px-20 text-left gap-y-4 lg:max-w-screen-2xl mx-auto">
         <h1 className={`text-2xl sm:text-3xl font-bold underline ml-1 ${Object.keys(upcomingEvents).length === 0 ? 'hidden' : ''}`}>Upcoming events</h1>
         <div className="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-4 gap-3 sm:auto-cols-fr text-center">
-          {Object.keys(upcomingEvents).map((key: any) => (          
-            <Event key={key} name={upcomingEvents[key].name} slug={upcomingEvents[key].slug} start={upcomingEvents[key].start} end={upcomingEvents[key].end} />
+          {Object.keys(upcomingEvents).map((key: string, i: number) => (          
+            <Event key={key} name={upcomingEvents[i].name} slug={upcomingEvents[i].slug} start={upcomingEvents[i].start} end={upcomingEvents[i].end} />
           ))}
         </div>
       </div>
@@ -73,8 +73,8 @@ const Index = ({ events }: { events: Array<Event> }) => {
       <div className="flex flex-col p-8 sm:pt-14 px-5 sm:px-20 text-left gap-y-4 lg:max-w-screen-2xl mx-auto">
         <h1 className="text-2xl sm:text-3xl font-bold underline ml-1">Past events</h1>
         <div className="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-4 gap-3 sm:auto-cols-fr text-center">
-          {Object.keys(pastEvents).map((key: any) => (          
-            <Event key={key} name={pastEvents[key].name} slug={pastEvents[key].slug} start={pastEvents[key].start} end={pastEvents[key].end} />
+          {Object.keys(pastEvents).map((key: string, i: number) => (          
+            <Event key={key} name={pastEvents[i].name} slug={pastEvents[i].slug} start={pastEvents[i].start} end={pastEvents[i].end} />
           ))}
         </div>
       </div>

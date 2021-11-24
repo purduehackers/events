@@ -26,9 +26,9 @@ export default (req: NextApiRequest, res: NextApiResponse) => (
     .then(events => events.filter(event => !past(event.start) && eventHappensTomorrow(event.start) && !event.emailSent))
     .then((events) => {
       if (events.length > 0) {
-        events.map(async (event: any) => {
+        events.map((event: PHEvent) => {
           console.log('sending email to ' + event.name)
-          await sendEmail(event)
+          sendEmail(event)
           .then(async () => {
             console.log('marking complete...')
             await markSent(event)
@@ -58,7 +58,7 @@ const eventHappensTomorrow = (eventStart: string): boolean => {
   return Math.floor(timeDiff) < 172800000
 }
 
-const sendEmail = async (event: Event): Promise<void> => {
+const sendEmail = async (event: PHEvent): Promise<void> => {
   const { name, start, end, loc, slug } = event
   const startDate = new Date(start)
   const endDate = new Date(end)
@@ -85,7 +85,7 @@ const sendEmail = async (event: Event): Promise<void> => {
   })
 }
 
-const markSent = async (event: Event): Promise<void> => {
+const markSent = async (event: PHEvent): Promise<void> => {
   await airtable.updateWhere(`{Event Name} = '${event.name}'`, {
     'Reminder Email Sent': true
   })
