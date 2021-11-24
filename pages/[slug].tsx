@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { GetStaticPaths, GetStaticProps } from 'next'
+import { GetStaticPaths } from 'next'
 import { Clock, MapPin, Calendar } from 'react-feather'
 import { marked } from 'marked'
 import tt from 'tinytime'
