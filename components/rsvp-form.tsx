@@ -29,9 +29,12 @@ const RSVPForm = ({ eventName, slug }: { eventName: string; slug: string }) => {
 
   return (
     <div className="flex flex-col items-left mt-6">
-      <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">
+      <label
+        htmlFor="email"
+        className="text-sm text-gray-500 dark:text-gray-400 mb-1"
+      >
         Enter your email
-      </p>
+      </label>
       <form
         onSubmit={onSubmit}
         className="flex flex-col xs:flex-row items-left gap-y-2 xs:gap-x-2 mb-1"
