@@ -79,7 +79,7 @@ const Slug = ({ event }: { event: PHEvent }) => {
         </div>
       </div>
       <div className="container mx-auto p-8 px-4 md:px-16 lg:px-72 xl:px-96">
-        <div className="border-2 border-dashed p-4 border-yellow-400 dark:border-yellow-500">
+        <div className="border-2 border-dashed rounded-lg p-4 border-yellow-400 dark:border-yellow-500">
           <div
             dangerouslySetInnerHTML={{ __html: event.desc }}
             className="text-l"

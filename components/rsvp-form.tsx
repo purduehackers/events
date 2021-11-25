@@ -29,7 +29,7 @@ const RSVPForm = ({ eventName, slug }: { eventName: string; slug: string }) => {
 
   return (
     <div className="flex flex-col items-left mt-6">
-      <p className="text-sm text-gray-500 dark:text-gray-400 ml-1">
+      <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">
         Enter your email
       </p>
       <form
