@@ -1,26 +1,26 @@
-import Head from "next/head";
-import Event from "../components/event";
-import Footer from "../components/footer";
-import StyledLink from "../components/styled-link";
-import ThemeButton from "../components/theme-button";
-import { GetStaticProps } from "next";
-import Link from "next/link";
-import { orderBy } from "lodash";
-import { fetchEvents } from "../lib/fetchEvents";
-import { past } from "../lib/past";
-import { useTheme } from "next-themes";
-import FooterLinks from "../components/footer-links";
+import Head from 'next/head'
+import Event from '../components/event'
+import Footer from '../components/footer'
+import StyledLink from '../components/styled-link'
+import ThemeButton from '../components/theme-button'
+import { GetStaticProps } from 'next'
+import Link from 'next/link'
+import { orderBy } from 'lodash'
+import { fetchEvents } from '../lib/fetchEvents'
+import { past } from '../lib/past'
+import { useTheme } from 'next-themes'
+import FooterLinks from '../components/footer-links'
 
 const Index = ({ events }: { events: Array<PHEvent> }) => {
-  const { resolvedTheme } = useTheme();
+  const { resolvedTheme } = useTheme()
   const upcomingEvents = events.filter(
-    (event: PHEvent) => !past(event.end) && !event.unlisted
-  );
+    (event: PHEvent) => !past(event.end) && !event.unlisted,
+  )
   const pastEvents = orderBy(
     events.filter((event: PHEvent) => past(event.end)),
-    "end",
-    "desc"
-  );
+    'end',
+    'desc',
+  )
 
   return (
     <div className="min-h-screen pb-36 overflow-hidden block relative font-title dark:bg-gray-900">
@@ -39,7 +39,7 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
             Purdue Hackers Events
           </h1>
           <p className="mt-3 text-lg sm:text-2xl">
-            Check out & sign up for{" "}
+            Check out & sign up for{' '}
             <StyledLink destination="https://purduehackers.com" newTab>
               Purdue Hackers
             </StyledLink>
@@ -50,8 +50,8 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
       </div>
       <div className="flex flex-col p-8 sm:pt-14 px-5 sm:px-20 text-left gap-y-4 lg:max-w-screen-2xl mx-auto">
         <h1
-          className={`text-2xl sm:text-3xl font-bold underline ml-1 ${
-            Object.keys(upcomingEvents).length === 0 ? "hidden" : ""
+          className={`text-3xl sm:text-4xl font-bold ml-1 ${
+            Object.keys(upcomingEvents).length === 0 ? 'hidden' : ''
           }`}
         >
           Upcoming events
@@ -79,7 +79,7 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
               announce. Check back soon though!
             </p>
             <p>
-              Want to be the first to hear about new events?{" "}
+              Want to be the first to hear about new events?{' '}
               <span>
                 <StyledLink
                   destination="https://bit.ly/PurdueHackersDiscord"
@@ -94,9 +94,7 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
         </div>
       )}
       <div className="flex flex-col p-8 sm:pt-14 px-5 sm:px-20 text-left gap-y-4 lg:max-w-screen-2xl mx-auto">
-        <h1 className="text-2xl sm:text-3xl font-bold underline ml-1">
-          Past events
-        </h1>
+        <h1 className="text-3xl sm:text-4xl font-bold ml-1">Past events</h1>
         <div className="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-4 gap-3 sm:auto-cols-fr text-center">
           {Object.keys(pastEvents).map((key: string, i: number) => (
             <Event
@@ -111,25 +109,25 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
       </div>
       <Footer>
         <p>
-          Made with 💛 by the{" "}
+          Made with 💛 by the{' '}
           <StyledLink destination="https://purduehackers.com" newTab>
             Purdue Hackers
-          </StyledLink>{" "}
+          </StyledLink>{' '}
           organizing team.
         </p>
         <FooterLinks />
       </Footer>
     </div>
-  );
-};
+  )
+}
 
 export const getStaticProps: GetStaticProps = async () => {
-  const events = await fetchEvents();
+  const events = await fetchEvents()
 
   return {
     props: { events },
     revalidate: 10,
-  };
-};
+  }
+}
 
-export default Index;
+export default Index
