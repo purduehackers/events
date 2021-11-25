@@ -8,7 +8,7 @@ const Event = ({ name, slug, start, end }: { name: string, slug: string, start: 
     <a href="#">
       
       <div className={`col-span-1 shadow-lg flex flex-col rounded-lg justify-center p-5 sm:min-h-full ${past(end)
-        ? "bg-gray-200 dark:bg-gray-600" : "bg-yellow-400 dark:bg-yellow-500 hover:scale-105 transform transition"}`}>
+        ? "bg-gray-200 dark:bg-gray-700" : "bg-yellow-400 dark:bg-yellow-500 hover:scale-105 transform transition"}`}>
         <p className={past(end) ? '' : 'text-black dark:text-black transition'}>
           {start === 'TBD' ? 'TBD' : tt(`${past(end) ? '{MM} {Do}, {YYYY} •' : '{dddd}. {MM} {Do} •'}`)
             .render(new Date(start))
