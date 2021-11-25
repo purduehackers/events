@@ -31,7 +31,11 @@ const EmailConfirm = () => {
               If you did that and you're still seeing this, shoot an email to{' '}
               <StyledLink
                 destination="mailto:mstanciu@purdue.edu"
-                color="text-blue-600 hover:text-blue-500"
+                color={
+                  resolvedTheme === 'light'
+                    ? `text-blue-600 hover:text-blue-500`
+                    : `text-yellow-500 hover:text-yellow-400`
+                }
               >
                 mstanciu@purdue.edu
               </StyledLink>
