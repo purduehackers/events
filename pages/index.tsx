@@ -52,7 +52,7 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
       </div>
       {Object.keys(upcomingEvents).length === 0 && (
         <div className="container mx-auto px-4 md:px-16 lg:px-72 xl:px-96">
-          <div className="rounded-lg shadow-lg bg-gray-200 p-4 flex flex-col justify-center gap-y-3">
+          <div className="rounded-lg shadow-lg bg-gray-200 dark:bg-gray-700 p-4 flex flex-col justify-center gap-y-3">
             <h1 className="text-2xl sm:text-3xl font-bold text-center">More events coming soon...</h1>
             <p>
               There aren't any upcoming events we're currently ready to announce. Check back soon though!
@@ -60,11 +60,9 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
             <p>
               Want to be the first to hear about new events?{' '}
               <span>
-                <Link href="https://bit.ly/PurdueHackersDiscord" passHref>
-                  <a href="#" target="_blank" className="text-blue-discord hover:text-blue-discord-light transition">
-                    Hop in our Discord!
-                  </a>
-                </Link>
+                <StyledLink destination="https://bit.ly/PurdueHackersDiscord" color="text-blue-discord hover:text-blue-discord-light" newTab>
+                  Hop in our Discord!
+                </StyledLink>
             </span>
             </p>
           </div>
