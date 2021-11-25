@@ -11,7 +11,7 @@ declare module 'tinytime' {
 
   declare const tinytime: (
     template: string,
-    options: TinyTimeOptions = {}
+    options: TinyTimeOptions = {},
   ) => TinyTime
 
   export default tinytime

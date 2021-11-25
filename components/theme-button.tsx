@@ -14,9 +14,7 @@ const ThemeButton = () => {
       {resolvedTheme === 'light' && (
         <Moon color="black" onClick={() => setTheme('dark')} />
       )}
-      {resolvedTheme === 'dark' && (
-        <Sun onClick={() => setTheme('light')} />
-      )}
+      {resolvedTheme === 'dark' && <Sun onClick={() => setTheme('light')} />}
     </div>
   )
 }

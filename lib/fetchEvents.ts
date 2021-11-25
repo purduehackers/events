@@ -5,30 +5,33 @@ import { GithubSlugger } from 'github-slugger-typescript'
 const airtable = new AirtablePlusPlus({
   apiKey: `${process.env.AIRTABLE_API_KEY}`,
   baseId: 'appfaalz9AzKDwSup',
-  tableName: 'Events'
+  tableName: 'Events',
 })
 
 interface AirtableFields {
-  "Event Name": string;
-  "Event Date & Start Time": string;
-  "Event Date & End Time": string;
-  "Event Location": string;
-  "Location Map Link (optional)": string;
-  "Calendar Link": string;
-  "Event Description": string;
-  "Slug": string;
-  "Custom Slug": string;
-  "Reminder Email Sent": boolean;
-  "Unlisted": boolean;
+  'Event Name': string
+  'Event Date & Start Time': string
+  'Event Date & End Time': string
+  'Event Location': string
+  'Location Map Link (optional)': string
+  'Calendar Link': string
+  'Event Description': string
+  Slug: string
+  'Custom Slug': string
+  'Reminder Email Sent': boolean
+  Unlisted: boolean
 }
 
 export const fetchEvents = async (): Promise<PHEvent[]> => {
-  const slugger = new GithubSlugger
-  const airtableEvents = (await airtable.read()) as unknown as AirtablePlusPlusRecord<AirtableFields>[]
+  const slugger = new GithubSlugger()
+  const airtableEvents =
+    (await airtable.read()) as unknown as AirtablePlusPlusRecord<AirtableFields>[]
   const events = airtableEvents.map(({ id, fields }) => ({
     id,
     name: fields['Event Name'] ?? 'Mysterious Event',
-    desc: fields['Event Description'] ?? `We're still working on this event...check back later for more details!`,
+    desc:
+      fields['Event Description'] ??
+      `We're still working on this event...check back later for more details!`,
     start: fields['Event Date & Start Time'] ?? 'TBD',
     end: fields['Event Date & End Time'] ?? 'TBD',
     loc: fields['Event Location'] ?? 'TBD',
@@ -36,7 +39,7 @@ export const fetchEvents = async (): Promise<PHEvent[]> => {
     calLink: fields['Calendar Link'] ?? false,
     emailSent: fields['Reminder Email Sent'] ?? false,
     unlisted: fields['Unlisted'] ?? false,
-    slug: fields['Custom Slug'] ?? slugger.slug(fields['Event Name'])
+    slug: fields['Custom Slug'] ?? slugger.slug(fields['Event Name']),
   }))
 
   return orderBy(events, 'start')

@@ -8,47 +8,56 @@ import { AirtablePlusPlus } from 'airtable-plusplus'
 const airtable = new AirtablePlusPlus({
   apiKey: `${process.env.AIRTABLE_API_KEY}`,
   baseId: 'appfaalz9AzKDwSup',
-  tableName: 'Events'
+  tableName: 'Events',
 })
 
 const mailgun = Mailgun
-const mg = mailgun({ apiKey: `${process.env.MAILGUN_API_KEY}`, domain: 'purduehackers.com' })
+const mg = mailgun({
+  apiKey: `${process.env.MAILGUN_API_KEY}`,
+  domain: 'purduehackers.com',
+})
 
-export default (req: NextApiRequest, res: NextApiResponse) => (
-  new Promise(resolve => {
+export default (req: NextApiRequest, res: NextApiResponse) =>
+  new Promise((resolve) => {
     const { authorization } = req.headers
     if (authorization !== `Bearer ${process.env.MAILGUN_API_KEY}`) {
       resolve(res.status(401).send('incorrect api key!'))
       return
     }
-  
+
     fetchEvents()
-    .then(events => events.filter(event => !past(event.start) && eventHappensTomorrow(event.start) && !event.emailSent))
-    .then((events) => {
-      if (events.length > 0) {
-        events.map((event: PHEvent) => {
-          console.log('sending email to ' + event.name)
-          sendEmail(event)
-          .then(async () => {
-            console.log('marking complete...')
-            await markSent(event)
+      .then((events) =>
+        events.filter(
+          (event) =>
+            !past(event.start) &&
+            eventHappensTomorrow(event.start) &&
+            !event.emailSent,
+        ),
+      )
+      .then((events) => {
+        if (events.length > 0) {
+          events.map((event: PHEvent) => {
+            console.log('sending email to ' + event.name)
+            sendEmail(event)
+              .then(async () => {
+                console.log('marking complete...')
+                await markSent(event)
+              })
+              .then(() => {
+                console.log('done!')
+                resolve(res.json({ ok: true }))
+              })
+              .catch((err) => {
+                console.log('err')
+                resolve(res.status(500).send('Error sending email: ' + err))
+              })
           })
-          .then(() => {
-            console.log('done!')
-            resolve(res.json({ ok: true }))
-          })
-          .catch((err) => {
-            console.log('err')
-            resolve(res.status(500).send('Error sending email: ' + err))
-          })
-        })
-      } else {
-        console.log('No emails to send.')
-        resolve(res.status(200).send('No emails to send.'))
-      }
-    })
+        } else {
+          console.log('No emails to send.')
+          resolve(res.status(200).send('No emails to send.'))
+        }
+      })
   })
-)
 
 const eventHappensTomorrow = (eventStart: string): boolean => {
   const now = new Date()
@@ -72,21 +81,29 @@ const sendEmail = async (event: PHEvent): Promise<void> => {
     from: 'Purdue Hackers <events@purduehackers.com>',
     to: `${slug}@purduehackers.com`,
     subject: `Reminder: ${name} is happening tomorrow!`,
-    template: 'event-reminder', 'h:X-Mailgun-Variables': JSON.stringify({ name, start: parsedStart, end: parsedEnd, loc })
+    template: 'event-reminder',
+    'h:X-Mailgun-Variables': JSON.stringify({
+      name,
+      start: parsedStart,
+      end: parsedEnd,
+      loc,
+    }),
   }
 
-  await mg.messages().send(data)
-  .then((r) => {
-    console.log(`Successfully sent reminder email to ${event.slug}`)
-    console.log(r)
-  })
-  .catch(err => {
-    console.log('Error sending reminder email: ' + err)
-  })
+  await mg
+    .messages()
+    .send(data)
+    .then((r) => {
+      console.log(`Successfully sent reminder email to ${event.slug}`)
+      console.log(r)
+    })
+    .catch((err) => {
+      console.log('Error sending reminder email: ' + err)
+    })
 }
 
 const markSent = async (event: PHEvent): Promise<void> => {
   await airtable.updateWhere(`{Event Name} = '${event.name}'`, {
-    'Reminder Email Sent': true
+    'Reminder Email Sent': true,
   })
 }
