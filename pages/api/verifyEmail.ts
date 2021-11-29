@@ -16,7 +16,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     from: 'Purdue Hackers <events@purduehackers.com>',
     to: `${email}`,
     subject: `Purdue Hackers: Please verify your email`,
-    template: 'verify-your-email',
+    template: 'verify-git-branch-uuid',
     'h:X-Mailgun-Variables': JSON.stringify({
       eventName,
       list: slug,
