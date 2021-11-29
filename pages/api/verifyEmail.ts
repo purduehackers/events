@@ -7,7 +7,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const mailgun = Mailgun
   const mg = mailgun({
     apiKey: `${process.env.MAILGUN_API_KEY}`,
-    domain: 'purduehackers.com',
+    domain: 'purduehackers.com'
   })
 
   const uuid = await generateUUID(email)
@@ -21,14 +21,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       eventName,
       list: slug,
       email,
-      uuid,
-    }),
+      uuid
+    })
   }
 
   mg.messages()
     .send(data)
     .then((r) => {
-      console.log('Successfully sent verification email!')
+      console.log(`Successfully sent verification email to ${email}!`)
       console.log(r)
       res.json({ ok: true, status: 200 })
     })
