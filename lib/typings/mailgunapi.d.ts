@@ -1,5 +1,5 @@
 interface MailingListData {
-  name: string
+  description: string
   members_count: number
 }
 

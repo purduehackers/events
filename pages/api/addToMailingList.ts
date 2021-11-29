@@ -6,7 +6,7 @@ import { AirtablePlusPlus } from 'airtable-plusplus'
 const airtable = new AirtablePlusPlus({
   apiKey: `${process.env.AIRTABLE_API_KEY}`,
   baseId: 'appfaalz9AzKDwSup',
-  tableName: 'Events',
+  tableName: 'Events'
 })
 
 export default (req: NextApiRequest, res: NextApiResponse) =>
@@ -17,7 +17,7 @@ export default (req: NextApiRequest, res: NextApiResponse) =>
     const mailgun = Mailgun
     const mg = mailgun({
       apiKey: `${process.env.MAILGUN_API_KEY}`,
-      domain: 'purduehackers.com',
+      domain: 'purduehackers.com'
     })
 
     verifyUUID(email as string, uuid as string).then((valid) => {
@@ -28,47 +28,46 @@ export default (req: NextApiRequest, res: NextApiResponse) =>
       } else {
         mg.get('/lists/pages')
           .then((pages: Pages) => pages.items)
-          .then((items) =>
-            items.find((item: MailingListData) => item.name === list),
+          .then((items: MailingListData[]) =>
+            items.filter((item: MailingListData) => item.description === list)
           )
-          .then(async (item) => {
-            if (item === undefined) {
+          .then(async (items) => {
+            if (items.length === 0) {
               await mg
                 .post('/lists', {
                   address: `${list}@purduehackers.com`,
-                  description: list,
+                  description: list
                 })
                 .catch((err) => {})
             }
-          })
-          .then(() => {
+            const item: MailingListData = items[0]
+
             mg.lists(`${list}@purduehackers.com`)
               .members()
-              .add({
-                members: [
-                  {
-                    address: email as string,
-                    name: email as string,
-                    subscribed: true,
-                  },
-                ],
+              .create({
+                address: email as string,
+                name: email as string,
+                subscribed: true
               })
               .then((response) => {
-                const { members_count } = response.list
+                console.log(response)
+                console.log('Updating values in Airtable')
                 airtable
                   .updateWhere(`{Event Name} = '${eventName}'`, {
-                    'RSVP Count': members_count,
+                    'RSVP Count': item.members_count + 1
                   })
                   .then(() => {
+                    console.log('Done!')
                     resolve(
-                      res.redirect(`/email-confirm?eventName=${eventName}`),
+                      res.redirect(`/email-confirm?eventName=${eventName}`)
                     )
                   })
-                  .catch((error) => {
-                    if (error.toString().includes('Address already exists')) {
-                      resolve(res.redirect(`/email-exists`))
-                    }
-                  })
+              })
+              .catch((error) => {
+                if (error.toString().includes('Address already exists')) {
+                  console.log('Address already exists!')
+                  resolve(res.redirect(`/email-exists`))
+                }
               })
           })
       }
