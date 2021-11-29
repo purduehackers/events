@@ -54,7 +54,8 @@ export default (req: NextApiRequest, res: NextApiResponse) =>
                 console.log('Updating values in Airtable')
                 airtable
                   .updateWhere(`{Event Name} = '${eventName}'`, {
-                    'RSVP Count': item.members_count + 1
+                    'RSVP Count':
+                      item !== undefined ? item?.members_count + 1 : 1
                   })
                   .then(() => {
                     console.log('Done!')
