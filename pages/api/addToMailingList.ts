@@ -1,6 +1,13 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import Mailgun from 'mailgun-js'
 import { verifyUUID } from '../../lib/uuid'
+import { AirtablePlusPlus } from 'airtable-plusplus'
+
+const airtable = new AirtablePlusPlus({
+  apiKey: `${process.env.AIRTABLE_API_KEY}`,
+  baseId: 'appfaalz9AzKDwSup',
+  tableName: 'Events',
+})
 
 export default (req: NextApiRequest, res: NextApiResponse) =>
   new Promise((resolve) => {
@@ -20,8 +27,10 @@ export default (req: NextApiRequest, res: NextApiResponse) =>
         return
       } else {
         mg.get('/lists/pages')
-          .then((pages) => pages.items)
-          .then((items) => items.find((item: any) => item.name === list))
+          .then((pages: Pages) => pages.items)
+          .then((items) =>
+            items.find((item: MailingListData) => item.name === list),
+          )
           .then(async (item) => {
             if (item === undefined) {
               await mg
@@ -35,18 +44,31 @@ export default (req: NextApiRequest, res: NextApiResponse) =>
           .then(() => {
             mg.lists(`${list}@purduehackers.com`)
               .members()
-              .create({
-                subscribed: true,
-                address: email as string,
-                name: email as string,
+              .add({
+                members: [
+                  {
+                    address: email as string,
+                    name: email as string,
+                    subscribed: true,
+                  },
+                ],
               })
-              .then(async () => {
-                resolve(res.redirect(`/email-confirm?eventName=${eventName}`))
-              })
-              .catch(async (error) => {
-                if (error.toString().includes('Address already exists')) {
-                  resolve(res.redirect(`/email-exists`))
-                }
+              .then((response) => {
+                const { members_count } = response.list
+                airtable
+                  .updateWhere(`{Event Name} = '${eventName}'`, {
+                    'RSVP Count': members_count,
+                  })
+                  .then(() => {
+                    resolve(
+                      res.redirect(`/email-confirm?eventName=${eventName}`),
+                    )
+                  })
+                  .catch((error) => {
+                    if (error.toString().includes('Address already exists')) {
+                      resolve(res.redirect(`/email-exists`))
+                    }
+                  })
               })
           })
       }
