@@ -17,7 +17,7 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
     (event: PHEvent) => !past(event.end) && !event.unlisted,
   )
   const pastEvents = orderBy(
-    events.filter((event: PHEvent) => past(event.end)),
+    events.filter((event: PHEvent) => past(event.end) && !event.unlisted),
     'end',
     'desc',
   )
