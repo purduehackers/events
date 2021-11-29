@@ -10,4 +10,5 @@ interface PHEvent {
   slug: string
   emailSent: boolean
   unlisted: boolean
+  rsvpCount: number
 }

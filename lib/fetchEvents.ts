@@ -40,7 +40,7 @@ export const fetchEvents = async (): Promise<PHEvent[]> => {
     calLink: fields['Calendar Link'] ?? false,
     emailSent: fields['Reminder Email Sent'] ?? false,
     unlisted: fields['Unlisted'] ?? false,
-    rsvpCount: fields['RSVP Count'],
+    rsvpCount: fields['RSVP Count'] ?? 0,
     slug: fields['Custom Slug'] ?? slugger.slug(fields['Event Name']),
   }))
 
