@@ -14,12 +14,12 @@ import FooterLinks from '../components/footer-links'
 const Index = ({ events }: { events: Array<PHEvent> }) => {
   const { resolvedTheme } = useTheme()
   const upcomingEvents = events.filter(
-    (event: PHEvent) => !past(event.end) && !event.unlisted,
+    (event: PHEvent) => !past(event.end) && !event.unlisted
   )
   const pastEvents = orderBy(
     events.filter((event: PHEvent) => past(event.end) && !event.unlisted),
     'end',
-    'desc',
+    'desc'
   )
 
   return (
@@ -69,7 +69,7 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
         </div>
       </div>
       {Object.keys(upcomingEvents).length === 0 && (
-        <div className="container mx-auto px-4 md:px-16 lg:px-72 xl:px-96">
+        <div className="container mx-auto -mt-10 px-4 md:px-16 lg:px-72 xl:px-96">
           <div className="rounded-lg shadow-lg bg-gray-200 dark:bg-gray-700 p-4 flex flex-col justify-center gap-y-3">
             <h1 className="text-2xl sm:text-3xl font-bold text-center">
               More events coming soon...
@@ -126,7 +126,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
   return {
     props: { events },
-    revalidate: 10,
+    revalidate: 10
   }
 }
 
