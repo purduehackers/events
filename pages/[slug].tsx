@@ -53,7 +53,7 @@ const Slug = ({ event }: { event: PHEvent }) => {
                     past(event.end)
                       ? '{MM} {Do}, {YYYY}'
                       : '{dddd}, {MM} {Do} •'
-                  }`,
+                  }`
                 ).render(new Date(event.start))}{' '}
             {event.start === 'TBD'
               ? ''
@@ -132,7 +132,7 @@ const Slug = ({ event }: { event: PHEvent }) => {
             RSVP for this event
           </h1>
           <p className="mt-2">
-            Unfortunately, this event already happened...but check out{' '}
+            This event already happened...but check out{' '}
             <StyledLink destination="/">
               the events we're going to run in the future
             </StyledLink>
@@ -153,7 +153,7 @@ const Slug = ({ event }: { event: PHEvent }) => {
 export const getStaticPaths: GetStaticPaths = async () => {
   const events = await fetchEvents()
   const paths = events.map((event) => ({
-    params: { slug: event.slug },
+    params: { slug: event.slug }
   }))
 
   return { paths, fallback: 'blocking' }
@@ -168,7 +168,7 @@ type Params = {
 export const getStaticProps = async ({ params }: Params) => {
   const { slug } = params
   const event = await fetchEvents().then((events: Array<PHEvent>) =>
-    events.find((event: PHEvent) => event.slug === slug),
+    events.find((event: PHEvent) => event.slug === slug)
   )
 
   // @ts-ignore
