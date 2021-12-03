@@ -12,9 +12,9 @@ const ThemeButton = () => {
   return (
     <div className="p-4 mr-4 w-full xl:mr-32 flex flex-row justify-end bg-gray-100 dark:bg-gray-800">
       {resolvedTheme === 'light' && (
-        <Moon color="black" onClick={() => setTheme('dark')} />
+        <Sun color="black" onClick={() => setTheme('dark')} />
       )}
-      {resolvedTheme === 'dark' && <Sun onClick={() => setTheme('light')} />}
+      {resolvedTheme === 'dark' && <Moon onClick={() => setTheme('light')} />}
     </div>
   )
 }
