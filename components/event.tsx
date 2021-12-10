@@ -7,7 +7,7 @@ const Event = ({
   name,
   slug,
   start,
-  end,
+  end
 }: {
   name: string
   slug: string
@@ -20,7 +20,7 @@ const Event = ({
         className={`col-span-1 shadow-lg flex flex-col rounded-lg justify-center p-5 sm:min-h-full ${
           past(end)
             ? 'bg-gray-200 dark:bg-gray-700'
-            : 'bg-yellow-400 dark:bg-yellow-500 hover:scale-105 transform transition'
+            : 'bg-amber-400 dark:bg-amber-500 hover:scale-105 transform transition'
         }`}
       >
         <p className={past(end) ? '' : 'text-black dark:text-black transition'}>

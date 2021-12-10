@@ -8,7 +8,7 @@ const BackButton = ({ bg = 'bg-gray-100 dark:bg-gray-800' }) => (
       <Link href="/" passHref>
         <a
           href="#"
-          className="flex flex-row justify-left text-yellow-500 hover:text-yellow-400 transition ml-4 mr:0 xl:ml-32 w-max"
+          className="flex flex-row justify-left text-amber-500 hover:text-amber-400 transition ml-4 mr:0 xl:ml-32 w-max"
         >
           <ArrowLeft />
           All Events

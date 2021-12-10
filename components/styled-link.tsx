@@ -9,7 +9,7 @@ type StyledLinkProps = {
 
 const StyledLink = ({
   destination,
-  color = 'text-yellow-500 hover:text-yellow-400',
+  color = 'text-amber-500 hover:text-amber-400',
   newTab = false,
   ...props
 }: StyledLinkProps) => (

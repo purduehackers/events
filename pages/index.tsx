@@ -35,7 +35,7 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
 
       <div className="flex flex-col items-center justify-top mt-0 w-full flex-1 px-5 pb-8 sm:pb-16 text-center sm:px-20 bg-gray-100 dark:bg-gray-800">
         <div className="mt-8 sm:mt-16">
-          <h1 className="text-4xl sm:text-7xl lg:text-8-xl font-bold text-yellow-450 dark:text-yellow-500">
+          <h1 className="text-4xl sm:text-7xl lg:text-8-xl font-bold text-amber-450 dark:text-amber-500">
             Purdue Hackers Events
           </h1>
           <p className="mt-3 text-lg sm:text-2xl">

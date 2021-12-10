@@ -34,7 +34,7 @@ const EmailConfirm = () => {
                 color={
                   resolvedTheme === 'light'
                     ? `text-blue-600 hover:text-blue-500`
-                    : `text-yellow-500 hover:text-yellow-400`
+                    : `text-amber-500 hover:text-amber-400`
                 }
               >
                 mstanciu@purdue.edu
