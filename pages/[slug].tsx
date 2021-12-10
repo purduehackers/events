@@ -94,7 +94,7 @@ const Slug = ({ event }: { event: PHEvent }) => {
             }`}
           >
             <a href={event.calLink} target="_blank">
-              <div className="flex flex-row gap-x-1 rounded-lg shadow-md bg-amber-400 dark:bg-amber-500 p-2 text-center hover:scale-105 transform transition">
+              <div className="flex flex-row gap-x-1 rounded-lg shadow-md dark:shadow-black bg-amber-400 dark:bg-amber-500 p-2 text-center hover:scale-105 transform transition">
                 <Calendar color="black" />
                 <h1 className="font-bold text-black dark:text-black transition">
                   Add to Google Calendar
@@ -112,7 +112,7 @@ const Slug = ({ event }: { event: PHEvent }) => {
           : ''
       }`}
       >
-        <div className="rounded-lg shadow-md bg-gray-200 dark:bg-gray-700 p-4 flex flex-col justify-top gap-y-1">
+        <div className="rounded-lg shadow-md dark:shadow-black/50 bg-gray-200 dark:bg-gray-700 p-4 flex flex-col justify-top gap-y-1">
           <h1 className="font-bold text-2xl dark:text-white dark:font-extrabold">
             RSVP for this event
           </h1>
@@ -127,7 +127,7 @@ const Slug = ({ event }: { event: PHEvent }) => {
         className={`container mx-auto px-4 mb-8 md:px-16 lg:px-72 xl:px-96
       ${past(event.end) ? '' : 'hidden'}`}
       >
-        <div className="rounded-lg shadow-md bg-gray-200 dark:bg-gray-700 p-4 flex flex-col justify-top">
+        <div className="rounded-lg shadow-md dark:shadow-black/50 bg-gray-200 dark:bg-gray-700 p-4 flex flex-col justify-top">
           <h1 className="font-bold text-xl sm:text-2xl line-through">
             RSVP for this event
           </h1>
