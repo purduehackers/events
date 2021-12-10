@@ -4,28 +4,26 @@ module.exports = {
   darkMode: 'class', // or 'media' or 'class'
   theme: {
     fontFamily: {
-      'title': '"IBM Plex Sans", system-ui, Roboto, sans-serif',
-      'sans': '"Inter", sans-serif'
+      title: '"IBM Plex Sans", system-ui, Roboto, sans-serif',
+      sans: '"Inter", sans-serif'
     },
     extend: {
       colors: {
         blue: {
-          'discord': '#807cfc',
+          discord: '#807cfc',
           'discord-light': '#9b98fa'
         },
-        yellow: {
+        amber: {
           450: '#F8AF18'
         }
       },
       screens: {
-        'xs': '375px'
+        xs: '375px'
       }
     }
   },
   variants: {
-    extend: {},
+    extend: {}
   },
-  plugins: [
-    require('@tailwindcss/forms')
-  ],
+  plugins: [require('@tailwindcss/forms')]
 }

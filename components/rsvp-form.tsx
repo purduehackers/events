@@ -13,8 +13,8 @@ const RSVPForm = ({ eventName, slug }: { eventName: string; slug: string }) => {
       body: JSON.stringify({ email, eventName, slug }),
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
+        'Content-Type': 'application/json'
+      }
     })
     if (submission.ok) {
       submission = await submission.json()
@@ -50,7 +50,7 @@ const RSVPForm = ({ eventName, slug }: { eventName: string; slug: string }) => {
         ></input>
         <button
           type="submit"
-          className="bg-yellow-400 dark:bg-yellow-500 rounded-md shadow-md py-2 xs:px-2 font-bold hover:scale-105 transform transition
+          className="bg-amber-400 dark:bg-amber-500 rounded-md shadow-md py-2 xs:px-2 font-bold hover:scale-105 transform transition
         disabled:opacity-50 disabled:hover:scale-100 dark:text-black"
           disabled={email.length === 0}
         >

@@ -1,5 +1,5 @@
-@import url("https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,700;800;900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 
@@ -10,5 +10,5 @@
 }
 
 .desc {
-  @apply text-yellow-500 hover:text-yellow-400 transition;
+  @apply text-amber-500 hover:text-amber-400 transition;
 }

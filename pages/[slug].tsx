@@ -41,7 +41,7 @@ const Slug = ({ event }: { event: PHEvent }) => {
 
       <div className="flex flex-col items-center justify-top mt-0 w-full flex-1 px-5 pb-8 sm:pb-16 text-center sm:px-20 bg-gray-100 dark:bg-gray-800">
         <div className="mt-8 sm:mt-16">
-          <h1 className="text-4xl sm:text-7xl lg:text-8-xl font-bold text-yellow-450 dark:text-yellow-500">
+          <h1 className="text-4xl sm:text-7xl lg:text-8-xl font-bold text-amber-450 dark:text-amber-500">
             {event.name}
           </h1>
           <p className="mt-3 text-1xl sm:text-2xl flex flex-row gap-x-1 font-bold items-center justify-center dark:text-gray-200">
@@ -79,7 +79,7 @@ const Slug = ({ event }: { event: PHEvent }) => {
         </div>
       </div>
       <div className="container mx-auto p-8 px-4 md:px-16 lg:px-72 xl:px-96">
-        <div className="border-2 border-dashed rounded-lg p-4 border-yellow-400 dark:border-yellow-500">
+        <div className="border-2 border-dashed rounded-lg p-4 border-amber-400 dark:border-amber-500">
           <div
             dangerouslySetInnerHTML={{ __html: event.desc }}
             className="text-l"
@@ -94,7 +94,7 @@ const Slug = ({ event }: { event: PHEvent }) => {
             }`}
           >
             <a href={event.calLink} target="_blank">
-              <div className="flex flex-row gap-x-1 rounded-lg shadow-md bg-yellow-400 dark:bg-yellow-500 p-2 text-center hover:scale-105 transform transition">
+              <div className="flex flex-row gap-x-1 rounded-lg shadow-md bg-amber-400 dark:bg-amber-500 p-2 text-center hover:scale-105 transform transition">
                 <Calendar color="black" />
                 <h1 className="font-bold text-black dark:text-black transition">
                   Add to Google Calendar
