@@ -70,7 +70,7 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
       </div>
       {Object.keys(upcomingEvents).length === 0 && (
         <div className="container mx-auto -mt-10 px-4 md:px-16 lg:px-72 xl:px-96">
-          <div className="rounded-lg shadow-lg bg-gray-200 dark:bg-gray-700 p-4 flex flex-col justify-center gap-y-3">
+          <div className="rounded-lg shadow-lg dark:shadow-black/50 bg-gray-200 dark:bg-gray-700 p-4 flex flex-col justify-center gap-y-3">
             <h1 className="text-2xl sm:text-3xl font-bold text-center">
               More events coming soon...
             </h1>
