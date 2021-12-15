@@ -14,7 +14,7 @@ const EmailConfirm = () => {
       </div>
       <div className="flex items-center justify-center h-screen -my-12 sm:-my-14">
         <div className="container mx-auto px-4 md:px-16 lg:px-72 xl:px-96">
-          <div className="rounded-lg shadow-md dark:shadow-black/50 bg-red-200 dark:bg-red-900 p-4 flex flex-col justify-center gap-y-3">
+          <div className="rounded-lg shadow-md dark:shadow-black/25 bg-red-200 dark:bg-red-900 p-4 flex flex-col justify-center gap-y-3">
             <h1 className="text-2xl sm:text-3xl font-bold text-center">
               Couldn't add you to the list :(
             </h1>
