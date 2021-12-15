@@ -17,7 +17,7 @@ const Event = ({
   <Link href="/[slug]" as={`/${slug}`} passHref>
     <a href="#">
       <div
-        className={`col-span-1 shadow-lg dark:shadow-black/50 flex flex-col rounded-lg justify-center p-5 sm:min-h-full ${
+        className={`col-span-1 shadow-lg dark:shadow-black/25 flex flex-col rounded-lg justify-center p-5 sm:min-h-full ${
           past(end)
             ? 'bg-gray-200 dark:bg-gray-700'
             : 'bg-amber-400 dark:bg-amber-500 hover:scale-105 transform transition'

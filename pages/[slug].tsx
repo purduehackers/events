@@ -112,7 +112,7 @@ const Slug = ({ event }: { event: PHEvent }) => {
           : ''
       }`}
       >
-        <div className="rounded-lg shadow-md dark:shadow-black/50 bg-gray-200 dark:bg-gray-700 p-4 flex flex-col justify-top gap-y-1">
+        <div className="rounded-lg shadow-md dark:shadow-black/25 bg-gray-200 dark:bg-gray-700 p-4 flex flex-col justify-top gap-y-1">
           <h1 className="font-bold text-2xl dark:text-white dark:font-extrabold">
             RSVP for this event
           </h1>
@@ -127,7 +127,7 @@ const Slug = ({ event }: { event: PHEvent }) => {
         className={`container mx-auto px-4 mb-8 md:px-16 lg:px-72 xl:px-96
       ${past(event.end) ? '' : 'hidden'}`}
       >
-        <div className="rounded-lg shadow-md dark:shadow-black/50 bg-gray-200 dark:bg-gray-700 p-4 flex flex-col justify-top">
+        <div className="rounded-lg shadow-md dark:shadow-black/25 bg-gray-200 dark:bg-gray-700 p-4 flex flex-col justify-top">
           <h1 className="font-bold text-xl sm:text-2xl line-through">
             RSVP for this event
           </h1>
