@@ -65,7 +65,7 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
             </h2>
             <p>
               There aren't currently any events that we're ready to announce.
-              We're working hard though—check back soon though!
+              We're working hard though—check back soon!
             </p>
             <p>
               Want to be the first to hear about new events?{' '}
