@@ -1,21 +1,23 @@
 import { useTheme } from 'next-themes'
-import BackButton from '../components/back-button'
+import { AlertTriangle } from 'react-feather'
+import Nav from '../components/nav'
 import StyledLink from '../components/styled-link'
-import ThemeButton from '../components/theme-button'
+import Head from 'next/head'
 
-const EmailConfirm = () => {
+const EmailVerificationFailed = () => {
   const { resolvedTheme } = useTheme()
 
   return (
-    <main>
-      <div className="flex flex-row bg-gray-100 dark:bg-gray-800">
-        <BackButton />
-        {resolvedTheme && <ThemeButton />}
-      </div>
-      <div className="flex items-center justify-center h-screen -my-12 sm:-my-14">
+    <main className="flex flex-col min-h-screen dark:bg-gray-900">
+      <Head>
+        <title>Email Verification Failed — Purdue Hackers</title>
+      </Head>
+      <Nav />
+      <div className="flex items-center justify-center grow py-6">
         <div className="container mx-auto px-4 md:px-16 lg:px-72 xl:px-96">
-          <div className="rounded-lg shadow-md dark:shadow-black/25 bg-red-200 dark:bg-red-900 p-4 flex flex-col justify-center gap-y-3">
-            <h1 className="text-2xl sm:text-3xl font-bold text-center">
+          <div className="rounded-lg shadow-md dark:shadow-black/25 bg-gray-200 dark:bg-gray-700 p-4 flex flex-col justify-center gap-y-4">
+            <h1 className="text-2xl sm:text-3xl font-bold text-center flex flex-wrap items-center gap-3 mb-1">
+              <AlertTriangle color="red" size="1.125em" />
               Couldn't add you to the list :(
             </h1>
             <p>
@@ -48,4 +50,4 @@ const EmailConfirm = () => {
   )
 }
 
-export default EmailConfirm
+export default EmailVerificationFailed
