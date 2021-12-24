@@ -5,7 +5,7 @@ import { GithubSlugger } from 'github-slugger-typescript'
 const airtable = new AirtablePlusPlus({
   apiKey: `${process.env.AIRTABLE_API_KEY}`,
   baseId: 'appfaalz9AzKDwSup',
-  tableName: 'Events',
+  tableName: 'Events'
 })
 
 interface AirtableFields {
@@ -36,12 +36,12 @@ export const fetchEvents = async (): Promise<PHEvent[]> => {
     start: fields['Event Date & Start Time'] ?? 'TBD',
     end: fields['Event Date & End Time'] ?? 'TBD',
     loc: fields['Event Location'] ?? 'TBD',
-    gMap: fields['Location Map Link (optional)'] ?? false,
-    calLink: fields['Calendar Link'] ?? false,
-    emailSent: fields['Reminder Email Sent'] ?? false,
-    unlisted: fields['Unlisted'] ?? false,
+    gMap: fields['Location Map Link (optional)'] ?? undefined,
+    calLink: fields['Calendar Link'] ?? undefined,
+    emailSent: fields['Reminder Email Sent'] ?? undefined,
+    unlisted: fields['Unlisted'] ?? undefined,
     rsvpCount: fields['RSVP Count'] ?? 0,
-    slug: fields['Custom Slug'] ?? slugger.slug(fields['Event Name']),
+    slug: fields['Custom Slug'] ?? slugger.slug(fields['Event Name'])
   }))
 
   return orderBy(events, 'start')
