@@ -3,23 +3,20 @@ import { GetStaticPaths } from 'next'
 import { Clock, MapPin, Calendar } from 'react-feather'
 import { marked } from 'marked'
 import tt from 'tinytime'
-import BackButton from '../components/back-button'
 import RSVPForm from '../components/rsvp-form'
 import StyledLink from '../components/styled-link'
 import Footer from '../components/footer'
-import ThemeButton from '../components/theme-button'
 import { fetchEvents } from '../lib/fetchEvents'
 import { past } from '../lib/past'
 import ponderings from '../lib/footerPonderings'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { useTheme } from 'next-themes'
 import FooterLinks from '../components/footer-links'
+import Nav from '../components/nav'
 
 const Slug = ({ event }: { event: PHEvent }) => {
   const router = useRouter()
   const [pondering, setPondering] = useState('')
-  const { resolvedTheme } = useTheme()
 
   useEffect(() => {
     if (router.isReady) {
@@ -31,13 +28,9 @@ const Slug = ({ event }: { event: PHEvent }) => {
     <div className="min-h-screen pb-40 overflow-hidden block relative font-title dark:bg-gray-900">
       <Head>
         <title>{event.name} — Purdue Hackers</title>
-        <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="flex flex-row bg-gray-100 dark:bg-gray-800">
-        <BackButton />
-        {resolvedTheme && <ThemeButton />}
-      </div>
+      <Nav />
 
       <div className="flex flex-col items-center justify-top mt-0 w-full flex-1 px-5 pb-8 sm:pb-16 text-center sm:px-20 bg-gray-100 dark:bg-gray-800">
         <div className="mt-8 sm:mt-16">
@@ -83,7 +76,7 @@ const Slug = ({ event }: { event: PHEvent }) => {
           <div
             dangerouslySetInnerHTML={{ __html: event.desc }}
             className="text-l"
-          ></div>
+          />
           <div
             className={`pt-5 w-max ${
               event.calLink === undefined ||
@@ -93,13 +86,13 @@ const Slug = ({ event }: { event: PHEvent }) => {
                 : ''
             }`}
           >
-            <a href={event.calLink} target="_blank">
-              <div className="flex flex-row gap-x-1 rounded-lg shadow-md dark:shadow-black bg-amber-400 dark:bg-amber-500 p-2 text-center hover:scale-105 transform transition">
-                <Calendar color="black" />
-                <h1 className="font-bold text-black dark:text-black transition">
-                  Add to Google Calendar
-                </h1>
-              </div>
+            <a
+              href={event.calLink}
+              target="_blank"
+              className="flex flex-row gap-x-1 rounded-lg shadow-md dark:shadow-black bg-amber-400 dark:bg-amber-500 p-2 text-center hover:scale-105 transform transition font-bold text-black dark:text-black"
+            >
+              <Calendar color="black" />
+              Add to Google Calendar
             </a>
           </div>
         </div>
@@ -113,9 +106,9 @@ const Slug = ({ event }: { event: PHEvent }) => {
       }`}
       >
         <div className="rounded-lg shadow-md dark:shadow-black/25 bg-gray-200 dark:bg-gray-700 p-4 flex flex-col justify-top gap-y-1">
-          <h1 className="font-bold text-2xl dark:text-white dark:font-extrabold">
+          <h2 className="font-bold text-2xl dark:text-white dark:font-extrabold">
             RSVP for this event
-          </h1>
+          </h2>
           <p>
             Enter your email and we'll send you reminder about the event the day
             before it happens. We won't use your email for anything else.
@@ -128,9 +121,9 @@ const Slug = ({ event }: { event: PHEvent }) => {
       ${past(event.end) ? '' : 'hidden'}`}
       >
         <div className="rounded-lg shadow-md dark:shadow-black/25 bg-gray-200 dark:bg-gray-700 p-4 flex flex-col justify-top">
-          <h1 className="font-bold text-xl sm:text-2xl line-through">
+          <h2 className="font-bold text-xl sm:text-2xl line-through">
             RSVP for this event
-          </h1>
+          </h2>
           <p className="mt-2">
             This event already happened...but check out{' '}
             <StyledLink destination="/">
@@ -140,12 +133,14 @@ const Slug = ({ event }: { event: PHEvent }) => {
           </p>
         </div>
       </div>
-      <div className={pondering.includes('stargazing') ? 'whitespace-pre' : ''}>
+      <footer
+        className={pondering.includes('stargazing') ? 'whitespace-pre' : ''}
+      >
         <Footer>
           <p>{pondering}</p>
           <FooterLinks />
         </Footer>
-      </div>
+      </footer>
     </div>
   )
 }

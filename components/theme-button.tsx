@@ -4,18 +4,19 @@ import { useTheme } from 'next-themes'
 
 const ThemeButton = () => {
   const [mounted, setMounted] = useState(false)
-  const { theme, setTheme, resolvedTheme } = useTheme()
+  const { setTheme, resolvedTheme } = useTheme()
 
   useEffect(() => setMounted(true), [])
   if (!mounted) return null
 
   return (
-    <div className="p-4 mr-4 w-full xl:mr-32 flex flex-row justify-end bg-gray-100 dark:bg-gray-800">
-      {resolvedTheme === 'light' && (
-        <Sun color="black" onClick={() => setTheme('dark')} />
-      )}
-      {resolvedTheme === 'dark' && <Moon onClick={() => setTheme('light')} />}
-    </div>
+    <button
+      className="p-4 cursor-default"
+      aria-hidden
+      onClick={() => setTheme(resolvedTheme === 'light' ? 'dark' : 'light')}
+    >
+      {resolvedTheme === 'light' ? <Sun color="black" /> : <Moon />}
+    </button>
   )
 }
 
