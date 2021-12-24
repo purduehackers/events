@@ -34,12 +34,11 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
             Purdue Hackers Events
           </h1>
           <p className="mt-3 text-lg sm:text-2xl">
-            Check out & sign up for{' '}
+            Check out & sign up for upcoming events from{' '}
             <StyledLink destination="https://purduehackers.com" newTab>
               Purdue Hackers
             </StyledLink>
-            {"' "}
-            upcoming events.
+            .
           </p>
         </div>
       </div>
