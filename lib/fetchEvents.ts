@@ -36,10 +36,10 @@ export const fetchEvents = async (): Promise<PHEvent[]> => {
     start: fields['Event Date & Start Time'] ?? 'TBD',
     end: fields['Event Date & End Time'] ?? 'TBD',
     loc: fields['Event Location'] ?? 'TBD',
-    gMap: fields['Location Map Link (optional)'] ?? undefined,
-    calLink: fields['Calendar Link'] ?? undefined,
-    emailSent: fields['Reminder Email Sent'] ?? undefined,
-    unlisted: fields['Unlisted'] ?? undefined,
+    gMap: fields['Location Map Link (optional)'] ?? false,
+    calLink: fields['Calendar Link'] ?? false,
+    emailSent: fields['Reminder Email Sent'] ?? false,
+    unlisted: fields['Unlisted'] ?? false,
     rsvpCount: fields['RSVP Count'] ?? 0,
     slug: fields['Custom Slug'] ?? slugger.slug(fields['Event Name'])
   }))
