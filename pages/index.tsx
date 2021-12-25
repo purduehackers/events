@@ -75,7 +75,7 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
                   color="text-blue-discord hover:text-blue-discord-light"
                   newTab
                 >
-                  Hop in our Discord!
+                  Join our Discord!
                 </StyledLink>
               </span>
             </p>
