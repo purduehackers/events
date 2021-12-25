@@ -32,7 +32,7 @@ const Slug = ({ event }: { event: PHEvent }) => {
 
       <Nav />
 
-      <div className="flex flex-col flex-none items-center justify-top mt-0 w-full flex-1 px-5 pb-8 sm:pb-16 text-center sm:px-20 bg-gray-100 dark:bg-gray-800">
+      <div className="flex flex-col flex-initial items-center justify-top mt-0 w-full flex-1 px-5 pb-8 sm:pb-16 text-center sm:px-20 bg-gray-100 dark:bg-gray-800">
         <div className="mt-8 sm:mt-16">
           <h1 className="text-4xl sm:text-7xl lg:text-8-xl font-bold text-amber-450 dark:text-amber-500">
             {event.name}
