@@ -1,4 +1,5 @@
-import { GitHub, Home, Instagram } from 'react-feather'
+import { Home, GitHub } from 'react-feather'
+import { Instagram, Discord } from '@icons-pack/react-simple-icons'
 import StyledLink from './styled-link'
 
 const FooterLinks = () => (
@@ -14,6 +15,9 @@ const FooterLinks = () => (
     </StyledLink>
     <StyledLink destination="https://instagram.com/purduehackers" newTab>
       <Instagram />
+    </StyledLink>
+    <StyledLink destination="https://bit.ly/PurdueHackersDiscord" newTab>
+      <Discord />
     </StyledLink>
   </div>
 )
