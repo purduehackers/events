@@ -25,7 +25,7 @@ const Slug = ({ event }: { event: PHEvent }) => {
   })
 
   return (
-    <div className="min-h-screen pb-40 overflow-hidden block relative font-title dark:bg-gray-900">
+    <div className="min-h-screen overflow-hidden block relative font-title dark:bg-gray-900">
       <Head>
         <title>{event.name} — Purdue Hackers</title>
       </Head>

@@ -2,7 +2,6 @@ import Head from 'next/head'
 import Event from '../components/event'
 import Footer from '../components/footer'
 import StyledLink from '../components/styled-link'
-import ThemeButton from '../components/theme-button'
 import { GetStaticProps } from 'next'
 import { orderBy } from 'lodash'
 import { fetchEvents } from '../lib/fetchEvents'
@@ -21,7 +20,7 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
   )
 
   return (
-    <div className="min-h-screen pb-36 overflow-hidden block relative font-title dark:bg-gray-900">
+    <div className="min-h-screen overflow-hidden block relative font-title dark:bg-gray-900">
       <Head>
         <title>Events — Purdue Hackers</title>
       </Head>
@@ -42,22 +41,24 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
           </p>
         </div>
       </div>
-      <div className="flex flex-col p-8 sm:pt-14 px-5 sm:px-20 text-left gap-y-4 lg:max-w-screen-2xl mx-auto">
-        <h1
-          className={`text-3xl sm:text-4xl font-bold ml-1 ${
-            Object.keys(upcomingEvents).length === 0 ? 'hidden' : ''
-          }`}
-        >
-          Upcoming events
-        </h1>
-        <div className="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-4 gap-3 sm:auto-cols-fr text-center">
-          {Object.keys(upcomingEvents).map((key: string, i: number) => (
-            <Event key={key} {...upcomingEvents[i]} />
-          ))}
+      {Object.keys(upcomingEvents).length !== 0 && (
+        <div className="flex flex-col py-8 sm:pt-14 px-5 sm:px-20 text-left gap-y-4 lg:max-w-screen-2xl mx-auto">
+          <h1
+            className={`text-3xl sm:text-4xl font-bold ml-1 ${
+              Object.keys(upcomingEvents).length === 0 ? 'hidden' : ''
+            }`}
+          >
+            Upcoming events
+          </h1>
+          <div className="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-4 gap-3 sm:auto-cols-fr text-center">
+            {Object.keys(upcomingEvents).map((key: string, i: number) => (
+              <Event key={key} {...upcomingEvents[i]} />
+            ))}
+          </div>
         </div>
-      </div>
+      )}
       {Object.keys(upcomingEvents).length === 0 && (
-        <div className="container mx-auto -mt-10 px-4 md:px-16 lg:px-72 xl:px-96">
+        <div className="container py-8 sm:pt-14 sm:pb-0 mx-auto px-4 md:px-16 lg:px-72 xl:px-96">
           <div className="rounded-lg shadow-lg dark:shadow-black/25 bg-gray-200 dark:bg-gray-700 p-4 flex flex-col justify-center gap-y-3">
             <h2 className="text-2xl sm:text-3xl font-bold text-center">
               More events coming soon…
@@ -81,7 +82,7 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
           </div>
         </div>
       )}
-      <div className="flex flex-col p-8 sm:pt-14 px-5 sm:px-20 text-left gap-y-4 lg:max-w-screen-2xl mx-auto">
+      <div className="flex flex-col mb-14 sm:pt-14 px-5 sm:px-20 text-left gap-y-4 lg:max-w-screen-2xl mx-auto">
         <h2 className="text-3xl sm:text-4xl font-bold ml-1">Past events</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-4 gap-3 sm:auto-cols-fr text-center">
           {Object.keys(pastEvents).map((key: string, i: number) => (
