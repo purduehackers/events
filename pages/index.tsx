@@ -22,6 +22,15 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
   return (
     <div className="min-h-screen overflow-hidden block relative font-title dark:bg-gray-900">
       <Head>
+        <meta property="og:name" content="Events — Purdue Hackers" />
+        <meta
+          property="og:image"
+          content="https://ph-og-image.vercel.app/Events.png?theme=light&md=1&fontSize=300px&caption="
+        />
+        <meta
+          property="og:description"
+          content="Check out & sign up for upcoming events from Purdue Hackers."
+        />
         <title>Events — Purdue Hackers</title>
       </Head>
 

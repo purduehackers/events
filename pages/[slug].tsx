@@ -27,6 +27,24 @@ const Slug = ({ event }: { event: PHEvent }) => {
   return (
     <div className="min-h-screen overflow-hidden flex flex-col font-title dark:bg-gray-900">
       <Head>
+        <meta property="og:name" content={`${event.name} — Purdue Hackers`} />
+        <meta
+          property="og:image"
+          content={`https://ph-og-image.vercel.app/${event.name.replace(
+            ' ',
+            '%20'
+          )}.png?theme=light&md=1&fontSize=${
+            event.name.length < 30 ? '250' : '200'
+          }px&caption=${
+            event.start !== 'TBD'
+              ? tt('{MM} {DD} •').render(new Date(event.start))
+              : ''
+          } ${event.loc}`}
+        />
+        <meta
+          property="og:description"
+          content={`Check out & sign up for ${event.name}, an upcoming event from Purdue Hackers.`}
+        />
         <title>{event.name} — Purdue Hackers</title>
       </Head>
 
