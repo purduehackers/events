@@ -35,9 +35,11 @@ const Slug = ({ event }: { event: PHEvent }) => {
             '%20'
           )}.png?theme=light&md=1&fontSize=${
             event.name.length < 30 ? '250' : '200'
-          }px&caption=${tt('{MM} {DD} • {h}:{mm}{a}').render(
-            new Date(event.start)
-          )} • ${event.loc}`}
+          }px&caption=${
+            event.start !== 'TBD'
+              ? tt('{MM} {DD} • {h}:{mm}{a} •').render(new Date(event.start))
+              : ''
+          } ${event.loc}`}
         />
         <title>{event.name} — Purdue Hackers</title>
       </Head>
