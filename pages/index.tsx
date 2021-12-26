@@ -27,6 +27,10 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
           property="og:image"
           content="https://ph-og-image.vercel.app/Events.png?theme=light&md=1&fontSize=250px&caption="
         />
+        <meta
+          property="og:description"
+          content="Check out & sign up for upcoming events from Purdue Hackers."
+        />
         <title>Events — Purdue Hackers</title>
       </Head>
 
