@@ -3,7 +3,6 @@ import { GetStaticPaths } from 'next'
 import { Clock, MapPin, Calendar } from 'react-feather'
 import { marked } from 'marked'
 import tt from 'tinytime'
-import { DateTime } from 'luxon'
 import RSVPForm from '../components/rsvp-form'
 import StyledLink from '../components/styled-link'
 import Footer from '../components/footer'
@@ -38,14 +37,7 @@ const Slug = ({ event }: { event: PHEvent }) => {
             event.name.length < 30 ? '250' : '200'
           }px&caption=${
             event.start !== 'TBD'
-              ? tt('{MM} {DD} • {h}:{mm}{a} •').render(
-                  // I'm so sorry
-                  new Date(
-                    DateTime.fromISO(event.start)
-                      .setZone('America/New_York')
-                      .toISO()
-                  )
-                )
+              ? tt('{MM} {DD} •').render(new Date(event.start))
               : ''
           } ${event.loc}`}
         />

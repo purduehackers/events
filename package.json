@@ -13,7 +13,6 @@
     "airtable-plusplus": "^0.3.2",
     "github-slugger-typescript": "^1.1.0",
     "lodash": "^4.17.21",
-    "luxon": "^2.2.0",
     "mailgun-js": "^0.22.0",
     "marked": "^4.0.4",
     "next": "latest",
