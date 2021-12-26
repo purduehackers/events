@@ -3,6 +3,7 @@ import { GetStaticPaths } from 'next'
 import { Clock, MapPin, Calendar } from 'react-feather'
 import { marked } from 'marked'
 import tt from 'tinytime'
+import { DateTime } from 'luxon'
 import RSVPForm from '../components/rsvp-form'
 import StyledLink from '../components/styled-link'
 import Footer from '../components/footer'
@@ -37,9 +38,20 @@ const Slug = ({ event }: { event: PHEvent }) => {
             event.name.length < 30 ? '250' : '200'
           }px&caption=${
             event.start !== 'TBD'
-              ? tt('{MM} {DD} • {h}:{mm}{a} •').render(new Date(event.start))
+              ? tt('{MM} {DD} • {h}:{mm}{a} •').render(
+                  // I'm so sorry
+                  new Date(
+                    DateTime.fromISO(event.start)
+                      .setZone('America/New_York')
+                      .toISO()
+                  )
+                )
               : ''
           } ${event.loc}`}
+        />
+        <meta
+          property="og:description"
+          content={`Check out & sign up for ${event.name}, an upcoming event from Purdue Hackers.`}
         />
         <title>{event.name} — Purdue Hackers</title>
       </Head>

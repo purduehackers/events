@@ -25,7 +25,7 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
         <meta property="og:name" content="Events — Purdue Hackers" />
         <meta
           property="og:image"
-          content="https://ph-og-image.vercel.app/Events.png?theme=light&md=1&fontSize=250px&caption="
+          content="https://ph-og-image.vercel.app/Events.png?theme=light&md=1&fontSize=500px&caption="
         />
         <meta
           property="og:description"
