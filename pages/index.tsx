@@ -25,7 +25,7 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
         <meta property="og:name" content="Events — Purdue Hackers" />
         <meta
           property="og:image"
-          content="https://og-image.purduehackers.com/Events.png?theme=light&md=1&fontSize=300px&caption="
+          content="https://og.purduehackers.com/Events.png?theme=light&md=1&fontSize=300px&caption="
         />
         <meta
           property="og:description"

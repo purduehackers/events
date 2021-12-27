@@ -30,7 +30,7 @@ const Slug = ({ event }: { event: PHEvent }) => {
         <meta property="og:name" content={`${event.name} — Purdue Hackers`} />
         <meta
           property="og:image"
-          content={`https://og-image.purduehackers.com/${event.name.replace(
+          content={`https://og.purduehackers.com/${event.name.replace(
             ' ',
             '%20'
           )}.png?theme=light&md=1&fontSize=${
