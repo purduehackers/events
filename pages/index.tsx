@@ -24,6 +24,7 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
       <Head>
         <meta property="og:site_name" content="Purdue Hackers" />
         <meta property="og:name" content="Events — Purdue Hackers" />
+        <meta property="og:title" content="Events — Purdue Hackers" />
         <meta
           property="og:image"
           content="https://og.purduehackers.com/Events.png?theme=light&md=1&fontSize=300px&caption="
@@ -32,6 +33,8 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
           property="og:description"
           content="Check out & sign up for upcoming events from Purdue Hackers."
         />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="og:type" content="website" />
         <title>Events — Purdue Hackers</title>
       </Head>
 
