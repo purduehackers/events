@@ -22,6 +22,7 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
   return (
     <div className="min-h-screen overflow-hidden block relative font-title dark:bg-gray-900">
       <Head>
+        <meta property="og:site_name" content="Purdue Hackers" />
         <meta property="og:name" content="Events — Purdue Hackers" />
         <meta
           property="og:image"
