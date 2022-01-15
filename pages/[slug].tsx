@@ -24,7 +24,7 @@ const Slug = ({ event }: { event: PHEvent }) => {
     }
   })
 
-  const ogUrl = `https://og.purduehackers.com/${event.name.replaceAll(
+  const ogUrl = `https://og.purduehackers.com/${event.name.replace(
     new RegExp(' ', 'g'),
     '%20'
   )}.png?theme=light&md=1&fontSize=${
@@ -33,9 +33,7 @@ const Slug = ({ event }: { event: PHEvent }) => {
     event.start !== 'TBD'
       ? tt('{MM}%20{DD}%20•').render(new Date(event.start))
       : ''
-  }%20${event.loc.replaceAll(new RegExp(' ', 'g'), '%20')}`
-
-  console.log(ogUrl)
+  }%20${event.loc.replace(new RegExp(' ', 'g'), '%20')}`
 
   return (
     <div className="min-h-screen overflow-hidden flex flex-col font-title dark:bg-gray-900">
