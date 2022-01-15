@@ -33,7 +33,7 @@ const Slug = ({ event }: { event: PHEvent }) => {
     event.start !== 'TBD'
       ? tt('{MM}%20{DD}%20•').render(new Date(event.start))
       : ''
-  }%20${event.loc}`
+  }%20${event.loc.replaceAll(new RegExp(' ', 'g'), '%20')}`
 
   console.log(ogUrl)
 
