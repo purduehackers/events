@@ -33,11 +33,17 @@ const EmailConfirm = () => {
               Thanks for signing up to receive a reminder! You'll receive an
               email from us a day before the event starts.
             </p>
-            <div className={eventName ? '' : 'hidden'}>
+            <div
+              className={
+                eventName
+                  ? 'rounded-lg shadow-md dark:shadow-black/25 bg-blue-discord p-2 px-4 text-center hover:scale-105 transform transition'
+                  : 'hidden'
+              }
+            >
               <a
                 href="https://bit.ly/PurdueHackersDiscord"
+                className="font-bold text-white text-center"
                 target="_blank"
-                className="rounded-lg shadow-md dark:shadow-black/25 bg-blue-discord p-2 px-4 text-center hover:scale-105 transform transition font-bold text-white"
               >
                 Join Discord
               </a>
