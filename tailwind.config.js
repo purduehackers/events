@@ -15,7 +15,8 @@ module.exports = {
           'discord-light': '#9b98fa'
         },
         amber: {
-          450: '#F8AF18'
+          450: '#F8AF18',
+          550: '#E78B09'
         }
       },
       screens: {
