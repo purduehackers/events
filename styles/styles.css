@@ -13,3 +13,7 @@
 .desc {
   @apply text-amber-500 hover:text-amber-400 transition;
 }
+
+code {
+  @apply font-mono text-amber-500 bg-slate-200 dark:text-amber-500 dark:bg-slate-700 rounded-sm px-1;
+}
