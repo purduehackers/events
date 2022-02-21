@@ -55,7 +55,7 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
         </div>
       </div>
       {Object.keys(upcomingEvents).length !== 0 && (
-        <div className="flex flex-col py-8 sm:pt-14 px-5 sm:px-20 text-left gap-y-4 lg:max-w-screen-2xl">
+        <div className="container flex flex-col py-8 sm:pt-14 px-5 sm:px-20 text-left gap-y-4 lg:max-w-screen-2xl mx-auto">
           <h1
             className={`text-3xl sm:text-4xl font-bold ml-1 ${
               Object.keys(upcomingEvents).length === 0 ? 'hidden' : ''
@@ -95,7 +95,7 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
           </div>
         </div>
       )}
-      <div className="flex flex-col mb-14 sm:pt-14 px-5 sm:px-20 text-left gap-y-4 lg:max-w-screen-2xl mx-auto">
+      <div className="container flex flex-col mb-14 sm:pt-14 px-5 sm:px-20 text-left gap-y-4 lg:max-w-screen-2xl mx-auto">
         <h2 className="text-3xl sm:text-4xl font-bold ml-1">Past events</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-4 gap-3 sm:auto-cols-fr text-center">
           {Object.keys(pastEvents).map((key: string, i: number) => (
