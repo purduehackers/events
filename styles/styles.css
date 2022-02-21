@@ -3,6 +3,7 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap');
 
 @tailwind base;
+@tailwind components;
 
 @layer base {
   body {
@@ -14,6 +15,9 @@
   ul {
     @apply list-disc pl-6 marker:text-amber-500 dark:marker:text-amber-400 !important;
   }
+}
+
+@layer components {
   .desc {
     @apply text-amber-500 hover:text-amber-400 transition;
   }
