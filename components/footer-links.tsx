@@ -1,5 +1,5 @@
-import { Home, GitHub } from 'react-feather'
-import { Instagram, Discord } from '@icons-pack/react-simple-icons'
+import { Home } from 'react-feather'
+import { Instagram, Discord, Github } from '@icons-pack/react-simple-icons'
 import StyledLink from './styled-link'
 
 const FooterLinks = () => (
@@ -11,7 +11,7 @@ const FooterLinks = () => (
       destination="https://github.com/MatthewStanciu/purduehackers-events"
       newTab
     >
-      <GitHub />
+      <Github />
     </StyledLink>
     <StyledLink destination="https://instagram.com/purduehackers" newTab>
       <Instagram />
