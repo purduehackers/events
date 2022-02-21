@@ -20,7 +20,7 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
   )
 
   return (
-    <div className="min-h-screen overflow-hidden block relative font-title dark:bg-gray-900">
+    <div className="min-h-screen overflow-hidden flex flex-col font-title dark:bg-gray-900">
       <Head>
         <meta property="og:site_name" content="Purdue Hackers" />
         <meta property="og:name" content="Events — Purdue Hackers" />
@@ -40,7 +40,7 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
 
       <Nav />
 
-      <div className="flex flex-col items-center justify-top mt-0 w-full flex-1 px-5 pb-8 sm:pb-16 text-center sm:px-20 bg-gray-100 dark:bg-gray-800">
+      <div className="flex flex-col items-center justify-top mt-0 grow-0 w-full flex-1 px-5 pb-8 sm:pb-16 text-center sm:px-20 bg-gray-100 dark:bg-gray-800">
         <div className="mt-8 sm:mt-16">
           <h1 className="text-4xl sm:text-7xl lg:text-8-xl font-bold text-amber-450 dark:text-amber-500">
             Purdue Hackers Events
@@ -55,7 +55,7 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
         </div>
       </div>
       {Object.keys(upcomingEvents).length !== 0 && (
-        <div className="flex flex-col py-8 sm:pt-14 px-5 sm:px-20 text-left gap-y-4 lg:max-w-screen-2xl mx-auto">
+        <div className="flex flex-col py-8 sm:pt-14 px-5 sm:px-20 text-left gap-y-4 lg:max-w-screen-2xl">
           <h1
             className={`text-3xl sm:text-4xl font-bold ml-1 ${
               Object.keys(upcomingEvents).length === 0 ? 'hidden' : ''
