@@ -17,3 +17,7 @@
 code {
   @apply font-mono text-amber-500 bg-slate-200 dark:text-amber-500 dark:bg-slate-700 rounded-sm px-1;
 }
+
+ul {
+  @apply pl-6 list-disc marker:text-amber-500 dark:marker:text-amber-400;
+}
