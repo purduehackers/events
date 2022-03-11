@@ -8,14 +8,18 @@ import { AirtablePlusPlus } from 'airtable-plusplus'
 const airtable = new AirtablePlusPlus({
   apiKey: `${process.env.AIRTABLE_API_KEY}`,
   baseId: 'appfaalz9AzKDwSup',
-  tableName: 'Events',
+  tableName: 'Events'
 })
 
 const mailgun = Mailgun
 const mg = mailgun({
   apiKey: `${process.env.MAILGUN_API_KEY}`,
-  domain: 'purduehackers.com',
+  domain: 'purduehackers.com'
 })
+// const mg = mailgun({
+//   apiKey: `${process.env.MAILGUN_TEST_API_KEY}`,
+//   domain: 'ph.matthewstanciu.me'
+// })
 
 export default (req: NextApiRequest, res: NextApiResponse) =>
   new Promise((resolve) => {
@@ -29,26 +33,32 @@ export default (req: NextApiRequest, res: NextApiResponse) =>
       .then((events) =>
         events.filter(
           (event) =>
-            !past(event.start) &&
-            eventHappensTomorrow(event.start) &&
-            !event.emailSent,
-        ),
+            (!past(event.start) &&
+              eventHappens('tomorrow', event.start) &&
+              !event.emailSent) ||
+            (eventHappens('today', event.start) &&
+              event.emailSent &&
+              !event.secondEmailSent)
+        )
       )
       .then((events) => {
         if (events.length > 0) {
           events.map((event: PHEvent) => {
             console.log('sending email to ' + event.name)
-            sendEmail(event)
+            sendEmail(event.emailSent ? 'second' : 'first', event)
               .then(async () => {
                 console.log('marking complete...')
-                await markSent(event)
+                if (!event.emailSent) {
+                  await markSent(event)
+                } else {
+                  await markSecondSent(event)
+                }
               })
               .then(() => {
                 console.log('done!')
                 resolve(res.json({ ok: true }))
               })
               .catch((err) => {
-                console.log('err')
                 resolve(res.status(500).send('Error sending email: ' + err))
               })
           })
@@ -59,25 +69,34 @@ export default (req: NextApiRequest, res: NextApiResponse) =>
       })
   })
 
-const eventHappensTomorrow = (eventStart: string): boolean => {
+const eventHappens = (todayOrTomorrow: string, eventStart: string): boolean => {
   const now = new Date()
   const eventDate = new Date(eventStart)
   const timeDiff = eventDate.getTime() - now.getTime()
 
-  return Math.floor(timeDiff) < 172800000
+  if (todayOrTomorrow === 'today') {
+    return Math.floor(timeDiff) < 86400000 && timeDiff > 0
+  } else if (todayOrTomorrow === 'tomorrow') {
+    return Math.floor(timeDiff) < 172800000 && timeDiff > 0
+  } else {
+    return false
+  }
 }
 
-const sendEmail = async (event: PHEvent): Promise<void> => {
+const sendEmail = async (
+  firstOrSecond: string,
+  event: PHEvent
+): Promise<void> => {
   const { name, start, end, loc, slug } = event
   const startDate = new Date(start)
   const endDate = new Date(end)
-  // Vercel is on UTC, so we need to subtract 5 hours to make it eastern time
+  // Vercel is on UTC, so we need to subtract 5 hours to make it eastern time OH GOD THIS IS GONNA BREAK IN 2 DAYS
   startDate.setHours(startDate.getHours() - 5)
   endDate.setHours(endDate.getHours() - 5)
   const parsedStart = tt('{dddd} from {h}:{mm}').render(startDate)
   const parsedEnd = tt('{h}:{mm} {a}').render(endDate)
 
-  const data = {
+  const firstData = {
     from: 'Purdue Hackers <events@purduehackers.com>',
     to: `${slug}@purduehackers.com`,
     subject: `Reminder: ${name} is happening tomorrow!`,
@@ -86,13 +105,26 @@ const sendEmail = async (event: PHEvent): Promise<void> => {
       name,
       start: parsedStart,
       end: parsedEnd,
-      loc,
-    }),
+      loc
+    })
+  }
+
+  const secondData = {
+    from: 'Purdue Hackers <events@purduehackers.com>',
+    to: `${slug}@purduehackers.com`,
+    subject: `[REMINDER] ${name} is happening today!`,
+    template: 'second-event-reminder',
+    'h:X-Mailgun-Variables': JSON.stringify({
+      name,
+      start: parsedStart,
+      end: parsedEnd,
+      loc
+    })
   }
 
   await mg
     .messages()
-    .send(data)
+    .send(firstOrSecond === 'first' ? firstData : secondData)
     .then((r) => {
       console.log(`Successfully sent reminder email to ${event.slug}`)
       console.log(r)
@@ -104,6 +136,12 @@ const sendEmail = async (event: PHEvent): Promise<void> => {
 
 const markSent = async (event: PHEvent): Promise<void> => {
   await airtable.updateWhere(`{Event Name} = '${event.name}'`, {
-    'Reminder Email Sent': true,
+    'Reminder Email Sent': true
+  })
+}
+
+const markSecondSent = async (event: PHEvent): Promise<void> => {
+  await airtable.updateWhere(`{Event Name} = '${event.name}'`, {
+    'Second Email Sent': true
   })
 }
