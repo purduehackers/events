@@ -16,6 +16,10 @@ const mg = mailgun({
   apiKey: `${process.env.MAILGUN_API_KEY}`,
   domain: 'purduehackers.com'
 })
+// const mg = mailgun({
+//   apiKey: `${process.env.MAILGUN_TEST_API_KEY}`,
+//   domain: 'ph.matthewstanciu.me'
+// })
 
 export default (req: NextApiRequest, res: NextApiResponse) =>
   new Promise((resolve) => {
@@ -44,14 +48,17 @@ export default (req: NextApiRequest, res: NextApiResponse) =>
             sendEmail(event.emailSent ? 'second' : 'first', event)
               .then(async () => {
                 console.log('marking complete...')
-                await markSent(event)
+                if (!event.emailSent) {
+                  await markSent(event)
+                } else {
+                  await markSecondSent(event)
+                }
               })
               .then(() => {
                 console.log('done!')
                 resolve(res.json({ ok: true }))
               })
               .catch((err) => {
-                console.log('err')
                 resolve(res.status(500).send('Error sending email: ' + err))
               })
           })
@@ -67,10 +74,16 @@ const eventHappens = (todayOrTomorrow: string, eventStart: string): boolean => {
   const eventDate = new Date(eventStart)
   const timeDiff = eventDate.getTime() - now.getTime()
 
+  console.log(
+    'time diff',
+    timeDiff,
+    Math.floor(timeDiff) < 86400000 && timeDiff > 0
+  )
+
   if (todayOrTomorrow === 'today') {
-    return Math.floor(timeDiff) < 86400000
+    return Math.floor(timeDiff) < 86400000 && timeDiff > 0
   } else if (todayOrTomorrow === 'tomorrow') {
-    return Math.floor(timeDiff) < 172800000
+    return Math.floor(timeDiff) < 172800000 && timeDiff > 0
   } else {
     return false
   }
@@ -83,7 +96,7 @@ const sendEmail = async (
   const { name, start, end, loc, slug } = event
   const startDate = new Date(start)
   const endDate = new Date(end)
-  // Vercel is on UTC, so we need to subtract 5 hours to make it eastern time
+  // Vercel is on UTC, so we need to subtract 5 hours to make it eastern time OH GOD THIS IS GONNA BREAK IN 2 DAYS
   startDate.setHours(startDate.getHours() - 5)
   endDate.setHours(endDate.getHours() - 5)
   const parsedStart = tt('{dddd} from {h}:{mm}').render(startDate)
@@ -130,5 +143,11 @@ const sendEmail = async (
 const markSent = async (event: PHEvent): Promise<void> => {
   await airtable.updateWhere(`{Event Name} = '${event.name}'`, {
     'Reminder Email Sent': true
+  })
+}
+
+const markSecondSent = async (event: PHEvent): Promise<void> => {
+  await airtable.updateWhere(`{Event Name} = '${event.name}'`, {
+    'Second Email Sent': true
   })
 }
