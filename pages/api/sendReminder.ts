@@ -74,12 +74,6 @@ const eventHappens = (todayOrTomorrow: string, eventStart: string): boolean => {
   const eventDate = new Date(eventStart)
   const timeDiff = eventDate.getTime() - now.getTime()
 
-  console.log(
-    'time diff',
-    timeDiff,
-    Math.floor(timeDiff) < 86400000 && timeDiff > 0
-  )
-
   if (todayOrTomorrow === 'today') {
     return Math.floor(timeDiff) < 86400000 && timeDiff > 0
   } else if (todayOrTomorrow === 'tomorrow') {
@@ -119,7 +113,7 @@ const sendEmail = async (
     from: 'Purdue Hackers <events@purduehackers.com>',
     to: `${slug}@purduehackers.com`,
     subject: `[REMINDER] ${name} is happening today!`,
-    template: 'second-event-remindder',
+    template: 'second-event-reminder',
     'h:X-Mailgun-Variables': JSON.stringify({
       name,
       start: parsedStart,
