@@ -9,6 +9,7 @@ interface PHEvent {
   calLink: string
   slug: string
   emailSent: boolean
+  secondEmailSent: boolean
   unlisted: boolean
   rsvpCount: number
 }
