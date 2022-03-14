@@ -4,6 +4,7 @@ import { past } from '../../lib/past'
 import tt from 'tinytime'
 import Mailgun from 'mailgun-js'
 import { AirtablePlusPlus } from 'airtable-plusplus'
+import { formatDate } from '../../lib/formatDate'
 
 const airtable = new AirtablePlusPlus({
   apiKey: `${process.env.AIRTABLE_API_KEY}`,
@@ -16,10 +17,6 @@ const mg = mailgun({
   apiKey: `${process.env.MAILGUN_API_KEY}`,
   domain: 'purduehackers.com'
 })
-// const mg = mailgun({
-//   apiKey: `${process.env.MAILGUN_TEST_API_KEY}`,
-//   domain: 'ph.matthewstanciu.me'
-// })
 
 export default (req: NextApiRequest, res: NextApiResponse) =>
   new Promise((resolve) => {
@@ -88,11 +85,8 @@ const sendEmail = async (
   event: PHEvent
 ): Promise<void> => {
   const { name, start, end, loc, slug } = event
-  const startDate = new Date(start)
-  const endDate = new Date(end)
-  // Vercel is on UTC, so we need to subtract 5 hours to make it eastern time OH GOD THIS IS GONNA BREAK IN 2 DAYS
-  startDate.setHours(startDate.getHours() - 5)
-  endDate.setHours(endDate.getHours() - 5)
+  const startDate = formatDate(new Date(start), 'America/Indianapolis')
+  const endDate = formatDate(new Date(end), 'America/Indianapolis')
   const parsedStart = tt('{dddd} from {h}:{mm}').render(startDate)
   const parsedEnd = tt('{h}:{mm} {a}').render(endDate)
 
