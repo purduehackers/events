@@ -13,6 +13,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import FooterLinks from '../components/footer-links'
 import Nav from '../components/nav'
+import { formatDate } from '../lib/formatDate'
 
 const Slug = ({ event }: { event: PHEvent }) => {
   const router = useRouter()
@@ -31,7 +32,9 @@ const Slug = ({ event }: { event: PHEvent }) => {
     event.name.length < 30 ? '250' : '200'
   }px&caption=${
     event.start !== 'TBD'
-      ? tt('{MM}%20{DD}%20•').render(new Date(event.start))
+      ? tt('{MM}%20{DD}%20•').render(
+          formatDate(new Date(event.start), 'America/Indianapolis')
+        )
       : ''
   }%20${event.loc.replace(new RegExp(' ', 'g'), '%20')}`
 
