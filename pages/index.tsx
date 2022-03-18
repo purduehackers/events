@@ -8,7 +8,7 @@ import { fetchEvents } from '../lib/fetchEvents'
 import { past } from '../lib/past'
 import FooterLinks from '../components/footer-links'
 import Nav from '../components/nav'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const Index = ({ events }: { events: Array<PHEvent> }) => {
   const upcomingEvents = events.filter(
@@ -20,8 +20,16 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
     'desc'
   )
 
-  const [pastEventNum, setPastEventNum] = useState(4)
+  const [smallScreenSize, setSmallScreenSize] = useState(false)
+  const [pastEventNum, setPastEventNum] = useState(8)
   const [isMaxLength, setIsMaxLength] = useState(false)
+
+  useEffect(() => {
+    if (window.innerWidth < 768) {
+      setPastEventNum(4)
+      setSmallScreenSize(true)
+    }
+  }, [])
 
   return (
     <div className="min-h-screen overflow-hidden flex flex-col font-title dark:bg-gray-900">
@@ -111,14 +119,16 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
         <button
           className="rounded-lg dark:text-black w-3/4 sm:w-1/5 mx-auto py-3 font-bold text-xl shadow-md dark:shadow-black/25 bg-amber-400 dark:bg-amber-500 p-2 px-4 text-center hover:scale-105 transform transition"
           onClick={() => {
+            const multiple = smallScreenSize ? 4 : 8
+
             if (isMaxLength) {
-              setPastEventNum(4)
+              setPastEventNum(multiple)
               setIsMaxLength(false)
             } else {
-              if (pastEventNum + 4 >= pastEvents.length) {
+              if (pastEventNum + multiple >= pastEvents.length) {
                 setIsMaxLength(true)
               }
-              setPastEventNum(pastEventNum + 4)
+              setPastEventNum(pastEventNum + multiple)
             }
           }}
         >
