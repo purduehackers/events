@@ -8,6 +8,7 @@ import { fetchEvents } from '../lib/fetchEvents'
 import { past } from '../lib/past'
 import FooterLinks from '../components/footer-links'
 import Nav from '../components/nav'
+import { useState } from 'react'
 
 const Index = ({ events }: { events: Array<PHEvent> }) => {
   const upcomingEvents = events.filter(
@@ -18,6 +19,9 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
     'end',
     'desc'
   )
+
+  const [pastEventNum, setPastEventNum] = useState(4)
+  const [isMaxLength, setIsMaxLength] = useState(false)
 
   return (
     <div className="min-h-screen overflow-hidden flex flex-col font-title dark:bg-gray-900">
@@ -98,10 +102,28 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
       <div className="container flex flex-col mb-14 sm:pt-14 px-5 sm:px-20 text-left gap-y-4 lg:max-w-screen-2xl mx-auto">
         <h2 className="text-3xl sm:text-4xl font-bold ml-1">Past events</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-4 gap-3 sm:auto-cols-fr text-center">
-          {Object.keys(pastEvents).map((key: string, i: number) => (
-            <Event key={key} {...pastEvents[i]} />
-          ))}
+          {Object.keys(pastEvents)
+            .slice(0, pastEventNum)
+            .map((key: string, i: number) => (
+              <Event key={key} {...pastEvents[i]} />
+            ))}
         </div>
+        <button
+          className="rounded-lg w-3/4 sm:w-1/5 mx-auto py-4 font-bold text-xl shadow-md dark:shadow-black/25 bg-amber-400 dark:bg-amber-500 p-2 px-4 text-center hover:scale-105 transform transition"
+          onClick={() => {
+            if (isMaxLength) {
+              setPastEventNum(4)
+              setIsMaxLength(false)
+            } else {
+              if (pastEventNum + 4 >= pastEvents.length) {
+                setIsMaxLength(true)
+              }
+              setPastEventNum(pastEventNum + 4)
+            }
+          }}
+        >
+          {isMaxLength ? 'Show Less' : 'Show More'}
+        </button>
       </div>
       <Footer>
         <p>
