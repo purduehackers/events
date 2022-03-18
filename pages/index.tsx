@@ -132,7 +132,7 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
             }
           }}
         >
-          {isMaxLength ? 'Show Less' : 'Show More'}
+          {isMaxLength ? 'Show Less ⬆' : 'Show More ⬇'}
         </button>
       </div>
       <Footer>
