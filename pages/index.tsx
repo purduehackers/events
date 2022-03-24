@@ -117,7 +117,7 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
             ))}
         </div>
         <button
-          className="rounded-lg dark:text-black mx-auto py-3 px-6 font-bold text-xl shadow-md dark:shadow-black/25 bg-amber-400 dark:bg-amber-500 p-2 px-4 text-center hover:scale-105 transform transition"
+          className="rounded-lg mx-auto py-2 px-2 font-bold text-xl shadow-md dark:shadow-black/25 border-solid border-2 border-amber-400 dark:border-amber-500 p-2 px-4 text-center hover:scale-105 transform transition"
           onClick={() => {
             const multiple = smallScreenSize ? 4 : 8
 
