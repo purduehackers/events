@@ -9,6 +9,7 @@ import { past } from '../lib/past'
 import FooterLinks from '../components/footer-links'
 import Nav from '../components/nav'
 import { useEffect, useState } from 'react'
+import { ArrowDown, ArrowUp } from 'react-feather'
 
 const Index = ({ events }: { events: Array<PHEvent> }) => {
   const upcomingEvents = events.filter(
@@ -117,7 +118,7 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
             ))}
         </div>
         <button
-          className="rounded-lg mx-auto py-2 px-2 font-bold text-xl shadow-md dark:shadow-black/25 border-solid border-2 border-amber-400 dark:border-amber-500 p-2 px-4 text-center hover:scale-105 transform transition"
+          className="rounded-lg mx-auto py-2 px-2 font-bold dark:text-slate-200 text-xl shadow-md dark:shadow-black/25 border-solid border-2 border-amber-400 dark:border-amber-500 p-2 px-4 text-center hover:scale-105 transform transition"
           onClick={() => {
             const multiple = smallScreenSize ? 4 : 8
 
@@ -132,7 +133,18 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
             }
           }}
         >
-          {isMaxLength ? 'Show Less ⬆' : 'Show More ⬇'}
+          {!isMaxLength && (
+            <div className="flex flex-row gap-x-1">
+              <p>Show more</p>
+              <ArrowDown strokeWidth={4} />
+            </div>
+          )}
+          {isMaxLength && (
+            <div className="flex flex-row gap-x-1">
+              <p>Show less</p>
+              <ArrowUp strokeWidth={4} />
+            </div>
+          )}
         </button>
       </div>
       <Footer>
