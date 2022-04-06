@@ -9,20 +9,16 @@ import Footer from '../components/footer'
 import { fetchEvents } from '../lib/fetchEvents'
 import { past } from '../lib/past'
 import ponderings from '../lib/footerPonderings'
-import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import FooterLinks from '../components/footer-links'
 import Nav from '../components/nav'
 import { formatDate } from '../lib/formatDate'
 
 const Slug = ({ event }: { event: PHEvent }) => {
-  const router = useRouter()
   const [pondering, setPondering] = useState('')
 
   useEffect(() => {
-    if (router.isReady) {
-      setPondering(ponderings[Math.floor(Math.random() * ponderings.length)])
-    }
+    setPondering(ponderings[Math.floor(Math.random() * ponderings.length)])
   })
 
   const ogUrl = `https://og.purduehackers.com/${event.name.replace(
