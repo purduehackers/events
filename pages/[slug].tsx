@@ -131,7 +131,7 @@ const Slug = ({ event }: { event: PHEvent }) => {
               RSVP for this event
             </h2>
             <p>
-              Enter your email and we'll send you reminder about the event the
+              Enter your email and we'll send you a reminder about the event the
               day before it happens. We won't use your email for anything else.
             </p>
             <RSVPForm eventName={event.name} slug={event.slug}></RSVPForm>
