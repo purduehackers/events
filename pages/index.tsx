@@ -87,11 +87,11 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
         <div className="container py-8 sm:pt-14 sm:pb-0 mx-auto px-4 md:px-16 lg:px-72 xl:px-96">
           <div className="rounded-lg shadow-lg dark:shadow-black/25 bg-gray-200 dark:bg-gray-700 p-4 flex flex-col justify-center gap-y-3">
             <h2 className="text-2xl sm:text-3xl font-bold text-center">
-              More events coming soon…
+              That's all, folks 🐰
             </h2>
             <p>
-              There aren't currently any events that we're ready to announce.
-              We're working hard though—check back soon!
+              We've run all of our planned events for this semester. See you in
+              the fall! ☀️🍂
             </p>
             <p>
               Want to be the first to hear about new events?{' '}
