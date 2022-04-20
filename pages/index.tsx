@@ -6,6 +6,7 @@ import { GetStaticProps } from 'next'
 import { orderBy } from 'lodash'
 import { fetchEvents } from '../lib/fetchEvents'
 import { past } from '../lib/past'
+import { discord } from '../lib/footerPonderings'
 import FooterLinks from '../components/footer-links'
 import Nav from '../components/nav'
 import { useEffect, useState } from 'react'
@@ -24,12 +25,14 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
   const [smallScreenSize, setSmallScreenSize] = useState(false)
   const [pastEventNum, setPastEventNum] = useState(8)
   const [isMaxLength, setIsMaxLength] = useState(false)
+  const [discordFlavor, setDiscordFlavor] = useState('')
 
   useEffect(() => {
     if (window.innerWidth < 768) {
       setPastEventNum(4)
       setSmallScreenSize(true)
     }
+    setDiscordFlavor(discord[Math.floor(Math.random() * discord.length)])
   }, [])
 
   return (
@@ -94,7 +97,7 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
               the fall! ☀️🍂
             </p>
             <p>
-              Want to be the first to hear about new events?{' '}
+              {discordFlavor}{' '}
               <span>
                 <StyledLink
                   destination="https://bit.ly/PurdueHackersDiscord"
