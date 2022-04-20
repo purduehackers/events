@@ -85,7 +85,7 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
       )}
       {Object.keys(upcomingEvents).length === 0 && (
         <div className="container py-8 sm:pt-14 sm:pb-0 mx-auto px-4 md:px-16 lg:px-72 xl:px-96">
-          <div className="rounded-lg shadow-lg dark:shadow-black/25 bg-gray-200 dark:bg-gray-700 p-4 flex flex-col justify-center gap-y-3">
+          <div className="rounded-lg shadow-lg dark:shadow-black/25 bg-amber-400 dark:bg-amber-500 dark:text-black p-4 flex flex-col justify-center gap-y-3">
             <h2 className="text-2xl sm:text-3xl font-bold text-center">
               That's all, folks 🐰
             </h2>
@@ -98,7 +98,7 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
               <span>
                 <StyledLink
                   destination="https://bit.ly/PurdueHackersDiscord"
-                  color="text-blue-discord hover:text-blue-discord-light"
+                  color="hover:text-neutral-700 transition underline"
                   newTab
                 >
                   Join our Discord!
