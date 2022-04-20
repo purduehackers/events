@@ -8,7 +8,7 @@ import StyledLink from '../components/styled-link'
 import Footer from '../components/footer'
 import { fetchEvents } from '../lib/fetchEvents'
 import { past } from '../lib/past'
-import ponderings from '../lib/footerPonderings'
+import { footer } from '../lib/footerPonderings'
 import { useEffect, useState } from 'react'
 import FooterLinks from '../components/footer-links'
 import Nav from '../components/nav'
@@ -18,7 +18,7 @@ const Slug = ({ event }: { event: PHEvent }) => {
   const [pondering, setPondering] = useState('')
 
   useEffect(() => {
-    setPondering(ponderings[Math.floor(Math.random() * ponderings.length)])
+    setPondering(footer[Math.floor(Math.random() * footer.length)])
   })
 
   const ogUrl = `https://og.purduehackers.com/${event.name.replace(
