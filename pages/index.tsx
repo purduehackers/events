@@ -97,7 +97,7 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
               the fall! ☀️🍂
             </p>
             <p>
-              {discordFlavor} h
+              {discordFlavor}{' '}
               <span>
                 <StyledLink
                   destination="https://bit.ly/PurdueHackersDiscord"
