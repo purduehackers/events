@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react'
 import FooterLinks from '../components/footer-links'
 import Nav from '../components/nav'
 import { formatDate } from '../lib/formatDate'
-import VercelLogo from '../components/vercel-logo'
+import VercelBanner from '../components/vercel-banner'
 
 const Slug = ({ event }: { event: PHEvent }) => {
   const [pondering, setPondering] = useState('')
@@ -162,7 +162,7 @@ const Slug = ({ event }: { event: PHEvent }) => {
         <Footer>
           <p>{pondering}</p>
           <FooterLinks />
-          <VercelLogo />
+          <VercelBanner />
         </Footer>
       </footer>
     </div>
