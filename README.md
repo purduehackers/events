@@ -9,4 +9,4 @@ Organizers add event details to an Airtable base. All upcoming events are displa
 
 Every time a new event is added to Airtable, a page is automatically generated for that event with all the data filled in, in addition to an email form that you can fill out to RSVP for the event. At 12pm the day before each event, an email is automatically sent to everyone who RSVPed reminding them of the event.
 
-![Powered by Vercel](public/powered-by-vercel.svg)
+[![Powered by Vercel](public/powered-by-vercel.svg)](https://vercel.com?utm_source=purdue-hackers&utm_campaign=oss)
