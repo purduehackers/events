@@ -1,4 +1,4 @@
-const VercelLogo = () => (
+const VercelBanner = () => (
   <div className="mx-auto">
     <a
       href="https://vercel.com?utm_source=purduehackers&utm_campaign=oss"
@@ -9,4 +9,4 @@ const VercelLogo = () => (
   </div>
 )
 
-export default VercelLogo
+export default VercelBanner

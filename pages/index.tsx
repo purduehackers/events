@@ -3,7 +3,7 @@ import Footer from '../components/footer'
 import StyledLink from '../components/styled-link'
 import FooterLinks from '../components/footer-links'
 import Nav from '../components/nav'
-import VercelLogo from '../components/vercel-logo'
+import VercelBanner from '../components/vercel-banner'
 import { fetchEvents } from '../lib/fetchEvents'
 import { past } from '../lib/past'
 import { discord } from '../lib/footerPonderings'
@@ -160,7 +160,7 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
           organizing team.
         </p>
         <FooterLinks />
-        <VercelLogo />
+        <VercelBanner />
       </Footer>
     </div>
   )
