@@ -1,5 +1,7 @@
 import Nav from '../components/nav'
 import Head from 'next/head'
+import Footer from '../components/footer'
+import VercelLogo from '../components/vercel-logo'
 
 const EmailExists = () => (
   <main className="flex flex-col min-h-screen dark:bg-gray-900">
@@ -36,6 +38,9 @@ const EmailExists = () => (
         </div>
       </div>
     </div>
+    <Footer>
+      <VercelLogo />
+    </Footer>
   </main>
 )
 

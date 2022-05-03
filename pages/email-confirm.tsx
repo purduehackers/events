@@ -1,6 +1,8 @@
 import { useRouter } from 'next/router'
 import Nav from '../components/nav'
 import Head from 'next/head'
+import Footer from '../components/footer'
+import VercelLogo from '../components/vercel-logo'
 
 const EmailConfirm = () => {
   const router = useRouter()
@@ -54,6 +56,9 @@ const EmailConfirm = () => {
           </div>
         </div>
       </div>
+      <Footer>
+        <VercelLogo />
+      </Footer>
     </main>
   )
 }

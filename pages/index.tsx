@@ -1,14 +1,15 @@
-import Head from 'next/head'
 import Event from '../components/event'
 import Footer from '../components/footer'
 import StyledLink from '../components/styled-link'
-import { GetStaticProps } from 'next'
-import { orderBy } from 'lodash'
+import FooterLinks from '../components/footer-links'
+import Nav from '../components/nav'
+import VercelLogo from '../components/vercel-logo'
 import { fetchEvents } from '../lib/fetchEvents'
 import { past } from '../lib/past'
 import { discord } from '../lib/footerPonderings'
-import FooterLinks from '../components/footer-links'
-import Nav from '../components/nav'
+import Head from 'next/head'
+import { GetStaticProps } from 'next'
+import { orderBy } from 'lodash'
 import { useEffect, useState } from 'react'
 import { ArrowDown, ArrowUp } from 'react-feather'
 
@@ -159,6 +160,7 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
           organizing team.
         </p>
         <FooterLinks />
+        <VercelLogo />
       </Footer>
     </div>
   )
