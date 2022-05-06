@@ -1,5 +1,3 @@
-import Link, { LinkProps } from 'next/link'
-
 type StyledLinkProps = {
   destination: string
   color?: string

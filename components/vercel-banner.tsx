@@ -1,5 +1,5 @@
 const VercelBanner = () => (
-  <div className="mx-auto">
+  <div className="m-auto">
     <a
       href="https://vercel.com?utm_source=purduehackers&utm_campaign=oss"
       target="_blank"

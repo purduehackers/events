@@ -3,7 +3,6 @@ import Footer from '../components/footer'
 import StyledLink from '../components/styled-link'
 import FooterLinks from '../components/footer-links'
 import Nav from '../components/nav'
-import VercelBanner from '../components/vercel-banner'
 import { fetchEvents } from '../lib/fetchEvents'
 import { past } from '../lib/past'
 import { discord } from '../lib/footerPonderings'
@@ -157,10 +156,18 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
           <StyledLink destination="https://purduehackers.com" newTab>
             Purdue Hackers
           </StyledLink>{' '}
-          organizing team.
+          organizing team •{' '}
+          <span className="underline underline-offset-4 decoration-2">
+            <a
+              href="https://vercel.com?utm_source=purdue-hackers&utm_campaign=oss"
+              target="_blank"
+              className="decoration-amber-400 dark:decoration-amber-500 hover:decoration-[3px]"
+            >
+              Powered by ▲Vercel.
+            </a>
+          </span>
         </p>
         <FooterLinks />
-        <VercelBanner />
       </Footer>
     </div>
   )
