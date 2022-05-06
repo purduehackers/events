@@ -1,4 +1,4 @@
-import Event from '../components/event'
+import EventCard from '../components/event-card'
 import Footer from '../components/footer'
 import StyledLink from '../components/styled-link'
 import FooterLinks from '../components/footer-links'
@@ -81,7 +81,7 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
           </h1>
           <div className="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-4 gap-3 sm:auto-cols-fr text-center">
             {Object.keys(upcomingEvents).map((key: string, i: number) => (
-              <Event key={key} {...upcomingEvents[i]} />
+              <EventCard key={key} {...upcomingEvents[i]} />
             ))}
           </div>
         </div>
@@ -117,7 +117,7 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
           {Object.keys(pastEvents)
             .slice(0, pastEventNum)
             .map((key: string, i: number) => (
-              <Event key={key} {...pastEvents[i]} />
+              <EventCard key={key} {...pastEvents[i]} />
             ))}
         </div>
         <button

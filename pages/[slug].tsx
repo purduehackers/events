@@ -1,7 +1,7 @@
 import { GetStaticPaths } from 'next'
 import { marked } from 'marked'
 import { fetchEvents } from '../lib/fetchEvents'
-import FutureEvent from '../components/future-event-page'
+import FutureEvent from '../components/future-event'
 
 const Slug = ({ event }: { event: PHEvent }) => <FutureEvent event={event} />
 
