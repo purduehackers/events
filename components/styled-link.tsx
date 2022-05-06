@@ -1,7 +1,7 @@
 import Link, { LinkProps } from 'next/link'
 
 type StyledLinkProps = {
-  destination: LinkProps['href']
+  destination: string
   color?: string
   newTab?: boolean
   children?: any
@@ -14,15 +14,13 @@ const StyledLink = ({
   ...props
 }: StyledLinkProps) => (
   <span>
-    <Link href={destination} passHref>
-      <a
-        href="#"
-        target={newTab ? '_blank' : ''}
-        className={`${color} transition`}
-      >
-        {props.children}
-      </a>
-    </Link>
+    <a
+      href={destination}
+      target={newTab ? '_blank' : ''}
+      className={`${color} transition`}
+    >
+      {props.children}
+    </a>
   </span>
 )
 
