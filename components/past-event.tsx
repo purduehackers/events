@@ -1,13 +1,13 @@
 import tt from 'tinytime'
 import Head from 'next/head'
-import { Clock, MapPin, Calendar } from 'react-feather'
+import { Clock, MapPin } from 'react-feather'
 import { formatDate } from '../lib/formatDate'
-import { past } from '../lib/past'
 import Nav from './nav'
 import StyledLink from './styled-link'
 import Footer from './footer'
 import FooterLinks from './footer-links'
 import VercelBanner from './vercel-banner'
+import ImageGrid from './image-grid'
 
 const PastEvent = ({ event }: { event: PHEvent }) => {
   const ogUrl = `https://og.purduehackers.com/${event.name.replace(
@@ -43,20 +43,14 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
 
       <div className="flex flex-col grow-0 items-center justify-top mt-0 w-full flex-1 px-5 pb-8 sm:pb-16 text-center sm:px-20 bg-gray-100 dark:bg-gray-800">
         <div className="mt-8 sm:mt-16">
-          <h1 className="text-4xl sm:text-7xl lg:text-8-xl font-bold text-amber-450 dark:text-amber-500">
+          <h1 className="text-4xl sm:text-7xl lg:text-8-xl font-bold text-gray-400">
             {event.name}
           </h1>
           <p className="mt-3 text-1xl sm:text-2xl flex flex-row gap-x-1 font-bold items-center justify-center dark:text-gray-200">
             <Clock />
             {event.start === 'TBD'
               ? 'Date TBD'
-              : tt(
-                  `${
-                    past(event.end)
-                      ? '{MM} {Do}, {YYYY}'
-                      : '{dddd}, {MM} {Do} •'
-                  }`
-                ).render(new Date(event.start))}{' '}
+              : tt('{MM} {Do}, {YYYY} •').render(new Date(event.start))}{' '}
             {event.start === 'TBD'
               ? ''
               : tt('{h}:{mm}').render(new Date(event.start)) + '—'}
@@ -80,7 +74,9 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
           </p>
         </div>
       </div>
-      <div className="flex flex-col flex-auto"></div>
+      <div className="flex flex-col flex-auto">
+        <ImageGrid images={event.recapImages} />
+      </div>
       <footer>
         <Footer>
           <FooterLinks />

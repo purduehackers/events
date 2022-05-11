@@ -1,3 +1,13 @@
+interface AirtableAttachment {
+  id: string
+  size: number
+  width: number
+  height: number
+  url: string
+  type: string
+  filename: string
+}
+
 interface PHEvent {
   id: string
   name: string
@@ -12,4 +22,6 @@ interface PHEvent {
   secondEmailSent: boolean
   unlisted: boolean
   rsvpCount: number
+  pastEventDesc: string
+  recapImages: Array<AirtableAttachment>
 }
