@@ -22,6 +22,8 @@ interface AirtableFields {
   'Second Email Sent': boolean
   Unlisted: boolean
   'RSVP Count': number
+  'Past Event Description': string
+  'Recap Images': Array<AirtableAttachment>
 }
 
 export const fetchEvents = async (): Promise<PHEvent[]> => {
@@ -43,7 +45,11 @@ export const fetchEvents = async (): Promise<PHEvent[]> => {
     secondEmailSent: fields['Second Email Sent'] ?? false,
     unlisted: fields['Unlisted'] ?? false,
     rsvpCount: fields['RSVP Count'] ?? 0,
-    slug: fields['Custom Slug'] ?? slugger.slug(fields['Event Name'])
+    slug: fields['Custom Slug'] ?? slugger.slug(fields['Event Name']),
+    pastEventDesc:
+      fields['Past Event Description'] ??
+      'A past Purdue Hackers event...more details coming soon!',
+    recapImages: fields['Recap Images'] ?? [{ url: 'https://mbs.zone/geck' }]
   }))
 
   return orderBy(events, 'start')
