@@ -1,18 +1,27 @@
 import StyledImage from './styled-image'
 
 const ImageGrid = ({ images = [] }: { images: Array<AirtableAttachment> }) => (
-  <div className="py-8 sm:pt-14 px-5 sm:px-20 mx-auto md:w-1/2 sm:columns-2">
-    {images.map((image, i) => {
-      return (
-        i < 3 && (
-          <StyledImage
-            src={image.url}
-            width={image.width}
-            height={image.height}
-          />
+  <div className="flex flex-col gap-y-4">
+    <div className="mx-auto md:w-1/2 sm:columns-2">
+      {images.map((image, i) => {
+        return (
+          i < 3 && (
+            <StyledImage
+              src={image.url}
+              width={image.width}
+              height={image.height}
+            />
+          )
         )
-      )
-    })}
+      })}
+    </div>
+    <a
+      href="#"
+      target="_blank"
+      className="mx-auto rounded-lg shadow-md dark:shadow-black bg-amber-400 dark:bg-amber-500 p-2 text-center hover:scale-105 transform transition font-bold text-black dark:text-black"
+    >
+      See all photos
+    </a>
   </div>
 )
 
