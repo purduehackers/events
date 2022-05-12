@@ -11,6 +11,7 @@ import ImageGrid from './image-grid'
 import DescriptionBox from './desc-box'
 import GrayCard from './gray-card'
 import Subhead from './subhead'
+import StatsCard from './stats-card'
 
 const PastEvent = ({ event }: { event: PHEvent }) => {
   const ogUrl = `https://og.purduehackers.com/${event.name.replace(
@@ -78,6 +79,7 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
         </div>
       </div>
       <div className="flex flex-col flex-auto py-8 sm:px-20">
+        <StatsCard event={event} />
         <ImageGrid images={event.recapImages} />
         <DescriptionBox>
           <div
@@ -96,15 +98,15 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
             You'll also get access to a wonderful, friendly community of hackers
             who are building & shipping cool things every day.
           </p>
-          <div className="rounded-lg shadow-md dark:shadow-black/25 bg-blue-discord p-2 px-4 text-center hover:scale-105 transform transition">
-            <a
-              href="https://bit.ly/PurdueHackersDiscord"
-              className="font-bold text-white text-center"
-              target="_blank"
-            >
+          <a
+            href="https://bit.ly/PurdueHackersDiscord"
+            className="font-bold text-white text-center"
+            target="_blank"
+          >
+            <div className="rounded-lg shadow-md dark:shadow-black/25 bg-blue-discord p-2 px-4 text-center hover:scale-105 transform transition">
               Join Discord
-            </a>
-          </div>
+            </div>
+          </a>
         </GrayCard>
       </div>
       <footer>

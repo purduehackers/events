@@ -25,4 +25,10 @@ interface PHEvent {
   pastEventDesc: string
   recapImages: Array<AirtableAttachment>
   hasPastEventDesc: boolean
+  stat1Label: string
+  stat1Data: string
+  stat2Label: string
+  stat2Data: string
+  stat3Label: string
+  stat3Data: string
 }
