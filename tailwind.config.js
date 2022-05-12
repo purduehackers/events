@@ -1,3 +1,5 @@
+const { transitionProperty } = require('tailwindcss/defaultTheme')
+
 module.exports = {
   mode: 'jit',
   content: [
@@ -24,11 +26,17 @@ module.exports = {
       },
       screens: {
         xs: '375px'
+      },
+      transitionProperty: {
+        border: 'border-style',
+        width: 'width'
       }
     }
   },
   variants: {
-    extend: {}
+    extend: {
+      borderStyle: ['hover']
+    }
   },
   plugins: [require('@tailwindcss/forms')]
 }

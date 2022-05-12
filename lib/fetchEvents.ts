@@ -26,6 +26,12 @@ interface AirtableFields {
   'Past Event Description': string
   'Recap Images': Array<AirtableAttachment>
   'Has Past Event Description?': number
+  'Stat 1 Data': string
+  'Stat 1 Label': string
+  'Stat 2 Data': string
+  'Stat 2 Label': string
+  'Stat 3 Data': string
+  'Stat 3 Label': string
 }
 
 export const fetchEvents = async (): Promise<PHEvent[]> => {
@@ -52,7 +58,14 @@ export const fetchEvents = async (): Promise<PHEvent[]> => {
       fields['Past Event Description'] ??
       'A past Purdue Hackers event...more details coming soon!',
     recapImages: fields['Recap Images'] ?? [{ url: 'https://mbs.zone/geck' }],
-    hasPastEventDesc: fields['Has Past Event Description?'] === 1 ? true : false
+    hasPastEventDesc:
+      fields['Has Past Event Description?'] === 1 ? true : false,
+    stat1Data: fields['Stat 1 Data'],
+    stat1Label: fields['Stat 1 Label'],
+    stat2Data: fields['Stat 2 Data'],
+    stat2Label: fields['Stat 2 Label'],
+    stat3Data: fields['Stat 3 Data'],
+    stat3Label: fields['Stat 3 Label']
   }))
 
   return orderBy(events, 'start')
