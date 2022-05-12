@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Gallery from './gallery'
+// import Gallery from './gallery'
 import ImageCard from './image-card'
 import StyledButton from './styled-button'
 
@@ -29,7 +29,7 @@ const ImageGrid = ({ images = [] }: { images: Array<AirtableAttachment> }) => {
       >
         See all photos
       </button>
-      {open && <Gallery open={open} images={images} onClose={closeModal} />}
+      {/* {open && <Gallery open={open} images={images} onClose={closeModal} />} */}
     </div>
   )
 }
