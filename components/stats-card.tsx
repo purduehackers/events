@@ -1,7 +1,7 @@
 const StatsCard = ({ event }: { event: PHEvent }) => (
   <div
     className={`flex flex-col md:flex-row items-center gap-8 border-double border-8 border-amber-400 dark:border-amber-500 rounded mx-20 md:mx-auto mb-8 p-8 text-center ${
-      event.stat1Data && event.stat2Data && event.stat3Data ? '' : 'hidden'
+      event.stat1Data || event.stat2Data || event.stat3Data ? '' : 'hidden'
     }`}
   >
     {event.stat1Data && (
