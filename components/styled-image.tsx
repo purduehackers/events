@@ -9,7 +9,13 @@ const StyledImage = ({
   width: number
   height: number
 }) => (
-  <Image src={src} width={width} height={height} className="rounded"></Image>
+  <Image
+    src={src}
+    width={width}
+    height={height}
+    priority
+    className="rounded"
+  ></Image>
 )
 
 export default StyledImage
