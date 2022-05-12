@@ -8,6 +8,7 @@ import Footer from './footer'
 import FooterLinks from './footer-links'
 import VercelBanner from './vercel-banner'
 import ImageGrid from './image-grid'
+import DescriptionBox from './desc-box'
 
 const PastEvent = ({ event }: { event: PHEvent }) => {
   const ogUrl = `https://og.purduehackers.com/${event.name.replace(
@@ -77,6 +78,7 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
       <div className="flex flex-col flex-auto py-8 px-5 sm:px-20">
         {/* <ImageCard image={event.recapImages[0]} /> */}
         <ImageGrid images={event.recapImages} />
+        <DescriptionBox>{event.pastEventDesc}</DescriptionBox>
       </div>
       <footer>
         <Footer>

@@ -11,6 +11,7 @@ import FooterLinks from './footer-links'
 import Nav from './nav'
 import { formatDate } from '../lib/formatDate'
 import VercelBanner from './vercel-banner'
+import DescriptionBox from './desc-box'
 
 const FutureEvent = ({ event }: { event: PHEvent }) => {
   const [pondering, setPondering] = useState('')
@@ -90,32 +91,30 @@ const FutureEvent = ({ event }: { event: PHEvent }) => {
         </div>
       </div>
       <div className="flex flex-col flex-auto">
-        <div className="container mx-auto p-8 px-4 md:px-16 lg:px-72 xl:px-96">
-          <div className="border-2 border-dashed rounded-lg p-4 border-amber-400 dark:border-amber-500">
-            <div
-              dangerouslySetInnerHTML={{ __html: event.desc }}
-              className="text-l"
-            />
-            <div
-              className={`pt-5 w-max ${
-                event.calLink === undefined ||
-                event.loc === 'TBD' ||
-                past(event.end)
-                  ? 'hidden'
-                  : ''
-              }`}
+        <DescriptionBox>
+          <div
+            dangerouslySetInnerHTML={{ __html: event.desc }}
+            className="text-l"
+          />
+          <div
+            className={`pt-5 w-max ${
+              event.calLink === undefined ||
+              event.loc === 'TBD' ||
+              past(event.end)
+                ? 'hidden'
+                : ''
+            }`}
+          >
+            <a
+              href={event.calLink}
+              target="_blank"
+              className="flex flex-row gap-x-1 rounded-lg shadow-md dark:shadow-black bg-amber-400 dark:bg-amber-500 p-2 text-center hover:scale-105 transform transition font-bold text-black dark:text-black"
             >
-              <a
-                href={event.calLink}
-                target="_blank"
-                className="flex flex-row gap-x-1 rounded-lg shadow-md dark:shadow-black bg-amber-400 dark:bg-amber-500 p-2 text-center hover:scale-105 transform transition font-bold text-black dark:text-black"
-              >
-                <Calendar color="black" />
-                Add to Google Calendar
-              </a>
-            </div>
+              <Calendar color="black" />
+              Add to Google Calendar
+            </a>
           </div>
-        </div>
+        </DescriptionBox>
         <div
           className={`container mx-auto px-4 mb-8 md:px-16 lg:px-72 xl:px-96
       ${
