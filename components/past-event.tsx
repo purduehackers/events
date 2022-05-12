@@ -9,6 +9,8 @@ import FooterLinks from './footer-links'
 import VercelBanner from './vercel-banner'
 import ImageGrid from './image-grid'
 import DescriptionBox from './desc-box'
+import GrayCard from './gray-card'
+import Subhead from './subhead'
 
 const PastEvent = ({ event }: { event: PHEvent }) => {
   const ogUrl = `https://og.purduehackers.com/${event.name.replace(
@@ -78,7 +80,24 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
       <div className="flex flex-col flex-auto py-8 px-5 sm:px-20">
         {/* <ImageCard image={event.recapImages[0]} /> */}
         <ImageGrid images={event.recapImages} />
-        <DescriptionBox>{event.pastEventDesc}</DescriptionBox>
+        <DescriptionBox>
+          <div
+            dangerouslySetInnerHTML={{ __html: event.pastEventDesc }}
+            className="text-l"
+          />
+        </DescriptionBox>
+        <GrayCard>
+          <Subhead>Want to see more like this?</Subhead>
+          <p>
+            Purdue Hackers runs events nearly every week. If you want to be the
+            first to find out about new events, you should join our Discord.
+          </p>
+          <br />
+          <p>
+            You'll also get access to a wonderful, friendly community of hackers
+            who are building & shipping cool things every day.
+          </p>
+        </GrayCard>
       </div>
       <footer>
         <Footer>
