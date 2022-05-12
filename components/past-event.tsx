@@ -86,17 +86,26 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
             className="text-l"
           />
         </DescriptionBox>
+        <div className="mt-8"></div>
         <GrayCard>
           <Subhead>Want to see more like this?</Subhead>
           <p>
             Purdue Hackers runs events nearly every week. If you want to be the
             first to find out about new events, you should join our Discord.
           </p>
-          <br />
           <p>
             You'll also get access to a wonderful, friendly community of hackers
             who are building & shipping cool things every day.
           </p>
+          <div className="rounded-lg shadow-md dark:shadow-black/25 bg-blue-discord p-2 px-4 text-center hover:scale-105 transform transition">
+            <a
+              href="https://bit.ly/PurdueHackersDiscord"
+              className="font-bold text-white text-center"
+              target="_blank"
+            >
+              Join Discord
+            </a>
+          </div>
         </GrayCard>
       </div>
       <footer>
