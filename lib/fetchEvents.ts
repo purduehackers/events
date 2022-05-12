@@ -1,6 +1,7 @@
 import { AirtablePlusPlus, AirtablePlusPlusRecord } from 'airtable-plusplus'
 import { orderBy } from 'lodash'
 import { GithubSlugger } from 'github-slugger-typescript'
+import { past } from './past'
 
 const airtable = new AirtablePlusPlus({
   apiKey: `${process.env.AIRTABLE_API_KEY}`,
@@ -24,6 +25,7 @@ interface AirtableFields {
   'RSVP Count': number
   'Past Event Description': string
   'Recap Images': Array<AirtableAttachment>
+  'Has Past Event Description?': number
 }
 
 export const fetchEvents = async (): Promise<PHEvent[]> => {
@@ -49,7 +51,8 @@ export const fetchEvents = async (): Promise<PHEvent[]> => {
     pastEventDesc:
       fields['Past Event Description'] ??
       'A past Purdue Hackers event...more details coming soon!',
-    recapImages: fields['Recap Images'] ?? [{ url: 'https://mbs.zone/geck' }]
+    recapImages: fields['Recap Images'] ?? [{ url: 'https://mbs.zone/geck' }],
+    hasPastEventDesc: fields['Has Past Event Description?'] === 1 ? true : false
   }))
 
   return orderBy(events, 'start')

@@ -24,4 +24,5 @@ interface PHEvent {
   rsvpCount: number
   pastEventDesc: string
   recapImages: Array<AirtableAttachment>
+  hasPastEventDesc: boolean
 }
