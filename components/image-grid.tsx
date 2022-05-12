@@ -2,7 +2,7 @@ import StyledImage from './styled-image'
 
 const ImageGrid = ({ images = [] }: { images: Array<AirtableAttachment> }) => (
   <div className="flex flex-col gap-y-4">
-    <div className="mx-auto md:w-1/2 sm:columns-2">
+    <div className="mx-auto md:w-1/2 md:columns-2">
       {images.map((image, i) => {
         return (
           i < 3 && (
@@ -10,6 +10,7 @@ const ImageGrid = ({ images = [] }: { images: Array<AirtableAttachment> }) => (
               src={image.url}
               width={image.width}
               height={image.height}
+              key={image.url}
             />
           )
         )
