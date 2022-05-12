@@ -75,6 +75,7 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
         </div>
       </div>
       <div className="flex flex-col flex-auto py-8 px-5 sm:px-20">
+        {/* <ImageCard image={event.recapImages[0]} /> */}
         <ImageGrid images={event.recapImages} />
       </div>
       <footer>

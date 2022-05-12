@@ -1,29 +1,18 @@
-import StyledImage from './styled-image'
+import ImageCard from './image-card'
+import StyledButton from './styled-button'
 
-const ImageGrid = ({ images = [] }: { images: Array<AirtableAttachment> }) => (
-  <div className="flex flex-col gap-y-4">
-    <div className="mx-auto md:w-1/2 md:columns-2">
-      {images.map((image, i) => {
-        return (
-          i < 3 && (
-            <StyledImage
-              src={image.url}
-              width={image.width}
-              height={image.height}
-              key={image.url}
-            />
-          )
-        )
-      })}
+const ImageGrid = ({ images = [] }: { images: Array<AirtableAttachment> }) => {
+  images = images.filter((image) => image.width > image.height)
+  return (
+    <div className="flex flex-col gap-y-4">
+      <div className="flex flex-col flex-wrap space-y-2 md:flex-row md:space-x-2">
+        {images.map((image, i) => {
+          return i < 3 && <ImageCard image={image} />
+        })}
+      </div>
+      <StyledButton>See all photos</StyledButton>
     </div>
-    <a
-      href="#"
-      target="_blank"
-      className="mx-auto rounded-lg shadow-md dark:shadow-black bg-amber-400 dark:bg-amber-500 p-2 text-center hover:scale-105 transform transition font-bold text-black dark:text-black"
-    >
-      See all photos
-    </a>
-  </div>
-)
+  )
+}
 
 export default ImageGrid

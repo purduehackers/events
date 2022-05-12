@@ -17,7 +17,7 @@ const FutureEvent = ({ event }: { event: PHEvent }) => {
 
   useEffect(() => {
     setPondering(footer[Math.floor(Math.random() * footer.length)])
-  })
+  }, [])
 
   const ogUrl = `https://og.purduehackers.com/${event.name.replace(
     new RegExp(' ', 'g'),
