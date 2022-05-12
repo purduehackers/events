@@ -1,7 +1,7 @@
 import Image from 'next/image'
 
 const ImageCard = ({ image }: { image: AirtableAttachment }) => (
-  <div className="flex flex-col mx-auto md:w-1/4">
+  <div className="flex flex-col mx-auto">
     <Image
       src={image.url}
       width={image.width}
