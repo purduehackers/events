@@ -1,7 +1,7 @@
 import Image from 'next/image'
 
 const resizeImage = (image: AirtableAttachment): AirtableAttachment => {
-  if (image.width > 2100) {
+  if (image.width > 1000) {
     image.width /= 1.5
     image.height /= 1.5
     return resizeImage(image)
