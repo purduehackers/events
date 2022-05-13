@@ -64,15 +64,19 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
           </p>
         </div>
       </div>
-      <div className="flex flex-col flex-auto py-8 sm:px-20">
-        <StatsCard event={event} />
+      <div className="flex flex-col flex-auto py-8 sm:px-20 gap-8">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-12">
+          <div className="sm:w-1/3">
+            <div className="border-2 border-dashed rounded-lg p-4 border-amber-400 dark:border-amber-500">
+              <div
+                dangerouslySetInnerHTML={{ __html: event.pastEventDesc }}
+                className="text-l"
+              />
+            </div>
+          </div>
+          <StatsCard event={event} />
+        </div>
         <ImageGrid images={event.recapImages} />
-        <DescriptionBox>
-          <div
-            dangerouslySetInnerHTML={{ __html: event.pastEventDesc }}
-            className="text-l"
-          />
-        </DescriptionBox>
         <div className="mt-8"></div>
         <GrayCard>
           <Subhead>Want to see more like this?</Subhead>
