@@ -18,7 +18,7 @@ const ImageCard = ({ image }: { image: AirtableAttachment }) => {
         height={image.height}
         key={image.url}
         priority
-        className="rounded"
+        className="rounded-lg"
       />
       {/* <div className="bg-gray-700 text-center py-3 rounded-b">Hi</div> */}
     </div>
