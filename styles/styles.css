@@ -22,4 +22,10 @@
   .desc {
     @apply text-amber-500 hover:text-amber-400 transition;
   }
+  .text-shadow {
+    text-shadow: 0 0 6px #fbbf24;
+  }
+  .text-shadow-dark {
+    text-shadow: 0 0 6px #f59e0b;
+  }
 }
