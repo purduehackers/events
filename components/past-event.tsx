@@ -83,7 +83,7 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
             </div>
           </div>
         </div>
-        <div className="mt-16 mx-4 sm:mx-auto sm:w-fit sm:max-w-lg md:max-w-xl">
+        <div className="mt-16 mx-4 sm:mx-auto sm:max-w-md md:max-w-lg">
           <div className="rounded-lg shadow-md dark:shadow-black/25 bg-gray-200 dark:bg-gray-700 p-4 flex flex-col justify-center gap-y-3">
             <Subhead>Want to see more like this?</Subhead>
             <p>
