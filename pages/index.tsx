@@ -1,16 +1,19 @@
-import EventCard from '../components/event-card'
-import Footer from '../components/footer'
-import StyledLink from '../components/styled-link'
-import FooterLinks from '../components/footer-links'
-import Nav from '../components/nav'
-import { fetchEvents } from '../lib/fetchEvents'
-import { past } from '../lib/past'
-import { discord } from '../lib/footerPonderings'
-import Head from 'next/head'
-import { GetStaticProps } from 'next'
 import { orderBy } from 'lodash'
+import { GetStaticProps } from 'next'
+import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import { ArrowDown, ArrowUp } from 'react-feather'
+
+import EventCard from '../components/event-card'
+import Footer from '../components/footer'
+import FooterLinks from '../components/footer-links'
+import Nav from '../components/nav'
+import StyledLink from '../components/styled-link'
+import { fetchEvents } from '../lib/fetchEvents'
+import { discord } from '../lib/footerPonderings'
+import { useLocalState } from '../lib/hooks/use-local-state'
+import useMediaQuery from '../lib/hooks/use-media-query'
+import { past } from '../lib/past'
 
 const Index = ({ events }: { events: Array<PHEvent> }) => {
   const upcomingEvents = events.filter(
@@ -22,15 +25,16 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
     'desc'
   )
 
-  const [smallScreenSize, setSmallScreenSize] = useState(false)
-  const [pastEventNum, setPastEventNum] = useState(8)
+  const [_pastEventNum, setPastEventNum] = useLocalState('eventNum', 8)
+  const pastEventNum = +_pastEventNum
   const [isMaxLength, setIsMaxLength] = useState(false)
   const [discordFlavor, setDiscordFlavor] = useState('')
+
+  const smallScreenSize = useMediaQuery('(max-width:700px)')
 
   useEffect(() => {
     if (window.innerWidth < 768) {
       setPastEventNum(4)
-      setSmallScreenSize(true)
     }
     setDiscordFlavor(discord[Math.floor(Math.random() * discord.length)])
   }, [])
