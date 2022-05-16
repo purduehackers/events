@@ -8,10 +8,18 @@ const resizeImage = (image: AirtableAttachment): AirtableAttachment => {
   return image
 }
 
-const ImageCard = ({ image }: { image: AirtableAttachment }) => {
+const ImageCard = ({
+  image,
+  index,
+  click
+}: {
+  image: AirtableAttachment
+  index: number
+  click?: Function
+}) => {
   image = resizeImage(image)
   return (
-    <div className="flex flex-col mx-auto hover:scale-105 transition transform">
+    <div className="flex flex-col mx-auto hover:scale-[1.03] transition transform">
       <Image
         src={image.url}
         width={image.width}
@@ -19,6 +27,7 @@ const ImageCard = ({ image }: { image: AirtableAttachment }) => {
         key={image.url}
         priority
         className="rounded-lg"
+        onClick={() => (click ? click(index) : {})}
       />
       {/* <div className="bg-gray-700 text-center py-3 rounded-b">Hi</div> */}
     </div>
