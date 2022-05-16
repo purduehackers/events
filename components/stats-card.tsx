@@ -5,19 +5,19 @@ const StatsCard = ({ event }: { event: PHEvent }) => (
     }`}
   >
     {event.stat1Data && (
-      <div className="flex flex-col items-center hover:text-amber-400 dark:hover:text-amber-500 hover:scale-105 transition ease-in-out transition-150 hover:text-shadow">
+      <div className="flex flex-col items-center hover:text-amber-400 dark:hover:text-amber-500 hover:scale-105 hover:transition hover:ease-in-out hover:transition-150 hover:text-shadow">
         <h1 className="text-2xl sm:text-4xl font-bold">{event.stat1Data}</h1>
         <p>{event.stat1Label}</p>
       </div>
     )}
     {event.stat2Data && (
-      <div className="flex flex-col items-center hover:text-amber-400 dark:hover:text-amber-500 hover:scale-105 transition ease-in-out transition-150 hover:text-shadow">
+      <div className="flex flex-col items-center hover:text-amber-400 dark:hover:text-amber-500 hover:scale-105 hover:transition hover:ease-in-out hover:transition-150 hover:text-shadow">
         <h1 className="text-2xl sm:text-4xl font-bold">{event.stat2Data}</h1>
         <p>{event.stat2Label}</p>
       </div>
     )}
     {event.stat3Data && (
-      <div className="flex flex-col items-center hover:text-amber-400 dark:hover:text-amber-500 hover:scale-105 transition ease-in-out transition-150 hover:text-shadow">
+      <div className="flex flex-col items-center hover:text-amber-400 dark:hover:text-amber-500 hover:scale-105 hover:transition hover:ease-in-out hover:transition-150 hover:text-shadow">
         <h1 className="text-2xl sm:text-4xl font-bold">{event.stat3Data}</h1>
         <p>{event.stat3Label}</p>
       </div>
