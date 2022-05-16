@@ -64,7 +64,7 @@ const ImageGrid = ({ images = [] }: { images: Array<AirtableAttachment> }) => {
             click={click}
           />
         ) : (
-          (shuffledImages || filteredImages).map(
+          shuffledImages.map(
             (image, i) =>
               i < 3 && (
                 <ImageCard
