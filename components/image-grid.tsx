@@ -8,8 +8,6 @@ const ImageGrid = ({ images = [] }: { images: Array<AirtableAttachment> }) => {
   const unfilteredImages = images
   images = images.filter((image) => image.width > image.height)
 
-  const [open, setOpen] = useState(false)
-
   const [smallScreen, setSmallScreen] = useState(false)
   useEffect(() => {
     if (window.innerWidth < 640) {
