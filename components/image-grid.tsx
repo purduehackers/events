@@ -78,6 +78,7 @@ const ImageGrid = ({ images = [] }: { images: Array<AirtableAttachment> }) => {
         onClick={(e) => {
           if (!e.metaKey) {
             e.preventDefault()
+            setIndex(0)
             setOpen(true)
           }
         }}
