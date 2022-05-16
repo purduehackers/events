@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react'
+import Gallery from './gallery'
 // import Gallery from './gallery'
 import ImageCard from './image-card'
 import StyledButton from './styled-button'
 
 const ImageGrid = ({ images = [] }: { images: Array<AirtableAttachment> }) => {
+  const unfilteredImages = images
   images = images.filter((image) => image.width > image.height)
 
   const [open, setOpen] = useState(false)
-  const closeModal = () => {
-    setOpen(false)
-  }
 
   const [smallScreen, setSmallScreen] = useState(false)
   useEffect(() => {
@@ -29,18 +28,7 @@ const ImageGrid = ({ images = [] }: { images: Array<AirtableAttachment> }) => {
           )
         )}
       </div>
-      <button
-        className="rounded-lg mx-auto py-2 px-2 font-bold text-l dark:text-gray-200 shadow-md dark:shadow-black/25 border-solid border-2 border-amber-400 dark:border-amber-500 p-2 px-4 text-center hover:scale-105 transform transition"
-        onClick={(e) => {
-          if (!e.metaKey) {
-            e.preventDefault()
-            setOpen(true)
-          }
-        }}
-      >
-        See all photos
-      </button>
-      {/* {open && <Gallery open={open} images={images} onClose={closeModal} />} */}
+      <Gallery images={unfilteredImages} />
     </div>
   )
 }
