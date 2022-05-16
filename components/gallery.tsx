@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Lightbox from 'react-image-lightbox'
+import 'react-image-lightbox/style.css'
 
 const Gallery = ({ images }: { images: Array<AirtableAttachment> }) => {
   const [index, setIndex] = useState(0)
@@ -33,6 +34,7 @@ const Gallery = ({ images }: { images: Array<AirtableAttachment> }) => {
             setIndex((index + imageUrls.length - 1) % imageUrls.length)
           }
           onMoveNextRequest={() => setIndex((index + 1) % imageUrls.length)}
+          imageCaption={`${index + 1}`}
         />
       )}
     </div>
