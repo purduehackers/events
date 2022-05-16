@@ -66,17 +66,23 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
           </p>
         </div>
       </div>
-      <div className="flex flex-col flex-auto items-center justify-center py-8 sm:px-20">
-        <StatsCard event={event} />
-        <div className="p-4 sm:w-fit sm:max-w-lg md:max-w-xl mx-auto">
-          <div className="border-2 border-dashed rounded-lg p-4 border-amber-400 dark:border-amber-500">
-            <div
-              dangerouslySetInnerHTML={{ __html: event.pastEventDesc }}
-              className="text-l"
-            />
+      <div className="flex flex-col items-center justify-center py-8 sm:px-20">
+        <div className="flex flex-col sm:flex-row-reverse sm:gap-x-4 items-center sm:items-start">
+          <StatsCard event={event} />
+          <div className="sm:max-w-lg md:max-w-xl">
+            <div className="flex flex-col justify-items-center sm:justify-items-end">
+              <div className="mx-4 mt-4 sm:mx-0 sm:mt-0 mb-4 sm:w-fit">
+                <div className="border-2 border-dashed rounded-lg p-4 border-amber-400 dark:border-amber-500">
+                  <div
+                    dangerouslySetInnerHTML={{ __html: event.pastEventDesc }}
+                    className="text-l"
+                  />
+                </div>
+              </div>
+              <ImageGrid images={event.recapImages} />
+            </div>
           </div>
         </div>
-        <ImageGrid images={event.recapImages} />
         <div className="mt-16 mx-4 sm:mx-auto sm:w-fit sm:max-w-lg md:max-w-xl">
           <div className="rounded-lg shadow-md dark:shadow-black/25 bg-gray-200 dark:bg-gray-700 p-4 flex flex-col justify-center gap-y-3">
             <Subhead>Want to see more like this?</Subhead>
