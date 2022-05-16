@@ -12,6 +12,8 @@ import DescriptionBox from './desc-box'
 import GrayCard from './gray-card'
 import Subhead from './subhead'
 import StatsCard from './stats-card'
+import Gallery from './gallery'
+import { useState } from 'react'
 
 const PastEvent = ({ event }: { event: PHEvent }) => {
   const ogUrl = `https://og.purduehackers.com/${event.name.replace(
