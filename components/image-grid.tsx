@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react'
 import Gallery from './gallery'
-// import Gallery from './gallery'
 import ImageCard from './image-card'
-import StyledButton from './styled-button'
 
 type GridImage = {
   image: AirtableAttachment
