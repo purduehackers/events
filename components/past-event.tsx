@@ -122,7 +122,9 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
           </div>
         </div>
       </div>
-      <footer>
+      <footer
+        className={pondering.includes('stargazing') ? 'whitespace-pre' : ''}
+      >
         <Footer>
           <p>{pondering}</p>
           <FooterLinks />
