@@ -11,7 +11,7 @@ const resizeImage = (image: AirtableAttachment): AirtableAttachment => {
 const ImageCard = ({ image }: { image: AirtableAttachment }) => {
   image = resizeImage(image)
   return (
-    <div className="flex flex-col mx-auto">
+    <div className="flex flex-col mx-auto hover:scale-105 transition transform">
       <Image
         src={image.url}
         width={image.width}
