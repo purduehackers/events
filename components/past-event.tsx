@@ -64,7 +64,7 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
           </p>
         </div>
       </div>
-      <div className="flex flex-col flex-auto py-8 sm:px-20">
+      <div className="flex flex-col flex-auto items-center justify-center py-8 sm:px-20">
         <StatsCard event={event} />
         <div className="p-4 sm:w-fit sm:max-w-lg md:max-w-xl mx-auto">
           <div className="border-2 border-dashed rounded-lg p-4 border-amber-400 dark:border-amber-500">
