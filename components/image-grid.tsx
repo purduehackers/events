@@ -4,19 +4,39 @@ import Gallery from './gallery'
 import ImageCard from './image-card'
 import StyledButton from './styled-button'
 
-const ImageGrid = ({ images = [] }: { images: Array<AirtableAttachment> }) => {
-  let filteredImages: Array<AirtableAttachment> = []
-  let filteredIndices: Array<number> = []
+type GridImage = {
+  image: AirtableAttachment
+  index: number
+}
 
+const shuffle = (images: Array<GridImage>): Array<GridImage> => {
+  let currentIndex = images.length
+  let randomIndex
+
+  while (currentIndex != 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex)
+    currentIndex--
+    ;[images[currentIndex], images[randomIndex]] = [
+      images[randomIndex],
+      images[currentIndex]
+    ]
+  }
+
+  return images
+}
+
+const ImageGrid = ({ images = [] }: { images: Array<AirtableAttachment> }) => {
+  let filteredImages: Array<GridImage> = []
   images.map((image, i) => {
     if (image.width > image.height) {
-      filteredImages.push(image)
-      filteredIndices.push(i)
+      filteredImages.push({ image, index: i })
     }
   })
 
   const [smallScreen, setSmallScreen] = useState(false)
+  const [shuffledImages, setShuffledImages] = useState<Array<GridImage>>()
   useEffect(() => {
+    setShuffledImages(shuffle(filteredImages))
     if (window.innerWidth < 640) {
       setSmallScreen(true)
     }
@@ -38,16 +58,16 @@ const ImageGrid = ({ images = [] }: { images: Array<AirtableAttachment> }) => {
     <div className="flex flex-col gap-y-4 mx-4 sm:mx-0 items-center">
       <div className="grid grid-cols-1 gap-y-2 md:grid-cols-3 md:gap-x-2 sm:max-w-lg md:max-w-xl items-center">
         {smallScreen ? (
-          <ImageCard image={filteredImages[0]} index={0} />
+          <ImageCard image={filteredImages[0].image} index={0} />
         ) : (
-          filteredImages.map(
+          (shuffledImages || filteredImages).map(
             (image, i) =>
               i < 3 && (
                 <ImageCard
-                  image={image}
-                  index={filteredIndices[i]}
+                  image={image.image}
+                  index={image.index}
                   click={click}
-                  key={image.url}
+                  key={image.image.url}
                 />
               )
           )
