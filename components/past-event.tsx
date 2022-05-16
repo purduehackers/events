@@ -74,11 +74,21 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
         </div>
       </div>
       <div className="flex flex-col items-center justify-center py-8 sm:px-20">
-        <div className="flex flex-col sm:flex-row-reverse sm:gap-x-4 items-center sm:items-start">
+        <div
+          className={`flex flex-col ${
+            event.recapImages.length > 1
+              ? 'sm:flex-row-reverse sm:items-start'
+              : 'sm:flex-col sm:items-center'
+          } sm:gap-x-4 items-center`}
+        >
           <StatsCard event={event} />
           <div className="sm:max-w-lg md:max-w-xl">
             <div className="flex flex-col justify-items-center sm:justify-items-end">
-              <div className="mx-4 mt-4 sm:mx-0 sm:mt-0 mb-4 sm:w-fit">
+              <div
+                className={`mx-4 mt-4 ${
+                  event.recapImages.length > 1 ? 'sm:mx-0 sm:mt-0' : ''
+                } mb-4 sm:w-fit`}
+              >
                 <div className="border-2 border-dashed rounded-lg p-4 border-amber-400 dark:border-amber-500">
                   <div
                     dangerouslySetInnerHTML={{ __html: event.pastEventDesc }}
@@ -86,7 +96,9 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
                   />
                 </div>
               </div>
-              <ImageGrid images={event.recapImages} />
+              {event.recapImages.length > 1 && (
+                <ImageGrid images={event.recapImages} />
+              )}
             </div>
           </div>
         </div>
