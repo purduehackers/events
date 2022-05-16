@@ -66,34 +66,38 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
       </div>
       <div className="flex flex-col flex-auto py-8 sm:px-20">
         <StatsCard event={event} />
-        <DescriptionBox>
-          <div
-            dangerouslySetInnerHTML={{ __html: event.pastEventDesc }}
-            className="text-l"
-          />
-        </DescriptionBox>
+        <div className="p-4 sm:w-fit sm:max-w-lg md:max-w-xl mx-auto">
+          <div className="border-2 border-dashed rounded-lg p-4 border-amber-400 dark:border-amber-500">
+            <div
+              dangerouslySetInnerHTML={{ __html: event.pastEventDesc }}
+              className="text-l"
+            />
+          </div>
+        </div>
         <ImageGrid images={event.recapImages} />
-        <div className="mt-16"></div>
-        <GrayCard>
-          <Subhead>Want to see more like this?</Subhead>
-          <p>
-            Purdue Hackers runs events nearly every week. If you want to be the
-            first to find out about new events, you should join our Discord.
-          </p>
-          <p>
-            You'll also get access to a wonderful, friendly community of hackers
-            who are building & shipping cool things every day.
-          </p>
-          <a
-            href="https://bit.ly/PurdueHackersDiscord"
-            className="font-bold text-white text-center"
-            target="_blank"
-          >
-            <div className="rounded-lg shadow-md dark:shadow-black/25 bg-blue-discord p-2 px-4 text-center hover:scale-105 transform transition">
-              Join Discord
-            </div>
-          </a>
-        </GrayCard>
+        <div className="mt-16 mx-4 sm:mx-auto sm:w-fit sm:max-w-lg md:max-w-xl">
+          <div className="rounded-lg shadow-md dark:shadow-black/25 bg-gray-200 dark:bg-gray-700 p-4 flex flex-col justify-center gap-y-3">
+            <Subhead>Want to see more like this?</Subhead>
+            <p>
+              Purdue Hackers runs events nearly every week. If you want to be
+              the first to find out about new events, you should join our
+              Discord.
+            </p>
+            <p>
+              You'll also get access to a wonderful, friendly community of
+              hackers who are building & shipping cool things every day.
+            </p>
+            <a
+              href="https://bit.ly/PurdueHackersDiscord"
+              className="font-bold text-white text-center"
+              target="_blank"
+            >
+              <div className="rounded-lg shadow-md dark:shadow-black/25 bg-blue-discord p-2 px-4 text-center hover:scale-105 transform transition">
+                Join Discord
+              </div>
+            </a>
+          </div>
+        </div>
       </div>
       <footer>
         <Footer>

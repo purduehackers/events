@@ -1,6 +1,6 @@
 const StatsCard = ({ event }: { event: PHEvent }) => (
   <div
-    className={`flex flex-row flex-1 items-center justify-center gap-4 sm:gap-8 border-double border-8 border-amber-400 dark:border-amber-500 rounded-lg mx-8 sm:mx-auto sm:w-fit sm:max-w-lg md:max-w-xl p-6 sm:p-8 text-center ${
+    className={`flex flex-row flex-1 items-center justify-center gap-4 sm:gap-8 border-double border-8 border-amber-400 dark:border-amber-500 rounded-lg mx-4 sm:mx-auto sm:w-fit sm:max-w-lg md:max-w-xl p-6 sm:p-8 text-center ${
       event.stat1Data || event.stat2Data || event.stat3Data ? '' : 'hidden'
     }`}
   >
