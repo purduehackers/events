@@ -19,8 +19,8 @@ const ImageGrid = ({ images = [] }: { images: Array<AirtableAttachment> }) => {
   }, [])
 
   return (
-    <div className="flex flex-col gap-y-4 px-4 items-center">
-      <div className="grid grid-cols-1 gap-y-2 md:grid-cols-3 md:gap-x-2 sm:w-3/4 items-center">
+    <div className="flex flex-col gap-y-4 px-4 items-center mt-4">
+      <div className="grid grid-cols-1 gap-y-2 md:grid-cols-3 md:gap-x-2 xl:w-3/4 2xl:w-1/2 items-center">
         {smallScreen ? (
           <ImageCard image={images[0]} />
         ) : (
