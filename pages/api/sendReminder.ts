@@ -1,10 +1,11 @@
-import { NextApiRequest, NextApiResponse } from 'next'
-import { fetchEvents } from '../../lib/fetchEvents'
-import { past } from '../../lib/past'
-import tt from 'tinytime'
-import Mailgun from 'mailgun-js'
 import { AirtablePlusPlus } from 'airtable-plusplus'
+import Mailgun from 'mailgun-js'
+import { NextApiRequest, NextApiResponse } from 'next'
+import tt from 'tinytime'
+
+import { fetchEvents } from '../../lib/fetchEvents'
 import { formatDate } from '../../lib/formatDate'
+import { past } from '../../lib/past'
 
 const airtable = new AirtablePlusPlus({
   apiKey: `${process.env.AIRTABLE_API_KEY}`,
@@ -40,10 +41,13 @@ export default (req: NextApiRequest, res: NextApiResponse) =>
       )
       .then((events) => {
         if (events.length > 0) {
-          events.map((event: PHEvent) => {
-            console.log('sending email to ' + event.name)
-            sendEmail(event.emailSent ? 'second' : 'first', event)
-              .then(async () => {
+          Promise.all(
+            events.map((event: PHEvent) => {
+              console.log('sending email to ' + event.name)
+              return sendEmail(
+                event.emailSent ? 'second' : 'first',
+                event
+              ).then(async () => {
                 console.log('marking complete...')
                 if (!event.emailSent) {
                   await markSent(event)
@@ -51,14 +55,15 @@ export default (req: NextApiRequest, res: NextApiResponse) =>
                   await markSecondSent(event)
                 }
               })
-              .then(() => {
-                console.log('done!')
-                resolve(res.json({ ok: true }))
-              })
-              .catch((err) => {
-                resolve(res.status(500).send('Error sending email: ' + err))
-              })
-          })
+            })
+          )
+            .then(() => {
+              console.log('done!')
+              resolve(res.json({ ok: true }))
+            })
+            .catch((err) => {
+              resolve(res.status(500).send('Error sending email: ' + err))
+            })
         } else {
           console.log('No emails to send.')
           resolve(res.status(200).send('No emails to send.'))
