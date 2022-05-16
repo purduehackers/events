@@ -33,6 +33,7 @@ const Gallery = ({ images }: { images: Array<AirtableAttachment> }) => {
             setIndex((index + imageUrls.length - 1) % imageUrls.length)
           }
           onMoveNextRequest={() => setIndex((index + 1) % imageUrls.length)}
+          onImageLoadError={() => alert('error loading image')}
         />
       )}
     </div>
