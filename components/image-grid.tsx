@@ -34,7 +34,9 @@ const ImageGrid = ({ images = [] }: { images: Array<AirtableAttachment> }) => {
   })
 
   const [smallScreen, setSmallScreen] = useState(false)
-  const [shuffledImages, setShuffledImages] = useState<Array<GridImage>>()
+  const [shuffledImages, setShuffledImages] = useState<Array<GridImage>>([
+    { image: filteredImages[0].image, index: filteredImages[0].index }
+  ])
   useEffect(() => {
     setShuffledImages(shuffle(filteredImages))
     if (window.innerWidth < 640) {
@@ -58,7 +60,11 @@ const ImageGrid = ({ images = [] }: { images: Array<AirtableAttachment> }) => {
     <div className="flex flex-col gap-y-4 mx-4 sm:mx-0 items-center">
       <div className="grid grid-cols-1 gap-y-2 md:grid-cols-3 md:gap-x-2 sm:max-w-lg md:max-w-xl items-center">
         {smallScreen ? (
-          <ImageCard image={filteredImages[0].image} index={0} />
+          <ImageCard
+            image={shuffledImages[0].image}
+            index={shuffledImages[0].index}
+            click={click}
+          />
         ) : (
           (shuffledImages || filteredImages).map(
             (image, i) =>
