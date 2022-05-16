@@ -13,7 +13,8 @@ import GrayCard from './gray-card'
 import Subhead from './subhead'
 import StatsCard from './stats-card'
 import Gallery from './gallery'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { footer } from '../lib/footerPonderings'
 
 const PastEvent = ({ event }: { event: PHEvent }) => {
   const ogUrl = `https://og.purduehackers.com/${event.name.replace(
@@ -28,6 +29,12 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
         )
       : ''
   }%20${event.loc.replace(new RegExp(' ', 'g'), '%20')}`
+
+  const [pondering, setPondering] = useState('')
+
+  useEffect(() => {
+    setPondering(footer[Math.floor(Math.random() * footer.length)])
+  }, [])
 
   return (
     <div className="min-h-screen overflow-hidden flex flex-col font-title dark:bg-gray-900">
@@ -109,6 +116,7 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
       </div>
       <footer>
         <Footer>
+          <p>{pondering}</p>
           <FooterLinks />
           <VercelBanner />
         </Footer>
