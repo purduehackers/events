@@ -30,13 +30,12 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
 
   const [_pastEventNum, setPastEventNum] = useLocalState('eventNum', multiple)
   const pastEventNum = +_pastEventNum
-  const [isMaxLength, setIsMaxLength] = useState(
-    pastEventNum >= pastEvents.length
-  )
+  const [isMaxLength, setIsMaxLength] = useState(false)
   const [discordFlavor, setDiscordFlavor] = useState('')
 
   useEffect(() => {
     setDiscordFlavor(discord[Math.floor(Math.random() * discord.length)])
+    setIsMaxLength(pastEventNum >= pastEvents.length)
   }, [])
 
   return (
