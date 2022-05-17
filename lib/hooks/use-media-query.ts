@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 function match(q: string): boolean {
-  return !!window && window.matchMedia(q).matches
+  return typeof window !== 'undefined' && window.matchMedia(q).matches
 }
 export function useMediaQuery(query: string): boolean {
   const [matches, setMatches] = useState(() => match(query))
