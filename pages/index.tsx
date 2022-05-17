@@ -25,17 +25,17 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
     'desc'
   )
 
-  const [_pastEventNum, setPastEventNum] = useLocalState('eventNum', 8)
+  const smallScreenSize = useMediaQuery('(max-width:768px)')
+  const multiple = smallScreenSize ? 4 : 8
+
+  const [_pastEventNum, setPastEventNum] = useLocalState('eventNum', multiple)
   const pastEventNum = +_pastEventNum
-  const [isMaxLength, setIsMaxLength] = useState(false)
+  const [isMaxLength, setIsMaxLength] = useState(
+    pastEventNum >= pastEvents.length
+  )
   const [discordFlavor, setDiscordFlavor] = useState('')
 
-  const smallScreenSize = useMediaQuery('(max-width:700px)')
-
   useEffect(() => {
-    if (window.innerWidth < 768) {
-      setPastEventNum(4)
-    }
     setDiscordFlavor(discord[Math.floor(Math.random() * discord.length)])
   }, [])
 
@@ -127,8 +127,6 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
         <button
           className="rounded-lg mx-auto py-2 px-2 font-bold dark:text-gray-200 text-xl shadow-md dark:shadow-black/25 border-solid border-2 border-amber-400 dark:border-amber-500 p-2 px-4 text-center hover:scale-105 transform transition"
           onClick={() => {
-            const multiple = smallScreenSize ? 4 : 8
-
             if (isMaxLength) {
               setPastEventNum(multiple)
               setIsMaxLength(false)
@@ -140,13 +138,12 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
             }
           }}
         >
-          {!isMaxLength && (
+          {!isMaxLength ? (
             <div className="flex flex-row gap-x-1">
               <p>Show more</p>
               <ArrowDown strokeWidth={4} />
             </div>
-          )}
-          {isMaxLength && (
+          ) : (
             <div className="flex flex-row gap-x-1">
               <p>Show less</p>
               <ArrowUp strokeWidth={4} />
