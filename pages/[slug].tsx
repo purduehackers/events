@@ -32,13 +32,14 @@ export const getStaticProps = async ({ params }: Params) => {
   const event = await fetchEvents().then((events: Array<PHEvent>) =>
     events.find((event: PHEvent) => event.slug === slug)
   )
+  if (!event) {
+    return { notFound: true }
+  }
 
-  // @ts-ignore
   event.desc = marked(event.desc)
     .replace(new RegExp('</p>\n<p>', 'g'), '</p><br/><p>')
     .replace(new RegExp('<a', 'g'), '<a class="desc" target="_blank"')
 
-  // @ts-ignore
   event.pastEventDesc = marked(event.pastEventDesc)
     .replace(new RegExp('</p>\n<p>', 'g'), '</p><br/><p>')
     .replace(new RegExp('<a', 'g'), '<a class="desc" target="_blank"')
