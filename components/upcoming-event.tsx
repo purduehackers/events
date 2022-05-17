@@ -158,7 +158,14 @@ const UpcomingEvent = ({ event }: { event: PHEvent }) => {
         <Footer>
           <p>{pondering}</p>
           <FooterLinks />
-          <VercelBanner />
+          <div className="m-auto">
+            <a
+              href="https://vercel.com?utm_source=purduehackers&utm_campaign=oss"
+              target="_blank"
+            >
+              <img src="https://raw.githubusercontent.com/purduehackers/events/main/public/powered-by-vercel.svg" />
+            </a>
+          </div>
         </Footer>
       </footer>
     </div>
