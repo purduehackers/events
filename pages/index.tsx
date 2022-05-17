@@ -1,16 +1,19 @@
-import EventCard from '../components/event-card'
-import Footer from '../components/footer'
-import StyledLink from '../components/styled-link'
-import FooterLinks from '../components/footer-links'
-import Nav from '../components/nav'
-import { fetchEvents } from '../lib/fetchEvents'
-import { past } from '../lib/past'
-import { discord } from '../lib/footerPonderings'
-import Head from 'next/head'
-import { GetStaticProps } from 'next'
 import { orderBy } from 'lodash'
+import { GetStaticProps } from 'next'
+import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import { ArrowDown, ArrowUp } from 'react-feather'
+
+import EventCard from '../components/event-card'
+import Footer from '../components/footer'
+import FooterLinks from '../components/footer-links'
+import Nav from '../components/nav'
+import StyledLink from '../components/styled-link'
+import { fetchEvents } from '../lib/fetchEvents'
+import { discord } from '../lib/footerPonderings'
+import { useLocalState } from '../lib/hooks/use-local-state'
+import useMediaQuery from '../lib/hooks/use-media-query'
+import { past } from '../lib/past'
 
 const Index = ({ events }: { events: Array<PHEvent> }) => {
   const upcomingEvents = events.filter(
@@ -22,17 +25,17 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
     'desc'
   )
 
-  const [smallScreenSize, setSmallScreenSize] = useState(false)
-  const [pastEventNum, setPastEventNum] = useState(8)
+  const smallScreenSize = useMediaQuery('(max-width:768px)')
+  const multiple = smallScreenSize ? 4 : 8
+
+  const [_pastEventNum, setPastEventNum] = useLocalState('eventNum', multiple)
+  const pastEventNum = +_pastEventNum
   const [isMaxLength, setIsMaxLength] = useState(false)
   const [discordFlavor, setDiscordFlavor] = useState('')
 
   useEffect(() => {
-    if (window.innerWidth < 768) {
-      setPastEventNum(4)
-      setSmallScreenSize(true)
-    }
     setDiscordFlavor(discord[Math.floor(Math.random() * discord.length)])
+    setIsMaxLength(pastEventNum >= pastEvents.length)
   }, [])
 
   return (
@@ -123,8 +126,6 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
         <button
           className="rounded-lg mx-auto py-2 px-2 font-bold dark:text-gray-200 text-xl shadow-md dark:shadow-black/25 border-solid border-2 border-amber-400 dark:border-amber-500 p-2 px-4 text-center hover:scale-105 transform transition"
           onClick={() => {
-            const multiple = smallScreenSize ? 4 : 8
-
             if (isMaxLength) {
               setPastEventNum(multiple)
               setIsMaxLength(false)
@@ -136,13 +137,12 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
             }
           }}
         >
-          {!isMaxLength && (
+          {!isMaxLength ? (
             <div className="flex flex-row gap-x-1">
               <p>Show more</p>
               <ArrowDown strokeWidth={4} />
             </div>
-          )}
-          {isMaxLength && (
+          ) : (
             <div className="flex flex-row gap-x-1">
               <p>Show less</p>
               <ArrowUp strokeWidth={4} />
