@@ -4,8 +4,7 @@ import UpcomingEvent from '../../components/upcoming-event'
 import { fetchEvents } from '../../lib/fetchEvents'
 import { past } from '../../lib/past'
 
-const Slug = ({ event }: { event: PHEvent }) =>
-  past(event.end) && <UpcomingEvent event={event} />
+const Slug = ({ event }: { event: PHEvent }) => <UpcomingEvent event={event} />
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const events = await fetchEvents()
