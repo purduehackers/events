@@ -4,7 +4,7 @@ const VercelBanner = () => (
       href="https://vercel.com?utm_source=purduehackers&utm_campaign=oss"
       target="_blank"
     >
-      <img src="powered-by-vercel.svg" />
+      <img src="/powered-by-vercel.svg" />
     </a>
   </div>
 )
