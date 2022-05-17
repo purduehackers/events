@@ -1,5 +1,6 @@
-import Lightbox from 'react-image-lightbox'
 import 'react-image-lightbox/style.css'
+
+import Lightbox from 'react-image-lightbox'
 
 const Gallery = ({
   images,
@@ -17,9 +18,8 @@ const Gallery = ({
   // const [index, setIndex] = useState(0)
   // const [open, setOpen] = useState(false)
 
-  let imageUrls: Array<string> = []
-  images.map((image) => {
-    imageUrls.push(image.url)
+  let imageUrls: Array<string> = images.map((image) => {
+    return image.url
   })
 
   return (
