@@ -13,7 +13,7 @@ import { formatDate } from '../lib/formatDate'
 import VercelBanner from './vercel-banner'
 import DescriptionBox from './desc-box'
 
-const FutureEvent = ({ event }: { event: PHEvent }) => {
+const UpcomingEvent = ({ event }: { event: PHEvent }) => {
   const [pondering, setPondering] = useState('')
 
   useEffect(() => {
@@ -165,4 +165,4 @@ const FutureEvent = ({ event }: { event: PHEvent }) => {
   )
 }
 
-export default FutureEvent
+export default UpcomingEvent

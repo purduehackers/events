@@ -1,7 +1,7 @@
 import { GetStaticPaths } from 'next'
 import { marked } from 'marked'
 import { fetchEvents } from '../lib/fetchEvents'
-import FutureEvent from '../components/future-event'
+import UpcomingEvent from '../components/upcoming-event'
 import { past } from '../lib/past'
 import PastEvent from '../components/past-event'
 
@@ -9,7 +9,7 @@ const Slug = ({ event }: { event: PHEvent }) =>
   past(event.end) && event.hasPastEventDesc ? (
     <PastEvent event={event} />
   ) : (
-    <FutureEvent event={event} />
+    <UpcomingEvent event={event} />
   )
 
 export const getStaticPaths: GetStaticPaths = async () => {
