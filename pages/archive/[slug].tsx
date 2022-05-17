@@ -30,7 +30,7 @@ export const getStaticProps = async ({ params }: Params) => {
   )
 
   if (!event) {
-    return { props: null }
+    return { notFound: true }
   }
 
   event.desc = marked(event.desc)
