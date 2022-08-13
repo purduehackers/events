@@ -9,7 +9,7 @@ module.exports = {
   darkMode: 'class', // or 'media' or 'class'
   theme: {
     fontFamily: {
-      title: '"IBM Plex Sans", system-ui, Roboto, sans-serif',
+      title: '"Space Grotesk", system-ui, Roboto, sans-serif',
       sans: '"Inter", sans-serif',
       mono: '"IBM Plex Mono"'
     },
