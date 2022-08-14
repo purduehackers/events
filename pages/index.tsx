@@ -138,12 +138,12 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
           }}
         >
           {!isMaxLength ? (
-            <div className="flex flex-row gap-x-1 items-center">
+            <div className="flex flex-row gap-x-1 items-center ml-1">
               <p>Show more</p>
               <ArrowDown strokeWidth={3} />
             </div>
           ) : (
-            <div className="flex flex-row gap-x-1 items-center">
+            <div className="flex flex-row gap-x-1 items-center ml-1">
               <p>Show less</p>
               <ArrowUp strokeWidth={3} />
             </div>
