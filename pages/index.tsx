@@ -156,7 +156,7 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
           <StyledLink destination="https://purduehackers.com" newTab>
             Purdue Hackers
           </StyledLink>{' '}
-          organizing team •{' '}
+          community •{' '}
           <span className="underline underline-offset-4 decoration-2">
             <a
               href="https://vercel.com?utm_source=purdue-hackers&utm_campaign=oss"
