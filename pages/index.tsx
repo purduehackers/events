@@ -90,7 +90,7 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
         </div>
       )}
       {Object.keys(upcomingEvents).length === 0 && (
-        <div className="container py-8 sm:pt-14 sm:pb-0 mx-auto px-4 md:px-16 lg:px-72 xl:px-96">
+        <div className="container py-8 sm:pt-14 sm:pb-0 mx-auto px-4 sm:px-36 lg:px-72 xl:px-96">
           <div className="rounded-lg shadow-lg dark:shadow-black/25 bg-amber-400 dark:bg-amber-500 dark:text-black p-4 flex flex-col justify-center gap-y-3">
             <h2 className="text-2xl sm:text-3xl font-bold text-center">
               That's all, folks 🐰
@@ -116,7 +116,7 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
       )}
       <div className="container flex flex-col mb-14 sm:pt-14 px-5 sm:px-20 text-left gap-y-4 lg:max-w-screen-2xl mx-auto">
         <h2 className="text-3xl sm:text-4xl font-bold ml-1">Past events</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-4 gap-3 sm:auto-cols-fr text-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:auto-cols-fr text-center">
           {Object.keys(pastEvents)
             .slice(0, pastEventNum)
             .map((key: string, i: number) => (
