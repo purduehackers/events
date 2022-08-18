@@ -8,7 +8,7 @@ const Nav = () => {
   const { pathname } = useRouter()
 
   return (
-    <nav className="w-full bg-gray-100 dark:bg-gray-800">
+    <nav className="w-full bg-gray-100 dark:bg-gray-800 sticky top-0 z-10">
       <div className="container px-4 sm:px-14 mx-auto flex">
         {pathname !== '/' && <BackButton />}
         <div className="grow" />
