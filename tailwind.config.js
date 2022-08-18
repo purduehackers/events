@@ -22,7 +22,9 @@ module.exports = {
         amber: {
           450: '#F8AF18',
           550: '#E78B09'
-        }
+        },
+        'gray-nav': 'rgba(243, 244, 246, 0.75)',
+        'gray-nav-dark': 'rgba(31, 41, 55, 0.75)'
       },
       screens: {
         xs: '375px'

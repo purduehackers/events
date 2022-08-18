@@ -57,7 +57,7 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
         <title>Events — Purdue Hackers</title>
       </Head>
 
-      <Nav />
+      <Nav noSticky={true} />
 
       <div className="flex flex-col items-center justify-top mt-0 grow-0 w-full flex-1 px-5 pb-8 sm:pb-16 text-center sm:px-20 bg-gray-100 dark:bg-gray-800">
         <div className="mt-8 sm:mt-16">
