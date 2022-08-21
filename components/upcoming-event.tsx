@@ -119,7 +119,7 @@ const UpcomingEvent = ({ event }: { event: PHEvent }) => {
             </div>
           </DescriptionBox>
           <div
-            className={`container mx-auto px-4 mb-8 md:px-16 lg:px-72 xl:px-96
+            className={`container mx-auto px-4 mb-8 md:px-16 lg:px-64 xl:px-96
       ${
         event.calLink === undefined || event.loc === 'TBD' || past(event.end)
           ? 'hidden'
