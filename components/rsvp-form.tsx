@@ -44,7 +44,7 @@ const RSVPForm = ({ eventName, slug }: { eventName: string; slug: string }) => {
           name="email"
           id="email"
           value={email}
-          placeholder="phacker@purdue.edu"
+          placeholder="fhackworth@purdue.edu"
           onChange={(e) => setEmail(e.target.value)}
           className="rounded border-none outline-none dark:bg-gray-900 dark:text-gray-100"
         ></input>
