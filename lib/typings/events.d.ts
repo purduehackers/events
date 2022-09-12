@@ -17,6 +17,7 @@ interface PHEvent {
   loc: string
   gMap: string
   calLink: string
+  ogDescription: string
   slug: string
   emailSent: boolean
   secondEmailSent: boolean
