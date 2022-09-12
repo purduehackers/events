@@ -50,7 +50,7 @@ export const fetchEvents = async (): Promise<PHEvent[]> => {
     loc: fields['Event Location'] ?? 'TBD',
     gMap: fields['Location Map Link (optional)'] ?? false,
     calLink: fields['Calendar Link'] ?? false,
-    ogDescription: fields['OG Description'],
+    ogDescription: fields['OG Description'] ?? '',
     emailSent: fields['Reminder Email Sent'] ?? false,
     secondEmailSent: fields['Second Email Sent'] ?? false,
     unlisted: fields['Unlisted'] ?? false,
