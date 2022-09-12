@@ -47,7 +47,11 @@ const UpcomingEvent = ({ event }: { event: PHEvent }) => {
           <meta property="og:image" content={ogUrl} />
           <meta
             property="og:description"
-            content={`Check out & sign up for ${event.name}, an upcoming event from Purdue Hackers.`}
+            content={
+              event.ogDescription === ''
+                ? `Check out & sign up for ${event.name}, an upcoming event from Purdue Hackers.`
+                : event.ogDescription
+            }
           />
           <meta name="twitter:card" content="summary_large_image" />
           <meta property="og:type" content="website" />
