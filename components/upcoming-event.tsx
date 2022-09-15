@@ -23,9 +23,9 @@ const UpcomingEvent = ({ event }: { event: PHEvent }) => {
   const ogUrl = `https://og.purduehackers.com/${event.name.replace(
     new RegExp(' ', 'g'),
     '%20'
-  )}.png?theme=light&md=1&fontSize=${
-    event.name.length < 30 ? '250' : '200'
-  }px&caption=${
+  )}.png?theme=${
+    event.name.includes('Hack Night') ? 'dark' : 'light'
+  }&md=1&fontSize=${event.name.length < 30 ? '250' : '200'}px&caption=${
     event.start !== 'TBD'
       ? tt('{MM}%20{DD}%20•').render(
           formatDate(new Date(event.start), 'America/Indianapolis')
