@@ -9,7 +9,7 @@ const Slug = ({ event }: { event: PHEvent }) => <UpcomingEvent event={event} />
 export const getStaticPaths: GetStaticPaths = async () => {
   const events = await fetchEvents()
   const paths = events
-    .filter((event) => past(event.end))
+    .filter((event) => past(event.start))
     .map((event) => ({
       params: { slug: event.slug }
     }))
