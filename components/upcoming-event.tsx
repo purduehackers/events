@@ -109,7 +109,7 @@ const UpcomingEvent = ({ event }: { event: PHEvent }) => {
               className={`pt-5 w-max ${
                 event.calLink === undefined ||
                 event.loc === 'TBD' ||
-                past(event.end)
+                past(event.start)
                   ? 'hidden'
                   : ''
               }`}
@@ -127,7 +127,7 @@ const UpcomingEvent = ({ event }: { event: PHEvent }) => {
           <div
             className={`container mx-auto px-4 mb-8 md:px-16 lg:px-64 xl:px-96
       ${
-        event.calLink === undefined || event.loc === 'TBD' || past(event.end)
+        event.calLink === undefined || event.loc === 'TBD' || past(event.start)
           ? 'hidden'
           : ''
       }`}
@@ -146,7 +146,7 @@ const UpcomingEvent = ({ event }: { event: PHEvent }) => {
           </div>
           <div
             className={`container mx-auto px-4 mb-8 md:px-16 lg:px-72 xl:px-96
-      ${past(event.end) ? '' : 'hidden'}`}
+      ${past(event.start) ? '' : 'hidden'}`}
           >
             <div className="rounded-lg shadow-md dark:shadow-black/25 bg-gray-200 dark:bg-gray-700 p-4 flex flex-col justify-top">
               <h2 className="font-bold text-xl sm:text-2xl line-through">
