@@ -17,10 +17,10 @@ import { past } from '../lib/past'
 
 const Index = ({ events }: { events: Array<PHEvent> }) => {
   const upcomingEvents = events.filter(
-    (event: PHEvent) => !past(event.end) && !event.unlisted
+    (event: PHEvent) => !past(event.start) && !event.unlisted
   )
   const pastEvents = orderBy(
-    events.filter((event: PHEvent) => past(event.end) && !event.unlisted),
+    events.filter((event: PHEvent) => past(event.start) && !event.unlisted),
     'end',
     'desc'
   )

@@ -6,7 +6,7 @@ import { past } from '../lib/past'
 import PastEvent from '../components/past-event'
 
 const Slug = ({ event }: { event: PHEvent }) =>
-  past(event.end) && event.hasPastEventDesc ? (
+  past(event.start) && event.hasPastEventDesc ? (
     <PastEvent event={event} />
   ) : (
     <UpcomingEvent event={event} />

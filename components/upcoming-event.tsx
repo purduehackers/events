@@ -69,7 +69,7 @@ const UpcomingEvent = ({ event }: { event: PHEvent }) => {
                 ? 'Date TBD'
                 : tt(
                     `${
-                      past(event.end)
+                      past(event.start)
                         ? '{MM} {Do}, {YYYY}'
                         : '{dddd}, {MM} {Do} •'
                     }`
