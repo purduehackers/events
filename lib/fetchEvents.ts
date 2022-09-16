@@ -45,8 +45,8 @@ export const fetchEvents = async (): Promise<PHEvent[]> => {
     desc:
       fields['Event Description'] ??
       `We're still working on this event...check back later for more details!`,
-    start: fields['Event Date & Start Time'] ?? '???',
-    end: fields['Event Date & End Time'] ?? '???',
+    start: fields['Event Date & Start Time'] ?? 'TBD',
+    end: fields['Event Date & End Time'] ?? 'TBD',
     loc: fields['Event Location'] ?? 'TBD',
     gMap: fields['Location Map Link (optional)'] ?? false,
     calLink: fields['Calendar Link'] ?? false,

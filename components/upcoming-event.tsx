@@ -76,9 +76,11 @@ const UpcomingEvent = ({ event }: { event: PHEvent }) => {
                   ).render(new Date(event.start))}{' '}
               {event.start === 'TBD'
                 ? ''
-                : tt('{h}:{mm}').render(new Date(event.start)) + '—'}
+                : tt(`{h}:{mm}${event.end === 'TBD' ? ' {a}' : ''}`).render(
+                    new Date(event.start)
+                  ) + '—'}
               {event.end === 'TBD'
-                ? ''
+                ? '???'
                 : tt('{h}:{mm} {a}').render(new Date(event.end))}
             </p>
             <p className="mt-1 text-1xl sm:text-2xl flex flex-row gap-x-1 items-center justify-center dark:text-gray-200">
