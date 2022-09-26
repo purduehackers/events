@@ -39,6 +39,7 @@ export const getStaticProps = async ({ params }: Params) => {
   event.desc = marked(event.desc)
     .replace(new RegExp('</p>\n<p>', 'g'), '</p><br/><p>')
     .replace(new RegExp('<a', 'g'), '<a class="desc" target="_blank"')
+    .replace(new RegExp('<img', 'g'), '<img class="rounded-lg" ')
 
   event.pastEventDesc = marked(event.pastEventDesc)
     .replace(new RegExp('</p>\n<p>', 'g'), '</p><br/><p>')
