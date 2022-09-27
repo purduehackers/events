@@ -109,7 +109,8 @@ const UpcomingEvent = ({ event }: { event: PHEvent }) => {
               className={`pt-5 w-max ${
                 event.calLink === undefined ||
                 event.loc === 'TBD' ||
-                past(event.start)
+                past(event.start) ||
+                typeof event.calLink !== 'string'
                   ? 'hidden'
                   : ''
               }`}
