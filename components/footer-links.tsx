@@ -7,16 +7,13 @@ const FooterLinks = () => (
     <StyledLink destination="https://purduehackers.com" newTab>
       <Home />
     </StyledLink>
-    <StyledLink
-      destination="https://github.com/MatthewStanciu/purduehackers-events"
-      newTab
-    >
+    <StyledLink destination="https://github.com/purduehackers" newTab>
       <Github />
     </StyledLink>
     <StyledLink destination="https://instagram.com/purduehackers" newTab>
       <Instagram />
     </StyledLink>
-    <StyledLink destination="https://bit.ly/PurdueHackersDiscord" newTab>
+    <StyledLink destination="https://puhack.horse/discord" newTab>
       <Discord />
     </StyledLink>
   </div>
