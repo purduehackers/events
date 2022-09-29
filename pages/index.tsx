@@ -152,11 +152,17 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
       </div>
       <Footer>
         <p>
-          Made with 💛 by the{' '}
-          <StyledLink destination="https://purduehackers.com" newTab>
-            Purdue Hackers
-          </StyledLink>{' '}
-          community •{' '}
+          Made with 💛 by hackers •{' '}
+          <span className="underline underline-offset-4 decoration-2">
+            <a
+              href="https://github.com/purduehackers/events"
+              target="_blank"
+              className="decoration-amber-400 dark:decoration-amber-500 hover:decoration-[3px]"
+            >
+              Open source
+            </a>
+          </span>{' '}
+          •{' '}
           <span className="underline underline-offset-4 decoration-2">
             <a
               href="https://vercel.com?utm_source=purdue-hackers&utm_campaign=oss"
