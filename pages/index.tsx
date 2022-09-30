@@ -152,7 +152,7 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
       </div>
       <Footer>
         <p>
-          Made with 💛 by hackers •{' '}
+          Made with 💛 •{' '}
           <span className="underline underline-offset-4 decoration-2">
             <a
               href="https://github.com/purduehackers/events"
