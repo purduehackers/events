@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image from 'next/future/image'
 
 const resizeImage = (image: AirtableAttachment): AirtableAttachment => {
   if (image.width > 750) {
@@ -21,6 +21,7 @@ const ImageCard = ({
   return (
     <div className="flex flex-col mx-auto hover:scale-[1.03] transition transform">
       <Image
+        alt="Gallery image"
         src={image.url}
         width={image.width}
         height={image.height}

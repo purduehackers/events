@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image from 'next/future/image'
 
 const StyledImage = ({
   src,
@@ -10,6 +10,7 @@ const StyledImage = ({
   height: number
 }) => (
   <Image
+    alt="Styled image, generated"
     src={src}
     width={width}
     height={height}
