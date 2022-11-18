@@ -39,7 +39,7 @@ export const fetchEvents = async (): Promise<PHEvent[]> => {
   const slugger = new GithubSlugger()
   const airtableEvents =
     (await airtable.read({ 
-        filterByFormula: 'NOT({Slug})'
+        filterByFormula: '{Slug}'
       })) as unknown as AirtablePlusPlusRecord<AirtableFields>[]
   const events = airtableEvents.map(({ id, fields }) => ({
     id,
