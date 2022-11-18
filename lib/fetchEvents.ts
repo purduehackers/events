@@ -39,7 +39,12 @@ export const fetchEvents = async (): Promise<PHEvent[]> => {
   const slugger = new GithubSlugger()
   const airtableEvents =
     (await airtable.read({ 
-        filterByFormula: '({Event Name})'
+        filterByFormula: `OR({Event Name}, {Event Description}, {Event Date & Start Time},
+          {Event Date & End Time}, {Event Location}, {Location Map Link (optional)}, 
+          {Calendar Link}, {OG Description}, {Reminder Email Sent}, {Second Email Sent}, 
+          {Unlisted}, {RSVP Count}, {Custom Slug}, {Past Event Description}, {Recap Images}, 
+          {Has Past Event Description?}, {Stat 1 Data}, {Stat 1 Label}, {Stat 2 Data}, {Stat 2 Label},
+          {Stat 3 Data}, {Stat 3 Label})`
       })) as unknown as AirtablePlusPlusRecord<AirtableFields>[]
   const events = airtableEvents.map(({ id, fields }) => ({
     id,
@@ -74,70 +79,3 @@ export const fetchEvents = async (): Promise<PHEvent[]> => {
 
   return orderBy(events, 'start')
 }
-
-/** 
-console.log(gatherBlankRecords(airtable))
-console.log('adasd')
-
-async function gatherBlankRecords(table) {
-  let reachedBatchLimit = false;
-  // get list of non-computed fields (don't need to check for values in computed fields)
-  let nonComputedFields = table.fields.filter((field) => { return (! field.isComputed)});
-  let primaryFieldId = table.fields[0].id;
-  let nonComputedFieldIds = nonComputedFields.map((field) => { return field.id});
-  // get all the records in the table, returning only non-computed fields
-  // sort by primary field, as blank records should appear first
-  let queryResult = await table.selectRecordsAsync({
-    sorts: [{field: primaryFieldId, direction: 'asc'}],
-    fields: nonComputedFieldIds
-  });
-  // pick out blank records until reach batch limit or the end of the records
-  let blankRecordIds = [];
-  for (let record of queryResult.records) {
-    let recordIsBlank = true;
-    // check if this record has a value for any non-computed field
-    for (let fieldId of nonComputedFieldIds) {
-      if (record.getCellValue(fieldId) !== null) {
-        recordIsBlank = false;
-        break; // don't need to check other fields for this record, move on ot next record
-      }
-    }
-    if (recordIsBlank) {
-      // add blank record to list of blank records and check for batch limit
-      blankRecordIds.push(record.id);
-      if (blankRecordIds.length >= batchLimit) {
-        reachedBatchLimit = true;
-        break; // reached the batch limit so can stop checking other records
-      }
-    };
-  }
-  return {blankRecordIds, reachedBatchLimit};
-}
-
-async function deleteRecords(blankRecordIds, reachedBatchLimit = null) {
-  // tell user number of blank records and show preview
-  if (blankRecordIds.length == 0) {
-    output.markdown(`# No blank records found.`);
-    return ("no records to delete");
-  } else if (blankRecordIds.length == 1) {
-    output.markdown(`# Found 1 blank record to delete.`);
-  } else if (reachedBatchLimit) {
-    output.markdown(`Found ${batchLimit} blank records to delete (batch limit). There may be more.`);
-  } else {
-    output.markdown(`# Found ${blankRecordIds.length} blank records to delete`);
-  }
-  output.inspect(blankRecordIds);
-  // ask for confirmation
-  let userResponse = await input.buttonsAsync('Delete records?', [
-    {label: 'Abort', value: 'Abort'},
-    {label: 'Delete', value: 'Delete', variant: 'danger'}
-  ]);
-  // Evaluate user decision
-  if (userResponse == "Delete") {
-    // do the delete
-    await table.deleteRecordsAsync(blankRecordIds);
-    return "Deleted records";
-  } else {
-    return "Aborted";
-  }
-}**/
