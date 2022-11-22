@@ -37,11 +37,12 @@ interface AirtableFields {
 
 export const fetchEvents = async (): Promise<PHEvent[]> => {
   const slugger = new GithubSlugger()
-  const airtableEvents =
-    (await airtable.read()) as unknown as AirtablePlusPlusRecord<AirtableFields>[]
+  const airtableEvents = (await airtable.read({
+    filterByFormula: `{Event Name} != ''`
+  })) as unknown as AirtablePlusPlusRecord<AirtableFields>[]
   const events = airtableEvents.map(({ id, fields }) => ({
     id,
-    name: fields['Event Name'] ?? 'Mysterious Event',
+    name: fields['Event Name'],
     desc:
       fields['Event Description'] ??
       `We're still working on this event...check back later for more details!`,
