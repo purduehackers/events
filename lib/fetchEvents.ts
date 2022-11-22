@@ -46,6 +46,9 @@ export const fetchEvents = async (): Promise<PHEvent[]> => {
           {Has Past Event Description?}, {Stat 1 Data}, {Stat 1 Label}, {Stat 2 Data}, {Stat 2 Label},
           {Stat 3 Data}, {Stat 3 Label})`
       })) as unknown as AirtablePlusPlusRecord<AirtableFields>[]
+  for (let i = 0; i < airtableEvents.length; i++) {
+    console.log(airtableEvents[i])
+  }
   const events = airtableEvents.map(({ id, fields }) => ({
     id,
     name: fields['Event Name'] ?? 'Mysterious Event',
