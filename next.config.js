@@ -1,6 +1,6 @@
 module.exports = {
   images: {
-    domains: ['airtable.com', 'airtableusercontent.com']
+    domains: ['dl.airtable.com', 'v5.airtableusercontent.com']
   },
   async redirects() {
     return [
