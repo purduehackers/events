@@ -30,7 +30,6 @@ const ImageCard = ({
         className="rounded-lg"
         onClick={() => (click ? click(index) : {})}
       />
-      {/* <div className="bg-gray-700 text-center py-3 rounded-b">Hi</div> */}
     </div>
   )
 }
