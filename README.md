@@ -29,7 +29,7 @@ If you just want to run a version of the site where the events load, all you nee
 
 - `git clone https://github.com/purduehackers/events.git`
 - Copy the [Airtable base](https://airtable.com/shrYbDwXQDyn1uIts) to your account
-- Get your API key from `https://airtable.com/account
+- Get your API key from `https://airtable.com/account`
 - Create a `.env` file and add your API key as `AIRTABLE_API_KEY`
 
 ---
