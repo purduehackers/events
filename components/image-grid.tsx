@@ -8,25 +8,9 @@ type GridImage = {
   index: number
 }
 
-const shuffle = (images: Array<GridImage>): Array<GridImage> => {
-  let currentIndex = images.length
-  let randomIndex
-
-  while (currentIndex != 0) {
-    randomIndex = Math.floor(Math.random() * currentIndex)
-    currentIndex--
-    ;[images[currentIndex], images[randomIndex]] = [
-      images[randomIndex],
-      images[currentIndex]
-    ]
-  }
-
-  return images
-}
-
 const ImageGrid = ({ images = [] }: { images: Array<AirtableAttachment> }) => {
   let filteredImages: Array<GridImage> = []
-  images.map((image, i) => {
+  images.slice(0, 3).map((image, i) => {
     if (image.width > image.height) {
       filteredImages.push({ image, index: i })
     }
@@ -35,13 +19,6 @@ const ImageGrid = ({ images = [] }: { images: Array<AirtableAttachment> }) => {
   const smallScreen = useMediaQuery('(max-width:768px)')
   const [open, setOpen] = useState(false)
   const [index, setIndex] = useState(0)
-  const [shuffledImages, setShuffledImages] = useState<Array<GridImage>>([
-    { image: filteredImages[0].image, index: filteredImages[0].index }
-  ])
-
-  useEffect(() => {
-    setShuffledImages(shuffle(filteredImages))
-  }, [])
 
   const onClose = () => {
     setOpen(false)
@@ -55,7 +32,7 @@ const ImageGrid = ({ images = [] }: { images: Array<AirtableAttachment> }) => {
   return (
     <div className="flex flex-col gap-y-4 mx-4 sm:mx-0 items-center">
       <div className="grid grid-cols-2 gap-2 md:grid-cols-3 md:gap-x-2 sm:max-w-lg md:max-w-xl items-center">
-        {shuffledImages.map(
+        {filteredImages.map(
           (image, i) =>
             i < 3 && (
               <ImageCard
