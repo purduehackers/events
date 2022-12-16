@@ -1,3 +1,4 @@
+import { format } from 'date-fns'
 import Link from 'next/link'
 import tt from 'tinytime'
 import { past } from '../lib/past'
@@ -24,17 +25,14 @@ const EventCard = ({
       <p className={past(start) ? '' : 'text-black dark:text-black transition'}>
         {start === 'TBD'
           ? 'TBD'
-          : tt(`${past(start) ? '{MM} {Do}, {YYYY} •' : '{dddd}. {MM} {Do} •'}`)
-              .render(new Date(start))
-              .replace('day', '')
-              .replace('nes', '')
-              .replace('Satur', 'Sat')}{' '}
+          : format(
+              new Date(start),
+              `${past(start) ? 'LLL do, Y •' : 'eee. LLL do •'}`
+            )}{' '}
         {start === 'TBD'
           ? ''
-          : tt(`{h}:{mm}${end === 'TBD' ? ' {a}' : ''}`).render(
-              new Date(start)
-            ) + '—'}
-        {end === 'TBD' ? '???' : tt('{h}:{mm} {a}').render(new Date(end))}
+          : format(new Date(start), `h:mm${end === 'TBD' ? ' a' : ''}`) + '—'}
+        {end === 'TBD' ? '???' : format(new Date(end), 'h:mm a')}
       </p>
       <h3
         className={`${name.length < 30 ? 'text-2xl' : 'text-2xl sm:text-xl'} ${
