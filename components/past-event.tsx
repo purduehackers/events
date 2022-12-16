@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import { Clock } from 'react-feather'
 import { format } from 'date-fns'
+import useSWR from 'swr'
 import { formatDate } from '../lib/formatDate'
 import Nav from './nav'
 import Footer from './footer'
@@ -32,6 +33,55 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
   useEffect(() => {
     setPondering(footer[Math.floor(Math.random() * footer.length)])
   }, [])
+
+  //@ts-ignore
+  const fetcher = (...args) => fetch(...args).then((res) => res.json())
+  const select = {
+    filterByFormula: `{Event Name} = '${event.name}'`
+  }
+  const fallbackData = [
+    {
+      fields: {
+        'Recap Images': [
+          {
+            url: '/blur-1.png',
+            width: 400,
+            height: 300,
+            fallback: true
+          },
+          {
+            url: '/blur-2.png',
+            width: 400,
+            height: 300,
+            fallback: true
+          },
+          {
+            url: '/blur-3.png',
+            width: 400,
+            height: 300,
+            fallback: true
+          }
+        ]
+      }
+    }
+  ]
+  const { data } = useSWR(
+    `https://api.purduehackers.com/events?select=${encodeURIComponent(
+      JSON.stringify(select)
+    )}`,
+    fetcher,
+    {
+      fallbackData
+    }
+  )
+  const [recapImages, setRecapImages] = useState(data[0].fields['Recap Images'])
+  useEffect(() => {
+    setRecapImages(data[0].fields['Recap Images'])
+  }, [
+    data[0].fields['Recap Images'].some((img: any) =>
+      img.hasOwnProperty('fallback')
+    )
+  ])
 
   return (
     <>
@@ -74,7 +124,7 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
         <div className="flex flex-col items-center justify-center py-8 sm:px-20">
           <div
             className={`flex flex-col ${
-              event.recapImages.length > 1
+              recapImages.length > 1
                 ? 'sm:flex-row-reverse sm:items-start'
                 : 'sm:flex-col sm:items-center'
             } sm:gap-x-4 items-center`}
@@ -84,7 +134,7 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
               <div className="flex flex-col justify-items-center sm:justify-items-end">
                 <div
                   className={`mx-4 mt-4 ${
-                    event.recapImages.length > 1 ? 'sm:mx-0 sm:mt-0' : ''
+                    recapImages.length > 1 ? 'sm:mx-0 sm:mt-0' : ''
                   } mb-4 sm:w-fit`}
                 >
                   <div className="border-2 border-dashed rounded-lg p-4 border-amber-400 dark:border-amber-500">
@@ -94,8 +144,10 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
                     />
                   </div>
                 </div>
-                {event.recapImages.length > 1 && (
-                  <ImageGrid images={event.recapImages} />
+                {recapImages.length > 1 && (
+                  <ImageGrid
+                    images={recapImages as unknown as AirtableAttachment[]}
+                  />
                 )}
               </div>
             </div>
