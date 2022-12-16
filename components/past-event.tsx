@@ -45,20 +45,20 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
         'Recap Images': [
           {
             url: '/blur-1.png',
-            width: 400,
-            height: 300,
+            width: 750,
+            height: 562.5,
             fallback: true
           },
           {
             url: '/blur-2.png',
-            width: 400,
-            height: 300,
+            width: 750,
+            height: 562.5,
             fallback: true
           },
           {
             url: '/blur-3.png',
-            width: 400,
-            height: 300,
+            width: 750,
+            height: 562.5,
             fallback: true
           }
         ]
