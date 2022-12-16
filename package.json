@@ -11,6 +11,7 @@
     "@types/luxon": "^2.0.8",
     "@types/uuid": "^8.3.3",
     "airtable-plusplus": "^0.3.2",
+    "date-fns": "^2.29.3",
     "dotenv": "^16.0.3",
     "github-slugger-typescript": "^1.1.0",
     "lodash": "^4.17.21",
