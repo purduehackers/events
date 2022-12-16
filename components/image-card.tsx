@@ -28,7 +28,6 @@ const ImageCard = ({
         key={image.url}
         priority
         className="rounded-lg"
-        blurDataURL={`/_next/image?url=${image.url}&w=16&q=1`}
         onClick={() => (click ? click(index) : {})}
       />
     </div>
