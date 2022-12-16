@@ -12,6 +12,7 @@ import Nav from './nav'
 import { formatDate } from '../lib/formatDate'
 import VercelBanner from './vercel-banner'
 import DescriptionBox from './desc-box'
+import { format } from 'date-fns'
 
 const UpcomingEvent = ({ event }: { event: PHEvent }) => {
   const [pondering, setPondering] = useState('')
@@ -27,8 +28,9 @@ const UpcomingEvent = ({ event }: { event: PHEvent }) => {
     event.name.includes('Hack Night') ? 'dark' : 'light'
   }&md=1&fontSize=${event.name.length < 30 ? '250' : '200'}px&caption=${
     event.start !== 'TBD'
-      ? tt('{MM}%20{DD}%20•').render(
-          formatDate(new Date(event.start), 'America/Indianapolis')
+      ? format(
+          formatDate(new Date(event.start), 'America/Indianapolis'),
+          'LLL%20d%20•'
         )
       : ''
   }%20${event.loc.replace(new RegExp(' ', 'g'), '%20')}`
@@ -67,21 +69,19 @@ const UpcomingEvent = ({ event }: { event: PHEvent }) => {
               <Clock />
               {event.start === 'TBD'
                 ? 'Date TBD'
-                : tt(
-                    `${
-                      past(event.start)
-                        ? '{MM} {Do}, {YYYY}'
-                        : '{dddd}, {MM} {Do} •'
-                    }`
-                  ).render(new Date(event.start))}{' '}
+                : format(
+                    new Date(event.start),
+                    `${past(event.start) ? 'LLL do, y' : 'EEEE, LLL do •'}`
+                  )}{' '}
               {event.start === 'TBD'
                 ? ''
-                : tt(`{h}:{mm}${event.end === 'TBD' ? ' {a}' : ''}`).render(
-                    new Date(event.start)
+                : format(
+                    new Date(event.start),
+                    `h:mm${event.end === 'TBD' ? ' a' : ''}`
                   ) + '—'}
               {event.end === 'TBD'
                 ? '???'
-                : tt('{h}:{mm} {a}').render(new Date(event.end))}
+                : format(new Date(event.end), 'h:mm a')}
             </p>
             <p className="mt-1 text-1xl sm:text-2xl flex flex-row gap-x-1 items-center justify-center dark:text-gray-200">
               <MapPin />
