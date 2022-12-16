@@ -36,9 +36,6 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
 
   //@ts-ignore
   const fetcher = (...args) => fetch(...args).then((res) => res.json())
-  const select = {
-    filterByFormula: `{Event Name} = '${event.name}'`
-  }
   const fallbackData = [
     {
       fields: {
@@ -65,6 +62,9 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
       }
     }
   ]
+  const select = {
+    filterByFormula: `{Event Name} = '${event.name}'`
+  }
   const { data } = useSWR(
     `https://api.purduehackers.com/events?select=${encodeURIComponent(
       JSON.stringify(select)
