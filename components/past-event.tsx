@@ -1,6 +1,6 @@
-import tt from 'tinytime'
 import Head from 'next/head'
 import { Clock } from 'react-feather'
+import { format } from 'date-fns'
 import { formatDate } from '../lib/formatDate'
 import Nav from './nav'
 import Footer from './footer'
@@ -20,8 +20,9 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
     event.name.length < 30 ? '250' : '200'
   }px&caption=${
     event.start !== 'TBD'
-      ? tt('{MM}%20{DD}%20•').render(
-          formatDate(new Date(event.start), 'America/Indianapolis')
+      ? format(
+          formatDate(new Date(event.start), 'America/Indianapolis'),
+          'LLL%20d%20•'
         )
       : ''
   }%20${event.loc.replace(new RegExp(' ', 'g'), '%20')}`
@@ -62,13 +63,11 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
               <Clock />
               {event.start === 'TBD'
                 ? 'Date TBD'
-                : tt('{MM} {Do}, {YYYY} •').render(new Date(event.start))}{' '}
+                : format(new Date(event.start), 'LLL do, Y •')}{' '}
               {event.start === 'TBD'
                 ? ''
-                : tt('{h}:{mm}').render(new Date(event.start)) + '—'}
-              {event.end === 'TBD'
-                ? ''
-                : tt('{h}:{mm} {a}').render(new Date(event.end))}
+                : format(new Date(event.start), 'h:mm') + '—'}
+              {event.end === 'TBD' ? '' : format(new Date(event.end), 'h:mm a')}
             </p>
           </div>
         </div>

@@ -1,7 +1,7 @@
 import { AirtablePlusPlus } from 'airtable-plusplus'
+import { format } from 'date-fns'
 import Mailgun from 'mailgun-js'
 import { NextApiRequest, NextApiResponse } from 'next'
-import tt from 'tinytime'
 
 import { fetchEvents } from '../../lib/fetchEvents'
 import { formatDate } from '../../lib/formatDate'
@@ -92,8 +92,8 @@ const sendEmail = async (
   const { name, start, end, loc, slug } = event
   const startDate = formatDate(new Date(start), 'America/Indianapolis')
   const endDate = formatDate(new Date(end), 'America/Indianapolis')
-  const parsedStart = tt('{dddd} from {h}:{mm}').render(startDate)
-  const parsedEnd = tt('{h}:{mm} {a}').render(endDate)
+  const parsedStart = format(startDate, 'EEEE from h:mm')
+  const parsedEnd = format(endDate, 'h:mm a')
 
   const firstData = {
     from: 'Purdue Hackers <events@purduehackers.com>',
