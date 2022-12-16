@@ -1,6 +1,5 @@
 import { format } from 'date-fns'
 import Link from 'next/link'
-import tt from 'tinytime'
 import { past } from '../lib/past'
 
 const EventCard = ({
