@@ -2,7 +2,6 @@ import { AirtablePlusPlus } from 'airtable-plusplus'
 import { format } from 'date-fns'
 import Mailgun from 'mailgun-js'
 import { NextApiRequest, NextApiResponse } from 'next'
-import tt from 'tinytime'
 
 import { fetchEvents } from '../../lib/fetchEvents'
 import { formatDate } from '../../lib/formatDate'

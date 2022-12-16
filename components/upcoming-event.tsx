@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { Clock, MapPin, Calendar } from 'react-feather'
-import tt from 'tinytime'
+import { format } from 'date-fns'
 import RSVPForm from './rsvp-form'
 import StyledLink from './styled-link'
 import Footer from './footer'
@@ -12,7 +12,6 @@ import Nav from './nav'
 import { formatDate } from '../lib/formatDate'
 import VercelBanner from './vercel-banner'
 import DescriptionBox from './desc-box'
-import { format } from 'date-fns'
 
 const UpcomingEvent = ({ event }: { event: PHEvent }) => {
   const [pondering, setPondering] = useState('')
