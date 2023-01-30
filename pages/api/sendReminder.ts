@@ -92,9 +92,18 @@ const sendEmail = async (
   const { name, start, end, loc, slug } = event
   const startDate = formatDate(new Date(start), 'America/Indianapolis')
   const endDate = formatDate(new Date(end), 'America/Indianapolis')
-  const parsedStart =
+  let parsedStart =
     format(startDate, 'EEEE') + ' from ' + format(startDate, 'h:mm')
-  const parsedEnd = format(endDate, 'h:mm a')
+  let parsedEnd
+  try {
+    parsedEnd = '—' + format(endDate, 'h:mm a')
+  } catch (err) {
+    parsedStart =
+      format(startDate, 'EEEE') + ' at ' + format(startDate, 'h:mm a')
+    parsedEnd = ''
+  }
+  console.log('parsed start', parsedStart)
+  console.log('parsed end', parsedEnd)
 
   const firstData = {
     from: 'Purdue Hackers <events@purduehackers.com>',
