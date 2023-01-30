@@ -93,7 +93,9 @@ const sendEmail = async (
   const startDate = formatDate(new Date(start), 'America/Indianapolis')
   const endDate = formatDate(new Date(end), 'America/Indianapolis')
   let parsedStart =
-    format(startDate, 'EEEE') + ' from ' + format(startDate, 'h:mm')
+    firstOrSecond === 'first'
+      ? format(startDate, 'EEEE') + ' from ' + format(startDate, 'h:mm')
+      : 'TODAY from ' + format(startDate, 'h:mm')
   let parsedEnd
   try {
     parsedEnd = '—' + format(endDate, 'h:mm a')
