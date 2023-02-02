@@ -93,11 +93,11 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
         <div className="container py-8 sm:pt-14 sm:pb-0 mx-auto px-4 sm:px-36 lg:px-72 xl:px-96">
           <div className="rounded-lg shadow-lg dark:shadow-black/25 bg-amber-400 dark:bg-amber-500 dark:text-black p-4 flex flex-col justify-center gap-y-3">
             <h2 className="text-2xl sm:text-3xl font-bold text-center">
-              That's all, folks 🐰
+              Coming soon...
             </h2>
             <p>
-              We've run all of our events for the Fall 2022 semester. See you in
-              January!
+              There aren't currently any events that we're ready to announce.
+              We're working hard though—check back soon!
             </p>
             <p>
               {discordFlavor}{' '}
