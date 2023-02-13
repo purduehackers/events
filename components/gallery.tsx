@@ -3,13 +3,13 @@ import 'react-image-lightbox/style.css'
 import Lightbox from 'react-image-lightbox'
 
 const Gallery = ({
-  images,
+  imageUrls,
   index,
   open,
   onClose,
   setIndex
 }: {
-  images: Array<AirtableAttachment>
+  imageUrls: string[]
   index: number
   open: boolean
   onClose: Function
@@ -17,10 +17,6 @@ const Gallery = ({
 }) => {
   // const [index, setIndex] = useState(0)
   // const [open, setOpen] = useState(false)
-
-  let imageUrls: Array<string> = images.map((image) => {
-    return image.url
-  })
 
   return (
     <div>

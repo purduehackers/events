@@ -4,16 +4,20 @@ import Gallery from './gallery'
 import ImageCard from './image-card'
 
 type GridImage = {
-  image: AirtableAttachment
+  image: any
   index: number
 }
 
-const ImageGrid = ({ images = [] }: { images: Array<AirtableAttachment> }) => {
+const ImageGrid = ({
+  images = [],
+  imageUrls
+}: {
+  images: any[] /* Array of Sanity images */
+  imageUrls: string[]
+}) => {
   let filteredImages: Array<GridImage> = []
   images.slice(0, 3).map((image, i) => {
-    if (image.width > image.height) {
-      filteredImages.push({ image, index: i })
-    }
+    filteredImages.push({ image, index: i })
   })
 
   const smallScreen = useMediaQuery('(max-width:768px)')
@@ -71,7 +75,7 @@ const ImageGrid = ({ images = [] }: { images: Array<AirtableAttachment> }) => {
         </button>
       )}
       <Gallery
-        images={images}
+        imageUrls={imageUrls}
         index={index}
         open={open}
         onClose={onClose}
