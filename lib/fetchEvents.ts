@@ -1,13 +1,25 @@
 import { AirtablePlusPlus, AirtablePlusPlusRecord } from 'airtable-plusplus'
 import { orderBy } from 'lodash'
 import { GithubSlugger } from 'github-slugger-typescript'
-import { past } from './past'
+import { createClient } from 'next-sanity'
+import imageUrlBuilder from '@sanity/image-url'
 
-const airtable = new AirtablePlusPlus({
-  apiKey: `${process.env.AIRTABLE_API_KEY}`,
-  baseId: 'appfaalz9AzKDwSup',
-  tableName: 'Events'
+const client = createClient({
+  projectId: process.env.SANITY_PROJECT_ID,
+  dataset: 'production',
+  apiVersion: '2022-03-25',
+  useCdn: true
 })
+const builder = imageUrlBuilder(client)
+function urlFor(source: any) {
+  return builder.image(source)
+}
+
+// const airtable = new AirtablePlusPlus({
+//   apiKey: `${process.env.AIRTABLE_API_KEY}`,
+//   baseId: 'appfaalz9AzKDwSup',
+//   tableName: 'Events'
+// })
 
 interface AirtableFields {
   'Event Name': string
@@ -37,38 +49,48 @@ interface AirtableFields {
 
 export const fetchEvents = async (): Promise<PHEvent[]> => {
   const slugger = new GithubSlugger()
-  const airtableEvents = (await airtable.read({
-    filterByFormula: `{Event Name} != ''`
-  })) as unknown as AirtablePlusPlusRecord<AirtableFields>[]
-  const events = airtableEvents.map(({ id, fields }) => ({
-    id,
-    name: fields['Event Name'],
+  // const airtableEvents = (await airtable.read({
+  //   filterByFormula: `{Event Name} != ''`
+  // })) as unknown as AirtablePlusPlusRecord<AirtableFields>[]
+  // const sanityEvents = (
+  //   await client
+  //     .fetch(`*[_type == "event"]`)
+  //     .catch((err) => console.log('err', err))
+  // ).map((event: any) => {
+  //   const recapImageUrls: any[] = []
+  //   event.recapImages.map((image: any) => {
+  //     recapImageUrls.push(urlFor(image).url())
+  //   })
+  //   event.recapImages = recapImageUrls
+  // })
+  const sanityEvents = await client.fetch(`*[_type == "event"]`)
+  const events = sanityEvents.map((event: any) => ({
+    name: event.name,
     desc:
-      fields['Event Description'] ??
+      event.desc ??
       `We're still working on this event...check back later for more details!`,
-    start: fields['Event Date & Start Time'] ?? 'TBD',
-    end: fields['Event Date & End Time'] ?? 'TBD',
-    loc: fields['Event Location'] ?? 'TBD',
-    gMap: fields['Location Map Link (optional)'] ?? false,
-    calLink: fields['Calendar Link'] ?? false,
-    ogDescription: fields['OG Description'] ?? '',
-    emailSent: fields['Reminder Email Sent'] ?? false,
-    secondEmailSent: fields['Second Email Sent'] ?? false,
-    unlisted: fields['Unlisted'] ?? false,
-    rsvpCount: fields['RSVP Count'] ?? 0,
-    slug: fields['Custom Slug'] ?? slugger.slug(fields['Event Name']),
+    start: event.start ?? 'TBD',
+    end: event.end ?? 'TBD',
+    loc: event.loc ?? 'TBD',
+    gMap: event.gMap ?? false,
+    calLink: event.calLink ?? false,
+    ogDescription: event.ogDescription ?? '',
+    emailSent: event.emailSent ?? false,
+    secondEmailSent: event.secondEmailSent ?? false,
+    unlisted: event.unlisted ?? false,
+    rsvpCount: event.rsvpCount ?? 0,
+    slug: event.customSlug ?? slugger.slug(event.name),
     pastEventDesc:
-      fields['Past Event Description'] ??
+      event.pastEventDesc ??
       'A past Purdue Hackers event...more details coming soon!',
-    recapImages: fields['Recap Images'] ?? [{ url: 'https://mbs.zone/geck' }],
-    hasPastEventDesc:
-      fields['Has Past Event Description?'] === 1 ? true : false,
-    stat1Data: fields['Stat 1 Data'] ?? '',
-    stat1Label: fields['Stat 1 Label'] ?? '',
-    stat2Data: fields['Stat 2 Data'] ?? '',
-    stat2Label: fields['Stat 2 Label'] ?? '',
-    stat3Data: fields['Stat 3 Data'] ?? '',
-    stat3Label: fields['Stat 3 Label'] ?? ''
+    recapImages: event.recapImages ?? [{ url: 'https://mbs.zone/geck' }],
+    hasPastEventDesc: event.pastEventDesc !== '',
+    stat1Data: event.stat1.data ?? '',
+    stat1Label: event.stat1.label ?? '',
+    stat2Data: event.stat2.data ?? '',
+    stat2Label: event.stat2.label ?? '',
+    stat3Data: event.stat3.data ?? '',
+    stat3Label: event.stat3.label ?? ''
   }))
 
   return orderBy(events, 'start')
