@@ -41,7 +41,6 @@ export const fetchEvents = async (): Promise<PHEvent[]> => {
       metadata
     }
   }`)
-  console.log('sanity event', sanityEvents[0])
   const events = sanityEvents.map((event: SanityEvent) => ({
     name: event.name,
     desc:
