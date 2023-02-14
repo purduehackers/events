@@ -8,7 +8,7 @@ interface LightboxImage {
   description: string
 }
 
-const ImageGallery = ({
+const Gallery = ({
   images,
   index,
   open,
@@ -37,4 +37,4 @@ const ImageGallery = ({
   )
 }
 
-export default ImageGallery
+export default Gallery
