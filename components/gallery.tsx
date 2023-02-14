@@ -3,13 +3,13 @@ import 'react-image-lightbox/style.css'
 import Lightbox from 'react-image-lightbox'
 
 const Gallery = ({
-  imageUrls,
+  images,
   index,
   open,
   onClose,
   setIndex
 }: {
-  imageUrls: string[]
+  images: any[]
   index: number
   open: boolean
   onClose: Function
@@ -19,15 +19,15 @@ const Gallery = ({
     <div>
       {open && (
         <Lightbox
-          mainSrc={imageUrls[index]}
-          nextSrc={imageUrls[(index + 1) % imageUrls.length]}
-          prevSrc={imageUrls[(index + imageUrls.length - 1) % imageUrls.length]}
+          mainSrc={images[index].url}
+          nextSrc={images[(index + 1) % images.length].url}
+          prevSrc={images[(index + images.length - 1) % images.length].url}
           onCloseRequest={() => onClose()}
           onMovePrevRequest={() =>
-            setIndex((index + imageUrls.length - 1) % imageUrls.length)
+            setIndex((index + images.length - 1) % images.length)
           }
-          onMoveNextRequest={() => setIndex((index + 1) % imageUrls.length)}
-          imageCaption={`${index + 1}/${imageUrls.length}`}
+          onMoveNextRequest={() => setIndex((index + 1) % images.length)}
+          imageCaption={`${index + 1}/${images.length}`}
         />
       )}
     </div>

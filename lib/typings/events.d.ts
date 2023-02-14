@@ -15,7 +15,6 @@ interface PHEvent {
   rsvpCount: number
   pastEventDesc: string
   recapImages: any[]
-  recapImageUrls: string[]
   hasPastEventDesc: boolean
   stat1Label: string
   stat1Data: string
