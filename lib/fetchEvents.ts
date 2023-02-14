@@ -11,19 +11,25 @@ const client = createClient({
 })
 
 const getCalLink = (event: any) => {
-  return new URL(
-    `https://www.google.com/calendar/render?action=TEMPLATE&text=${
-      event.name
-    } (Purdue Hackers)&location=${
-      event.loc
-    }&details=A Purdue Hackers Event&dates=${format(
-      new Date(event.start),
-      'yyyyMMdd'
-    )}T${format(new Date(event.start), 'HHmm')}00Z%2F${format(
-      new Date(event.end),
-      'yyyyMMdd'
-    )}T${format(new Date(event.end), 'HHmm')}00Z`
-  ).href
+  try {
+    return new URL(
+      `https://www.google.com/calendar/render?action=TEMPLATE&text=${
+        event.name
+      } (Purdue Hackers)&location=${
+        event.loc
+      }&details=A Purdue Hackers Event&dates=${format(
+        new Date(event.start),
+        'yyyyMMdd'
+      )}T${format(new Date(event.start), 'HHmm')}00Z%2F${format(
+        new Date(event.end),
+        'yyyyMMdd'
+      )}T${format(new Date(event.end), 'HHmm')}00Z`
+    ).href
+  } catch {
+    return new URL(
+      `https://www.google.com/calendar/render?action=TEMPLATE&text=${event.name} (Purdue Hackers)&location=${event.loc}&details=A Purdue Hackers Event`
+    ).href
+  }
 }
 
 export const fetchEvents = async (): Promise<PHEvent[]> => {

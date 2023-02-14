@@ -21,7 +21,6 @@ const EventCard = ({
           ? 'bg-gray-200 dark:bg-gray-700'
           : 'bg-amber-400 dark:bg-amber-500 hover:scale-105 transform transition'
       }`}
-      passHref
     >
       <p className={past(start) ? '' : 'text-black dark:text-black transition'}>
         {start === 'TBD'
