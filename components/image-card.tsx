@@ -24,6 +24,8 @@ const ImageCard = ({
       <Image
         alt="Gallery image"
         {...imageProps}
+        placeholder="blur"
+        blurDataURL={image.metadata.lqip}
         priority
         className="rounded-lg"
         onClick={() => (click ? click(index) : {})}

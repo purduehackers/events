@@ -26,7 +26,13 @@ const getImageUrls = (images: any) => {
 
 export const fetchEvents = async (): Promise<PHEvent[]> => {
   const slugger = new GithubSlugger()
-  const sanityEvents = await client.fetch(`*[_type == "event"]`)
+  const sanityEvents = await client.fetch(`*[_type == "event"] {
+    ...,
+    "recapImages": recapImages[].asset->{
+      ...,
+      metadata
+    }
+  }`)
   const events = sanityEvents.map((event: any) => ({
     name: event.name,
     desc:

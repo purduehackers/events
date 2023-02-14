@@ -1,6 +1,7 @@
 module.exports = {
   images: {
-    domains: ['v5.airtableusercontent.com']
+    domains: ['cdn.sanity.io'],
+    loader: 'custom'
   },
   async redirects() {
     return [
