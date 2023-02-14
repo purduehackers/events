@@ -9,7 +9,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     apiKey: `${process.env.MAILGUN_API_KEY}`,
     domain: 'purduehackers.com'
   })
-
   const uuid = await generateUUID(email)
 
   const data = {

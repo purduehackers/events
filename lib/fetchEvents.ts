@@ -1,74 +1,73 @@
-import { AirtablePlusPlus, AirtablePlusPlusRecord } from 'airtable-plusplus'
 import { orderBy } from 'lodash'
-import { GithubSlugger } from 'github-slugger-typescript'
-import { past } from './past'
+import GithubSlugger from 'github-slugger'
+import { createClient } from 'next-sanity'
+import { format } from 'date-fns'
 
-const airtable = new AirtablePlusPlus({
-  apiKey: `${process.env.AIRTABLE_API_KEY}`,
-  baseId: 'appfaalz9AzKDwSup',
-  tableName: 'Events'
+const client = createClient({
+  projectId: process.env.SANITY_PROJECT_ID,
+  dataset: 'production',
+  apiVersion: '2022-03-25',
+  useCdn: true
 })
 
-interface AirtableFields {
-  'Event Name': string
-  'Event Date & Start Time': string
-  'Event Date & End Time': string
-  'Event Location': string
-  'Location Map Link (optional)': string
-  'Calendar Link': string
-  'OG Description': string
-  'Event Description': string
-  Slug: string
-  'Custom Slug': string
-  'Reminder Email Sent': boolean
-  'Second Email Sent': boolean
-  Unlisted: boolean
-  'RSVP Count': number
-  'Past Event Description': string
-  'Recap Images': Array<AirtableAttachment>
-  'Has Past Event Description?': number
-  'Stat 1 Data': string
-  'Stat 1 Label': string
-  'Stat 2 Data': string
-  'Stat 2 Label': string
-  'Stat 3 Data': string
-  'Stat 3 Label': string
+const getCalLink = (event: SanityEvent) => {
+  try {
+    return new URL(
+      `https://www.google.com/calendar/render?action=TEMPLATE&text=${
+        event.name
+      } (Purdue Hackers)&location=${
+        event.loc
+      }&details=A Purdue Hackers Event&dates=${format(
+        new Date(event.start),
+        'yyyyMMdd'
+      )}T${format(new Date(event.start), 'HHmm')}00Z%2F${format(
+        new Date(event.end),
+        'yyyyMMdd'
+      )}T${format(new Date(event.end), 'HHmm')}00Z`
+    ).href
+  } catch {
+    return new URL(
+      `https://www.google.com/calendar/render?action=TEMPLATE&text=${event.name} (Purdue Hackers)&location=${event.loc}&details=A Purdue Hackers Event`
+    ).href
+  }
 }
 
 export const fetchEvents = async (): Promise<PHEvent[]> => {
   const slugger = new GithubSlugger()
-  const airtableEvents = (await airtable.read({
-    filterByFormula: `{Event Name} != ''`
-  })) as unknown as AirtablePlusPlusRecord<AirtableFields>[]
-  const events = airtableEvents.map(({ id, fields }) => ({
-    id,
-    name: fields['Event Name'],
+  const sanityEvents = await client.fetch(`*[_type == "event"] {
+    ...,
+    "recapImages": recapImages[].asset->{
+      ...,
+      metadata
+    }
+  }`)
+  const events = sanityEvents.map((event: SanityEvent) => ({
+    name: event.name,
     desc:
-      fields['Event Description'] ??
+      event.desc ??
       `We're still working on this event...check back later for more details!`,
-    start: fields['Event Date & Start Time'] ?? 'TBD',
-    end: fields['Event Date & End Time'] ?? 'TBD',
-    loc: fields['Event Location'] ?? 'TBD',
-    gMap: fields['Location Map Link (optional)'] ?? false,
-    calLink: fields['Calendar Link'] ?? false,
-    ogDescription: fields['OG Description'] ?? '',
-    emailSent: fields['Reminder Email Sent'] ?? false,
-    secondEmailSent: fields['Second Email Sent'] ?? false,
-    unlisted: fields['Unlisted'] ?? false,
-    rsvpCount: fields['RSVP Count'] ?? 0,
-    slug: fields['Custom Slug'] ?? slugger.slug(fields['Event Name']),
+    start: event.start ?? 'TBD',
+    end: event.end ?? 'TBD',
+    loc: event.loc ?? 'TBD',
+    gMap: event.gMap ?? '',
+    calLink: event.calLink ?? getCalLink(event),
+    ogDescription: event.ogDescription ?? '',
+    emailSent: event.emailSent ?? false,
+    secondEmailSent: event.secondEmailSent ?? false,
+    unlisted: event.unlisted ?? false,
+    rsvpCount: event.rsvpCount ?? 0,
+    slug: event.customSlug ?? slugger.slug(event.name),
     pastEventDesc:
-      fields['Past Event Description'] ??
+      event.pastEventDesc ??
       'A past Purdue Hackers event...more details coming soon!',
-    recapImages: fields['Recap Images'] ?? [{ url: 'https://mbs.zone/geck' }],
-    hasPastEventDesc:
-      fields['Has Past Event Description?'] === 1 ? true : false,
-    stat1Data: fields['Stat 1 Data'] ?? '',
-    stat1Label: fields['Stat 1 Label'] ?? '',
-    stat2Data: fields['Stat 2 Data'] ?? '',
-    stat2Label: fields['Stat 2 Label'] ?? '',
-    stat3Data: fields['Stat 3 Data'] ?? '',
-    stat3Label: fields['Stat 3 Label'] ?? ''
+    recapImages: event.recapImages ?? [{ url: 'https://mbs.zone/geck' }],
+    hasPastEventDesc: event.pastEventDesc !== '',
+    stat1Data: event.stat1?.data ?? '',
+    stat1Label: event.stat1?.label ?? '',
+    stat2Data: event.stat2?.data ?? '',
+    stat2Label: event.stat2?.label ?? '',
+    stat3Data: event.stat3?.data ?? '',
+    stat3Label: event.stat3?.label ?? ''
   }))
 
   return orderBy(events, 'start')

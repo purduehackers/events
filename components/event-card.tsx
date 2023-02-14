@@ -13,9 +13,10 @@ const EventCard = ({
   start: string
   end: string
 }) => (
-  <Link href={`/${slug}`} passHref>
-    <a
-      className={`col-span-1 shadow-lg dark:shadow-black/25 flex flex-col rounded-lg justify-center p-5 ${
+  <div>
+    <Link
+      href={`/${slug}`}
+      className={`col-span-1 h-full shadow-lg dark:shadow-black/25 flex flex-col rounded-lg justify-center p-5 ${
         past(start)
           ? 'bg-gray-200 dark:bg-gray-700'
           : 'bg-amber-400 dark:bg-amber-500 hover:scale-105 transform transition'
@@ -40,8 +41,8 @@ const EventCard = ({
       >
         {name}
       </h3>
-    </a>
-  </Link>
+    </Link>
+  </div>
 )
 
 export default EventCard

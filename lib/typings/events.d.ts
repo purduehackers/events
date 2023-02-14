@@ -1,11 +1,51 @@
-interface AirtableAttachment {
-  id: string
+interface SanityImage {
+  _createdAt: string
+  _id: string
+  _rev: string
+  _type: string
+  _updatedAt: string
+  assetId: string
+  extension: string
+  metadata: ImageMetadata
+  mimeType: string
+  originalFilename: string
+  path: string
+  sha1hash: string
   size: number
-  width: number
-  height: number
+  uploadId: string
   url: string
-  type: string
-  filename: string
+}
+
+interface Stat {
+  data: string
+  label: string
+}
+
+interface SanityEvent {
+  _createdAt: string
+  _id: string
+  _rev: string
+  _type: string
+  _updatedAt: string
+  calLink: string
+  customSlug: string
+  desc: string
+  emailSent: boolean
+  end: string
+  gMap: string
+  hasPastEventDesc: boolean
+  loc: string
+  name: string
+  ogDescription: string
+  pastEventDesc: string
+  recapImages: SanityImage[]
+  rsvpCount: number
+  secondEmailSent: boolean
+  start: string
+  stat1: Stat
+  stat2: Stat
+  stat3: Stat
+  unlisted: boolean
 }
 
 interface PHEvent {
@@ -24,7 +64,7 @@ interface PHEvent {
   unlisted: boolean
   rsvpCount: number
   pastEventDesc: string
-  recapImages: Array<AirtableAttachment>
+  recapImages: any[]
   hasPastEventDesc: boolean
   stat1Label: string
   stat1Data: string
