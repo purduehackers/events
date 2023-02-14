@@ -1,19 +1,21 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import useMediaQuery from '../lib/hooks/use-media-query'
 import Gallery from './gallery'
 import ImageCard from './image-card'
 
 type GridImage = {
-  image: AirtableAttachment
+  image: SanityImage
   index: number
 }
 
-const ImageGrid = ({ images = [] }: { images: Array<AirtableAttachment> }) => {
-  let filteredImages: Array<GridImage> = []
+const ImageGrid = ({
+  images = []
+}: {
+  images: SanityImage[] /* Array of Sanity images */
+}) => {
+  let filteredImages: GridImage[] = []
   images.slice(0, 3).map((image, i) => {
-    if (image.width > image.height) {
-      filteredImages.push({ image, index: i })
-    }
+    filteredImages.push({ image, index: i })
   })
 
   const smallScreen = useMediaQuery('(max-width:768px)')
@@ -70,13 +72,7 @@ const ImageGrid = ({ images = [] }: { images: Array<AirtableAttachment> }) => {
           See all photos
         </button>
       )}
-      <Gallery
-        images={images}
-        index={index}
-        open={open}
-        onClose={onClose}
-        setIndex={setIndex}
-      />
+      <Gallery images={images} index={index} open={open} onClose={onClose} />
     </div>
   )
 }

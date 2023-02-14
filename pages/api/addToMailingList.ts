@@ -1,12 +1,14 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import Mailgun from 'mailgun-js'
 import { verifyUUID } from '../../lib/uuid'
-import { AirtablePlusPlus } from 'airtable-plusplus'
+import { createClient } from 'next-sanity'
 
-const airtable = new AirtablePlusPlus({
-  apiKey: `${process.env.AIRTABLE_API_KEY}`,
-  baseId: 'appfaalz9AzKDwSup',
-  tableName: 'Events'
+const client = createClient({
+  projectId: process.env.SANITY_PROJECT_ID,
+  dataset: 'production',
+  apiVersion: '2022-03-25',
+  useCdn: true,
+  token: process.env.SANITY_TOKEN
 })
 
 export default (req: NextApiRequest, res: NextApiResponse) =>
@@ -49,20 +51,24 @@ export default (req: NextApiRequest, res: NextApiResponse) =>
                 name: email as string,
                 subscribed: true
               })
-              .then((response) => {
+              .then(async (response) => {
                 console.log(response)
-                console.log('Updating values in Airtable')
-                airtable
-                  .updateWhere(`{Event Name} = '${eventName}'`, {
-                    'RSVP Count':
-                      item !== undefined ? item?.members_count + 1 : 1
-                  })
+                console.log('Updating values in Sanity')
+                const id = (
+                  await client.fetch(`*[name == "${eventName}"]`)
+                )?.[0]._id
+
+                client
+                  .patch(id)
+                  .inc({ rsvpCount: 1 })
+                  .commit()
                   .then(() => {
                     console.log('Done!')
                     resolve(
                       res.redirect(`/email-confirm?eventName=${eventName}`)
                     )
                   })
+                  .catch((err) => console.log('error incrementing', err))
               })
               .catch((error) => {
                 if (error.toString().includes('Address already exists')) {

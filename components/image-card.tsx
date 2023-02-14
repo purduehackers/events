@@ -1,31 +1,25 @@
-import Image from 'next/future/image'
-
-const resizeImage = (image: AirtableAttachment): AirtableAttachment => {
-  if (image.width > 750) {
-    image.height = (image.height * 750) / image.width
-    image.width = 750
-  }
-  return image
-}
+import Image from 'next/image'
+import { ImageMetadata } from 'sanity'
 
 const ImageCard = ({
   image,
   index,
   click
 }: {
-  image: AirtableAttachment
+  image: SanityImage
   index: number
   click?: Function
 }) => {
-  image = resizeImage(image)
+  const metadata: ImageMetadata = image.metadata
   return (
     <div className="flex flex-col mx-auto hover:scale-[1.03] transition transform">
       <Image
         alt="Gallery image"
         src={image.url}
-        width={image.width}
-        height={image.height}
-        key={image.url}
+        width={metadata.dimensions.width}
+        height={metadata.dimensions.height}
+        placeholder="blur"
+        blurDataURL={metadata.lqip}
         priority
         className="rounded-lg"
         onClick={() => (click ? click(index) : {})}

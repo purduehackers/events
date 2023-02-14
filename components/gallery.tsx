@@ -1,43 +1,39 @@
-import 'react-image-lightbox/style.css'
+import Lightbox from 'yet-another-react-lightbox'
+import Captions from 'yet-another-react-lightbox/plugins/captions'
+import 'yet-another-react-lightbox/styles.css'
+import 'yet-another-react-lightbox/plugins/captions.css'
 
-import Lightbox from 'react-image-lightbox'
+interface LightboxImage {
+  src: string
+  description: string
+}
 
 const Gallery = ({
   images,
   index,
   open,
-  onClose,
-  setIndex
+  onClose
 }: {
-  images: Array<AirtableAttachment>
+  images: SanityImage[]
   index: number
   open: boolean
   onClose: Function
-  setIndex: Function
 }) => {
-  // const [index, setIndex] = useState(0)
-  // const [open, setOpen] = useState(false)
-
-  let imageUrls: Array<string> = images.map((image) => {
-    return image.url
+  let lightboxImages: LightboxImage[] = []
+  images.forEach((image, i) => {
+    lightboxImages.push({
+      src: image.url,
+      description: `${i + 1}/${images.length}`
+    })
   })
-
   return (
-    <div>
-      {open && (
-        <Lightbox
-          mainSrc={imageUrls[index]}
-          nextSrc={imageUrls[(index + 1) % imageUrls.length]}
-          prevSrc={imageUrls[(index + imageUrls.length - 1) % imageUrls.length]}
-          onCloseRequest={() => onClose()}
-          onMovePrevRequest={() =>
-            setIndex((index + imageUrls.length - 1) % imageUrls.length)
-          }
-          onMoveNextRequest={() => setIndex((index + 1) % imageUrls.length)}
-          imageCaption={`${index + 1}/${imageUrls.length}`}
-        />
-      )}
-    </div>
+    <Lightbox
+      open={open}
+      close={() => onClose()}
+      slides={lightboxImages}
+      plugins={[Captions]}
+      index={index}
+    />
   )
 }
 
