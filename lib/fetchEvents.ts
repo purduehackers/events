@@ -53,7 +53,6 @@ export const fetchEvents = async (): Promise<PHEvent[]> => {
       event.pastEventDesc ??
       'A past Purdue Hackers event...more details coming soon!',
     recapImages: event.recapImages ?? [{ url: 'https://mbs.zone/geck' }],
-    recapImageUrls: event.recapImages ? getImageUrls(event.recapImages) : [],
     hasPastEventDesc: event.pastEventDesc !== '',
     stat1Data: event.stat1?.data ?? '',
     stat1Label: event.stat1?.label ?? '',

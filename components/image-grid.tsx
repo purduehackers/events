@@ -9,11 +9,9 @@ type GridImage = {
 }
 
 const ImageGrid = ({
-  images = [],
-  imageUrls
+  images = []
 }: {
   images: any[] /* Array of Sanity images */
-  imageUrls: string[]
 }) => {
   let filteredImages: Array<GridImage> = []
   images.slice(0, 3).map((image, i) => {
@@ -75,7 +73,7 @@ const ImageGrid = ({
         </button>
       )}
       <Gallery
-        imageUrls={imageUrls}
+        images={images}
         index={index}
         open={open}
         onClose={onClose}

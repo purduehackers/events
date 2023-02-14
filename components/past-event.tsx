@@ -95,10 +95,7 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
                   </div>
                 </div>
                 {event.recapImages.length > 1 && (
-                  <ImageGrid
-                    images={event.recapImages}
-                    imageUrls={event.recapImageUrls}
-                  />
+                  <ImageGrid images={event.recapImages} />
                 )}
               </div>
             </div>
