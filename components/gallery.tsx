@@ -1,37 +1,35 @@
-import 'react-image-lightbox/style.css'
+import Lightbox from 'yet-another-react-lightbox'
+import Captions from 'yet-another-react-lightbox/plugins/captions'
+import 'yet-another-react-lightbox/styles.css'
+import 'yet-another-react-lightbox/plugins/captions.css'
 
-import Lightbox from 'react-image-lightbox'
-
-const Gallery = ({
+const ImageGallery = ({
   images,
   index,
   open,
-  onClose,
-  setIndex
+  onClose
 }: {
   images: any[]
   index: number
   open: boolean
   onClose: Function
-  setIndex: Function
 }) => {
+  let lightboxImages: any[] = []
+  images.forEach((image, i) => {
+    lightboxImages.push({
+      src: image.url,
+      description: `${i + 1}/${images.length}`
+    })
+  })
   return (
-    <div>
-      {open && (
-        <Lightbox
-          mainSrc={images[index].url}
-          nextSrc={images[(index + 1) % images.length].url}
-          prevSrc={images[(index + images.length - 1) % images.length].url}
-          onCloseRequest={() => onClose()}
-          onMovePrevRequest={() =>
-            setIndex((index + images.length - 1) % images.length)
-          }
-          onMoveNextRequest={() => setIndex((index + 1) % images.length)}
-          imageCaption={`${index + 1}/${images.length}`}
-        />
-      )}
-    </div>
+    <Lightbox
+      open={open}
+      close={() => onClose()}
+      slides={lightboxImages}
+      plugins={[Captions]}
+      index={index}
+    />
   )
 }
 
-export default Gallery
+export default ImageGallery
