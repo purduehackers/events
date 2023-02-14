@@ -1,16 +1,18 @@
-import { AirtablePlusPlus } from 'airtable-plusplus'
 import { format } from 'date-fns'
 import Mailgun from 'mailgun-js'
 import { NextApiRequest, NextApiResponse } from 'next'
+import { createClient } from 'next-sanity'
 
 import { fetchEvents } from '../../lib/fetchEvents'
 import { formatDate } from '../../lib/formatDate'
 import { past } from '../../lib/past'
 
-const airtable = new AirtablePlusPlus({
-  apiKey: `${process.env.AIRTABLE_API_KEY}`,
-  baseId: 'appfaalz9AzKDwSup',
-  tableName: 'Events'
+const client = createClient({
+  projectId: process.env.SANITY_PROJECT_ID,
+  dataset: 'production',
+  apiVersion: '2022-03-25',
+  useCdn: true,
+  token: process.env.SANITY_TOKEN
 })
 
 const mailgun = Mailgun
@@ -146,13 +148,11 @@ const sendEmail = async (
 }
 
 const markSent = async (event: PHEvent): Promise<void> => {
-  await airtable.updateWhere(`{Event Name} = '${event.name}'`, {
-    'Reminder Email Sent': true
-  })
+  const id = (await client.fetch(`*[name == "${event.name}"]`))?._id
+  await client.patch(id).set({ emailSent: true }).commit()
 }
 
 const markSecondSent = async (event: PHEvent): Promise<void> => {
-  await airtable.updateWhere(`{Event Name} = '${event.name}'`, {
-    'Second Email Sent': true
-  })
+  const id = (await client.fetch(`*[name == "${event.name}"]`))?._id
+  await client.patch(id).set({ secondEmailSent: true }).commit()
 }
