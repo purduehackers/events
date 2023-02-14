@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { ImageMetadata } from 'sanity'
 
 const ImageCard = ({
   image,
@@ -9,15 +10,16 @@ const ImageCard = ({
   index: number
   click?: Function
 }) => {
+  const metadata: ImageMetadata = image.metadata
   return (
     <div className="flex flex-col mx-auto hover:scale-[1.03] transition transform">
       <Image
         alt="Gallery image"
         src={image.url}
-        width={image.metadata.dimensions.width}
-        height={image.metadata.dimensions.height}
+        width={metadata.dimensions.width}
+        height={metadata.dimensions.height}
         placeholder="blur"
-        blurDataURL={image.metadata.lqip}
+        blurDataURL={metadata.lqip}
         priority
         className="rounded-lg"
         onClick={() => (click ? click(index) : {})}
