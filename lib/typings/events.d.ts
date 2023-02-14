@@ -64,7 +64,7 @@ interface PHEvent {
   unlisted: boolean
   rsvpCount: number
   pastEventDesc: string
-  recapImages: any[]
+  recapImages: SanityImage[]
   hasPastEventDesc: boolean
   stat1Label: string
   stat1Data: string
