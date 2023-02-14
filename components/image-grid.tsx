@@ -72,13 +72,7 @@ const ImageGrid = ({
           See all photos
         </button>
       )}
-      <Gallery
-        images={images}
-        index={index}
-        open={open}
-        onClose={onClose}
-        setIndex={setIndex}
-      />
+      <Gallery images={images} index={index} open={open} onClose={onClose} />
     </div>
   )
 }

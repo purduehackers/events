@@ -24,10 +24,10 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-feather": "^2.0.9",
-    "react-image-lightbox": "^5.1.4",
     "sanity": "^3.3.1",
     "sharp": "^0.30.4",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "yet-another-react-lightbox": "^2.3.1"
   },
   "devDependencies": {
     "@types/form-data": "^2.5.0",
