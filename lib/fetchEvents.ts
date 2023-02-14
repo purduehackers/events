@@ -1,7 +1,7 @@
 import { orderBy } from 'lodash'
 import { GithubSlugger } from 'github-slugger-typescript'
 import { createClient } from 'next-sanity'
-import imageUrlBuilder from '@sanity/image-url'
+import { format } from 'date-fns'
 
 const client = createClient({
   projectId: process.env.SANITY_PROJECT_ID,
@@ -9,19 +9,22 @@ const client = createClient({
   apiVersion: '2022-03-25',
   useCdn: true
 })
-const builder = imageUrlBuilder(client)
-function urlFor(source: any) {
-  return builder.image(source)
-}
 
-const getImageUrls = (images: any) => {
-  const imageUrls: any[] = []
-  images.map((image: any) => {
-    try {
-      imageUrls.push(urlFor(image).url())
-    } catch {}
-  })
-  return imageUrls
+const getCalLink = (event: any) => {
+  console.log('start', event.start)
+  return new URL(
+    `https://www.google.com/calendar/render?action=TEMPLATE&text=${
+      event.name
+    } (Purdue Hackers)&location=${
+      event.loc
+    }&details=A Purdue Hackers Event&dates=${format(
+      new Date(event.start),
+      'yyyyMMdd'
+    )}T${format(new Date(event.start), 'HHmm')}00Z%2F${format(
+      new Date(event.end),
+      'yyyyMMdd'
+    )}T${format(new Date(event.end), 'HHmm')}00Z`
+  ).href
 }
 
 export const fetchEvents = async (): Promise<PHEvent[]> => {
@@ -42,7 +45,7 @@ export const fetchEvents = async (): Promise<PHEvent[]> => {
     end: event.end ?? 'TBD',
     loc: event.loc ?? 'TBD',
     gMap: event.gMap ?? '',
-    calLink: event.calLink ?? '',
+    calLink: event.calLink ?? getCalLink(event),
     ogDescription: event.ogDescription ?? '',
     emailSent: event.emailSent ?? false,
     secondEmailSent: event.secondEmailSent ?? false,
@@ -61,6 +64,7 @@ export const fetchEvents = async (): Promise<PHEvent[]> => {
     stat3Data: event.stat3?.data ?? '',
     stat3Label: event.stat3?.label ?? ''
   }))
+  console.log(events[0].calLink)
 
   return orderBy(events, 'start')
 }
