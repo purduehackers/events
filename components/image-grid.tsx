@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import useMediaQuery from '../lib/hooks/use-media-query'
 import Gallery from './gallery'
 import ImageCard from './image-card'
@@ -13,7 +13,7 @@ const ImageGrid = ({
 }: {
   images: any[] /* Array of Sanity images */
 }) => {
-  let filteredImages: Array<GridImage> = []
+  let filteredImages: GridImage[] = []
   images.slice(0, 3).map((image, i) => {
     filteredImages.push({ image, index: i })
   })
