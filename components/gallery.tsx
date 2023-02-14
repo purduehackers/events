@@ -15,9 +15,6 @@ const Gallery = ({
   onClose: Function
   setIndex: Function
 }) => {
-  // const [index, setIndex] = useState(0)
-  // const [open, setOpen] = useState(false)
-
   return (
     <div>
       {open && (

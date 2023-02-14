@@ -17,7 +17,9 @@ function urlFor(source: any) {
 const getImageUrls = (images: any) => {
   const imageUrls: any[] = []
   images.map((image: any) => {
-    imageUrls.push(urlFor(image).url())
+    try {
+      imageUrls.push(urlFor(image).url())
+    } catch {}
   })
   return imageUrls
 }
@@ -47,12 +49,12 @@ export const fetchEvents = async (): Promise<PHEvent[]> => {
     recapImages: event.recapImages ?? [{ url: 'https://mbs.zone/geck' }],
     recapImageUrls: event.recapImages ? getImageUrls(event.recapImages) : [],
     hasPastEventDesc: event.pastEventDesc !== '',
-    stat1Data: event.stat1.data ?? '',
-    stat1Label: event.stat1.label ?? '',
-    stat2Data: event.stat2.data ?? '',
-    stat2Label: event.stat2.label ?? '',
-    stat3Data: event.stat3.data ?? '',
-    stat3Label: event.stat3.label ?? ''
+    stat1Data: event.stat1?.data ?? '',
+    stat1Label: event.stat1?.label ?? '',
+    stat2Data: event.stat2?.data ?? '',
+    stat2Label: event.stat2?.label ?? '',
+    stat3Data: event.stat3?.data ?? '',
+    stat3Label: event.stat3?.label ?? ''
   }))
 
   return orderBy(events, 'start')
