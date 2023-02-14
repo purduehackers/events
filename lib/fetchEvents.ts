@@ -11,7 +11,6 @@ const client = createClient({
 })
 
 const getCalLink = (event: any) => {
-  console.log('start', event.start)
   return new URL(
     `https://www.google.com/calendar/render?action=TEMPLATE&text=${
       event.name
@@ -64,7 +63,6 @@ export const fetchEvents = async (): Promise<PHEvent[]> => {
     stat3Data: event.stat3?.data ?? '',
     stat3Label: event.stat3?.label ?? ''
   }))
-  console.log(events[0].calLink)
 
   return orderBy(events, 'start')
 }
