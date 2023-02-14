@@ -1,5 +1,5 @@
 import { orderBy } from 'lodash'
-import { GithubSlugger } from 'github-slugger-typescript'
+import GithubSlugger from 'github-slugger'
 import { createClient } from 'next-sanity'
 import { format } from 'date-fns'
 
