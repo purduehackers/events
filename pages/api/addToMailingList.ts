@@ -54,8 +54,10 @@ export default (req: NextApiRequest, res: NextApiResponse) =>
               .then(async (response) => {
                 console.log(response)
                 console.log('Updating values in Sanity')
-                const id = (await client.fetch(`*[name == "${eventName}"]`))
-                  ?._id
+                const id = (
+                  await client.fetch(`*[name == "${eventName}"]`)
+                )?.[0]._id
+
                 client
                   .patch(id)
                   .inc({ rsvpCount: 1 })
@@ -66,6 +68,7 @@ export default (req: NextApiRequest, res: NextApiResponse) =>
                       res.redirect(`/email-confirm?eventName=${eventName}`)
                     )
                   })
+                  .catch((err) => console.log('error incrementing', err))
               })
               .catch((error) => {
                 if (error.toString().includes('Address already exists')) {
