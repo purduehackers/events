@@ -10,7 +10,7 @@ const client = createClient({
   useCdn: true
 })
 
-const getCalLink = (event: any) => {
+const getCalLink = (event: SanityEvent) => {
   try {
     return new URL(
       `https://www.google.com/calendar/render?action=TEMPLATE&text=${
@@ -41,7 +41,8 @@ export const fetchEvents = async (): Promise<PHEvent[]> => {
       metadata
     }
   }`)
-  const events = sanityEvents.map((event: any) => ({
+  console.log('sanity event', sanityEvents[0])
+  const events = sanityEvents.map((event: SanityEvent) => ({
     name: event.name,
     desc:
       event.desc ??

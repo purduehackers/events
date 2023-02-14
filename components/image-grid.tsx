@@ -4,14 +4,14 @@ import Gallery from './gallery'
 import ImageCard from './image-card'
 
 type GridImage = {
-  image: any
+  image: SanityImage
   index: number
 }
 
 const ImageGrid = ({
   images = []
 }: {
-  images: any[] /* Array of Sanity images */
+  images: SanityImage[] /* Array of Sanity images */
 }) => {
   let filteredImages: GridImage[] = []
   images.slice(0, 3).map((image, i) => {

@@ -3,18 +3,23 @@ import Captions from 'yet-another-react-lightbox/plugins/captions'
 import 'yet-another-react-lightbox/styles.css'
 import 'yet-another-react-lightbox/plugins/captions.css'
 
+interface LightboxImage {
+  src: string
+  description: string
+}
+
 const ImageGallery = ({
   images,
   index,
   open,
   onClose
 }: {
-  images: any[]
+  images: SanityImage[]
   index: number
   open: boolean
   onClose: Function
 }) => {
-  let lightboxImages: any[] = []
+  let lightboxImages: LightboxImage[] = []
   images.forEach((image, i) => {
     lightboxImages.push({
       src: image.url,

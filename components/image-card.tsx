@@ -5,7 +5,7 @@ const ImageCard = ({
   index,
   click
 }: {
-  image: any
+  image: SanityImage
   index: number
   click?: Function
 }) => {
