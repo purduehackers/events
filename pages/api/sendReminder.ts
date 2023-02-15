@@ -148,11 +148,11 @@ const sendEmail = async (
 }
 
 const markSent = async (event: PHEvent): Promise<void> => {
-  const id = (await client.fetch(`*[name == "${event.name}"]`))?._id
+  const id = (await client.fetch(`*[name == "${event.name}"]`))?.[0]._id
   await client.patch(id).set({ emailSent: true }).commit()
 }
 
 const markSecondSent = async (event: PHEvent): Promise<void> => {
-  const id = (await client.fetch(`*[name == "${event.name}"]`))?._id
+  const id = (await client.fetch(`*[name == "${event.name}"]`))?.[0]._id
   await client.patch(id).set({ secondEmailSent: true }).commit()
 }
