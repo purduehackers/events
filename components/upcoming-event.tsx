@@ -34,6 +34,8 @@ const UpcomingEvent = ({ event }: { event: PHEvent }) => {
       : ''
   }%20${event.loc.replace(new RegExp(' ', 'g'), '%20')}`
 
+  const title = `${event.name} — Purdue Hackers`
+
   return (
     <>
       <Nav />
@@ -56,7 +58,7 @@ const UpcomingEvent = ({ event }: { event: PHEvent }) => {
           />
           <meta name="twitter:card" content="summary_large_image" />
           <meta property="og:type" content="website" />
-          <title>{event.name} — Purdue Hackers</title>
+          <title>{title}</title>
         </Head>
 
         <div className="flex flex-col grow-0 items-center justify-top w-full flex-1 px-5 pb-8 sm:pb-16 text-center sm:px-20 bg-gray-100 dark:bg-gray-800">
