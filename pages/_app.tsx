@@ -2,6 +2,7 @@ import '../styles/styles.css'
 import { ThemeProvider } from 'next-themes'
 import Head from 'next/head'
 import { AppProps } from 'next/app'
+import { Analytics } from '@vercel/analytics/react'
 
 function Events({ Component, pageProps }: AppProps) {
   const vercelEnv = process.env.NEXT_PUBLIC_VERCEL_ENV
@@ -21,6 +22,7 @@ function Events({ Component, pageProps }: AppProps) {
         />
       </Head>
       <Component {...pageProps} />
+      <Analytics />
     </ThemeProvider>
   )
 }
