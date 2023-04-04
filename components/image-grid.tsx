@@ -55,7 +55,9 @@ const ImageGrid = ({
             }
           }}
         >
-          See all photos
+          {images.length > 3
+            ? `See ${images.length - 3} more photos`
+            : 'See all photos'}
         </button>
       </div>
       {!smallScreen && (
@@ -69,7 +71,9 @@ const ImageGrid = ({
             }
           }}
         >
-          See all photos
+          {images.length > 3
+            ? `See ${images.length - 3} more photos`
+            : 'See all photos'}
         </button>
       )}
       <Gallery images={images} index={index} open={open} onClose={onClose} />
