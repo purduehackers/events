@@ -40,10 +40,18 @@ export const getStaticProps = async ({ params }: Params) => {
     .replace(new RegExp('</p>\n<p>', 'g'), '</p><br/><p>')
     .replace(new RegExp('<a', 'g'), '<a class="desc" target="_blank"')
     .replace(new RegExp('<img', 'g'), '<img class="rounded-lg max-w-xs" ')
+    .replace(
+      new RegExp('<hr', 'g'),
+      '<hr class="rounded border-2 border-amber-400 dark:border-amber-500 w-1/2 mx-auto my-4"'
+    )
 
   event.pastEventDesc = marked(event.pastEventDesc)
     .replace(new RegExp('</p>\n<p>', 'g'), '</p><br/><p>')
     .replace(new RegExp('<a', 'g'), '<a class="desc" target="_blank"')
+    .replace(
+      new RegExp('<hr', 'g'),
+      '<hr class="rounded border-2 border-amber-400 dark:border-amber-500 w-1/2 mx-auto my-4"'
+    )
 
   return { props: { event }, revalidate: 10 }
 }
