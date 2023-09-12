@@ -9,7 +9,7 @@ import { footer } from '../lib/footerPonderings'
 import { useEffect, useState } from 'react'
 import FooterLinks from './footer-links'
 import Nav from './nav'
-import { formatDateTz } from '../lib/formatDateTz'
+import { formatDateTz, startTimeFormatString } from '../lib/formatDate'
 import VercelBanner from './vercel-banner'
 import DescriptionBox from './desc-box'
 
@@ -72,13 +72,13 @@ const UpcomingEvent = ({ event }: { event: PHEvent }) => {
                 ? 'Date TBD'
                 : formatDate(
                     new Date(event.start),
-                    `${past(event.start) ? 'LLL do, y' : 'EEEE, LLL do •'}`
+                    `${past(event.start) ? 'LLL do, y •' : 'EEEE, LLL do •'}`
                   )}{' '}
               {event.start === 'TBD'
                 ? ''
                 : formatDate(
                     new Date(event.start),
-                    `h:mm${event.end === 'TBD' ? ' a' : ''}`
+                    startTimeFormatString(event.start, event.end)
                   ) + '—'}
               {event.end === 'TBD'
                 ? '???'

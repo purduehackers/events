@@ -1,5 +1,6 @@
 import { format as formatDate } from 'date-fns'
 import Link from 'next/link'
+import { startTimeFormatString } from '../lib/formatDate'
 import { past } from '../lib/past'
 
 const EventCard = ({
@@ -31,7 +32,7 @@ const EventCard = ({
             )}{' '}
         {start === 'TBD'
           ? ''
-          : formatDate(new Date(start), `h:mm${end === 'TBD' ? ' a' : ''}`) +
+          : formatDate(new Date(start), startTimeFormatString(start, end)) +
             '—'}
         {end === 'TBD' ? '???' : formatDate(new Date(end), 'h:mm a')}
       </p>
