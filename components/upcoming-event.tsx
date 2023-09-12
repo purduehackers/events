@@ -9,7 +9,7 @@ import { footer } from '../lib/footerPonderings'
 import { useEffect, useState } from 'react'
 import FooterLinks from './footer-links'
 import Nav from './nav'
-import { formatDateTz } from '../lib/formatDateTz'
+import { formatDateTz } from '../lib/formatDate'
 import VercelBanner from './vercel-banner'
 import DescriptionBox from './desc-box'
 

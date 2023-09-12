@@ -4,7 +4,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { createClient } from 'next-sanity'
 
 import { fetchEvents } from '../../lib/fetchEvents'
-import { formatDateTz } from '../../lib/formatDateTz'
+import { formatDateTz } from '../../lib/formatDate'
 import { past } from '../../lib/past'
 
 const client = createClient({
