@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { Clock } from 'react-feather'
 import { format as formatDate } from 'date-fns'
-import { formatDateTz } from '../lib/formatDateTz'
+import { formatDateTz } from '../lib/formatDate'
 import Nav from './nav'
 import Footer from './footer'
 import FooterLinks from './footer-links'
