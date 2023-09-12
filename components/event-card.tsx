@@ -1,4 +1,4 @@
-import { format } from 'date-fns'
+import { format as formatDate } from 'date-fns'
 import Link from 'next/link'
 import { past } from '../lib/past'
 
@@ -25,14 +25,15 @@ const EventCard = ({
       <p className={past(start) ? '' : 'text-black dark:text-black transition'}>
         {start === 'TBD'
           ? 'TBD'
-          : format(
+          : formatDate(
               new Date(start),
               `${past(start) ? 'LLL do, Y •' : 'eee. LLL do •'}`
             )}{' '}
         {start === 'TBD'
           ? ''
-          : format(new Date(start), `h:mm${end === 'TBD' ? ' a' : ''}`) + '—'}
-        {end === 'TBD' ? '???' : format(new Date(end), 'h:mm a')}
+          : formatDate(new Date(start), `h:mm${end === 'TBD' ? ' a' : ''}`) +
+            '—'}
+        {end === 'TBD' ? '???' : formatDate(new Date(end), 'h:mm a')}
       </p>
       <h3
         className={`${name.length < 30 ? 'text-2xl' : 'text-2xl sm:text-xl'} ${

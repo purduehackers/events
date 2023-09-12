@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { Clock } from 'react-feather'
-import { format } from 'date-fns'
-import { formatDate } from '../lib/formatDate'
+import { format as formatDate } from 'date-fns'
+import { formatDateTz } from '../lib/formatDateTz'
 import Nav from './nav'
 import Footer from './footer'
 import FooterLinks from './footer-links'
@@ -20,8 +20,8 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
     event.name.length < 30 ? '250' : '200'
   }px&caption=${
     event.start !== 'TBD'
-      ? format(
-          formatDate(new Date(event.start), 'America/Indianapolis'),
+      ? formatDate(
+          formatDateTz(new Date(event.start), 'America/Indianapolis'),
           'LLL%20d%20•'
         )
       : ''
@@ -65,11 +65,13 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
               <Clock />
               {event.start === 'TBD'
                 ? 'Date TBD'
-                : format(new Date(event.start), 'LLL do, Y •')}{' '}
+                : formatDate(new Date(event.start), 'LLL do, Y •')}{' '}
               {event.start === 'TBD'
                 ? ''
-                : format(new Date(event.start), 'h:mm') + '—'}
-              {event.end === 'TBD' ? '' : format(new Date(event.end), 'h:mm a')}
+                : formatDate(new Date(event.start), 'h:mm') + '—'}
+              {event.end === 'TBD'
+                ? ''
+                : formatDate(new Date(event.end), 'h:mm a')}
             </p>
           </div>
         </div>
