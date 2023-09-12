@@ -1,10 +1,10 @@
-import { format } from 'date-fns'
+import { format as formatDate } from 'date-fns'
 import Mailgun from 'mailgun-js'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { createClient } from 'next-sanity'
 
 import { fetchEvents } from '../../lib/fetchEvents'
-import { formatDate } from '../../lib/formatDate'
+import { formatDateTz } from '../../lib/formatDateTz'
 import { past } from '../../lib/past'
 
 const client = createClient({
@@ -92,18 +92,18 @@ const sendEmail = async (
   event: PHEvent
 ): Promise<void> => {
   const { name, start, end, loc, slug } = event
-  const startDate = formatDate(new Date(start), 'America/Indianapolis')
-  const endDate = formatDate(new Date(end), 'America/Indianapolis')
+  const startDate = formatDateTz(new Date(start), 'America/Indianapolis')
+  const endDate = formatDateTz(new Date(end), 'America/Indianapolis')
   let parsedStart =
     firstOrSecond === 'first'
-      ? format(startDate, 'EEEE') + ' from ' + format(startDate, 'h:mm')
-      : 'TODAY from ' + format(startDate, 'h:mm')
+      ? formatDate(startDate, 'EEEE') + ' from ' + formatDate(startDate, 'h:mm')
+      : 'TODAY from ' + formatDate(startDate, 'h:mm')
   let parsedEnd
   try {
-    parsedEnd = '—' + format(endDate, 'h:mm a')
+    parsedEnd = '—' + formatDate(endDate, 'h:mm a')
   } catch (err) {
     parsedStart =
-      format(startDate, 'EEEE') + ' at ' + format(startDate, 'h:mm a')
+      formatDate(startDate, 'EEEE') + ' at ' + formatDate(startDate, 'h:mm a')
     parsedEnd = ''
   }
   console.log('parsed start', parsedStart)
