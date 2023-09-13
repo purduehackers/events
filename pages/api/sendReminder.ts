@@ -92,8 +92,8 @@ const sendEmail = async (
   event: PHEvent
 ): Promise<void> => {
   const { name, start, end, loc, slug } = event
-  const startDate = formatDateTz(new Date(start), 'America/Indianapolis')
-  const endDate = formatDateTz(new Date(end), 'America/Indianapolis')
+  const startDate = formatDateTz(new Date(start))
+  const endDate = formatDateTz(new Date(end))
   let parsedStart =
     firstOrSecond === 'first'
       ? formatDate(startDate, 'EEEE') + ' from ' + formatDate(startDate, 'h:mm')
