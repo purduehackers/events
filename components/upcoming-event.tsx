@@ -27,10 +27,7 @@ const UpcomingEvent = ({ event }: { event: PHEvent }) => {
     event.name.includes('Hack Night') ? 'dark' : 'light'
   }&md=1&fontSize=${event.name.length < 30 ? '250' : '200'}px&caption=${
     event.start !== 'TBD'
-      ? formatDate(
-          formatDateTz(new Date(event.start), 'America/Indianapolis'),
-          'LLL%20d%20•'
-        )
+      ? formatDate(formatDateTz(new Date(event.start)), 'LLL%20d%20•')
       : ''
   }%20${event.loc.replace(new RegExp(' ', 'g'), '%20')}`
 
