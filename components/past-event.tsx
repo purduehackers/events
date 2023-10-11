@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import { Clock } from 'react-feather'
-import { format as formatDate } from 'date-fns'
-import { formatDateTz, startTimeFormatString } from '../lib/formatDate'
+import { formatDate, startTimeFormatString } from '../lib/formatDate'
 import Nav from './nav'
 import Footer from './footer'
 import FooterLinks from './footer-links'
@@ -20,7 +19,7 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
     event.name.length < 30 ? '250' : '200'
   }px&caption=${
     event.start !== 'TBD'
-      ? formatDate(formatDateTz(new Date(event.start)), 'LLL%20d%20•')
+      ? formatDate(new Date(event.start), 'LLL%20d%20•')
       : ''
   }%20${event.loc.replace(new RegExp(' ', 'g'), '%20')}`
 
