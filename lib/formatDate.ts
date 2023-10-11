@@ -10,8 +10,8 @@ export const eventSpansAcrossMultipleDays = (
   start: string,
   end: string
 ): boolean => {
-  const startDate = new Date(start).getDate()
-  const endDate = new Date(end).getDate()
+  const startDate = formatDateTz(new Date(start)).getDate()
+  const endDate = formatDateTz(new Date(end)).getDate()
   return startDate !== endDate
 }
 
