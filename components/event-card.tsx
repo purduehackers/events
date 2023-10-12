@@ -1,6 +1,5 @@
-import { format as formatDate } from 'date-fns'
 import Link from 'next/link'
-import { startTimeFormatString } from '../lib/formatDate'
+import { formatDate, startTimeFormatString } from '../lib/formatDate'
 import { past } from '../lib/past'
 
 const EventCard = ({
