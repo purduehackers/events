@@ -1,6 +1,5 @@
 import Head from 'next/head'
 import { Clock, MapPin, Calendar } from 'react-feather'
-import { format as formatDate } from 'date-fns'
 import RSVPForm from './rsvp-form'
 import StyledLink from './styled-link'
 import Footer from './footer'
@@ -9,7 +8,7 @@ import { footer } from '../lib/footerPonderings'
 import { useEffect, useState } from 'react'
 import FooterLinks from './footer-links'
 import Nav from './nav'
-import { formatDateTz, startTimeFormatString } from '../lib/formatDate'
+import { formatDate, startTimeFormatString } from '../lib/formatDate'
 import VercelBanner from './vercel-banner'
 import DescriptionBox from './desc-box'
 
@@ -27,7 +26,7 @@ const UpcomingEvent = ({ event }: { event: PHEvent }) => {
     event.name.includes('Hack Night') ? 'dark' : 'light'
   }&md=1&fontSize=${event.name.length < 30 ? '250' : '200'}px&caption=${
     event.start !== 'TBD'
-      ? formatDate(formatDateTz(new Date(event.start)), 'LLL%20d%20•')
+      ? formatDate(new Date(event.start), 'LLL%20d%20•')
       : ''
   }%20${event.loc.replace(new RegExp(' ', 'g'), '%20')}`
 
