@@ -112,8 +112,8 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
                 Discord.
               </p>
               <p>
-                You'll also get access to a wonderful, friendly community of
-                hackers who are building & shipping cool things every day.
+                You&apos;ll also get access to a wonderful, friendly community
+                of hackers who are building & shipping cool things every day.
               </p>
               <a
                 href="https://bit.ly/PurdueHackersDiscord"

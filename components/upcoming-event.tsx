@@ -135,9 +135,9 @@ const UpcomingEvent = ({ event }: { event: PHEvent }) => {
                 RSVP for this event
               </h2>
               <p>
-                Enter your email and we'll send you a reminder about the event
-                the day before it happens. We won't use your email for anything
-                else.
+                Enter your email and we&apos;ll send you a reminder about the
+                event the day before it happens. We won&apos;t use your email
+                for anything else.
               </p>
               <RSVPForm eventName={event.name} slug={event.slug}></RSVPForm>
             </div>
@@ -153,7 +153,7 @@ const UpcomingEvent = ({ event }: { event: PHEvent }) => {
               <p className="mt-2">
                 This event already happened...but check out{' '}
                 <StyledLink destination="/">
-                  the events we're going to run in the future
+                  the events we&apos;re going to run in the future
                 </StyledLink>
                 !
               </p>
