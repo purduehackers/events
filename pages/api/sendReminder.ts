@@ -11,13 +11,13 @@ const client = createClient({
   dataset: 'production',
   apiVersion: '2022-03-25',
   useCdn: true,
-  token: process.env.SANITY_TOKEN
+  token: process.env.SANITY_TOKEN,
 })
 
 const mailgun = Mailgun
 const mg = mailgun({
   apiKey: `${process.env.MAILGUN_API_KEY}`,
-  domain: 'purduehackers.com'
+  domain: 'purduehackers.com',
 })
 
 export default (req: NextApiRequest, res: NextApiResponse) =>
@@ -117,8 +117,8 @@ const sendEmail = async (
       name,
       start: parsedStart,
       end: parsedEnd,
-      loc
-    })
+      loc,
+    }),
   }
 
   const secondData = {
@@ -130,8 +130,8 @@ const sendEmail = async (
       name,
       start: parsedStart,
       end: parsedEnd,
-      loc
-    })
+      loc,
+    }),
   }
 
   await mg

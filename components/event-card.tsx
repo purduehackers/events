@@ -1,4 +1,5 @@
 import Link from 'next/link'
+
 import { formatDate, startTimeFormatString } from '../lib/formatDate'
 import { past } from '../lib/past'
 
@@ -6,7 +7,7 @@ const EventCard = ({
   name,
   slug,
   start,
-  end
+  end,
 }: {
   name: string
   slug: string

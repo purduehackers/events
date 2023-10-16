@@ -1,16 +1,17 @@
 import Head from 'next/head'
-import { Clock, MapPin, Calendar } from 'react-feather'
-import RSVPForm from './rsvp-form'
-import StyledLink from './styled-link'
-import Footer from './footer'
-import { past } from '../lib/past'
-import { footer } from '../lib/footerPonderings'
 import { useEffect, useState } from 'react'
+import { Calendar, Clock, MapPin } from 'react-feather'
+
+import { footer } from '../lib/footerPonderings'
+import { formatDate, startTimeFormatString } from '../lib/formatDate'
+import { past } from '../lib/past'
+import DescriptionBox from './desc-box'
+import Footer from './footer'
 import FooterLinks from './footer-links'
 import Nav from './nav'
-import { formatDate, startTimeFormatString } from '../lib/formatDate'
+import RSVPForm from './rsvp-form'
+import StyledLink from './styled-link'
 import VercelBanner from './vercel-banner'
-import DescriptionBox from './desc-box'
 
 const UpcomingEvent = ({ event }: { event: PHEvent }) => {
   const [pondering, setPondering] = useState('')

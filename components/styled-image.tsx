@@ -3,7 +3,7 @@ import Image from 'next/image'
 const StyledImage = ({
   src,
   width,
-  height
+  height,
 }: {
   src: string
   width: number

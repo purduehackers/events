@@ -1,8 +1,9 @@
+import Head from 'next/head'
 import { AlertTriangle } from 'react-feather'
+
+import Footer from '../components/footer'
 import Nav from '../components/nav'
 import StyledLink from '../components/styled-link'
-import Head from 'next/head'
-import Footer from '../components/footer'
 import VercelBanner from '../components/vercel-banner'
 
 const EmailVerificationFailed = () => (
