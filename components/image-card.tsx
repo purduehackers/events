@@ -1,8 +1,6 @@
 import Image from 'next/image'
 import { ImageMetadata } from 'sanity'
 
-import Footer from './footer'
-
 const ImageCard = ({
   image,
   index,
