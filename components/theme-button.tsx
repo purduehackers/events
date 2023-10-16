@@ -7,6 +7,7 @@ const ThemeButton = () => {
   const { setTheme, resolvedTheme } = useTheme()
 
   useEffect(() => setMounted(true), [])
+
   if (!mounted) return null
 
   return (
