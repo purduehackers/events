@@ -13,18 +13,18 @@ const EmailExists = () => (
       <div className="container mx-auto px-4 md:px-16 lg:px-72 xl:px-96">
         <div className="rounded-lg shadow-md dark:shadow-black/25 bg-gray-200 dark:bg-gray-700 p-4 flex flex-col justify-center gap-y-4">
           <h1 className="text-2xl sm:text-3xl font-bold text-center">
-            You've already signed up!
+            You&apos;ve already signed up!
           </h1>
           <p>
-            Good on you for double-checking, but you're all set! Your email has
-            already been added to the list. You'll receive an email from us a
-            day before the event starts.
+            Good on you for double-checking, but you&apos;re all set! Your email
+            has already been added to the list. You&apos;ll receive an email
+            from us a day before the event starts.
           </p>
           <p>
-            While you're waiting, you should join the Purdue Hackers Discord
-            server if you aren't there already! You'll join a community of
-            creative makers at Purdue, and you'll be the first to hear about new
-            events.
+            While you&apos;re waiting, you should join the Purdue Hackers
+            Discord server if you aren&apos;t there already! You&apos;ll join a
+            community of creative makers at Purdue, and you&apos;ll be the first
+            to hear about new events.
           </p>
           <div>
             <a href="https://bit.ly/PurdueHackersDiscord" target="_blank">

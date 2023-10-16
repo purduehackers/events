@@ -96,8 +96,8 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
               Coming soon...
             </h2>
             <p>
-              There aren't currently any events that we're ready to announce.
-              We're working hard though—check back soon!
+              There aren&apos;t currently any events that we&apos;re ready to
+              announce. We&apos;re working hard though—check back soon!
             </p>
             <p>
               {discordFlavor}{' '}
@@ -184,7 +184,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
   return {
     props: { events },
-    revalidate: 10
+    revalidate: 10,
   }
 }
 
