@@ -1,13 +1,14 @@
-import { orderBy } from 'lodash'
 import GithubSlugger from 'github-slugger'
+import { orderBy } from 'lodash'
 import { createClient } from 'next-sanity'
+
 import { formatDate } from './formatDate'
 
 const client = createClient({
   projectId: process.env.SANITY_PROJECT_ID,
   dataset: 'production',
   apiVersion: '2022-03-25',
-  useCdn: true
+  useCdn: true,
 })
 
 const getCalLink = (event: SanityEvent) => {
@@ -67,7 +68,7 @@ export const fetchEvents = async (): Promise<PHEvent[]> => {
     stat2Data: event.stat2?.data ?? '',
     stat2Label: event.stat2?.label ?? '',
     stat3Data: event.stat3?.data ?? '',
-    stat3Label: event.stat3?.label ?? ''
+    stat3Label: event.stat3?.label ?? '',
   }))
 
   return orderBy(events, 'start')

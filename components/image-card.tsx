@@ -4,7 +4,7 @@ import { ImageMetadata } from 'sanity'
 const ImageCard = ({
   image,
   index,
-  click
+  click,
 }: {
   image: SanityImage
   index: number

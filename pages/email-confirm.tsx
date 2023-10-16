@@ -1,7 +1,8 @@
-import { useRouter } from 'next/router'
-import Nav from '../components/nav'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
+
 import Footer from '../components/footer'
+import Nav from '../components/nav'
 import VercelBanner from '../components/vercel-banner'
 
 const EmailConfirm = () => {

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+
 import useMediaQuery from '../lib/hooks/use-media-query'
 import Gallery from './gallery'
 import ImageCard from './image-card'
@@ -9,7 +10,7 @@ type GridImage = {
 }
 
 const ImageGrid = ({
-  images = []
+  images = [],
 }: {
   images: SanityImage[] /* Array of Sanity images */
 }) => {
