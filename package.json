@@ -39,7 +39,7 @@
     "@types/lodash": "^4.14.177",
     "@types/mailgun-js": "^0.22.12",
     "@types/marked": "^4.0.1",
-    "@types/node": "^16.11.9",
+    "@types/node": "^20.8.7",
     "@types/react": "^18.0.28",
     "autoprefixer": "^10.4.0",
     "eslint": "8.51.0",
