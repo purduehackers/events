@@ -1,7 +1,8 @@
-import { useRouter } from 'next/router'
-import Nav from '../components/nav'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
+
 import Footer from '../components/footer'
+import Nav from '../components/nav'
 import VercelBanner from '../components/vercel-banner'
 
 const EmailConfirm = () => {
@@ -18,22 +19,22 @@ const EmailConfirm = () => {
         <div className="container mx-auto px-4 md:px-16 lg:px-72 xl:px-96">
           <div className="rounded-lg shadow-md dark:shadow-black/25 bg-gray-200 dark:bg-gray-700 p-4 flex flex-col justify-center gap-y-3">
             <h1 className="text-2xl sm:text-3xl font-bold text-center">
-              🎉 You're on the list!
+              🎉 You&apos;re on the list!
             </h1>
             <p className={eventName ? '' : 'hidden'}>
               Thanks for signing up to receive a reminder for{' '}
-              <strong>{eventName}</strong>! You'll receive an email from us a
-              day before the event starts.
+              <strong>{eventName}</strong>! You&apos;ll receive an email from us
+              a day before the event starts.
             </p>
             <p className={eventName ? '' : 'hidden'}>
-              While you're waiting, you should join the Purdue Hackers Discord
-              server if you aren't there already! You'll join a community of
-              creative makers at Purdue, and you'll be the first to hear about
-              new events.
+              While you&apos;re waiting, you should join the Purdue Hackers
+              Discord server if you aren&apos;t there already! You&apos;ll join
+              a community of creative makers at Purdue, and you&apos;ll be the
+              first to hear about new events.
             </p>
             <p className={eventName ? 'hidden' : ''}>
-              Thanks for signing up to receive a reminder! You'll receive an
-              email from us a day before the event starts.
+              Thanks for signing up to receive a reminder! You&apos;ll receive
+              an email from us a day before the event starts.
             </p>
             <div
               className={

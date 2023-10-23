@@ -1,14 +1,15 @@
-import { NextApiRequest, NextApiResponse } from 'next'
 import Mailgun from 'mailgun-js'
-import { verifyUUID } from '../../lib/uuid'
+import { NextApiRequest, NextApiResponse } from 'next'
 import { createClient } from 'next-sanity'
+
+import { verifyUUID } from '../../lib/uuid'
 
 const client = createClient({
   projectId: process.env.SANITY_PROJECT_ID,
   dataset: 'production',
   apiVersion: '2022-03-25',
   useCdn: true,
-  token: process.env.SANITY_TOKEN
+  token: process.env.SANITY_TOKEN,
 })
 
 export default (req: NextApiRequest, res: NextApiResponse) =>
@@ -19,7 +20,7 @@ export default (req: NextApiRequest, res: NextApiResponse) =>
     const mailgun = Mailgun
     const mg = mailgun({
       apiKey: `${process.env.MAILGUN_API_KEY}`,
-      domain: 'purduehackers.com'
+      domain: 'purduehackers.com',
     })
 
     verifyUUID(email as string, uuid as string).then((valid) => {
@@ -38,7 +39,7 @@ export default (req: NextApiRequest, res: NextApiResponse) =>
               await mg
                 .post('/lists', {
                   address: `${list}@purduehackers.com`,
-                  description: list
+                  description: list,
                 })
                 .catch((err) => {})
             }
@@ -49,7 +50,7 @@ export default (req: NextApiRequest, res: NextApiResponse) =>
               .create({
                 address: email as string,
                 name: email as string,
-                subscribed: true
+                subscribed: true,
               })
               .then(async (response) => {
                 console.log(response)

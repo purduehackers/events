@@ -1,9 +1,10 @@
-import { GetStaticPaths } from 'next'
 import { marked } from 'marked'
-import { fetchEvents } from '../lib/fetchEvents'
-import UpcomingEvent from '../components/upcoming-event'
-import { past } from '../lib/past'
+import { GetStaticPaths } from 'next'
+
 import PastEvent from '../components/past-event'
+import UpcomingEvent from '../components/upcoming-event'
+import { fetchEvents } from '../lib/fetchEvents'
+import { past } from '../lib/past'
 
 const Slug = ({ event }: { event: PHEvent }) =>
   past(event.start) && event.hasPastEventDesc ? (
@@ -15,7 +16,7 @@ const Slug = ({ event }: { event: PHEvent }) =>
 export const getStaticPaths: GetStaticPaths = async () => {
   const events = await fetchEvents()
   const paths = events.map((event) => ({
-    params: { slug: event.slug }
+    params: { slug: event.slug },
   }))
 
   return { paths, fallback: 'blocking' }

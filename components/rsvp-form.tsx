@@ -13,8 +13,8 @@ const RSVPForm = ({ eventName, slug }: { eventName: string; slug: string }) => {
       body: JSON.stringify({ email, eventName, slug }),
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     })
     if (submission.ok) {
       submission = await submission.json()

@@ -1,16 +1,17 @@
 import Head from 'next/head'
-import { Clock, MapPin, Calendar } from 'react-feather'
-import RSVPForm from './rsvp-form'
-import StyledLink from './styled-link'
-import Footer from './footer'
-import { past } from '../lib/past'
-import { footer } from '../lib/footerPonderings'
 import { useEffect, useState } from 'react'
+import { Calendar, Clock, MapPin } from 'react-feather'
+
+import { footer } from '../lib/footerPonderings'
+import { formatDate, startTimeFormatString } from '../lib/formatDate'
+import { past } from '../lib/past'
+import DescriptionBox from './desc-box'
+import Footer from './footer'
 import FooterLinks from './footer-links'
 import Nav from './nav'
-import { formatDate, startTimeFormatString } from '../lib/formatDate'
+import RSVPForm from './rsvp-form'
+import StyledLink from './styled-link'
 import VercelBanner from './vercel-banner'
-import DescriptionBox from './desc-box'
 
 const UpcomingEvent = ({ event }: { event: PHEvent }) => {
   const [pondering, setPondering] = useState('')
@@ -135,9 +136,9 @@ const UpcomingEvent = ({ event }: { event: PHEvent }) => {
                 RSVP for this event
               </h2>
               <p>
-                Enter your email and we'll send you a reminder about the event
-                the day before it happens. We won't use your email for anything
-                else.
+                Enter your email and we&apos;ll send you a reminder about the
+                event the day before it happens. We won&apos;t use your email
+                for anything else.
               </p>
               <RSVPForm eventName={event.name} slug={event.slug}></RSVPForm>
             </div>
@@ -153,7 +154,7 @@ const UpcomingEvent = ({ event }: { event: PHEvent }) => {
               <p className="mt-2">
                 This event already happened...but check out{' '}
                 <StyledLink destination="/">
-                  the events we're going to run in the future
+                  the events we&apos;re going to run in the future
                 </StyledLink>
                 !
               </p>
