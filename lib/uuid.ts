@@ -1,12 +1,12 @@
-import { v4 as uuidv4 } from 'uuid'
 import { createClient } from 'next-sanity'
+import { v4 as uuidv4 } from 'uuid'
 
 const client = createClient({
   projectId: process.env.SANITY_PROJECT_ID,
   dataset: 'production',
   apiVersion: '2022-03-25',
   useCdn: true,
-  token: process.env.SANITY_TOKEN
+  token: process.env.SANITY_TOKEN,
 })
 
 export const generateUUID = async (email: string): Promise<string> => {
@@ -16,7 +16,7 @@ export const generateUUID = async (email: string): Promise<string> => {
     _id: email.replace('@', ''),
     _type: 'email-uuid',
     email,
-    uuid
+    uuid,
   }
   client
     .createOrReplace(doc)

@@ -1,15 +1,16 @@
 import Head from 'next/head'
+import { useEffect, useState } from 'react'
 import { Clock } from 'react-feather'
+
+import { footer } from '../lib/footerPonderings'
 import { formatDate, startTimeFormatString } from '../lib/formatDate'
-import Nav from './nav'
 import Footer from './footer'
 import FooterLinks from './footer-links'
-import VercelBanner from './vercel-banner'
 import ImageGrid from './image-grid'
-import Subhead from './subhead'
+import Nav from './nav'
 import StatsCard from './stats-card'
-import { useEffect, useState } from 'react'
-import { footer } from '../lib/footerPonderings'
+import Subhead from './subhead'
+import VercelBanner from './vercel-banner'
 
 const PastEvent = ({ event }: { event: PHEvent }) => {
   const ogUrl = `https://og.purduehackers.com/${event.name.replace(
@@ -112,8 +113,8 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
                 Discord.
               </p>
               <p>
-                You'll also get access to a wonderful, friendly community of
-                hackers who are building & shipping cool things every day.
+                You&apos;ll also get access to a wonderful, friendly community
+                of hackers who are building & shipping cool things every day.
               </p>
               <a
                 href="https://bit.ly/PurdueHackersDiscord"

@@ -1,5 +1,6 @@
-import { useTheme } from 'next-themes'
 import { useRouter } from 'next/router'
+import { useTheme } from 'next-themes'
+
 import BackButton from './back-button'
 import ThemeButton from './theme-button'
 

@@ -1,5 +1,6 @@
+import { Discord, Github, Instagram } from '@icons-pack/react-simple-icons'
 import { Home } from 'react-feather'
-import { Instagram, Discord, Github } from '@icons-pack/react-simple-icons'
+
 import StyledLink from './styled-link'
 
 const FooterLinks = () => (

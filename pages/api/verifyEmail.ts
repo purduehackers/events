@@ -1,5 +1,6 @@
-import { NextApiRequest, NextApiResponse } from 'next'
 import Mailgun from 'mailgun-js'
+import { NextApiRequest, NextApiResponse } from 'next'
+
 import { generateUUID } from '../../lib/uuid'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -7,7 +8,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const mailgun = Mailgun
   const mg = mailgun({
     apiKey: `${process.env.MAILGUN_API_KEY}`,
-    domain: 'purduehackers.com'
+    domain: 'purduehackers.com',
   })
   const uuid = await generateUUID(email)
 
@@ -20,8 +21,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       eventName,
       list: slug,
       email,
-      uuid
-    })
+      uuid,
+    }),
   }
 
   mg.messages()

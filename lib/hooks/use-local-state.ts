@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 function init(key: string, initial: string | number) {
   if (typeof localStorage == 'undefined') {
