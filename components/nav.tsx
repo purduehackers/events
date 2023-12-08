@@ -19,7 +19,6 @@ const Nav = ({ noSticky = false }: { noSticky?: boolean }) => {
       <div className="container px-4 sm:px-14 mx-auto flex">
         {pathname !== '/' && <BackButton />}
         <div className="grow" />
-        {/* {resolvedTheme && <ThemeButton />} */}
         <ThemeButton />
       </div>
     </nav>
