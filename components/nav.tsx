@@ -1,11 +1,9 @@
 import { useRouter } from 'next/router'
-import { useTheme } from 'next-themes'
 
 import BackButton from './back-button'
 import ThemeButton from './theme-button'
 
 const Nav = ({ noSticky = false }: { noSticky?: boolean }) => {
-  const { resolvedTheme } = useTheme()
   const { pathname } = useRouter()
 
   return (
