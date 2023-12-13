@@ -73,3 +73,8 @@ interface PHEvent {
   stat3Label: string
   stat3Data: string
 }
+
+type HomepageEvent = Pick<
+  PHEvent,
+  'name' | 'start' | 'end' | 'unlisted' | 'slug'
+>

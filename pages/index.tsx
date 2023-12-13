@@ -15,12 +15,14 @@ import { useLocalState } from '../lib/hooks/use-local-state'
 import useMediaQuery from '../lib/hooks/use-media-query'
 import { past } from '../lib/past'
 
-const Index = ({ events }: { events: Array<PHEvent> }) => {
+const Index = ({ events }: { events: Array<HomepageEvent> }) => {
   const upcomingEvents = events.filter(
-    (event: PHEvent) => !past(event.start) && !event.unlisted
+    (event: HomepageEvent) => !past(event.start) && !event.unlisted
   )
   const pastEvents = orderBy(
-    events.filter((event: PHEvent) => past(event.start) && !event.unlisted),
+    events.filter(
+      (event: HomepageEvent) => past(event.start) && !event.unlisted
+    ),
     'end',
     'desc'
   )
@@ -181,9 +183,16 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
 
 export const getStaticProps: GetStaticProps = async () => {
   const events = await fetchEvents()
+  const filteredEvents = events.map((event) => ({
+    name: event.name,
+    start: event.start,
+    end: event.end,
+    unlisted: event.unlisted,
+    slug: event.slug,
+  }))
 
   return {
-    props: { events },
+    props: { events: filteredEvents },
     revalidate: 10,
   }
 }
