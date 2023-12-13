@@ -1,7 +1,6 @@
 import '../styles/styles.css'
 
 import { Analytics } from '@vercel/analytics/react'
-import { GeistMono } from 'geist/font/mono'
 import { AppProps } from 'next/app'
 import { Space_Grotesk, Space_Mono } from 'next/font/google'
 import Head from 'next/head'
