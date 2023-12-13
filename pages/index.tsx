@@ -36,7 +36,7 @@ const Index = ({ events }: { events: Array<PHEvent> }) => {
   useEffect(() => {
     setDiscordFlavor(discord[Math.floor(Math.random() * discord.length)])
     setIsMaxLength(pastEventNum >= pastEvents.length)
-  }, [])
+  }, [pastEventNum, pastEvents.length])
 
   return (
     <div className="min-h-screen overflow-hidden flex flex-col font-title dark:bg-gray-900">
