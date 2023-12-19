@@ -1,5 +1,3 @@
-const { transitionProperty } = require('tailwindcss/defaultTheme')
-
 module.exports = {
   mode: 'jit',
   content: [

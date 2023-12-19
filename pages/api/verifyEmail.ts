@@ -1,8 +1,10 @@
+/* eslint-disable no-console */
 import Mailgun from 'mailgun-js'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import { generateUUID } from '../../lib/uuid'
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { email, eventName, slug } = req.body
   const mailgun = Mailgun

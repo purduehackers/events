@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import Mailgun from 'mailgun-js'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { createClient } from 'next-sanity'
@@ -20,6 +21,7 @@ const mg = mailgun({
   domain: 'purduehackers.com',
 })
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default (req: NextApiRequest, res: NextApiResponse) =>
   new Promise((resolve) => {
     const { authorization } = req.headers

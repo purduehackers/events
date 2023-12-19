@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import Mailgun from 'mailgun-js'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { createClient } from 'next-sanity'
@@ -12,6 +13,7 @@ const client = createClient({
   token: process.env.SANITY_TOKEN,
 })
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default (req: NextApiRequest, res: NextApiResponse) =>
   new Promise((resolve) => {
     const { list, email, eventName, uuid } = req.query
@@ -41,7 +43,7 @@ export default (req: NextApiRequest, res: NextApiResponse) =>
                   address: `${list}@purduehackers.com`,
                   description: list,
                 })
-                .catch((err) => {})
+                .catch((_err) => {})
             }
             const item: MailingListData = items[0]
 
