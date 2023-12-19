@@ -1,4 +1,8 @@
-import { Discord, Github, Instagram } from '@icons-pack/react-simple-icons'
+import {
+  SiDiscord as Discord,
+  SiGithub as Github,
+  SiInstagram as Instagram,
+} from '@icons-pack/react-simple-icons'
 import { Home } from 'react-feather'
 
 import StyledLink from './styled-link'
