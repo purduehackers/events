@@ -17,6 +17,7 @@
 @layer components {
   .desc {
     @apply text-amber-500 hover:text-amber-400 transition;
+    word-break: break-word;
   }
   .text-shadow {
     text-shadow: 0 0 6px #fbbf24;
