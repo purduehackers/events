@@ -84,7 +84,7 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
             } sm:gap-x-4 items-center`}
           >
             <StatsCard event={event} />
-            <div className="sm:max-w-lg md:max-w-xl">
+            <div className="sm:max-w-lg md:max-w-xl break-all">
               <div className="flex flex-col justify-items-center sm:justify-items-end">
                 <div
                   className={`mx-4 mt-4 ${
