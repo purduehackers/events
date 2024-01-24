@@ -75,7 +75,7 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
             </p>
           </div>
         </div>
-        <div className="flex flex-col items-center justify-center py-8 sm:px-20">
+        <div className="flex flex-col items-center justify-center py-8 sm:px-20 mb-auto">
           <div
             className={`flex flex-col ${
               event.recapImages.length > 1
