@@ -4,6 +4,7 @@ import { Clock } from 'react-feather'
 
 import { footer } from '../lib/footerPonderings'
 import { formatDate, startTimeFormatString } from '../lib/formatDate'
+import { ogUrl } from '../lib/utils'
 import Footer from './footer'
 import FooterLinks from './footer-links'
 import ImageGrid from './image-grid'
@@ -13,17 +14,6 @@ import Subhead from './subhead'
 import VercelBanner from './vercel-banner'
 
 const PastEvent = ({ event }: { event: PHEvent }) => {
-  const ogUrl = `https://og.purduehackers.com/${event.name.replace(
-    new RegExp(' ', 'g'),
-    '%20'
-  )}.png?theme=light&md=1&fontSize=${
-    event.name.length < 30 ? '250' : '200'
-  }px&caption=${
-    event.start !== 'TBD'
-      ? formatDate(new Date(event.start), 'LLL%20d%20•')
-      : ''
-  }%20${event.loc.replace(new RegExp(' ', 'g'), '%20')}`
-
   const [pondering, setPondering] = useState('')
 
   useEffect(() => {
@@ -43,7 +33,7 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
             property="og:title"
             content={`${event.name} — Purdue Hackers`}
           />
-          <meta property="og:image" content={ogUrl} />
+          <meta property="og:image" content={ogUrl(event)} />
           <meta
             property="og:description"
             content={`${event.name}: a past event from Purdue Hackers.`}
