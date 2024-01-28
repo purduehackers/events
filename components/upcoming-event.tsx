@@ -5,6 +5,7 @@ import { Calendar, Clock, MapPin } from 'react-feather'
 import { footer } from '../lib/footerPonderings'
 import { formatDate, startTimeFormatString } from '../lib/formatDate'
 import { past } from '../lib/past'
+import { ogUrl } from '../lib/utils'
 import DescriptionBox from './desc-box'
 import Footer from './footer'
 import FooterLinks from './footer-links'
@@ -20,17 +21,6 @@ const UpcomingEvent = ({ event }: { event: PHEvent }) => {
     setPondering(footer[Math.floor(Math.random() * footer.length)])
   }, [])
 
-  const ogUrl = `https://og.purduehackers.com/${event.name.replace(
-    new RegExp(' ', 'g'),
-    '%20'
-  )}.png?theme=${
-    event.name.includes('Hack Night') ? 'dark' : 'light'
-  }&md=1&fontSize=${event.name.length < 30 ? '250' : '200'}px&caption=${
-    event.start !== 'TBD'
-      ? formatDate(new Date(event.start), 'LLL%20d%20•')
-      : ''
-  }%20${event.loc.replace(new RegExp(' ', 'g'), '%20')}`
-
   const title = `${event.name} — Purdue Hackers`
 
   return (
@@ -44,7 +34,7 @@ const UpcomingEvent = ({ event }: { event: PHEvent }) => {
             property="og:title"
             content={`${event.name} — Purdue Hackers`}
           />
-          <meta property="og:image" content={ogUrl} />
+          <meta property="og:image" content={ogUrl(event)} />
           <meta
             property="og:description"
             content={
