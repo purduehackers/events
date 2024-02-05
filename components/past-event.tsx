@@ -36,7 +36,7 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
           <meta property="og:image" content={ogUrl(event)} />
           <meta
             property="og:description"
-            content={`${event.name}: a past event from Purdue Hackers.`}
+            content={`Learn what happened at ${event.name}, an event from Purdue Hackers.`}
           />
           <meta name="twitter:card" content="summary_large_image" />
           <meta property="og:type" content="website" />
