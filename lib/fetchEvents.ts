@@ -2,8 +2,6 @@ import GithubSlugger from 'github-slugger'
 import { orderBy } from 'lodash'
 import { createClient } from 'next-sanity'
 
-import { formatDate } from './formatDate'
-
 const client = createClient({
   projectId: process.env.SANITY_PROJECT_ID,
   dataset: 'production',
@@ -11,20 +9,30 @@ const client = createClient({
   useCdn: true,
 })
 
+function formatTime(date: Date) {
+  return date.toISOString().replace(/-|:|\.\d+/g, '')
+}
+
 const getCalLink = (event: SanityEvent) => {
   try {
+    let endTime: Date
+
+    // if event end time is undefined, set it to the same date as the start time
+    // and set time to 23:59
+
+    if (event.end == undefined) {
+      endTime = new Date(event.start)
+      endTime.setHours(23)
+      endTime.setMinutes(59)
+      endTime.setSeconds(0)
+      endTime.setMilliseconds(0)
+    } else {
+      endTime = new Date(event.end)
+    }
+    const startTimeStr = formatTime(new Date(event.start))
+    const endTimeStr = formatTime(new Date(endTime))
     return new URL(
-      `https://www.google.com/calendar/render?action=TEMPLATE&text=${
-        event.name
-      } (Purdue Hackers)&location=${
-        event.loc
-      }&details=A Purdue Hackers Event&dates=${formatDate(
-        new Date(event.start),
-        'yyyyMMdd'
-      )}T${formatDate(new Date(event.start), 'HHmm')}00Z%2F${formatDate(
-        new Date(event.end),
-        'yyyyMMdd'
-      )}T${formatDate(new Date(event.end), 'HHmm')}00Z`
+      `https://www.google.com/calendar/render?action=TEMPLATE&text=${event.name} (Purdue Hackers)&location=${event.loc}&details=A Purdue Hackers Event&dates=${startTimeStr}00Z%2F${endTimeStr}00Z`
     ).href
   } catch {
     return new URL(
