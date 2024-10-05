@@ -17,10 +17,10 @@ const getSanitizedTime = (start: string, end: string) => {
     return [new Date(start), new Date(end)];
   } else if (start !== "TBD") {
     // End hour is undefined, bodge to 1 hour from start time for now
-    var start_date = new Date(start);
-    var end_date = new Date(start);
-    end_date.setTime(end_date.getTime() + 1 * 60 * 60 * 1000);
-    return [start_date, end_date];
+    const startDate = new Date(start);
+    const endDate = new Date(start);
+    endDate.setTime(endDate.getTime() + 1 * 60 * 60 * 1000);
+    return [startDate, endDate];
   }
   if (start === "TBD") {
     return undefined;
@@ -35,19 +35,19 @@ const getCalLink = (event: SanityEvent) => {
       `https://www.google.com/calendar/render?action=TEMPLATE&text=${event.name} (Purdue Hackers)&location=${event.loc}&details=A Purdue Hackers Event`
     ).href
   } else {
-    var [start_date, end_date] = sanitized_dates;
+    const [startDate, endDate] = sanitized_dates;
     return new URL(
       `https://www.google.com/calendar/render?action=TEMPLATE&text=${
         event.name
       } (Purdue Hackers)&location=${
         event.loc
       }&details=A Purdue Hackers Event&dates=${formatDate(
-        start_date,
+        startDate,
         'yyyyMMdd'
-      )}T${formatDate(start_date, 'HHmm')}00Z%2F${formatDate(
+      )}T${formatDate(startDate, 'HHmm')}00Z%2F${formatDate(
         new Date(event.end),
         'yyyyMMdd'
-      )}T${formatDate(end_date, 'HHmm')}00Z`
+      )}T${formatDate(endDate, 'HHmm')}00Z`
     ).href
   }
 }
