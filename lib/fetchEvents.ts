@@ -11,33 +11,32 @@ const client = createClient({
   useCdn: true,
 })
 
-
 const getSanitizedTime = (start: string, end: string) => {
-  let startDate = new Date(start);
-  let endDate = new Date(end);
+  let startDate = new Date(start)
+  let endDate = new Date(end)
 
   if (isNaN(startDate.valueOf())) {
-    return undefined;
+    return undefined
   }
 
   if (isNaN(endDate.valueOf())) {
-    endDate = new Date(start);
+    endDate = new Date(start)
     // End hour is undefined, bodge to 1 hour from start time for now
-    endDate.setTime(endDate.getTime() + 1 * 60 * 60 * 1000);
+    endDate.setTime(endDate.getTime() + 1 * 60 * 60 * 1000)
   }
 
-  return [startDate, endDate];
+  return [startDate, endDate]
 }
 
 const getCalLink = (event: SanityEvent) => {
-  var sanitized_dates = getSanitizedTime(event.start, event.end);
+  var sanitizedDates = getSanitizedTime(event.start, event.end)
 
-  if (typeof sanitized_dates === 'undefined') {
+  if (typeof sanitizedDates === 'undefined') {
     return new URL(
       `https://www.google.com/calendar/render?action=TEMPLATE&text=${event.name} (Purdue Hackers)&location=${event.loc}&details=A Purdue Hackers Event`
     ).href
   } else {
-    const [startDate, endDate] = sanitized_dates;
+    const [startDate, endDate] = sanitizedDates
     return new URL(
       `https://www.google.com/calendar/render?action=TEMPLATE&text=${
         event.name
