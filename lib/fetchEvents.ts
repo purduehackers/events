@@ -11,24 +11,43 @@ const client = createClient({
   useCdn: true,
 })
 
+
+const getSanitizedTime = (start: string, end: string) => {
+  if (start !== "TBD" && end !== "TBD") {
+    return [new Date(start), new Date(end)];
+  } else if (start !== "TBD") {
+    // End hour is undefined, bodge to 1 hour from start time for now
+    var start_date = new Date(start);
+    var end_date = new Date(start);
+    end_date.setTime(end_date.getTime() + 1 * 60 * 60 * 1000);
+    return [start_date, end_date];
+  }
+  if (start === "TBD") {
+    return undefined;
+  }
+}
+
 const getCalLink = (event: SanityEvent) => {
-  try {
+  var sanitized_dates = getSanitizedTime(event.start, event.end);
+
+  if (typeof sanitized_dates === 'undefined') {
+    return new URL(
+      `https://www.google.com/calendar/render?action=TEMPLATE&text=${event.name} (Purdue Hackers)&location=${event.loc}&details=A Purdue Hackers Event`
+    ).href
+  } else {
+    var [start_date, end_date] = sanitized_dates;
     return new URL(
       `https://www.google.com/calendar/render?action=TEMPLATE&text=${
         event.name
       } (Purdue Hackers)&location=${
         event.loc
       }&details=A Purdue Hackers Event&dates=${formatDate(
-        new Date(event.start),
+        start_date,
         'yyyyMMdd'
-      )}T${formatDate(new Date(event.start), 'HHmm')}00Z%2F${formatDate(
+      )}T${formatDate(start_date, 'HHmm')}00Z%2F${formatDate(
         new Date(event.end),
         'yyyyMMdd'
-      )}T${formatDate(new Date(event.end), 'HHmm')}00Z`
-    ).href
-  } catch {
-    return new URL(
-      `https://www.google.com/calendar/render?action=TEMPLATE&text=${event.name} (Purdue Hackers)&location=${event.loc}&details=A Purdue Hackers Event`
+      )}T${formatDate(end_date, 'HHmm')}00Z`
     ).href
   }
 }
