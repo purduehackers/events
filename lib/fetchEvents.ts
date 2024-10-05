@@ -47,7 +47,7 @@ const getCalLink = (event: SanityEvent) => {
         startDate,
         'yyyyMMdd'
       )}T${formatDate(startDate, 'HHmm')}00Z%2F${formatDate(
-        new Date(event.end),
+        endDate,
         'yyyyMMdd'
       )}T${formatDate(endDate, 'HHmm')}00Z`
     ).href
