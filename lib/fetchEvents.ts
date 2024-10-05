@@ -13,18 +13,20 @@ const client = createClient({
 
 
 const getSanitizedTime = (start: string, end: string) => {
-  if (start !== "TBD" && end !== "TBD") {
-    return [new Date(start), new Date(end)];
-  } else if (start !== "TBD") {
-    // End hour is undefined, bodge to 1 hour from start time for now
-    const startDate = new Date(start);
-    const endDate = new Date(start);
-    endDate.setTime(endDate.getTime() + 1 * 60 * 60 * 1000);
-    return [startDate, endDate];
-  }
-  if (start === "TBD") {
+  let startDate = new Date(start);
+  let endDate = new Date(end);
+
+  if (isNaN(startDate.valueOf())) {
     return undefined;
   }
+
+  if (isNaN(endDate.valueOf())) {
+    endDate = new Date(start);
+    // End hour is undefined, bodge to 1 hour from start time for now
+    endDate.setTime(endDate.getTime() + 1 * 60 * 60 * 1000);
+  }
+
+  return [startDate, endDate];
 }
 
 const getCalLink = (event: SanityEvent) => {
