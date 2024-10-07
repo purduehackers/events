@@ -2,7 +2,7 @@ import GithubSlugger from 'github-slugger'
 import { orderBy } from 'lodash'
 import { createClient } from 'next-sanity'
 
-import { formatDate } from './formatDate'
+import { formatDate, formatUTCDate } from './formatDate'
 
 const client = createClient({
   projectId: process.env.SANITY_PROJECT_ID,
@@ -42,13 +42,13 @@ const getCalLink = (event: SanityEvent) => {
         event.name
       } (Purdue Hackers)&location=${
         event.loc
-      }&details=A Purdue Hackers Event&dates=${formatDate(
+      }&details=A Purdue Hackers Event&dates=${formatUTCDate(
         startDate,
         'yyyyMMdd'
-      )}T${formatDate(startDate, 'HHmm')}00Z%2F${formatDate(
+      )}T${formatUTCDate(startDate, 'HHmm')}00Z%2F${formatUTCDate(
         endDate,
         'yyyyMMdd'
-      )}T${formatDate(endDate, 'HHmm')}00Z`
+      )}T${formatUTCDate(endDate, 'HHmm')}00Z`
     ).href
   }
 }
