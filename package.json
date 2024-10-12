@@ -30,7 +30,7 @@
     "react-dom": "^18.2.0",
     "react-feather": "^2.0.9",
     "sanity": "^3.21.3",
-    "sharp": "^0.30.4",
+    "sharp": "^0.33.5",
     "uuid": "^8.3.2",
     "yet-another-react-lightbox": "^2.3.1"
   },
