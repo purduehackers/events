@@ -21,8 +21,8 @@ const getSanitizedTime = (start: string, end: string) => {
 
   if (isNaN(endDate.valueOf())) {
     endDate = new Date(start)
-    // End hour is undefined, bodge to 1 hour from start time for now
-    endDate.setTime(endDate.getTime() + 1 * 60 * 60 * 1000)
+    // End hour is undefined, assume it's Hack Night & set to 11:59pm
+    endDate.setHours(23, 59, 59, 999)
   }
 
   return [startDate, endDate]
