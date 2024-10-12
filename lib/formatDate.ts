@@ -7,7 +7,7 @@ export const formatDate = (date: Date, formatString: string) =>
   format(formatDateTz(date), formatString)
 
 export const formatUTCDate = (date: Date, formatString: string) =>
-  format(toZonedTime(date, 'UTC'), formatString, {timeZone: 'UTC'})
+  format(toZonedTime(date, 'UTC'), formatString, { timeZone: 'UTC' })
 
 export const eventSpansAcrossMultipleDays = (
   start: string,

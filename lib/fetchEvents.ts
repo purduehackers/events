@@ -2,7 +2,7 @@ import GithubSlugger from 'github-slugger'
 import { orderBy } from 'lodash'
 import { createClient } from 'next-sanity'
 
-import { formatDate, formatUTCDate } from './formatDate'
+import { formatUTCDate } from './formatDate'
 
 const client = createClient({
   projectId: process.env.SANITY_PROJECT_ID,
