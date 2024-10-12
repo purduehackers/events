@@ -1,10 +1,13 @@
-import { format } from 'date-fns'
+import { format, toZonedTime } from 'date-fns-tz'
 
 const formatDateTz = (date: Date) =>
   new Date(date.toLocaleString('en-US', { timeZone: 'America/Indianapolis' }))
 
 export const formatDate = (date: Date, formatString: string) =>
   format(formatDateTz(date), formatString)
+
+export const formatUTCDate = (date: Date, formatString: string) =>
+  format(toZonedTime(date, 'UTC'), formatString, { timeZone: 'UTC' })
 
 export const eventSpansAcrossMultipleDays = (
   start: string,

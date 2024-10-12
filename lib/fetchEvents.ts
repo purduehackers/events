@@ -1,8 +1,9 @@
+import { fromZonedTime } from 'date-fns-tz'
 import GithubSlugger from 'github-slugger'
 import { orderBy } from 'lodash'
 import { createClient } from 'next-sanity'
 
-import { formatDate } from './formatDate'
+import { formatUTCDate } from './formatDate'
 
 const client = createClient({
   projectId: process.env.SANITY_PROJECT_ID,
@@ -11,24 +12,45 @@ const client = createClient({
   useCdn: true,
 })
 
+const getSanitizedTime = (start: string, end: string) => {
+  let startDate = new Date(start)
+  let endDate = new Date(end)
+
+  if (isNaN(startDate.valueOf())) {
+    return undefined
+  }
+
+  if (isNaN(endDate.valueOf())) {
+    // End hour is undefined, assume it's Hack Night & set to 11:59pm
+    endDate = new Date(startDate)
+    endDate.setHours(23, 59, 59)
+    endDate = fromZonedTime(endDate, 'America/Indianapolis')
+  }
+
+  return [startDate, endDate]
+}
+
 const getCalLink = (event: SanityEvent) => {
-  try {
+  var sanitizedDates = getSanitizedTime(event.start, event.end)
+
+  if (typeof sanitizedDates === 'undefined') {
+    return new URL(
+      `https://www.google.com/calendar/render?action=TEMPLATE&text=${event.name} (Purdue Hackers)&location=${event.loc}&details=A Purdue Hackers Event`
+    ).href
+  } else {
+    const [startDate, endDate] = sanitizedDates
     return new URL(
       `https://www.google.com/calendar/render?action=TEMPLATE&text=${
         event.name
       } (Purdue Hackers)&location=${
         event.loc
-      }&details=A Purdue Hackers Event&dates=${formatDate(
-        new Date(event.start),
+      }&details=A Purdue Hackers Event&dates=${formatUTCDate(
+        startDate,
         'yyyyMMdd'
-      )}T${formatDate(new Date(event.start), 'HHmm')}00Z%2F${formatDate(
-        new Date(event.end),
+      )}T${formatUTCDate(startDate, 'HHmm')}00Z%2F${formatUTCDate(
+        endDate,
         'yyyyMMdd'
-      )}T${formatDate(new Date(event.end), 'HHmm')}00Z`
-    ).href
-  } catch {
-    return new URL(
-      `https://www.google.com/calendar/render?action=TEMPLATE&text=${event.name} (Purdue Hackers)&location=${event.loc}&details=A Purdue Hackers Event`
+      )}T${formatUTCDate(endDate, 'HHmm')}00Z`
     ).href
   }
 }
