@@ -42,7 +42,7 @@
     "@types/node": "^20.8.7",
     "@types/react": "^18.0.28",
     "eslint": "^8.55.0",
-    "eslint-config-next": "13.5.4",
+    "eslint-config-next": "14.2.15",
     "eslint-config-prettier": "^9.0.0",
     "lint-staged": ">=10",
     "postcss": "^8.4.4",
