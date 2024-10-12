@@ -1,3 +1,4 @@
+import { fromZonedTime } from 'date-fns-tz'
 import GithubSlugger from 'github-slugger'
 import { orderBy } from 'lodash'
 import { createClient } from 'next-sanity'
@@ -20,9 +21,10 @@ const getSanitizedTime = (start: string, end: string) => {
   }
 
   if (isNaN(endDate.valueOf())) {
-    endDate = new Date(start)
     // End hour is undefined, assume it's Hack Night & set to 11:59pm
-    endDate.setUTCHours(23, 59, 59, 999)
+    endDate = new Date(startDate)
+    endDate.setHours(23, 59, 59)
+    endDate = fromZonedTime(endDate, 'America/Indianapolis')
   }
 
   return [startDate, endDate]
