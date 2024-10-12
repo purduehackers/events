@@ -4,8 +4,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint --cache --fix",
-    "prepare": "husky install"
+    "lint": "next lint --cache --fix"
   },
   "dependencies": {
     "@icons-pack/react-simple-icons": "^9.2.0",
