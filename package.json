@@ -4,8 +4,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint --cache --fix",
-    "prepare": "husky install"
+    "lint": "next lint --cache --fix"
   },
   "dependencies": {
     "@icons-pack/react-simple-icons": "^9.2.0",
@@ -45,7 +44,6 @@
     "eslint": "^8.55.0",
     "eslint-config-next": "13.5.4",
     "eslint-config-prettier": "^9.0.0",
-    "husky": ">=6",
     "lint-staged": ">=10",
     "postcss": "^8.4.4",
     "prettier": "3.0.3",
