@@ -7,7 +7,7 @@
     "lint": "next lint --cache --fix"
   },
   "dependencies": {
-    "@icons-pack/react-simple-icons": "^9.2.0",
+    "@icons-pack/react-simple-icons": "^10.0.0",
     "@tailwindcss/forms": "^0.4.0",
     "@types/luxon": "^2.0.8",
     "@types/uuid": "^8.3.3",
