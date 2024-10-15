@@ -15,8 +15,8 @@ importers:
         specifier: ^0.5.9
         version: 0.5.9(tailwindcss@3.4.13)
       '@types/luxon':
-        specifier: ^2.0.8
-        version: 2.4.0
+        specifier: ^3.4.2
+        version: 3.4.2
       '@types/uuid':
         specifier: ^8.3.3
         version: 8.3.4
@@ -1613,8 +1613,8 @@ packages:
   '@types/lodash@4.17.10':
     resolution: {integrity: sha512-YpS0zzoduEhuOWjAotS6A5AVCva7X4lVlYLF0FYHAY9sdraBfnatttHItlWeZdGhuEkf+OzMNg2ZYAx8t+52uQ==}
 
-  '@types/luxon@2.4.0':
-    resolution: {integrity: sha512-oCavjEjRXuR6URJEtQm0eBdfsBiEcGBZbq21of8iGkeKxU1+1xgKuFPClaBZl2KB8ZZBSWlgk61tH6Mf+nvZVw==}
+  '@types/luxon@3.4.2':
+    resolution: {integrity: sha512-TifLZlFudklWlMBfhubvgqTXRzLDI5pCbGa4P8a3wPyUQSW+1xQ5eDsreP9DWHX3tjq1ke96uYG/nwundroWcA==}
 
   '@types/mailgun-js@0.22.18':
     resolution: {integrity: sha512-xp1QwOjlgvbV9MmKEEmmXN0PkfDxkVQjq0IU1c9DL7VBIQCPxnrqLTaCVm40Ig+YxUnt6e2dT/dNUhaKGQ+V6A==}
@@ -6938,7 +6938,7 @@ snapshots:
 
   '@types/lodash@4.17.10': {}
 
-  '@types/luxon@2.4.0': {}
+  '@types/luxon@3.4.2': {}
 
   '@types/mailgun-js@0.22.18':
     dependencies:
