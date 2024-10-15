@@ -84,8 +84,8 @@ importers:
         specifier: ^8.3.2
         version: 8.3.2
       yet-another-react-lightbox:
-        specifier: ^2.3.1
-        version: 2.6.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^3.21.6
+        version: 3.21.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     devDependencies:
       '@types/form-data':
         specifier: ^2.5.0
@@ -5260,8 +5260,8 @@ packages:
   yauzl@2.10.0:
     resolution: {integrity: sha512-p4a9I6X6nu6IhoGmBqAcbJy1mlC4j27vEPZX9F4L4/vZT3Lyq1VkFHw/V/PUcB9Buo+DG3iHkT0x3Qya58zc3g==}
 
-  yet-another-react-lightbox@2.6.2:
-    resolution: {integrity: sha512-P03quWhfmmqvgraMPxJybiwlwtCnHeO1oCDjJoyDIU/mif0AzJQR1ZAYMCAgNdV1jrJNovDfN3LjWP5L5QzmyA==}
+  yet-another-react-lightbox@3.21.6:
+    resolution: {integrity: sha512-uKcRmmezsj1Fbj38B6hFOGwbAu94fPr8d5H6I0+1FmcToX56freEGXXXtdA1oRo6036ug+UgrKZzzvsw/MIM/w==}
     engines: {node: '>=14'}
     peerDependencies:
       react: '>=16.8.0'
@@ -11096,7 +11096,7 @@ snapshots:
       buffer-crc32: 0.2.13
       fd-slicer: 1.1.0
 
-  yet-another-react-lightbox@2.6.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  yet-another-react-lightbox@3.21.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
