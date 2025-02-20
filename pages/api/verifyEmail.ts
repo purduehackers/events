@@ -15,7 +15,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const uuid = await generateUUID(email)
 
   const data = {
-    from: 'Purdue Hackers <events@purduehackers.com>',
+    from: 'Purdue Hackers <events@mg.purduehackers.com>',
     to: `${email}`,
     subject: `Purdue Hackers: Please verify your email`,
     template: 'verify-your-email',
