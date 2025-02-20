@@ -22,7 +22,7 @@ export default (req: NextApiRequest, res: NextApiResponse) =>
     const mailgun = Mailgun
     const mg = mailgun({
       apiKey: `${process.env.MAILGUN_API_KEY}`,
-      domain: 'purduehackers.com',
+      domain: 'mg.purduehackers.com',
     })
 
     verifyUUID(email as string, uuid as string).then((valid) => {
@@ -40,14 +40,14 @@ export default (req: NextApiRequest, res: NextApiResponse) =>
             if (items.length === 0) {
               await mg
                 .post('/lists', {
-                  address: `${list}@purduehackers.com`,
+                  address: `${list}@mg.purduehackers.com`,
                   description: list,
                 })
                 .catch((_err) => {})
             }
             const item: MailingListData = items[0]
 
-            mg.lists(`${list}@purduehackers.com`)
+            mg.lists(`${list}@mg.purduehackers.com`)
               .members()
               .create({
                 address: email as string,
