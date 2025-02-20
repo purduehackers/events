@@ -18,7 +18,7 @@ const client = createClient({
 const mailgun = Mailgun
 const mg = mailgun({
   apiKey: `${process.env.MAILGUN_API_KEY}`,
-  domain: 'purduehackers.com',
+  domain: 'mg.purduehackers.com',
 })
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -111,8 +111,8 @@ const sendEmail = async (
   console.log('parsed end', parsedEnd)
 
   const firstData = {
-    from: 'Purdue Hackers <events@purduehackers.com>',
-    to: `${slug}@purduehackers.com`,
+    from: 'Purdue Hackers <events@mg.purduehackers.com>',
+    to: `${slug}@mg.purduehackers.com`,
     subject: `Reminder: ${name} is happening tomorrow!`,
     template: 'event-reminder',
     'h:X-Mailgun-Variables': JSON.stringify({
@@ -124,8 +124,8 @@ const sendEmail = async (
   }
 
   const secondData = {
-    from: 'Purdue Hackers <events@purduehackers.com>',
-    to: `${slug}@purduehackers.com`,
+    from: 'Purdue Hackers <events@mg.purduehackers.com>',
+    to: `${slug}@mg.purduehackers.com`,
     subject: `[REMINDER] ${name} is happening today!`,
     template: 'second-event-reminder',
     'h:X-Mailgun-Variables': JSON.stringify({
