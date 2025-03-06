@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
-import Mailgun from 'mailgun-js'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { createClient } from 'next-sanity'
+import { Resend } from 'resend'
 
 import { verifyUUID } from '../../lib/uuid'
 
@@ -14,72 +14,72 @@ const client = createClient({
 })
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default (req: NextApiRequest, res: NextApiResponse) =>
-  new Promise((resolve) => {
-    const { list, email, eventName, uuid } = req.query
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  const { list, email, eventName, uuid } = req.query
 
-    console.log(`Adding email ${email} to mailing list ${list}`)
-    const mailgun = Mailgun
-    const mg = mailgun({
-      apiKey: `${process.env.MAILGUN_API_KEY}`,
-      domain: 'mg.purduehackers.com',
+  console.log(`Adding email ${email} to mailing list ${list}`)
+  const resend = new Resend(process.env.RESEND_API_KEY)
+
+  const valid = await verifyUUID(email as string, uuid as string)
+
+  if (!valid) {
+    console.log(`${email} did not provide the right UUID. Skipping...`)
+    return res.redirect('/email-verification-failed')
+    return
+  } else {
+    const audiences = await resend.audiences.list()
+
+    if (!audiences.data?.data) {
+      console.log('No audiences found')
+      return res.redirect('/email-verification-failed')
+    }
+
+    const audience = audiences.data.data.find(
+      (audience: any) => audience.name === list
+    )
+
+    let audienceId = audience?.id
+
+    if (!audience) {
+      console.log('No audience found, creating a new one')
+      audienceId = (
+        await resend.audiences.create({
+          name: list as string,
+        })
+      ).data?.id
+    }
+
+    if (!audienceId) {
+      console.log('Failed to create audience')
+      return res.redirect('/email-verification-failed')
+    }
+
+    const contact = await resend.contacts.create({
+      email: email as string,
+      unsubscribed: false,
+      audienceId,
     })
 
-    verifyUUID(email as string, uuid as string).then((valid) => {
-      if (!valid) {
-        console.log(`${email} did not provide the right UUID. Skipping...`)
-        resolve(res.redirect('/email-verification-failed'))
-        return
-      } else {
-        mg.get('/lists/pages')
-          .then((pages: Pages) => pages.items)
-          .then((items: MailingListData[]) =>
-            items.filter((item: MailingListData) => item.description === list)
-          )
-          .then(async (items) => {
-            if (items.length === 0) {
-              await mg
-                .post('/lists', {
-                  address: `${list}@mg.purduehackers.com`,
-                  description: list,
-                })
-                .catch((_err) => {})
-            }
-            const item: MailingListData = items[0]
+    if (contact.error) {
+      console.log('An error occurred while adding the contact', contact.error)
+      return res.redirect('/email-verification-failed')
+    }
 
-            mg.lists(`${list}@mg.purduehackers.com`)
-              .members()
-              .create({
-                address: email as string,
-                name: email as string,
-                subscribed: true,
-              })
-              .then(async (response) => {
-                console.log(response)
-                console.log('Updating values in Sanity')
-                const id = (
-                  await client.fetch(`*[name == "${eventName}"]`)
-                )?.[0]._id
+    console.log('Contact added successfully')
 
-                client
-                  .patch(id)
-                  .inc({ rsvpCount: 1 })
-                  .commit()
-                  .then(() => {
-                    console.log('Done!')
-                    resolve(
-                      res.redirect(`/email-confirm?eventName=${eventName}`)
-                    )
-                  })
-                  .catch((err) => console.log('error incrementing', err))
-              })
-              .catch((error) => {
-                if (error.toString().includes('Address already exists')) {
-                  console.log('Address already exists!')
-                  resolve(res.redirect(`/email-exists`))
-                }
-              })
-          })
-      }
-    })
-  })
+    const id = (await client.fetch(`*[name == "${eventName}"]`))?.[0]._id
+
+    client
+      .patch(id)
+      .inc({ rsvpCount: 1 })
+      .commit()
+      .then(() => {
+        console.log('Done!')
+        return res.redirect(`/email-confirm?eventName=${eventName}`)
+      })
+      .catch((err) => console.log('error incrementing', err))
+  }
+}

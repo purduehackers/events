@@ -15,10 +15,10 @@ Every time a new event is added to Airtable, a page is automatically generated f
 Create a `.env` file and add the following values:
 
 ```
-AIRTABLE_API_KEY
-MAILGUN_API_KEY
-MAILGUN_TEST_API_KEY
-EASYCRON_API_KEY
+AIRTABLE_API_KEY=
+SANITY_TOKEN=
+SANITY_PROJECT_ID=
+RESEND_API_KEY=
 ```
 
 Ping `@matthew!!!` in the Purdue Hackers Discord if you need these values. If you're on the Vercel team, you can get them from the "Environment Variables" settings on the dashboard.
