@@ -1,8 +1,8 @@
-/* eslint-disable no-console */
-import Mailgun from 'mailgun-js'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { createClient } from 'next-sanity'
+import { Resend } from 'resend'
 
+import ReminderEmail from '../../emails/reminder-email'
 import { fetchEvents } from '../../lib/fetchEvents'
 import { formatDate } from '../../lib/formatDate'
 import { past } from '../../lib/past'
@@ -15,145 +15,130 @@ const client = createClient({
   token: process.env.SANITY_TOKEN,
 })
 
-const mailgun = Mailgun
-const mg = mailgun({
-  apiKey: `${process.env.MAILGUN_API_KEY}`,
-  domain: 'mg.purduehackers.com',
-})
+const resend = new Resend(process.env.RESEND_API_KEY)
 
-// eslint-disable-next-line import/no-anonymous-default-export
-export default (req: NextApiRequest, res: NextApiResponse) =>
-  new Promise((resolve) => {
-    const { authorization } = req.headers
-    if (authorization !== `Bearer ${process.env.MAILGUN_API_KEY}`) {
-      resolve(res.status(401).send('incorrect api key!'))
-      return
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  try {
+    if (req.headers.authorization !== `Bearer ${process.env.RESEND_API_KEY}`) {
+      return res.status(401).json({ error: 'Unauthorized' })
     }
 
-    fetchEvents()
-      .then((events) =>
-        events.filter(
-          (event) =>
-            (!past(event.start) &&
-              eventHappens('tomorrow', event.start) &&
-              !event.emailSent) ||
-            (eventHappens('today', event.start) &&
-              event.emailSent &&
-              !event.secondEmailSent)
-        )
-      )
-      .then((events) => {
-        if (events.length > 0) {
-          Promise.all(
-            events.map((event: PHEvent) => {
-              console.log('sending email to ' + event.name)
-              return sendEmail(
-                event.emailSent ? 'second' : 'first',
-                event
-              ).then(async () => {
-                console.log('marking complete...')
-                if (!event.emailSent) {
-                  await markSent(event)
-                } else {
-                  await markSecondSent(event)
-                }
-              })
-            })
-          )
-            .then(() => {
-              console.log('done!')
-              resolve(res.json({ ok: true }))
-            })
-            .catch((err) => {
-              resolve(res.status(500).send('Error sending email: ' + err))
-            })
-        } else {
-          console.log('No emails to send.')
-          resolve(res.status(200).send('No emails to send.'))
-        }
-      })
-  })
+    const events = await fetchEvents()
+    const upcomingEvents = events.filter(
+      (event) =>
+        (!past(event.start) &&
+          eventHappens('tomorrow', event.start) &&
+          !event.emailSent) ||
+        (eventHappens('today', event.start) &&
+          event.emailSent &&
+          !event.secondEmailSent)
+    )
 
-const eventHappens = (todayOrTomorrow: string, eventStart: string): boolean => {
+    if (upcomingEvents.length === 0) {
+      console.log('No emails to send.')
+      return res.status(200).json({ message: 'No emails to send.' })
+    }
+
+    await Promise.all(
+      upcomingEvents.map(async (event) => {
+        console.log(`Sending email to ${event.name}`)
+        await sendEmail(event.emailSent ? 'second' : 'first', event)
+        await markEmailSent(event)
+      })
+    )
+
+    console.log('Emails sent successfully.')
+    res.json({ success: true })
+  } catch (error) {
+    console.error('Error processing emails:', error)
+    res.status(500).json({ error: 'Internal Server Error' })
+  }
+}
+
+function eventHappens(todayOrTomorrow: string, eventStart: string): boolean {
   const now = new Date()
   const eventDate = new Date(eventStart)
   const timeDiff = eventDate.getTime() - now.getTime()
 
-  if (todayOrTomorrow === 'today') {
-    return Math.floor(timeDiff) < 86400000 && timeDiff > 0
-  } else if (todayOrTomorrow === 'tomorrow') {
-    return Math.floor(timeDiff) < 172800000 && timeDiff > 0
-  } else {
-    return false
-  }
+  return todayOrTomorrow === 'today'
+    ? timeDiff < 86400000 && timeDiff > 0
+    : todayOrTomorrow === 'tomorrow'
+      ? timeDiff < 172800000 && timeDiff > 0
+      : false
 }
 
-const sendEmail = async (
-  firstOrSecond: string,
-  event: PHEvent
-): Promise<void> => {
+async function sendEmail(emailType: 'first' | 'second', event: PHEvent) {
   const { name, start, end, loc, slug } = event
   const startDate = new Date(start)
   const endDate = new Date(end)
+
   let parsedStart =
-    firstOrSecond === 'first'
-      ? formatDate(startDate, 'EEEE') + ' from ' + formatDate(startDate, 'h:mm')
-      : 'TODAY from ' + formatDate(startDate, 'h:mm')
-  let parsedEnd
+    emailType === 'first'
+      ? `${formatDate(startDate, 'EEEE')} from ${formatDate(startDate, 'h:mm')}`
+      : `TODAY from ${formatDate(startDate, 'h:mm')}`
+
   try {
-    parsedEnd = '—' + formatDate(endDate, 'h:mm a')
-  } catch (err) {
-    parsedStart =
-      formatDate(startDate, 'EEEE') + ' at ' + formatDate(startDate, 'h:mm a')
-    parsedEnd = ''
-  }
-  console.log('parsed start', parsedStart)
-  console.log('parsed end', parsedEnd)
+    const audiences = await resend.audiences.list()
+    const audience = audiences.data?.data?.find((a: any) => a.name === slug)
+    if (!audience) {
+      console.log(`No audience found for ${slug}`)
+      return
+    }
 
-  const firstData = {
-    from: 'Purdue Hackers <events@mg.purduehackers.com>',
-    to: `${slug}@mg.purduehackers.com`,
-    subject: `Reminder: ${name} is happening tomorrow!`,
-    template: 'event-reminder',
-    'h:X-Mailgun-Variables': JSON.stringify({
-      name,
-      start: parsedStart,
-      end: parsedEnd,
-      loc,
-    }),
-  }
-
-  const secondData = {
-    from: 'Purdue Hackers <events@mg.purduehackers.com>',
-    to: `${slug}@mg.purduehackers.com`,
-    subject: `[REMINDER] ${name} is happening today!`,
-    template: 'second-event-reminder',
-    'h:X-Mailgun-Variables': JSON.stringify({
-      name,
-      start: parsedStart,
-      end: parsedEnd,
-      loc,
-    }),
-  }
-
-  await mg
-    .messages()
-    .send(firstOrSecond === 'first' ? firstData : secondData)
-    .then((r) => {
-      console.log(`Successfully sent reminder email to ${event.slug}`)
-      console.log(r)
+    const response = await resend.broadcasts.create({
+      audienceId: audience.id,
+      name: `${name} ${emailType} reminder`,
+      from: 'Purdue Hackers <events@purduehackers.com>',
+      subject:
+        emailType === 'first'
+          ? `Reminder: ${name} is happening tomorrow!`
+          : `[REMINDER] ${name} is happening today!`,
+      replyTo: 'team@purduehackers.com',
+      react: ReminderEmail({
+        state: emailType === 'first' ? 'tomorrow' : 'today',
+        event: {
+          name,
+          date: parsedStart,
+          location: loc,
+        },
+      }),
     })
-    .catch((err) => {
-      console.log('Error sending reminder email: ' + err)
-    })
+
+    if (response.error) {
+      throw new Error(
+        `Error sending ${emailType} reminder email: ${response.error.message}`
+      )
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+
+    console.log(
+      await resend.broadcasts.send(response.data!.id, {
+        scheduledAt: 'in 1 min',
+      })
+    )
+
+    console.log(
+      `Successfully sent ${emailType} reminder email to audience: ${slug}`
+    )
+  } catch (error) {
+    console.error(`Error sending ${emailType} reminder email:`, error)
+  }
 }
 
-const markSent = async (event: PHEvent): Promise<void> => {
-  const id = (await client.fetch(`*[name == "${event.name}"]`))?.[0]._id
-  await client.patch(id).set({ emailSent: true }).commit()
-}
-
-const markSecondSent = async (event: PHEvent): Promise<void> => {
-  const id = (await client.fetch(`*[name == "${event.name}"]`))?.[0]._id
-  await client.patch(id).set({ secondEmailSent: true }).commit()
+async function markEmailSent(event: PHEvent) {
+  try {
+    const id = (await client.fetch(`*[name == "${event.name}"]`))?.[0]?._id
+    if (!id) return
+    await client
+      .patch(id)
+      .set(event.emailSent ? { secondEmailSent: true } : { emailSent: true })
+      .commit()
+    console.log(`Marked email sent for event: ${event.name}`)
+  } catch (error) {
+    console.error(`Error marking email sent for ${event.name}:`, error)
+  }
 }

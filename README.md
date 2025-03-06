@@ -16,8 +16,7 @@ Create a `.env` file and add the following values:
 
 ```
 AIRTABLE_API_KEY
-MAILGUN_API_KEY
-MAILGUN_TEST_API_KEY
+RESEND_API_KEY
 EASYCRON_API_KEY
 ```
 
