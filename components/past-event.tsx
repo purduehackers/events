@@ -52,7 +52,7 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
               <Clock />
               {event.start === 'TBD'
                 ? 'Date TBD'
-                : formatDate(new Date(event.start), 'LLL do, Y •')}{' '}
+                : formatDate(new Date(event.start), 'LLL do, y •')}{' '}
               {event.start === 'TBD'
                 ? ''
                 : formatDate(
