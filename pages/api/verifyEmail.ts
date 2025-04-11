@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from 'next'
 import { Resend } from 'resend'
 
 import VerifyEmail from '../../emails/verify-email'
