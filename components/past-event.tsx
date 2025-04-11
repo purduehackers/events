@@ -55,10 +55,10 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
                 : formatDate(new Date(event.start), 'LLL do, y •')}{' '}
               {event.start === 'TBD'
                 ? ''
-                : formatDate(
+                : `${formatDate(
                     new Date(event.start),
                     startTimeFormatString(event.start, event.end)
-                  ) + '—'}
+                  )}—`}
               {event.end === 'TBD'
                 ? ''
                 : formatDate(new Date(event.end), 'h:mm a')}
