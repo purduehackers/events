@@ -1,19 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { createClient } from 'next-sanity'
 import { Resend } from 'resend'
 
 import ReminderEmail from '../../emails/reminder-email'
 import { fetchEvents } from '../../lib/fetchEvents'
 import { formatDate } from '../../lib/formatDate'
 import { past } from '../../lib/past'
+import { createClient } from '../../lib/sanityClient'
 
-const client = createClient({
-  projectId: process.env.SANITY_PROJECT_ID,
-  dataset: 'production',
-  apiVersion: '2022-03-25',
-  useCdn: true,
-  token: process.env.SANITY_TOKEN,
-})
+const client = createClient()
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
