@@ -13,14 +13,14 @@ const client = createClient({
 })
 
 const getSanitizedTime = (start: string, end: string) => {
-  let startDate = new Date(start)
+  const startDate = new Date(start)
   let endDate = new Date(end)
 
-  if (isNaN(startDate.valueOf())) {
+  if (Number.isNaN(startDate.valueOf())) {
     return undefined
   }
 
-  if (isNaN(endDate.valueOf())) {
+  if (Number.isNaN(endDate.valueOf())) {
     // End hour is undefined, assume it's Hack Night & set to 11:59pm
     endDate = new Date(startDate)
     endDate.setHours(23, 59, 59)
@@ -31,28 +31,28 @@ const getSanitizedTime = (start: string, end: string) => {
 }
 
 const getCalLink = (event: SanityEvent) => {
-  var sanitizedDates = getSanitizedTime(event.start, event.end)
+  const sanitizedDates = getSanitizedTime(event.start, event.end)
 
   if (typeof sanitizedDates === 'undefined') {
     return new URL(
       `https://www.google.com/calendar/render?action=TEMPLATE&text=${event.name} (Purdue Hackers)&location=${event.loc}&details=A Purdue Hackers Event`
     ).href
-  } else {
-    const [startDate, endDate] = sanitizedDates
-    return new URL(
-      `https://www.google.com/calendar/render?action=TEMPLATE&text=${
-        event.name
-      } (Purdue Hackers)&location=${
-        event.loc
-      }&details=A Purdue Hackers Event&dates=${formatUTCDate(
-        startDate,
-        'yyyyMMdd'
-      )}T${formatUTCDate(startDate, 'HHmm')}00Z%2F${formatUTCDate(
-        endDate,
-        'yyyyMMdd'
-      )}T${formatUTCDate(endDate, 'HHmm')}00Z`
-    ).href
   }
+
+  const [startDate, endDate] = sanitizedDates
+  return new URL(
+    `https://www.google.com/calendar/render?action=TEMPLATE&text=${
+      event.name
+    } (Purdue Hackers)&location=${
+      event.loc
+    }&details=A Purdue Hackers Event&dates=${formatUTCDate(
+      startDate,
+      'yyyyMMdd'
+    )}T${formatUTCDate(startDate, 'HHmm')}00Z%2F${formatUTCDate(
+      endDate,
+      'yyyyMMdd'
+    )}T${formatUTCDate(endDate, 'HHmm')}00Z`
+  ).href
 }
 
 export const fetchEvents = async (): Promise<PHEvent[]> => {

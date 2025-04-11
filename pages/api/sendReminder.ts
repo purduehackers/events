@@ -75,7 +75,7 @@ async function sendEmail(emailType: 'first' | 'second', event: PHEvent) {
   const startDate = new Date(start)
   const endDate = new Date(end)
 
-  let parsedStart =
+  const parsedStart =
     emailType === 'first'
       ? `${formatDate(startDate, 'EEEE')} from ${formatDate(startDate, 'h:mm')}`
       : `TODAY from ${formatDate(startDate, 'h:mm')}`
