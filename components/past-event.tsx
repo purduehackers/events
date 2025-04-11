@@ -110,6 +110,7 @@ const PastEvent = ({ event }: { event: PHEvent }) => {
                 href="https://bit.ly/PurdueHackersDiscord"
                 className="font-bold text-white text-center"
                 target="_blank"
+                rel="noreferrer"
               >
                 <div className="rounded-lg shadow-md dark:shadow-black/25 bg-blue-discord p-2 px-4 text-center hover:scale-105 transform transition">
                   Join Discord
