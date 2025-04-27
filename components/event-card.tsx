@@ -28,7 +28,7 @@ const EventCard = ({
           ? 'TBD'
           : formatDate(
               new Date(start),
-              `${past(start) ? 'LLL do, Y •' : 'eee. LLL do •'}`
+              `${past(start) ? 'LLL do, y •' : 'eee. LLL do •'}`
             )}{' '}
         {start === 'TBD'
           ? ''

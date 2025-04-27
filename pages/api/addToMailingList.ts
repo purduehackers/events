@@ -1,17 +1,11 @@
 /* eslint-disable no-console */
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { createClient } from 'next-sanity'
 import { Resend } from 'resend'
 
+import { createClient } from '../../lib/sanityClient'
 import { verifyUUID } from '../../lib/uuid'
 
-const client = createClient({
-  projectId: process.env.SANITY_PROJECT_ID,
-  dataset: 'production',
-  apiVersion: '2022-03-25',
-  useCdn: true,
-  token: process.env.SANITY_TOKEN,
-})
+const client = createClient()
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default async function handler(
