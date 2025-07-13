@@ -1,4 +1,5 @@
 ---
+import Navbar from "../components/Navbar.astro";
 import PastEvents from "../components/PastEvents.astro";
 import Layout from "../layouts/Layout.astro";
 ---
@@ -8,13 +9,7 @@ import Layout from "../layouts/Layout.astro";
     <div
       class="min-h-screen overflow-hidden flex flex-col font-title dark:bg-gray-900"
     >
-      <!-- TODO: refactor to Navbar component -->
-      <nav class="w-full bg-gray-100 dark:bg-gray-800 h-14">
-        <div class="container px-4 sm:px-14 mx-auto flex">
-          <div class="grow"></div>
-          <!-- TODO: add theme switching button -->
-        </div>
-      </nav>
+      <Navbar />
 
       <!-- TODO: refactor to hero component -->
       <div
@@ -70,7 +65,7 @@ import Layout from "../layouts/Layout.astro";
       </div>
 
       <PastEvents />
-	  
+
       <!-- TODO: refactor out to footer component -->
       <div
         class="bg-gray-100 dark:bg-gray-800 text-center dark:text-gray-100 bottom-0 mt-auto w-full flex flex-col justify-center gap-y-4 py-8 px-4"
