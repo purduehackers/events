@@ -1,16 +1,11 @@
 import { fromZonedTime } from 'date-fns-tz'
 import GithubSlugger from 'github-slugger'
 import { orderBy } from 'lodash'
-import { createClient } from 'next-sanity'
 
 import { formatUTCDate } from './formatDate'
+import { createClient } from './sanityClient'
 
-const client = createClient({
-  projectId: process.env.SANITY_PROJECT_ID,
-  dataset: 'production',
-  apiVersion: '2022-03-25',
-  useCdn: true,
-})
+const client = createClient()
 
 const getSanitizedTime = (start: string, end: string) => {
   const startDate = new Date(start)
