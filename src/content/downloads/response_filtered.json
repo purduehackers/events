@@ -2,20 +2,6 @@
   "query": "*[_type == \"event\"]{...}",
   "result": [
     {
-      "_createdAt": "2023-02-14T01:48:15Z",
-      "_id": "7765513e-6e70-4830-bed4-d4711c647c75",
-      "_rev": "2U3N42Q8RufiFhOoB8ZkOj",
-      "_type": "event",
-      "_updatedAt": "2023-02-14T01:48:44Z",
-      "customSlug": "future",
-      "desc": "wowwowooooooo",
-      "end": "2099-02-04T22:00:00.000Z",
-      "loc": "Mars",
-      "name": "The Ultimate Future Event",
-      "start": "2099-02-04T21:00:00.000Z",
-      "unlisted": true
-    },
-    {
       "_createdAt": "2025-05-01T22:57:40Z",
       "_id": "82596c8c-fcaa-4266-b4aa-0e53cbede036",
       "_rev": "vqGdgAP75q7juNhZ2iVQsx",
@@ -3765,20 +3751,6 @@
       "rsvpCount": 48,
       "secondEmailSent": true,
       "start": "2024-08-27T23:00:00.000Z"
-    },
-    {
-      "_createdAt": "2024-05-17T23:57:27Z",
-      "_id": "ec068a86-0f61-4846-9a75-44a1eb998288",
-      "_rev": "uZaZg4HXtkfQxpYpptoSMA",
-      "_type": "event",
-      "_updatedAt": "2024-09-03T14:56:13Z",
-      "desc": "The semester may be over but hack night lives on!\n\nEach week during summer, an unofficial snapshot hack night will be posted. It's an experimental format, with no events planned and stickers instead of badges, but there will be pizza all the same!",
-      "gMap": "https://goo.gl/maps/ZTWH61rc5ZkTJp2QA",
-      "loc": "The Bechtel Center",
-      "name": "Hack Night Snapshot 24w20",
-      "rsvpCount": 0,
-      "start": "2024-05-18T00:00:00.000Z",
-      "unlisted": true
     },
     {
       "_createdAt": "2024-04-24T21:17:51Z",
@@ -8960,20 +8932,6 @@
       }
     },
     {
-      "_createdAt": "2023-10-11T07:47:18Z",
-      "_id": "202512db-c5f4-4d4d-872d-dd5b6d0bf2f8",
-      "_rev": "Ej8iDk8b3LrmiWSu0hY960",
-      "_type": "event",
-      "_updatedAt": "2023-10-11T18:06:57Z",
-      "desc": "asasdgasdgash",
-      "emailSent": true,
-      "end": "2023-10-12T19:00:00.000Z",
-      "loc": "idk",
-      "name": "test future event",
-      "start": "2023-10-12T18:00:00.000Z",
-      "unlisted": true
-    },
-    {
       "_createdAt": "2023-10-03T01:00:57Z",
       "_id": "7ce46de8-a691-42cf-8839-078ad708ffd9",
       "_rev": "lRIEdlBUzqtgab6LgCXBx5",
@@ -13173,22 +13131,6 @@
       }
     },
     {
-      "_createdAt": "2023-02-14T04:36:14Z",
-      "_id": "bcaf19a3-8e47-4cf7-8759-94c24eeb1b54",
-      "_rev": "EmCriQJSDEYU7ED0BpitpN",
-      "_type": "event",
-      "_updatedAt": "2023-02-15T20:33:20Z",
-      "desc": "asgasdgadgadgsdg",
-      "emailSent": true,
-      "end": "2023-02-16T04:46:00.000Z",
-      "loc": "WALC 10000",
-      "name": "Test Event Sanity",
-      "rsvpCount": 2,
-      "secondEmailSent": true,
-      "start": "2023-02-16T04:36:00.000Z",
-      "unlisted": true
-    },
-    {
       "_createdAt": "2023-02-14T16:18:26Z",
       "_id": "c2070a87-d8e2-4753-aacc-18c48a5acf2f",
       "_rev": "Hwq341vSjeVONCVvDiuQL5",
@@ -13258,20 +13200,6 @@
         "data": "chips",
         "label": "ahoy"
       }
-    },
-    {
-      "_createdAt": "2023-02-14T04:23:27Z",
-      "_id": "af0494cc-f300-435d-a412-f306e34ba9d7",
-      "_rev": "2U3N42Q8RufiFhOoB8iaDz",
-      "_type": "event",
-      "_updatedAt": "2023-02-14T04:35:53Z",
-      "desc": "asdgadsgasdgasd",
-      "end": "2023-02-15T04:33:00.000Z",
-      "loc": "WALC 1000000",
-      "name": "Test Future Event",
-      "rsvpCount": 0,
-      "start": "2023-02-15T04:23:00.000Z",
-      "unlisted": true
     },
     {
       "_createdAt": "2023-02-13T21:15:41Z",
