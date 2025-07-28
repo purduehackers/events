@@ -1,27 +1,48 @@
-# 🗓 Purdue Hackers Events
+# Astro Starter Kit: Basics
 
-A website where you can check out all Purdue Hackers events & RSVP for upcoming events.
-
-🛠 Built with Next.js, Tailwind, & TypeScript.
-
-## How it works
-Organizers add event details to Sanity. All upcoming events are displayed on the homepage.
-
-Every time a new event is added to Sanity, a page is automatically generated for that event with all the data filled in, in addition to an email form that you can fill out to RSVP for the event. At 12pm the day before each event, an email is automatically sent to everyone who RSVPed reminding them of the event.
-
-## Run locally
-`git clone https://github.com/purduehackers/events.git`
-
-Create a `.env` file and add the following values:
-
-```
-SANITY_TOKEN=
-SANITY_PROJECT_ID=
-RESEND_API_KEY=
+```sh
+npm create astro@latest -- --template basics
 ```
 
-Ping `@matthew!!!` in the Purdue Hackers Discord if you need these values. If you're on the Vercel team, you can get them from the "Environment Variables" settings on the dashboard.
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
+[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
 
----
+> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
 
-[![Powered by Vercel](public/powered-by-vercel.svg)](https://vercel.com?utm_source=purdue-hackers&utm_campaign=oss)
+![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
+
+## 🚀 Project Structure
+
+Inside of your Astro project, you'll see the following folders and files:
+
+```text
+/
+├── public/
+│   └── favicon.svg
+├── src/
+│   ├── layouts/
+│   │   └── Layout.astro
+│   └── pages/
+│       └── index.astro
+└── package.json
+```
+
+To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+
+## 🧞 Commands
+
+All commands are run from the root of the project, from a terminal:
+
+| Command                   | Action                                           |
+| :------------------------ | :----------------------------------------------- |
+| `npm install`             | Installs dependencies                            |
+| `npm run dev`             | Starts local dev server at `localhost:4321`      |
+| `npm run build`           | Build your production site to `./dist/`          |
+| `npm run preview`         | Preview your build locally, before deploying     |
+| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
+| `npm run astro -- --help` | Get help using the Astro CLI                     |
+
+## 👀 Want to learn more?
+
+Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
