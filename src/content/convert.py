@@ -2,8 +2,10 @@
 import os
 import json
 from datetime import datetime, timezone
+import re
 
 from constants import *
+
 
 
 def get_slug(event):
@@ -23,14 +25,17 @@ def get_slug(event):
     version = f"unknown-version-{current_time}"
     match class_name:
         case "hack-night":
-            # TODO: Get version in the form of x.x or x.x.x
-            pass
+            match = re.search(r"\b(\d+\.\d+(?:\.\d+)?)\b", event_name)
+            if match:
+                version = match.group(1)
         case "workshops":
-            # TODO: Remove "Workshop" from event name, convert all spaces to dashes and lowercase
-            pass
+            # Remove "Workshop" or "Workshops" from event name, convert spaces to dashes and lowercase
+            version = event_name.lower().replace("workshops", "").replace("workshop", "").strip()
+            version = "-".join(version.split())
         case "callouts":
-            # TODO: Use term, convert space to dash and lowercase
-            pass
+            # Use term (example: Spring 2025), convert space to dash and lowercase
+            version = event_name.lower().replace("callout", "").strip()
+            version = "-".join(version.split())
 
     return class_name, version
 
