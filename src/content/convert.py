@@ -40,15 +40,53 @@ def get_slug(event):
     return class_name, version
 
 
+# TODO: implement
+def get_extension_from_magic_number(path):
+    pass
+
+
+def is_invalid_image_extension(path, ext):
+    return get_extension_from_magic_number(path) == ext
+
+
 def process_and_copy_images(event, target_path):
-    # TODO:
-    # Create an images/ path inside target path
-    # For each image associated with the event:
-    #   Check if Sanity has modified the file extension w/o format conversion
-    #     If so, restore original file extension
-    #   Refer to image metadata file for original filename
-    #   Copy image into slug->images path
-    # Return all images to be included into Markdown metadata
+    base_image_path = os.path.join(DOWNLOAD_DIR, "images")
+    target_image_path = os.path.join(target_path, "images")
+    os.makedirs(target_image_path, exist_ok=True)
+
+    images = event.get("recapImages", [])
+
+    for image in images:
+        # Get image path
+        image_key = image.get("_key", "")
+        image_asset_metadata = image.get("asset", {})
+        image_ref = image_asset_metadata.get("_ref", "")
+
+        if not image_ref:
+            print(f"WARNING: image ref is empty for image key {image_key}!")
+            continue
+
+        _, image_id, _, image_ext = image_ref.split('-')
+
+        image_file_name = f"{image_id}.{image_ext}"
+        base_image_full_path = os.path.join(base_image_path, image_file_name)
+
+        if not os.path.exists(base_image_full_path):
+            print(f"ERROR: file does not exist at {base_image_full_path} for image key {image_key}!")
+            continue
+
+        # Check if Sanity has modified the file extension w/o format conversion
+        correct_extension = None
+        if is_invalid_image_extension(base_image_full_path, image_ext):
+            correct_extension = get_extension_from_magic_number(base_image_full_path)
+            print(f"Warning: Sanity mangled the extension from {correct_extension} to {image_ext} for image key {image_key}.")
+            print(f"\tCorrecting to {image_id}.{correct_extension}...")
+        target_extension = correct_extension if correct_extension else image_ext
+        
+        # TODO: refer to image metadata file for original filename
+        # TODO: copy image into slug->images path
+        # TODO: return all images to be included into Markdown metadata
+        return
     pass
 
 
