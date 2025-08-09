@@ -70,7 +70,7 @@ def is_invalid_image_extension(path, ext):
     if is_jpg_extension(pil_ext) and is_jpg_extension(ext):
         return False
 
-    return get_extension_from_pil(path) == ext
+    return get_extension_from_pil(path) != ext
 
 
 class AlreadyExists(Exception):
