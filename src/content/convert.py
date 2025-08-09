@@ -164,8 +164,8 @@ def save_markdown_metadata(event, images, target_path):
     start = event.get("start")
     end = event.get("end")  # may be None, then it won't be included in metadata
     name = event.get("name")
-    location_name = event.get("loc") # may be None
-    location_url = event.get("gMap") # may be None
+    location_name = event.get("loc")  # may be None
+    location_url = event.get("gMap")  # may be None
 
     stats = []
 
