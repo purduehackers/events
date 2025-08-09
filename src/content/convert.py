@@ -178,8 +178,8 @@ def save_markdown_metadata(event, images, target_path):
     start = event.get("start")
     end = event.get("end")  # may be None, then it won't be included in metadata
     name = event.get("name")
-    location_name = event.get("loc")
-    location_url = event.get("gMap")
+    location_name = event.get("loc") # may be None
+    location_url = event.get("gMap") # may be None
 
     # Build metadata dict, excluding keys with None values
     metadata = {
@@ -192,7 +192,7 @@ def save_markdown_metadata(event, images, target_path):
         metadata["location_name"] = location_name
     if location_url is not None:
         metadata["location_url"] = location_url
-    if images:
+    if images and len(images) > 0:
         metadata["images"] = images
 
     md_path = os.path.join(target_path, "event.md")
