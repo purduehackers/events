@@ -103,7 +103,8 @@ def process_and_copy_images(event, target_path):
 
         if not os.path.exists(base_image_full_path):
             print(
-                f"ERROR: file does not exist at {base_image_full_path} for image key {image_key}!"
+                f"Warning: file does not exist at {base_image_full_path} as "
+                f"it was probably already moved."
             )
             continue
 
