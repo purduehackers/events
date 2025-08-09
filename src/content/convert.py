@@ -181,6 +181,13 @@ def save_markdown_metadata(event, images, target_path):
     location_name = event.get("loc") # may be None
     location_url = event.get("gMap") # may be None
 
+    stats = []
+
+    for stat_field in ["stat1", "stat2", "stat3"]:
+        stat = event.get(stat_field)
+        if stat:
+            stats.append(stat)
+
     # Build metadata dict, excluding keys with None values
     metadata = {
         "start": start,
@@ -194,6 +201,8 @@ def save_markdown_metadata(event, images, target_path):
         metadata["location_url"] = location_url
     if images and len(images) > 0:
         metadata["images"] = images
+    if stats and len(stats) > 0:
+        metadata["stats"] = stats
 
     md_path = os.path.join(target_path, "event.md")
     with open(md_path, "w", encoding="utf-8") as f:
