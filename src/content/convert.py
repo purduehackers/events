@@ -131,7 +131,7 @@ def process_and_copy_images(event, target_path):
 
 @cache
 def get_image_metadata_mapping():
-    path = os.path.join(DOWNLOAD_DIR, "downloads", "images_metadata.json")
+    path = os.path.join(DOWNLOAD_DIR, "images_metadata.json")
     with open(path, "r", encoding="UTF-8") as metadata_file:
         metadata = json.load(metadata_file)
     
