@@ -1,5 +1,5 @@
-# Requirement: Pillow
-# pip install pillow
+# Requirement: Pillow, PyYAML
+# pip install pillow pyyaml
 
 import os
 import json
@@ -10,6 +10,7 @@ from functools import cache
 
 from constants import *
 import shutil
+import yaml
 
 
 def get_slug(event):
@@ -147,8 +148,40 @@ def get_image_metadata_mapping():
 
 
 def save_markdown_metadata(event, images, target_path):
-    # TODO: Create Markdown file named event.md inside with event metadata
-    pass
+    desc = event.get("desc")
+    og_description = event.get("ogDescription")
+    past_description = event.get("pastEventDesc")
+
+    # Fall through in this order ->
+    preferred_event_description = past_description or og_description or desc
+
+    start = event.get("start")
+    end = event.get("end") # may be None, then it won't be included in metadata
+    name = event.get("name")
+    location_name = event.get("loc")
+    location_url = event.get("gMap")
+
+    # Build metadata dict, excluding keys with None values
+    metadata = {
+        "start": start,
+        "name": name,
+    }
+    if end is not None:
+        metadata["end"] = end
+    if location_name is not None:
+        metadata["location_name"] = location_name
+    if location_url is not None:
+        metadata["location_url"] = location_url
+    if images:
+        metadata["images"] = images
+
+    md_path = os.path.join(target_path, "event.md")
+    with open(md_path, "w", encoding="utf-8") as f:
+        f.write("---\n")
+        yaml.dump(metadata, f, default_flow_style=False, allow_unicode=True)
+        f.write("---\n\n")
+        if preferred_event_description:
+            f.write(preferred_event_description)
 
 
 def process_event(event):
