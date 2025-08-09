@@ -114,7 +114,6 @@ def process_and_copy_images(event, target_path):
             print(
                 f"Warning: Sanity mangled the extension from {correct_extension} to {image_ext} for image key {image_key}."
             )
-            print(f"\tCorrecting to {image_id}.{correct_extension}...")
         target_extension = correct_extension if correct_extension else image_ext
 
         original_filename = get_image_metadata_mapping()[image_file_name]
