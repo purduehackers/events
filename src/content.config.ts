@@ -11,7 +11,7 @@ type Stat = z.infer<typeof Stat>;
 const events = defineCollection({
   loader: glob({ pattern: "**/[^_]*.{md,mdx}", base: "./src/content/events" }),
   schema: z.object({
-    title: z.string(),
+    name: z.string(),
     start: z.coerce.date(),
     end: z.coerce.date().optional(),
     location: z.string().optional(),
