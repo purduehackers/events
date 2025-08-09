@@ -64,7 +64,8 @@ def get_extension_from_pil(path):
 
 
 def is_invalid_image_extension(path, ext):
-    pil_ext = get_extension_from_pil(path)
+    pil_ext = get_extension_from_pil(path).strip()
+    ext = ext.strip()
 
     if is_jpg_extension(pil_ext) and is_jpg_extension(ext):
         return False
