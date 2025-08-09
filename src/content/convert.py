@@ -72,6 +72,10 @@ def is_invalid_image_extension(path, ext):
     return get_extension_from_pil(path) == ext
 
 
+class AlreadyExists(Exception):
+    pass
+
+
 def process_and_copy_images(event, target_path):
     base_image_path = os.path.join(DOWNLOAD_DIR, "images")
     target_image_path = os.path.join(target_path, "images")
@@ -114,17 +118,34 @@ def process_and_copy_images(event, target_path):
 
         original_filename = get_image_metadata_mapping()[image_file_name]
         original_filename_base, _ = os.path.splitext(original_filename)
-        new_filename = f"{original_filename_base}.{target_extension}"
 
-        target_image_full_path = os.path.join(target_image_path, new_filename)
-        if os.path.exists(target_image_full_path):
-            raise Exception(
-                f"File with same file name found! Check {target_image_full_path}"
-            )
-        shutil.copy2(base_image_full_path, target_image_full_path)
+        # Account for images that already exist
+        copy_successful = False
+        suffix_count = 0
+        while not copy_successful:
+            try:
+                if suffix_count > 0:
+                    new_filename = (
+                        f"{original_filename_base}_{suffix_count}.{target_extension}"
+                    )
+                else:
+                    new_filename = f"{original_filename_base}.{target_extension}"
 
-        # Add image to be included into Markdown metadata
-        processed_images.append(new_filename)
+                target_image_full_path = os.path.join(target_image_path, new_filename)
+                if os.path.exists(target_image_full_path):
+                    raise AlreadyExists()
+                shutil.copy2(base_image_full_path, target_image_full_path)
+                copy_successful = True
+
+                # Add image to be included into Markdown metadata
+                processed_images.append(new_filename)
+            except AlreadyExists:
+                suffix_count += 1
+                print(
+                    f"Warning: file {new_filename} already exists at path "
+                    f"{target_image_full_path}. Retrying with suffix {suffix_count}..."
+                )
+
     return processed_images
 
 
