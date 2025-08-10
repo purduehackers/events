@@ -3,6 +3,8 @@
 /* Use CSS dark selector instead of media queries */
 @custom-variant dark (&:where(.dark, .dark *));
 
+
+
 @layer base {
   body {
     @apply text-black dark:text-gray-100;
@@ -26,4 +28,9 @@
   .text-shadow-dark {
     text-shadow: 0 0 6px #f59e0b;
   }
+}
+
+@theme {
+  --font-sans: 'Space Grotesk Variable', sans-serif;
+  --font-mono: 'Space Mono', monospace;
 }
