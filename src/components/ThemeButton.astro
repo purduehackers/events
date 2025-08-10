@@ -1,8 +1,6 @@
 ---
-import { Image } from "astro:assets";
-
-import sunIcon from "@/assets/feather/sun.svg";
-import moonIcon from "@/assets/feather/moon.svg";
+import Sun from "@/assets/feather/sun.svg";
+import Moon from "@/assets/feather/moon.svg";
 ---
 
 <button class="p-4 cursor-default" aria-hidden="true" id="theme-selector">
@@ -10,20 +8,10 @@ import moonIcon from "@/assets/feather/moon.svg";
     Enable <span class="dark:hidden">light</span>
     <span class="hidden dark:inline">dark</span> mode
   </span>
-  <Image
-    class="dark:hidden w-12 h-12"
-    src={sunIcon}
-    format="svg"
-    alt={""}
-    loading="eager"
-  />
-  <Image
-    class="hidden dark:inline w-12 h-12 stroke-white"
-    src={moonIcon}
-    format="svg"
-    alt={""}
-    loading="eager"
-  />
+
+  <Sun class="dark:hidden w-12 h-12" />
+
+  <Moon class="hidden dark:inline w-12 h-12" />
 </button>
 
 <script is:inline>
