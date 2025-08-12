@@ -32,7 +32,7 @@ stats:
   label: hacked it ✨
 ---
 
-This was the third time we've run Sound Galaxy (see the [2021](https://events.purduehackers.com/sound-galaxy-2021) and [2022](https://events.purduehackers.com/sound-galaxy-2022) editions!). Sound Galaxy inspired our current workshop format: 30 minutes of coding together followed by 30 minutes of hacking—and it's our most successful version of this workshop format. We have yet to run another workshop whose hacking section looks quite like Sound Galaxy's: everyone quickly finds their own unique way to hack on the final product, and they make mind-blowing things. During this edition, more than 10 people stayed well after the scheduled end time of the workshop (7:30) to continue working, which rarely happens. Much 💛 to Sound Galaxy.
+This was the third time we've run Sound Galaxy (see the [2021](https://events.purduehackers.com/workshops/sound-galaxy/2021) and [2022](https://events.purduehackers.com/workshops/sound-galaxy/2022) editions!). Sound Galaxy inspired our current workshop format: 30 minutes of coding together followed by 30 minutes of hacking—and it's our most successful version of this workshop format. We have yet to run another workshop whose hacking section looks quite like Sound Galaxy's: everyone quickly finds their own unique way to hack on the final product, and they make mind-blowing things. During this edition, more than 10 people stayed well after the scheduled end time of the workshop (7:30) to continue working, which rarely happens. Much 💛 to Sound Galaxy.
 
 Check out some of our favorite hacks:
 
