@@ -201,6 +201,13 @@ def save_markdown_metadata(event, images, target_path):
 def process_event(event):
     event_class, event_version = get_slug(event)
     target_slug_path = f"./events/{event_class}/{event_version}/"
+
+    if os.path.exists(target_slug_path):
+        print(f"Warning: event at {target_slug_path} already exists.")
+        current_time = datetime.now(timezone.utc).timestamp()
+        target_slug_path = f"./events/duplicates/{event_class}-{event_version}-{current_time}"
+        print(f"Saving event at {target_slug_path} instead...")
+
     images = process_and_copy_images(event, target_slug_path)
     save_markdown_metadata(event, images, target_slug_path)
 
