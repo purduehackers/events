@@ -103,8 +103,7 @@ def process_and_copy_images(event, target_path):
 
         if not os.path.exists(base_image_full_path):
             print(
-                f"Warning: file does not exist at {base_image_full_path} as "
-                f"it was probably already moved."
+                f"Warning: image file does not exist at {base_image_full_path}."
             )
             continue
 
@@ -128,7 +127,7 @@ def process_and_copy_images(event, target_path):
         if os.path.exists(target_image_full_path):
             continue
 
-        shutil.move(base_image_full_path, target_image_full_path)
+        shutil.copy(base_image_full_path, target_image_full_path)
         # Add image to be included into Markdown metadata
         processed_images.append(new_filename)
 
