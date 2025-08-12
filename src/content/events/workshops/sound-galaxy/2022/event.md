@@ -29,6 +29,6 @@ stats:
   label: made their own thing
 ---
 
-On September 6th, 2022, we ran out first workshop of the 2022-2023 school year: **Sound Galaxy** ✨🪐
+On September 6th, 2022, we ran our first workshop of the 2022-2023 school year: **Sound Galaxy** ✨🪐
 
 Over an hour, attendees created a web app that makes it rain particles using their microphones, using `p5.js`. We built the whole thing over the first 30 minutes, then turned everyone loose to meaningfully expand on it on their own over the second 30 minutes. Everyone walked out of the room with their own unique project. The energy was incredible.
