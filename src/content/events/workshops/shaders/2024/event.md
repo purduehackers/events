@@ -14,7 +14,7 @@ images:
 - IMG_2491.jpg
 location_name: LWSN B155
 location_url: https://maps.app.goo.gl/p9Sa3GLnrXVjrvWa9
-name: Shaders Workshop
+name: Shaders Workshop (2024)
 start: '2024-04-05T00:00:00.000Z'
 stats:
 - data: '17'

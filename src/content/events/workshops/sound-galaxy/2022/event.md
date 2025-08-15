@@ -18,7 +18,7 @@ images:
 - IMG_6192.jpg
 location_name: WTHR 420
 location_url: https://goo.gl/maps/uwYzY3kBqCkAFdcR6
-name: Sound Galaxy Workshop
+name: Sound Galaxy Workshop (2022)
 start: '2022-09-06T22:30:00.000Z'
 stats:
 - data: '65'
