@@ -8,7 +8,7 @@ images:
 - IMG_2444.jpg
 location_name: LWSN B134
 location_url: https://goo.gl/maps/EVQCSyHCoeC6T8LXA
-name: Personal Website Workshop
+name: Personal Website Workshop (2022)
 start: '2022-03-10T23:30:00.000Z'
 stats:
 - data: '30'

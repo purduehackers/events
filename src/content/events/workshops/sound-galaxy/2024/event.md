@@ -21,7 +21,7 @@ images:
 - tinder_crops-113.jpg
 location_name: LWSN B155
 location_url: https://maps.app.goo.gl/NUimZANw9bt6FrDn9
-name: Sound Galaxy Workshop
+name: Sound Galaxy Workshop (2024)
 start: '2024-01-18T23:30:00.000Z'
 stats:
 - data: '50'

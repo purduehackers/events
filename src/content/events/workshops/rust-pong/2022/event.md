@@ -7,7 +7,7 @@ images:
 - IMG_2960.jpg
 location_name: MRGN 129
 location_url: https://goo.gl/maps/qKNAgE2c6EcxfkTx7
-name: Rust Pong Workshop
+name: Rust Pong Workshop (2022)
 start: '2022-04-07T22:30:00.000Z'
 stats:
 - data: '30'

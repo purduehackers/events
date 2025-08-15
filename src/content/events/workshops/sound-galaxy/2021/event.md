@@ -7,7 +7,7 @@ images:
 - IMG_9661.jpg
 location_name: UNIV 003
 location_url: https://goo.gl/maps/nM6Su1UybTnJxbWz5
-name: Sound Galaxy Workshop
+name: Sound Galaxy Workshop (2021)
 start: '2021-11-10T23:00:00.000Z'
 stats:
 - data: '7'

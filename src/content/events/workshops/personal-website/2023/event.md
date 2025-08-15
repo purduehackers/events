@@ -9,7 +9,7 @@ images:
 - IMG_8072.jpg
 location_name: ME 2061
 location_url: https://goo.gl/maps/5RyYxkkc9qeNo1uE6
-name: Personal Website Workshop
+name: Personal Website Workshop (2023)
 start: '2023-01-24T23:30:00.000Z'
 stats:
 - data: '70'
