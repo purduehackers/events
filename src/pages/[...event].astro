@@ -1,0 +1,29 @@
+---
+import { getCollection, render } from "astro:content";
+
+import Layout from "@/layouts/Layout.astro";
+import { getEventSlug } from "@/utilities/helpers";
+
+export async function getStaticPaths() {
+  const events = await getCollection("events");
+
+  return events.map((event) => {
+    let slug = getEventSlug(event.filePath ?? "");
+    return {
+      params: {
+        event: slug,
+      },
+      props: {
+        event,
+      },
+    };
+  });
+}
+
+const { event } = Astro.props;
+const { Content } = await render(event);
+---
+
+<Layout>
+    <Content />
+</Layout>

@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import { format } from "date-fns";
 
 import Card from "./Card.astro";
+import { getEventSlug } from "@/utilities/helpers";
 
 const events = (await getCollection("events")).sort(
   (a, b) => new Date(b.data.start).getTime() - new Date(a.data.start).getTime()
@@ -20,6 +21,7 @@ const events = (await getCollection("events")).sort(
         const start = event.data.start;
         const end = event.data.end ? format(event.data.end, "hh:mm a") : "???";
         const name = event.data.name;
+        const slug = getEventSlug(event.filePath ?? "");
 
         const startTime = format(start, "hh:mm a");
 
@@ -28,7 +30,7 @@ const events = (await getCollection("events")).sort(
             date={format(start, "MMMM do, yyyy")}
             time={`${startTime}—${end}`}
             name={name}
-            link={""}
+            link={slug}
           />
         );
       })
