@@ -1,26 +1,16 @@
 ---
 import CurrentEvents from "../components/CurrentEvents.astro";
-import Footer from "../components/Footer.astro";
+
 import Hero from "../components/Hero.astro";
-import Navbar from "../components/Navbar.astro";
+
 import PastEvents from "../components/past-events/PastEvents.astro";
 import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout>
-  <main>
-    <div
-      class="min-h-screen overflow-hidden flex flex-col font-title dark:bg-gray-900"
-    >
-      <Navbar />
+  <Hero />
 
-      <Hero />
+  <CurrentEvents />
 
-      <CurrentEvents />
-
-      <PastEvents />
-
-      <Footer />
-    </div>
-  </main>
+  <PastEvents />
 </Layout>
