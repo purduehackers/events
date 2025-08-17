@@ -1,25 +1,25 @@
 ---
 end: '2023-02-11T09:00:00.000Z'
 images:
-- IMG_2818.jpg
-- IMG_2819.jpg
-- IMG_2820.jpg
-- IMG_2821.jpg
-- IMG_2822.jpg
-- IMG_2823.jpg
-- IMG_2824.jpg
-- IMG_2825.jpg
-- IMG_2826.jpg
-- IMG_2827.jpg
-- IMG_2828.jpg
-- IMG_2829.jpg
-- IMG_2831.jpg
-- IMG_2832.jpg
-- IMG_2833.jpg
-- IMG_2834.jpg
-- IMG_2835.jpg
-- IMG_2836.jpg
-- IMG_2837.jpg
+- ./images/IMG_2818.jpg
+- ./images/IMG_2819.jpg
+- ./images/IMG_2820.jpg
+- ./images/IMG_2821.jpg
+- ./images/IMG_2822.jpg
+- ./images/IMG_2823.jpg
+- ./images/IMG_2824.jpg
+- ./images/IMG_2825.jpg
+- ./images/IMG_2826.jpg
+- ./images/IMG_2827.jpg
+- ./images/IMG_2828.jpg
+- ./images/IMG_2829.jpg
+- ./images/IMG_2831.jpg
+- ./images/IMG_2832.jpg
+- ./images/IMG_2833.jpg
+- ./images/IMG_2834.jpg
+- ./images/IMG_2835.jpg
+- ./images/IMG_2836.jpg
+- ./images/IMG_2837.jpg
 location_name: WALC 2124
 location_url: https://goo.gl/maps/FukRQ6JiFcyH9QND6
 name: Hack Night 1.5

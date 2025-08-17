@@ -1,12 +1,12 @@
 ---
 end: '2023-01-25T00:30:00.000Z'
 images:
-- IMG_3480.jpg
-- IMG_3481.jpg
-- IMG_3483.jpg
-- IMG_3484.jpg
-- IMG_8071.jpg
-- IMG_8072.jpg
+- ./images/IMG_3480.jpg
+- ./images/IMG_3481.jpg
+- ./images/IMG_3483.jpg
+- ./images/IMG_3484.jpg
+- ./images/IMG_8071.jpg
+- ./images/IMG_8072.jpg
 location_name: ME 2061
 location_url: https://goo.gl/maps/5RyYxkkc9qeNo1uE6
 name: Personal Website Workshop (2023)

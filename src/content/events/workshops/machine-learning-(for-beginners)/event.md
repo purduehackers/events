@@ -1,8 +1,8 @@
 ---
 end: '2022-02-04T00:00:00.000Z'
 images:
-- IMG_3819 (1).jpg
-- IMG_3818 (1).jpg
+- ./images/IMG_3819 (1).jpg
+- ./images/IMG_3818 (1).jpg
 location_name: Online
 name: Machine Learning Workshop (for Beginners)
 start: '2022-02-03T23:00:00.000Z'

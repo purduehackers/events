@@ -1,11 +1,11 @@
 ---
 end: '2023-04-04T23:30:00.000Z'
 images:
-- IMG_3778.jpg
-- IMG_3779.jpg
-- IMG_3780.jpg
-- IMG_3781.jpg
-- IMG_3782.jpg
+- ./images/IMG_3778.jpg
+- ./images/IMG_3779.jpg
+- ./images/IMG_3780.jpg
+- ./images/IMG_3781.jpg
+- ./images/IMG_3782.jpg
 location_name: UNIV 303
 location_url: https://goo.gl/maps/nM6Su1UybTnJxbWz5
 name: Rust Game Workshop
