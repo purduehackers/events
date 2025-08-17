@@ -1,8 +1,12 @@
 ---
 import { getCollection, render } from "astro:content";
+import { format } from "date-fns";
 
 import Layout from "@/layouts/Layout.astro";
-import { getEventSlug } from "@/utilities/helpers";
+import { getEventSlug, getTime } from "@/utilities/helpers";
+
+import Clock from "@/assets/clock.svg";
+import Stat from "@/components/past-events/Stat.astro";
 
 export async function getStaticPaths() {
   const events = await getCollection("events");
@@ -22,8 +26,86 @@ export async function getStaticPaths() {
 
 const { event } = Astro.props;
 const { Content } = await render(event);
+
+const name = event.data.name;
+const start = event.data.start;
+const startTime = format(start, "hh:mm a");
+const endTime = getTime(event.data.end);
 ---
 
 <Layout>
-  <Content />
+  <div
+    class="min-h-screen overflow-hidden flex flex-col font-title dark:bg-gray-900"
+  >
+    <div
+      class="flex flex-col grow-0 items-center justify-top w-full flex-1 px-5 pb-8 sm:pb-16 text-center sm:px-20 bg-gray-100 dark:bg-gray-800"
+    >
+      <div class="mt-20 sm:mt-28">
+        <h1
+          class="text-4xl sm:text-7xl lg:text-8-xl font-bold text-amber-400 dark:text-amber-500"
+        >
+          {name}
+        </h1><p
+          class="mt-3 text-1xl sm:text-2xl flex flex-row gap-x-1 font-bold items-center justify-center dark:text-gray-200"
+        >
+          <Clock />{format(start, "MMM do, yyyy")} • {startTime}—{endTime}
+        </p>
+      </div>
+    </div><div
+      class="flex flex-col items-center justify-center py-8 sm:px-20 mb-auto"
+    >
+      <div
+        class="flex flex-col sm:flex-row-reverse sm:items-start sm:gap-x-4 items-center"
+      >
+        {
+          event.data.stats && event.data.stats.length > 0 && (
+            <div class="flex flex-row flex-1 items-center justify-center gap-4 sm:gap-8 border-double border-8 border-amber-400 dark:border-amber-500 rounded-lg mx-4 sm:mx-0 max-w-fit sm:max-w-min max-h-fit p-6 sm:p-8 text-center sm:flex-col">
+              {event.data.stats.map((stat) => (
+                <Stat data={stat.data} label={stat.label} />
+              ))}
+            </div>
+          )
+        }
+
+        <div class="sm:max-w-lg md:max-w-xl">
+          <div class="flex flex-col justify-items-center sm:justify-items-end">
+            <div class="mx-4 mt-4 sm:mx-0 sm:mt-0 mb-4 sm:w-fit">
+              <div
+                class="border-2 border-dashed rounded-lg p-4 border-amber-400 dark:border-amber-500"
+              >
+                <div class="text-l">
+                  <Content />
+                </div>
+              </div>
+            </div>
+            
+            { event.data.images && event.data.images.length > 0 && (
+            <div class="flex flex-col gap-y-4 mx-4 sm:mx-0 items-center">
+              <div
+                class="grid grid-cols-2 gap-2 md:grid-cols-3 md:gap-x-2 sm:max-w-lg md:max-w-xl items-center"
+              >
+            <!-- {
+              event.data.images && event.data.images.map((image) => (
+                <div
+                  class="flex flex-col mx-auto hover:scale-[1.03] transition transform">
+                  <Image class="rounded-lg" src={image.src} />
+                </div>
+              ))
+            } -->
+                
+<button
+                  class="sm:hidden rounded-lg mx-auto py-2 px-2 font-bold text-l dark:text-gray-200 shadow-md dark:shadow-black/25 border-solid border-2 border-amber-400 dark:border-amber-500 p-2 text-center hover:scale-105 transform transition-transform"
+                  >See X more photos</button>
+              </div>
+              
+              <button
+                class="rounded-lg mx-auto py-2 px-2 font-bold text-l dark:text-gray-200 shadow-md dark:shadow-black/25 border-solid border-2 border-amber-400 dark:border-amber-500 p-2 text-center hover:scale-105 transform transition-transform"
+                >See X more photos</button>
+
+            </div>)}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </Layout>
