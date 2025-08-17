@@ -1,21 +1,21 @@
 ---
 end: '2022-09-06T23:30:00.000Z'
 images:
-- 20220906_184253.jpg
-- 20220906_184308.jpg
-- 20220906_190608.jpg
-- 20220906_192826.jpg
-- 20220906_192829.jpg
-- IMG_1054-ayo.jpg
-- IMG_1055-ayo.jpg
-- IMG_1056-ayo.jpg
-- IMG_6184.jpg
-- IMG_6185.jpg
-- IMG_6186.jpg
-- IMG_6189.jpg
-- IMG_6190.jpg
-- IMG_6191.jpg
-- IMG_6192.jpg
+- ./images/20220906_184253.jpg
+- ./images/20220906_184308.jpg
+- ./images/20220906_190608.jpg
+- ./images/20220906_192826.jpg
+- ./images/20220906_192829.jpg
+- ./images/IMG_1054-ayo.jpg
+- ./images/IMG_1055-ayo.jpg
+- ./images/IMG_1056-ayo.jpg
+- ./images/IMG_6184.jpg
+- ./images/IMG_6185.jpg
+- ./images/IMG_6186.jpg
+- ./images/IMG_6189.jpg
+- ./images/IMG_6190.jpg
+- ./images/IMG_6191.jpg
+- ./images/IMG_6192.jpg
 location_name: WTHR 420
 location_url: https://goo.gl/maps/uwYzY3kBqCkAFdcR6
 name: Sound Galaxy Workshop (2022)

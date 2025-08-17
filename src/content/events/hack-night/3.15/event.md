@@ -1,31 +1,31 @@
 ---
 end: '2024-02-03T12:30:00.000Z'
 images:
-- IMG_1018.jpg
-- IMG_1022.jpg
-- IMG_1025.jpg
-- IMG_1017.jpg
-- IMG_1020.jpg
-- IMG_1024.jpg
-- IMG_1026.jpg
-- IMG_1027.jpg
-- IMG_1029.jpg
-- IMG_1030.jpg
-- IMG_1032.jpg
-- IMG_1036.jpg
-- IMG_1037.jpg
-- IMG_1038.jpg
-- IMG_1040.jpg
-- IMG_1041.jpg
-- IMG_1042.jpg
-- IMG_1044.jpg
-- IMG_1047.jpg
-- IMG_8903.jpg
-- IMG_8904.jpg
-- IMG_8907.jpg
-- IMG_8909.jpg
-- IMG_8910.jpg
-- IMG_8911.jpg
+- ./images/IMG_1018.jpg
+- ./images/IMG_1022.jpg
+- ./images/IMG_1025.jpg
+- ./images/IMG_1017.jpg
+- ./images/IMG_1020.jpg
+- ./images/IMG_1024.jpg
+- ./images/IMG_1026.jpg
+- ./images/IMG_1027.jpg
+- ./images/IMG_1029.jpg
+- ./images/IMG_1030.jpg
+- ./images/IMG_1032.jpg
+- ./images/IMG_1036.jpg
+- ./images/IMG_1037.jpg
+- ./images/IMG_1038.jpg
+- ./images/IMG_1040.jpg
+- ./images/IMG_1041.jpg
+- ./images/IMG_1042.jpg
+- ./images/IMG_1044.jpg
+- ./images/IMG_1047.jpg
+- ./images/IMG_8903.jpg
+- ./images/IMG_8904.jpg
+- ./images/IMG_8907.jpg
+- ./images/IMG_8909.jpg
+- ./images/IMG_8910.jpg
+- ./images/IMG_8911.jpg
 location_name: The Bechtel Center
 location_url: https://goo.gl/maps/ZTWH61rc5ZkTJp2QA
 name: Hack Night 3.15

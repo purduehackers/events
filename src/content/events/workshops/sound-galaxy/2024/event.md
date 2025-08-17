@@ -1,24 +1,24 @@
 ---
 end: '2024-01-19T00:30:00.000Z'
 images:
-- tinder_crops-096.jpg
-- tinder_crops-097.jpg
-- tinder_crops-098.jpg
-- tinder_crops-099.jpg
-- tinder_crops-100.jpg
-- tinder_crops-101.jpg
-- tinder_crops-102.jpg
-- tinder_crops-103.jpg
-- tinder_crops-104.jpg
-- tinder_crops-105.jpg
-- tinder_crops-106.jpg
-- tinder_crops-107.jpg
-- tinder_crops-108.jpg
-- tinder_crops-109.jpg
-- tinder_crops-110.jpg
-- tinder_crops-111.jpg
-- tinder_crops-112.jpg
-- tinder_crops-113.jpg
+- ./images/tinder_crops-096.jpg
+- ./images/tinder_crops-097.jpg
+- ./images/tinder_crops-098.jpg
+- ./images/tinder_crops-099.jpg
+- ./images/tinder_crops-100.jpg
+- ./images/tinder_crops-101.jpg
+- ./images/tinder_crops-102.jpg
+- ./images/tinder_crops-103.jpg
+- ./images/tinder_crops-104.jpg
+- ./images/tinder_crops-105.jpg
+- ./images/tinder_crops-106.jpg
+- ./images/tinder_crops-107.jpg
+- ./images/tinder_crops-108.jpg
+- ./images/tinder_crops-109.jpg
+- ./images/tinder_crops-110.jpg
+- ./images/tinder_crops-111.jpg
+- ./images/tinder_crops-112.jpg
+- ./images/tinder_crops-113.jpg
 location_name: LWSN B155
 location_url: https://maps.app.goo.gl/NUimZANw9bt6FrDn9
 name: Sound Galaxy Workshop (2024)

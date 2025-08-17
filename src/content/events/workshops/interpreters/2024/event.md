@@ -1,13 +1,13 @@
 ---
 end: '2024-02-02T00:00:00.000Z'
 images:
-- IMG_0997.jpg
-- IMG_0996.jpg
-- IMG_0995.jpg
-- IMG_0994.jpg
-- IMG_0993.jpg
-- IMG_0992.jpg
-- IMG_0989.jpg
+- ./images/IMG_0997.jpg
+- ./images/IMG_0996.jpg
+- ./images/IMG_0995.jpg
+- ./images/IMG_0994.jpg
+- ./images/IMG_0993.jpg
+- ./images/IMG_0992.jpg
+- ./images/IMG_0989.jpg
 location_name: PHYS 203
 location_url: https://maps.app.goo.gl/2rxD1DYoakq6CjNF9
 name: Interpreters Workshop (2024)

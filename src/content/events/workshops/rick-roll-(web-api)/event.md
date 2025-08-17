@@ -1,13 +1,13 @@
 ---
 end: '2022-03-04T00:30:00.000Z'
 images:
-- 20220303_193247.jpg
-- 20220303_193325.jpg
-- 20220303_193856.jpg
-- 20220303_201019.jpg
-- image0.jpg
-- IMG_2049.jpg
-- IMG_2050.jpg
+- ./images/20220303_193247.jpg
+- ./images/20220303_193325.jpg
+- ./images/20220303_193856.jpg
+- ./images/20220303_201019.jpg
+- ./images/image0.jpg
+- ./images/IMG_2049.jpg
+- ./images/IMG_2050.jpg
 location_name: WALC 2127
 location_url: https://goo.gl/maps/FukRQ6JiFcyH9QND6
 name: Rick Roll (Web API) Workshop
