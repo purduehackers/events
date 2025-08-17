@@ -21,7 +21,7 @@ def process_frontmatter(lines):
                 if line.strip().startswith("- "):
                     img_path = line[2:]
                     new_img_path = f'./images/{img_path}'
-                    new_lines.append(f"- {new_img_path}\n")
+                    new_lines.append(f"- {new_img_path}")
                     continue
                 else:
                     in_images = False

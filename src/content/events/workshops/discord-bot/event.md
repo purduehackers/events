@@ -1,11 +1,11 @@
 ---
 end: '2022-11-03T00:00:00.000Z'
 images:
-- IMG_1180.jpg
-- IMG_1182.jpg
-- IMG_1183.jpg
-- IMG_1184.jpg
-- IMG_1189.jpg
+- ./images/IMG_1180.jpg
+- ./images/IMG_1182.jpg
+- ./images/IMG_1183.jpg
+- ./images/IMG_1184.jpg
+- ./images/IMG_1189.jpg
 location_name: LWSN B151
 location_url: https://goo.gl/maps/Zf11gkds1MKLJJYT6
 name: Discord Bot Workshop

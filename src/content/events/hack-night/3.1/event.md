@@ -1,29 +1,29 @@
 ---
 end: '2023-09-16T10:00:00.000Z'
 images:
-- IMG_3179.jpg
-- IMG_3181.jpg
-- IMG_3184.jpg
-- IMG_3185.jpg
-- IMG_3186.jpg
-- IMG_7566.jpg
-- IMG_7567.jpg
-- IMG_7568.jpg
-- IMG_7569.jpg
-- IMG_7570.jpg
-- IMG_7572.jpg
-- IMG_7573.jpg
-- IMG_7575.jpg
-- IMG_7576.jpg
-- IMG_7579.jpg
-- IMG_7582.jpg
-- IMG_7584.jpg
-- IMG_7585.jpg
-- IMG_7586.jpg
-- IMG_7587.jpg
-- IMG_7588.jpg
-- IMG_7591.jpg
-- IMG_7592.jpg
+- ./images/IMG_3179.jpg
+- ./images/IMG_3181.jpg
+- ./images/IMG_3184.jpg
+- ./images/IMG_3185.jpg
+- ./images/IMG_3186.jpg
+- ./images/IMG_7566.jpg
+- ./images/IMG_7567.jpg
+- ./images/IMG_7568.jpg
+- ./images/IMG_7569.jpg
+- ./images/IMG_7570.jpg
+- ./images/IMG_7572.jpg
+- ./images/IMG_7573.jpg
+- ./images/IMG_7575.jpg
+- ./images/IMG_7576.jpg
+- ./images/IMG_7579.jpg
+- ./images/IMG_7582.jpg
+- ./images/IMG_7584.jpg
+- ./images/IMG_7585.jpg
+- ./images/IMG_7586.jpg
+- ./images/IMG_7587.jpg
+- ./images/IMG_7588.jpg
+- ./images/IMG_7591.jpg
+- ./images/IMG_7592.jpg
 location_name: The Bechtel Center
 location_url: https://goo.gl/maps/ZTWH61rc5ZkTJp2QA
 name: Hack Night 3.1

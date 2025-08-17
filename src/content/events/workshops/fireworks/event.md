@@ -1,26 +1,26 @@
 ---
 end: '2023-09-28T01:00:00.000Z'
 images:
-- DSCN1359.jpg
-- DSCN1366.jpg
-- DSCN1367.jpg
-- DSCN1368.jpg
-- DSCN1369.jpg
-- DSCN1370.jpg
-- DSCN1371.jpg
-- DSCN1372.jpg
-- DSCN1373.jpg
-- DSCN1374.jpg
-- DSCN1375.jpg
-- DSCN1376.jpg
-- DSCN1377.jpg
-- DSCN1378.jpg
-- DSCN1379.jpg
-- DSCN1361.jpg
-- DSCN1362.jpg
-- DSCN1363.jpg
-- DSCN1364.jpg
-- DSCN1365.jpg
+- ./images/DSCN1359.jpg
+- ./images/DSCN1366.jpg
+- ./images/DSCN1367.jpg
+- ./images/DSCN1368.jpg
+- ./images/DSCN1369.jpg
+- ./images/DSCN1370.jpg
+- ./images/DSCN1371.jpg
+- ./images/DSCN1372.jpg
+- ./images/DSCN1373.jpg
+- ./images/DSCN1374.jpg
+- ./images/DSCN1375.jpg
+- ./images/DSCN1376.jpg
+- ./images/DSCN1377.jpg
+- ./images/DSCN1378.jpg
+- ./images/DSCN1379.jpg
+- ./images/DSCN1361.jpg
+- ./images/DSCN1362.jpg
+- ./images/DSCN1363.jpg
+- ./images/DSCN1364.jpg
+- ./images/DSCN1365.jpg
 location_name: ME 1130
 location_url: https://maps.app.goo.gl/e4dqxjHCCxGB5XSF9
 name: Fireworks Workshop

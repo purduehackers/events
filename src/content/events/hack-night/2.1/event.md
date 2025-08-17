@@ -1,18 +1,18 @@
 ---
 end: '2023-02-25T09:15:00.000Z'
 images:
-- IMG_3111.jpg
-- IMG_3120.jpg
-- IMG_3109.jpg
-- IMG_3110.jpg
-- IMG_3116.jpg
-- IMG_3117.jpg
-- IMG_3122.jpg
-- IMG_3123.jpg
-- IMG_3124.jpg
-- IMG_3125.jpg
-- IMG_3113.jpg
-- IMG_3115.jpg
+- ./images/IMG_3111.jpg
+- ./images/IMG_3120.jpg
+- ./images/IMG_3109.jpg
+- ./images/IMG_3110.jpg
+- ./images/IMG_3116.jpg
+- ./images/IMG_3117.jpg
+- ./images/IMG_3122.jpg
+- ./images/IMG_3123.jpg
+- ./images/IMG_3124.jpg
+- ./images/IMG_3125.jpg
+- ./images/IMG_3113.jpg
+- ./images/IMG_3115.jpg
 location_name: The Bechtel Center
 location_url: https://goo.gl/maps/ZTWH61rc5ZkTJp2QA
 name: Hack Night 2.1

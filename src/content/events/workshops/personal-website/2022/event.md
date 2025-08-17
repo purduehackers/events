@@ -1,11 +1,11 @@
 ---
 end: '2022-03-11T00:30:00.000Z'
 images:
-- IMG_2141.jpg
-- IMG_2435.jpg
-- IMG_2437.jpg
-- IMG_2441.jpg
-- IMG_2444.jpg
+- ./images/IMG_2141.jpg
+- ./images/IMG_2435.jpg
+- ./images/IMG_2437.jpg
+- ./images/IMG_2441.jpg
+- ./images/IMG_2444.jpg
 location_name: LWSN B134
 location_url: https://goo.gl/maps/EVQCSyHCoeC6T8LXA
 name: Personal Website Workshop (2022)

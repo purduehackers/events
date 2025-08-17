@@ -1,18 +1,18 @@
 ---
 end: '2023-09-15T01:00:00.000Z'
 images:
-- 20230914_200947.jpg
-- 20230914_200952.jpg
-- 20230914_201008.jpg
-- 20230914_201219.jpg
-- 20230914_201642.jpg
-- 20230914_201703.jpg
-- 20230914_202714.jpg
-- 20230914_202820.jpg
-- 20230914_202844.jpg
-- 20230914_202902.jpg
-- 20230914_202945.jpg
-- 20230914_203007.jpg
+- ./images/20230914_200947.jpg
+- ./images/20230914_200952.jpg
+- ./images/20230914_201008.jpg
+- ./images/20230914_201219.jpg
+- ./images/20230914_201642.jpg
+- ./images/20230914_201703.jpg
+- ./images/20230914_202714.jpg
+- ./images/20230914_202820.jpg
+- ./images/20230914_202844.jpg
+- ./images/20230914_202902.jpg
+- ./images/20230914_202945.jpg
+- ./images/20230914_203007.jpg
 location_name: RAWL 1086
 location_url: https://goo.gl/maps/6UCvLa1sQ7UUt5Pb9
 name: Word Embedding Workshop

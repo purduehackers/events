@@ -1,29 +1,29 @@
 ---
 end: '2024-02-10T12:30:00.000Z'
 images:
-- IMG_1132.jpg
-- IMG_1133.jpg
-- IMG_1134.jpg
-- IMG_1136.jpg
-- IMG_1137.jpg
-- IMG_1138.jpg
-- IMG_1141.jpg
-- IMG_1142.jpg
-- IMG_1144.jpg
-- IMG_1145.jpg
-- IMG_1148.jpg
-- IMG_1149.jpg
-- IMG_1150.jpg
-- IMG_1151.jpg
-- IMG_1155.jpg
-- IMG_1156.jpg
-- IMG_1165.jpg
-- IMG_1168.jpg
-- IMG_1169.jpg
-- IMG_1175.jpg
-- IMG_1177.jpg
-- IMG_1178.jpg
-- IMG_1179.jpg
+- ./images/IMG_1132.jpg
+- ./images/IMG_1133.jpg
+- ./images/IMG_1134.jpg
+- ./images/IMG_1136.jpg
+- ./images/IMG_1137.jpg
+- ./images/IMG_1138.jpg
+- ./images/IMG_1141.jpg
+- ./images/IMG_1142.jpg
+- ./images/IMG_1144.jpg
+- ./images/IMG_1145.jpg
+- ./images/IMG_1148.jpg
+- ./images/IMG_1149.jpg
+- ./images/IMG_1150.jpg
+- ./images/IMG_1151.jpg
+- ./images/IMG_1155.jpg
+- ./images/IMG_1156.jpg
+- ./images/IMG_1165.jpg
+- ./images/IMG_1168.jpg
+- ./images/IMG_1169.jpg
+- ./images/IMG_1175.jpg
+- ./images/IMG_1177.jpg
+- ./images/IMG_1178.jpg
+- ./images/IMG_1179.jpg
 location_name: The Bechtel Center
 location_url: https://goo.gl/maps/ZTWH61rc5ZkTJp2QA
 name: Hack Night 3.16

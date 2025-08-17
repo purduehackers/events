@@ -1,30 +1,30 @@
 ---
 end: '2023-04-22T11:15:00.000Z'
 images:
-- IMG_4202.jpg
-- IMG_4203.jpg
-- IMG_4204.jpg
-- IMG_4205.jpg
-- IMG_4206.jpg
-- IMG_4207.jpg
-- IMG_4209.jpg
-- IMG_4213.jpg
-- IMG_4216.jpg
-- IMG_4221.jpg
-- IMG_4222.jpg
-- IMG_4223.jpg
-- IMG_4224.jpg
-- IMG_4225.jpg
-- IMG_4227.jpg
-- IMG_4229.jpg
-- IMG_4231.jpg
-- IMG_4233.jpg
-- IMG_4234.jpg
-- IMG_4235.jpg
-- IMG_4237.jpg
-- IMG_4239.jpg
-- IMG_4241.jpg
-- IMG_4244.jpg
+- ./images/IMG_4202.jpg
+- ./images/IMG_4203.jpg
+- ./images/IMG_4204.jpg
+- ./images/IMG_4205.jpg
+- ./images/IMG_4206.jpg
+- ./images/IMG_4207.jpg
+- ./images/IMG_4209.jpg
+- ./images/IMG_4213.jpg
+- ./images/IMG_4216.jpg
+- ./images/IMG_4221.jpg
+- ./images/IMG_4222.jpg
+- ./images/IMG_4223.jpg
+- ./images/IMG_4224.jpg
+- ./images/IMG_4225.jpg
+- ./images/IMG_4227.jpg
+- ./images/IMG_4229.jpg
+- ./images/IMG_4231.jpg
+- ./images/IMG_4233.jpg
+- ./images/IMG_4234.jpg
+- ./images/IMG_4235.jpg
+- ./images/IMG_4237.jpg
+- ./images/IMG_4239.jpg
+- ./images/IMG_4241.jpg
+- ./images/IMG_4244.jpg
 location_name: The Bechtel Center
 location_url: https://goo.gl/maps/ZTWH61rc5ZkTJp2QA
 name: 'Hack Night 2.7: The Finale'

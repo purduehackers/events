@@ -1,11 +1,11 @@
 ---
 end: '2023-02-16T00:30:00.000Z'
 images:
-- IMG_2911.jpg
-- IMG_2919.jpg
-- IMG_3045.jpg
-- IMG_2912.jpg
-- IMG_2914.jpg
+- ./images/IMG_2911.jpg
+- ./images/IMG_2919.jpg
+- ./images/IMG_3045.jpg
+- ./images/IMG_2912.jpg
+- ./images/IMG_2914.jpg
 location_name: WALC 2087
 location_url: https://goo.gl/maps/FukRQ6JiFcyH9QND6
 name: Generative Art Workshop

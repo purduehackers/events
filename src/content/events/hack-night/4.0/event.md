@@ -1,25 +1,25 @@
 ---
 end: '2024-02-17T11:30:00.000Z'
 images:
-- IMG_1294.jpg
-- IMG_1295.jpg
-- IMG_1297.jpg
-- IMG_1298.jpg
-- IMG_1300.jpg
-- IMG_1303.jpg
-- IMG_1305.jpg
-- IMG_1306.jpg
-- IMG_1307.jpg
-- IMG_1308.jpg
-- IMG_1309.jpg
-- IMG_1310.jpg
-- IMG_1313.jpg
-- IMG_1315.jpg
-- IMG_1316.jpg
-- IMG_1318.jpg
-- IMG_1319.jpg
-- IMG_1320.jpg
-- retro-BB8A1D24-CDE8-4F3A-A319-6BD2B99F520B.jpg
+- ./images/IMG_1294.jpg
+- ./images/IMG_1295.jpg
+- ./images/IMG_1297.jpg
+- ./images/IMG_1298.jpg
+- ./images/IMG_1300.jpg
+- ./images/IMG_1303.jpg
+- ./images/IMG_1305.jpg
+- ./images/IMG_1306.jpg
+- ./images/IMG_1307.jpg
+- ./images/IMG_1308.jpg
+- ./images/IMG_1309.jpg
+- ./images/IMG_1310.jpg
+- ./images/IMG_1313.jpg
+- ./images/IMG_1315.jpg
+- ./images/IMG_1316.jpg
+- ./images/IMG_1318.jpg
+- ./images/IMG_1319.jpg
+- ./images/IMG_1320.jpg
+- ./images/retro-BB8A1D24-CDE8-4F3A-A319-6BD2B99F520B.jpg
 location_name: The Bechtel Center
 location_url: https://goo.gl/maps/ZTWH61rc5ZkTJp2QA
 name: Hack Night 4.0
