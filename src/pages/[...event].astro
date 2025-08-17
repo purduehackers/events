@@ -8,6 +8,8 @@ import { getEventSlug, getTime } from "@/utilities/helpers";
 import Clock from "@/assets/clock.svg";
 import Stat from "@/components/past-events/Stat.astro";
 
+import { Image } from "astro:assets";
+
 export async function getStaticPaths() {
   const events = await getCollection("events");
 
@@ -84,16 +86,16 @@ const endTime = getTime(event.data.end);
               <div
                 class="grid grid-cols-2 gap-2 md:grid-cols-3 md:gap-x-2 sm:max-w-lg md:max-w-xl items-center"
               >
-            <!-- {
-              event.data.images && event.data.images.map((image) => (
+            {
+              event.data.images && event.data.images.slice(0, 3).map((image) => (
                 <div
                   class="flex flex-col mx-auto hover:scale-[1.03] transition transform">
-                  <Image class="rounded-lg" src={image.src} />
+                  <Image class="rounded-lg" src={image} alt="" />
                 </div>
               ))
-            } -->
+            }
                 
-<button
+                <button
                   class="sm:hidden rounded-lg mx-auto py-2 px-2 font-bold text-l dark:text-gray-200 shadow-md dark:shadow-black/25 border-solid border-2 border-amber-400 dark:border-amber-500 p-2 text-center hover:scale-105 transform transition-transform"
                   >See X more photos</button>
               </div>
