@@ -1,0 +1,40 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+    images: ImageMetadata[];
+}
+
+const { images } = Astro.props;
+---
+
+<div class="flex flex-col gap-y-4 mx-4 sm:mx-0 items-center">
+  <div
+    class="grid grid-cols-2 gap-2 md:grid-cols-3 md:gap-x-2 sm:max-w-lg md:max-w-xl items-center"
+  >
+    {
+      images.slice(0, 3).map((image) => (
+        <div class="flex flex-col mx-auto hover:scale-[1.03] transition transform">
+          <Image class="rounded-lg" src={image} alt="" />
+        </div>
+      ))
+    }
+
+    {
+      images.length > 3 && (
+        <button class="sm:hidden rounded-lg mx-auto py-2 px-2 font-bold text-l dark:text-gray-200 shadow-md dark:shadow-black/25 border-solid border-2 border-amber-400 dark:border-amber-500 p-2 text-center hover:scale-105 transform transition-transform">
+          See {images.length - 3} more photos
+        </button>
+      )
+    }
+  </div>
+
+  {
+    images.length > 3 && (
+      <button class="hidden sm:block rounded-lg mx-auto py-2 px-2 font-bold text-l dark:text-gray-200 shadow-md dark:shadow-black/25 border-solid border-2 border-amber-400 dark:border-amber-500 p-2 text-center hover:scale-105 transform transition-transform">
+        See {images.length - 3} more photos
+      </button>
+    )
+  }
+</div>
