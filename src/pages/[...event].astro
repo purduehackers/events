@@ -92,14 +92,18 @@ const endTime = getTime(event.data.end);
                         </div>
                       ))}
 
-                    <button class="sm:hidden rounded-lg mx-auto py-2 px-2 font-bold text-l dark:text-gray-200 shadow-md dark:shadow-black/25 border-solid border-2 border-amber-400 dark:border-amber-500 p-2 text-center hover:scale-105 transform transition-transform">
-                      See X more photos
-                    </button>
+                    {event.data.images.length > 3 && (
+                      <button class="sm:hidden rounded-lg mx-auto py-2 px-2 font-bold text-l dark:text-gray-200 shadow-md dark:shadow-black/25 border-solid border-2 border-amber-400 dark:border-amber-500 p-2 text-center hover:scale-105 transform transition-transform">
+                        See {event.data.images.length - 3} more photos
+                      </button>
+                    )}
                   </div>
 
-                  <button class="rounded-lg mx-auto py-2 px-2 font-bold text-l dark:text-gray-200 shadow-md dark:shadow-black/25 border-solid border-2 border-amber-400 dark:border-amber-500 p-2 text-center hover:scale-105 transform transition-transform">
-                    See X more photos
-                  </button>
+                  {event.data.images.length > 3 && (
+                    <button class="hidden sm:block rounded-lg mx-auto py-2 px-2 font-bold text-l dark:text-gray-200 shadow-md dark:shadow-black/25 border-solid border-2 border-amber-400 dark:border-amber-500 p-2 text-center hover:scale-105 transform transition-transform">
+                      See {event.data.images.length - 3} more photos
+                    </button>
+                  )}
                 </div>
               )
             }
