@@ -80,31 +80,29 @@ const endTime = getTime(event.data.end);
                 </div>
               </div>
             </div>
-            
-            { event.data.images && event.data.images.length > 0 && (
-            <div class="flex flex-col gap-y-4 mx-4 sm:mx-0 items-center">
-              <div
-                class="grid grid-cols-2 gap-2 md:grid-cols-3 md:gap-x-2 sm:max-w-lg md:max-w-xl items-center"
-              >
-            {
-              event.data.images && event.data.images.slice(0, 3).map((image) => (
-                <div
-                  class="flex flex-col mx-auto hover:scale-[1.03] transition transform">
-                  <Image class="rounded-lg" src={image} alt="" />
-                </div>
-              ))
-            }
-                
-                <button
-                  class="sm:hidden rounded-lg mx-auto py-2 px-2 font-bold text-l dark:text-gray-200 shadow-md dark:shadow-black/25 border-solid border-2 border-amber-400 dark:border-amber-500 p-2 text-center hover:scale-105 transform transition-transform"
-                  >See X more photos</button>
-              </div>
-              
-              <button
-                class="rounded-lg mx-auto py-2 px-2 font-bold text-l dark:text-gray-200 shadow-md dark:shadow-black/25 border-solid border-2 border-amber-400 dark:border-amber-500 p-2 text-center hover:scale-105 transform transition-transform"
-                >See X more photos</button>
 
-            </div>)}
+            {
+              event.data.images && event.data.images.length > 0 && (
+                <div class="flex flex-col gap-y-4 mx-4 sm:mx-0 items-center">
+                  <div class="grid grid-cols-2 gap-2 md:grid-cols-3 md:gap-x-2 sm:max-w-lg md:max-w-xl items-center">
+                    {event.data.images &&
+                      event.data.images.slice(0, 3).map((image) => (
+                        <div class="flex flex-col mx-auto hover:scale-[1.03] transition transform">
+                          <Image class="rounded-lg" src={image} alt="" />
+                        </div>
+                      ))}
+
+                    <button class="sm:hidden rounded-lg mx-auto py-2 px-2 font-bold text-l dark:text-gray-200 shadow-md dark:shadow-black/25 border-solid border-2 border-amber-400 dark:border-amber-500 p-2 text-center hover:scale-105 transform transition-transform">
+                      See X more photos
+                    </button>
+                  </div>
+
+                  <button class="rounded-lg mx-auto py-2 px-2 font-bold text-l dark:text-gray-200 shadow-md dark:shadow-black/25 border-solid border-2 border-amber-400 dark:border-amber-500 p-2 text-center hover:scale-105 transform transition-transform">
+                    See X more photos
+                  </button>
+                </div>
+              )
+            }
           </div>
         </div>
       </div>
