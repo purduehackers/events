@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin '@tailwindcss/typography';
 
 /* Use CSS dark selector instead of media queries */
 @custom-variant dark (&:where(.dark, .dark *));
