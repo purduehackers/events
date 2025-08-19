@@ -6,4 +6,14 @@ name: Hack Night 5.20
 start: '2025-03-08T01:00:00.000Z'
 ---
 
-LET'S GET THIS BREAD 🍞 Hack Night 5.20, Friday 3/7/2025, 8pm-???, Bechtel Center 2nd floor
+LET'S GET THIS BREAD 🍞
+
+Come make things with friends and GET some BREAD at Hack Night 5.20!!! There is only one rule: no homework 📝🚫 Here's what's happening:
+
+- `d~5~5|5` **(8:00pm)**: Hacking begins
+- `e~0~0` **(9:00pm)**: Circle: Data Science
+- `e~a~a|a` **(10:00pm)**: Passport-making ceremony
+- `f~5~5|5` **(11:00pm)**: Circle: Systems
+- `0~0~0` **(12:00am)**: Checkpoints
+
+We're running another passport-making ceremony at 10pm! Sign up before 12pm on Friday to make your Republic of Hackerland passport: https://passports.purduehackers.com

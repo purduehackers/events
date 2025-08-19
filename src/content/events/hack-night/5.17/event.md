@@ -6,4 +6,12 @@ name: Hack Night 5.17
 start: '2025-02-15T01:00:00.000Z'
 ---
 
-bring ur valentine to hack night 5.17!!! friday 2/14, 8pm-???, bechtel center 2nd floor. it'll be cuuuuute 🩷
+Bring ur valentine to Hack Night 5.17!!! And make stuff together, like apps, websites, games, hardware projects, etc. Or make those your valentine. It'll be cuuuuuuute 🩷
+
+- `d~5~5|5` **(8:00pm)**: Hacking begins
+- `e~0~0` **(9:00pm)**: Circle: Data Science
+- `e~a~a|a` **(10:00pm)**: Session: History of tobacco marketing
+- `f~5~5|5` **(11:00pm)**: Circle: Systems
+- `0~0~0` **(12:00am)**: Checkpoints
+
+XOXO 🍭
