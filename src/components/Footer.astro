@@ -3,6 +3,7 @@ import HomeIcon from "@/assets/home.svg";
 import Instagram from "@/assets/socials/instagram.svg";
 import GitHub from "@/assets/socials/github.svg";
 import Discord from "@/assets/socials/discord.svg";
+import { DISCORD_URL } from "@/utilities/constants";
 ---
 
 <div
@@ -45,7 +46,7 @@ import Discord from "@/assets/socials/discord.svg";
       ></span
     ><span
       ><a
-        href="https://puhack.horse/discord"
+        href={DISCORD_URL}
         target="_blank"
         class="text-amber-500 hover:text-amber-400 transition"><Discord /></a
       ></span
