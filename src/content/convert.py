@@ -158,7 +158,7 @@ def save_markdown_metadata(event, images, target_path):
     past_description = event.get("pastEventDesc")
 
     # Fall through in this order ->
-    preferred_event_description = past_description or og_description or desc
+    preferred_event_description = past_description or desc or og_description
 
     start = event.get("start")
     end = event.get("end")  # may be None, then it won't be included in metadata
