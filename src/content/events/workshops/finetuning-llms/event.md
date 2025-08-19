@@ -6,4 +6,6 @@ name: Finetuning LLMs Workshop
 start: '2023-11-10T01:00:00.000Z'
 ---
 
-🧠 Learn how to finetune LLMs this Thursday 🤖
+Large Language Models are HUGE. This makes them very powerful, but also hard to train.
+
+Join us this Thursday, November 9th from 8-9PM @ to learn about how you can efficiently fine-tune large language models to your specific use-case! :galaxy_brain:
