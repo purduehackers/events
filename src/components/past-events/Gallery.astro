@@ -3,38 +3,83 @@ import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
 
 interface Props {
-    images: ImageMetadata[];
+  images: ImageMetadata[];
 }
 
 const { images } = Astro.props;
 ---
 
 <div class="flex flex-col gap-y-4 mx-4 sm:mx-0 items-center">
-  <div
-    class="grid grid-cols-2 gap-2 md:grid-cols-3 md:gap-x-2 sm:max-w-lg md:max-w-xl items-center"
-  >
-    {
-      images.slice(0, 3).map((image) => (
-        <div class="flex flex-col mx-auto hover:scale-[1.03] transition transform">
-          <Image class="rounded-lg" src={image} alt="" />
-        </div>
-      ))
-    }
+  <div id="gallery">
+    <div
+      class="grid grid-cols-2 gap-2 md:grid-cols-3 md:gap-x-2 sm:max-w-lg md:max-w-xl items-center"
+    >
+      {
+        images.slice(0, 3).map((image) => (
+          <div class="flex flex-col mx-auto hover:scale-[1.03] transition transform">
+            <a
+              href={image.src}
+              data-pswp-width={image.width}
+              data-pswp-height={image.height}
+              data-cropped="false"
+              target="_blank"
+            >
+              <Image class="rounded-lg" src={image} alt="" />
+            </a>
+          </div>
+        ))
+      }
 
-    {
-      images.length > 3 && (
-        <button class="sm:hidden rounded-lg mx-auto py-2 px-2 font-bold text-l dark:text-gray-200 shadow-md dark:shadow-black/25 border-solid border-2 border-amber-400 dark:border-amber-500 p-2 text-center hover:scale-105 transform transition-transform">
-          See {images.length - 3} more photos
-        </button>
-      )
-    }
+      {
+        images.length > 3 && (
+          <button class="gallery-more sm:hidden rounded-lg mx-auto py-2 px-2 font-bold text-l dark:text-gray-200 shadow-md dark:shadow-black/25 border-solid border-2 border-amber-400 dark:border-amber-500 p-2 text-center hover:scale-105 transform transition-transform">
+            See {images.length - 3} more photos
+          </button>
+        )
+      }
+
+      <!-- Hide rest of the images -->
+      {
+        images.slice(3).map((image) => (
+          <div class="absolute top-0 left-0 hidden hover:scale-[1.03] transition transform">
+            <a
+              href={image.src}
+              data-pswp-width={image.width}
+              data-pswp-height={image.height}
+              data-cropped="false"
+              target="_blank"
+            >
+              <Image class="rounded-lg" src={image} alt="" />
+            </a>
+          </div>
+        ))
+      }
+    </div>
   </div>
 
   {
     images.length > 3 && (
-      <button class="hidden sm:block rounded-lg mx-auto py-2 px-2 font-bold text-l dark:text-gray-200 shadow-md dark:shadow-black/25 border-solid border-2 border-amber-400 dark:border-amber-500 p-2 text-center hover:scale-105 transform transition-transform">
+      <button class="gallery-more hidden sm:block rounded-lg mx-auto py-2 px-2 font-bold text-l dark:text-gray-200 shadow-md dark:shadow-black/25 border-solid border-2 border-amber-400 dark:border-amber-500 p-2 text-center hover:scale-105 transform transition-transform">
         See {images.length - 3} more photos
       </button>
     )
   }
 </div>
+
+<script>
+  import PhotoSwipeLightbox from "photoswipe/lightbox";
+  import "photoswipe/style.css";
+
+  const lightbox = new PhotoSwipeLightbox({
+    gallery: "#gallery",
+    children: "a",
+    showHideAnimationType: "fade",
+    pswpModule: () => import("photoswipe"),
+  });
+
+  lightbox.init();
+
+  document.querySelectorAll(".gallery-more").forEach((btn) => {
+    btn.addEventListener("click", (_e) => lightbox.loadAndOpen(3));
+  });
+</script>
