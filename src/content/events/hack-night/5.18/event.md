@@ -6,4 +6,16 @@ name: Hack Night 5.18
 start: '2025-02-22T01:00:00.000Z'
 ---
 
-🧹 Sweep with us at HACK NIGHT 5.18. Friday 2/21/2025, 8pm-???, Bechtel Center 2nd floor
+🧹SWEEP SWEEP 🧹
+
+Come sweep with us at Hack Night 5.18!!! Here's what's happening:
+
+- `d~5~5|5` **(8:00pm)**: Hacking begins
+- `e~0~0` **(9:00pm)**: Circle: Data Science
+- `e~a~a|a` **(10:00pm)**: Passport-making ceremony
+- `f~5~5|5` **(11:00pm)**: Circle: Systems
+- `0~0~0` **(12:00am)**: Checkpoints
+
+We're running another passport-making ceremony at 10pm! Sign up before 12pm on Friday to make your Republic of Hackerland passport: https://passports.purduehackers.com
+
+Sweep you soon???

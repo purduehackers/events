@@ -6,4 +6,12 @@ name: Hack Night 5.21
 start: '2025-03-29T00:00:00.000Z'
 ---
 
-RIBBIT RIBBIT 🐸 Hack Night 5.21, Friday 3/28/2025, 8pm-???, Bechtel Center 2nd floor
+RIBBIT RIBBIT 🐸
+
+Bring yourself and your wacky friends along tonight and start hacking! There are only two rules: no homework and no video games 🎮📝🚫 Here's what's happening:
+
+- `d~5~5|5` **(8:00pm)**: Hacking begins
+- `e~0~0` **(9:00pm)**: Circle: Data Science
+- `e~a~a|a` **(10:00pm)**: Session: Lambda Calculus Primer
+- `f~5~5|5` **(11:00pm)**: Circle: Systems
+- `0~0~0` **(12:00am)**: Checkpoints
