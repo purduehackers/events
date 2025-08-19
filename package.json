@@ -10,7 +10,7 @@
     "astro": "astro"
   },
   "keywords": [],
-  "packageManager": "pnpm@10.14.0",
+  "packageManager": "pnpm@10.15.0",
   "dependencies": {
     "@fontsource-variable/space-grotesk": "^5.2.8",
     "@fontsource/space-mono": "^5.2.8",
