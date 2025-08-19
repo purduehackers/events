@@ -7,6 +7,7 @@ import { getEventSlug, getTime } from "@/utilities/helpers";
 
 import Clock from "@/assets/clock.svg";
 import Stat from "@/components/past-events/Stat.astro";
+import MapPin from "@/assets/map-pin.svg";
 
 import Gallery from "@/components/past-events/Gallery.astro";
 import Description from "@/components/past-events/Description.astro";
@@ -53,6 +54,30 @@ const endTime = getTime(event.data.end);
         >
           <Clock />{format(start, "MMM do, yyyy")} • {startTime}—{endTime}
         </p>
+        {
+          event.data.location_name && (
+            <p class="mt-1 text-1xl sm:text-2xl flex flex-row gap-x-1 items-center justify-center dark:text-gray-200">
+              <>
+                <MapPin />
+                <strong>
+                  <span>
+                    {event.data.location_url ? (
+                      <a
+                        href={event.data.location_url}
+                        target="_blank"
+                        class="text-amber-500 hover:text-amber-400 transition"
+                      >
+                        {event.data.location_name}
+                      </a>
+                    ) : (
+                      <>{event.data.location_name}</>
+                    )}
+                  </span>
+                </strong>
+              </>
+            </p>
+          )
+        }
       </div>
     </div><div
       class="flex flex-col items-center justify-center py-8 sm:px-20 mb-auto"
