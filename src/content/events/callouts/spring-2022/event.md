@@ -8,7 +8,7 @@ images:
 - ./images/IMG_1585.jpg
 location_name: BHEE 117
 location_url: https://goo.gl/maps/1vRjR7DqrJpQta5W6
-name: Spring 22 Callout
+name: Spring 2022 Callout
 start: '2022-01-26T23:00:00.000Z'
 stats:
 - data: '50'
