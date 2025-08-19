@@ -34,4 +34,7 @@
 @theme {
   --font-sans: 'Space Grotesk Variable', sans-serif;
   --font-mono: 'Space Mono', monospace;
+
+  --color-discord: #807cfc;
+  --color-discord-light: #9b98fa;
 }
