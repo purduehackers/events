@@ -2,8 +2,10 @@
 end: '2025-02-26T02:00:00.000Z'
 location_name: LWSN 1142
 location_url: https://goo.gl/maps/EVQCSyHCoeC6T8LXA
-name: Interpreters Workshop
+name: Interpreters Workshop (2025)
 start: '2025-02-26T01:00:00.000Z'
 ---
 
-Learn how interpreted programming languages work & add a feature to one! Tuesday 2/25 8-9pm
+Learn how interpreted programming languages work & add a feature to one!
+
+See what happened last time: https://events.purduehackers.com/events/workshops/interpreters/2024/
