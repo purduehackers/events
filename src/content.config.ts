@@ -14,7 +14,7 @@ const events = defineCollection({
     name: z.string(),
     start: z.string().datetime(),
     end: z.string().datetime().optional(),
-    location: z.string().optional(),
+    location_name: z.string().optional(),
     location_url: z.string().optional(),
     images: z.array(image()).optional(),
     stats: z.array(Stat).optional(),
