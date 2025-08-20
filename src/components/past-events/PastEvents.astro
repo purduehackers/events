@@ -3,7 +3,8 @@ import { getCollection } from "astro:content";
 import { format } from "date-fns";
 
 import Card from "./Card.astro";
-import { getEventSlug, getTime } from "@/utilities/helpers";
+import { getEventSlug, getLocalizedDate, getTime } from "@/utilities/helpers";
+import { undefined } from "astro:schema";
 
 const events = (await getCollection("events")).sort(
   (a, b) => new Date(b.data.start).getTime() - new Date(a.data.start).getTime()
@@ -19,15 +20,17 @@ const events = (await getCollection("events")).sort(
     {
       events.map((event) => {
         const start = event.data.start;
-        const startTime = format(start, "hh:mm a");
-        const endTime = getTime(event.data.end);
+        const localizedStart = getLocalizedDate(start);
+        const localizedStartTime = format(localizedStart, "hh:mm a");
+        const localizedEnd = event.data.end ? getLocalizedDate(event.data.end) : undefined;
+        const localizedEndTime = getTime(localizedEnd);
         const name = event.data.name;
         const slug = getEventSlug(event.filePath ?? "");
 
         return (
           <Card
-            date={format(start, "MMM do, yyyy")}
-            time={`${startTime}—${endTime}`}
+            date={format(localizedStart, "MMM do, yyyy")}
+            time={`${localizedStartTime}—${localizedEndTime}`}
             name={name}
             link={slug}
           />
