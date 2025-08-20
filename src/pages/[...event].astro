@@ -3,7 +3,7 @@ import { getCollection, render } from "astro:content";
 import { format } from "date-fns";
 
 import Layout from "@/layouts/Layout.astro";
-import { getEventSlug, getLocalizedDate, getTime } from "@/utilities/helpers";
+import { getEventMetadata, getEventSlug } from "@/utilities/helpers";
 
 import Clock from "@/assets/clock.svg";
 import Stat from "@/components/past-events/Stat.astro";
@@ -32,14 +32,8 @@ export async function getStaticPaths() {
 const { event } = Astro.props;
 const { Content } = await render(event);
 
-const name = event.data.name;
-const start = event.data.start;
-const localizedStart = getLocalizedDate(start);
-const localizedStartTime = format(localizedStart, "hh:mm a");
-const localizedEnd = event.data.end
-  ? getLocalizedDate(event.data.end)
-  : undefined;
-const localizedEndTime = getTime(localizedEnd);
+const { name, localizedStart, localizedStartTime, localizedEndTime } =
+  getEventMetadata(event);
 ---
 
 <Layout>
@@ -57,7 +51,9 @@ const localizedEndTime = getTime(localizedEnd);
         </h1><p
           class="mt-3 text-1xl sm:text-2xl flex flex-row gap-x-1 font-bold items-center justify-center dark:text-gray-200"
         >
-          <Clock />{format(localizedStart, "MMM do, yyyy")} • {localizedStartTime}—{localizedEndTime}
+          <Clock />{format(localizedStart, "MMM do, yyyy")} • {
+            localizedStartTime
+          }—{localizedEndTime}
         </p>
         {
           event.data.location_name && (
