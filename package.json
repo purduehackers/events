@@ -12,6 +12,7 @@
   "keywords": [],
   "packageManager": "pnpm@10.15.0",
   "dependencies": {
+    "@date-fns/tz": "^1.4.1",
     "@fontsource-variable/space-grotesk": "^5.2.8",
     "@fontsource/space-mono": "^5.2.8",
     "@tailwindcss/vite": "^4.1.11",
