@@ -4,7 +4,6 @@ import { format } from "date-fns";
 
 import Card from "./Card.astro";
 import { getEventSlug, getLocalizedDate, getTime } from "@/utilities/helpers";
-import { undefined } from "astro:schema";
 
 const events = (await getCollection("events")).sort(
   (a, b) => new Date(b.data.start).getTime() - new Date(a.data.start).getTime()
