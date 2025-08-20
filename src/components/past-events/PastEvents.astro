@@ -26,7 +26,7 @@ const events = (await getCollection("events")).sort(
 
         return (
           <Card
-            date={format(start, "MMMM do, yyyy")}
+            date={format(start, "MMM do, yyyy")}
             time={`${startTime}—${endTime}`}
             name={name}
             link={slug}
