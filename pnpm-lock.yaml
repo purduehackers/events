@@ -12,8 +12,8 @@ importers:
         specifier: ^1.4.1
         version: 1.4.1
       '@fontsource-variable/space-grotesk':
-        specifier: ^5.2.8
-        version: 5.2.8
+        specifier: ^5.2.10
+        version: 5.2.10
       '@fontsource/space-mono':
         specifier: ^5.2.9
         version: 5.2.9
@@ -241,8 +241,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@fontsource-variable/space-grotesk@5.2.8':
-    resolution: {integrity: sha512-ei9jNXzZVgBGEBVfHZqPe6F9ZxpPUG8kJYrtlLsivlWJZLCfrfSxcayjnMYAmslEGvvfjth7qybl7PNNqE8ZHw==}
+  '@fontsource-variable/space-grotesk@5.2.10':
+    resolution: {integrity: sha512-yJQO/o35/hAP3CFnpdFTwQku2yzJOae2HIpBmqkOVoxhhXJaQP3g+b6Jrz7u+eI7A5ZdCIf88uMWpBJdFiGr5w==}
 
   '@fontsource/space-mono@5.2.9':
     resolution: {integrity: sha512-b61faFOHEISQ/pD25G+cfGY9o/WW6lRv6hBQQfpWvEJ4y1V+S4gmth95EVyBE2VL3qDYHeVQ8nBzrplzdXTDDg==}
@@ -2014,7 +2014,7 @@ snapshots:
   '@esbuild/win32-x64@0.25.8':
     optional: true
 
-  '@fontsource-variable/space-grotesk@5.2.8': {}
+  '@fontsource-variable/space-grotesk@5.2.10': {}
 
   '@fontsource/space-mono@5.2.9': {}
 
