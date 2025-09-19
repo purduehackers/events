@@ -15,7 +15,7 @@
     "@date-fns/tz": "^1.4.1",
     "@fontsource-variable/space-grotesk": "^5.2.8",
     "@fontsource/space-mono": "^5.2.9",
-    "@tailwindcss/vite": "^4.1.11",
+    "@tailwindcss/vite": "^4.1.13",
     "astro": "^5.12.9",
     "date-fns": "^4.1.0",
     "photoswipe": "^5.4.4",
