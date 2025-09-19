@@ -37,8 +37,8 @@ importers:
         version: 4.1.13
     devDependencies:
       '@tailwindcss/typography':
-        specifier: ^0.5.17
-        version: 0.5.17(tailwindcss@4.1.13)
+        specifier: ^0.5.18
+        version: 0.5.18(tailwindcss@4.1.13)
 
 packages:
 
@@ -610,8 +610,8 @@ packages:
     resolution: {integrity: sha512-CPgsM1IpGRa880sMbYmG1s4xhAy3xEt1QULgTJGQmZUeNgXFR7s1YxYygmJyBGtou4SyEosGAGEeYqY7R53bIA==}
     engines: {node: '>= 10'}
 
-  '@tailwindcss/typography@0.5.17':
-    resolution: {integrity: sha512-Ll/jGz1flUVaSxK/Y7OqT+kHOhrbDpSXpAszhEBCE82yTcs47bJJLI0MB5Peoh9TgBOMUjJpsGez9MECzXLw9Q==}
+  '@tailwindcss/typography@0.5.18':
+    resolution: {integrity: sha512-dDIgwZOlf+tVkZ7A029VvQ1+ngKATENDjMEx2N35s2yPjfTS05RWSM8ilhEWSa5DMJ6ci2Ha9WNZEd2GQjrdQg==}
     peerDependencies:
       tailwindcss: '>=3.0.0 || insiders || >=4.0.0-alpha.20 || >=4.0.0-beta.1'
 
@@ -2183,7 +2183,7 @@ snapshots:
       '@tailwindcss/oxide-win32-arm64-msvc': 4.1.13
       '@tailwindcss/oxide-win32-x64-msvc': 4.1.13
 
-  '@tailwindcss/typography@0.5.17(tailwindcss@4.1.13)':
+  '@tailwindcss/typography@0.5.18(tailwindcss@4.1.13)':
     dependencies:
       postcss-selector-parser: 6.0.10
       tailwindcss: 4.1.13
