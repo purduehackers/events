@@ -19,7 +19,7 @@
     "astro": "^5.13.9",
     "date-fns": "^4.1.0",
     "photoswipe": "^5.4.4",
-    "sharp": "^0.34.3",
+    "sharp": "^0.34.4",
     "tailwindcss": "^4.1.13"
   },
   "devDependencies": {
