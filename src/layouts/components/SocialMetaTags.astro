@@ -1,0 +1,38 @@
+---
+import openGraphSvg from "@/assets/ph-flag.svg";
+import { getImage } from "astro:assets";
+
+const openGraphImage = await getImage({
+  src: openGraphSvg,
+  width: 1200,
+  height: 630,
+  format: "png",
+});
+
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+const description = "Check out all the events we host!"
+const openGraphImageUrl = new URL(openGraphImage.src, Astro.site).href;
+
+const siteHostname = Astro.site?.hostname;
+const siteURL = Astro.site;
+---
+
+<!-- Open Graph tags -->
+<meta property="og:url" content={siteURL} />
+<meta property="og:type" content="website" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={openGraphImageUrl} />
+
+<!-- Twitter tags -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:domain" content={siteHostname} />
+<meta property="twitter:url" content={siteURL} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={openGraphImageUrl} />
