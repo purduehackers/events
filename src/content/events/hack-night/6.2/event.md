@@ -9,7 +9,7 @@ Fall into place at @Hack Night 6.2! 🟦🟦🟦🟦
 
 - `d~5~5|5` **(8:00pm)**: Hacking begins
 - `e~a~a|a` **(10:00pm)**: Passport-making ceremony ✨
-- `f~5~5|5` **(11:00pm)**: Session: Acromathics! (by @ishan)
+- `f~5~5|5` **(11:00pm)**: Session: Acromathics! (by [@ishan](https://github.com/quackduck))
 - `0~0~0` **(12:00am)**: Checkpoints
 
 🟪🟪🟪
