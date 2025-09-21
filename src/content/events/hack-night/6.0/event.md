@@ -2,7 +2,7 @@
 location_name: The Bechtel Center
 location_url: https://goo.gl/maps/ZTWH61rc5ZkTJp2QA
 name: Hack Night 6.0
-start: '2025-09-04T20:00:00.000-04:00'
+start: '2025-09-05T20:00:00.000-04:00'
 ---
 
 Join us, Comrades, for the Glorious Revolution in the Rebublic of Hackerland at @Hack Night 6.0! ⚒️ 🔴 
