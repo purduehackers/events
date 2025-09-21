@@ -10,6 +10,7 @@ import Footer from "../components/Footer.astro";
 
 import logoImg from "@/../public/Logo.svg";
 import { getImage } from "astro:assets";
+import SocialMetaTags from "./components/SocialMetaTags.astro";
 
 const appleTouchIcon = await getImage({
   src: logoImg,
@@ -28,6 +29,7 @@ const appleTouchIcon = await getImage({
     <link rel="icon" type="image/svg" href="/Logo.svg" />
     <link rel="apple-touch-icon" href={appleTouchIcon.src} />
     <meta name="generator" content={Astro.generator} />
+    <SocialMetaTags title={""} />
     <title>Events - Purdue Hackers</title>
   </head>
   <body>
