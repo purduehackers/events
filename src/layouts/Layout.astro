@@ -8,7 +8,7 @@ import "@fontsource/space-mono";
 import Navbar from "../components/Navbar.astro";
 import Footer from "../components/Footer.astro";
 
-import logoImg from "@/../public/Logo.svg";
+import logoImg from "@/../public/logo.svg";
 import { getImage } from "astro:assets";
 import SocialMetaTags from "./components/SocialMetaTags.astro";
 
@@ -26,7 +26,7 @@ const appleTouchIcon = await getImage({
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg" href="/Logo.svg" />
+    <link rel="icon" type="image/svg" href="/logo.svg" />
     <link rel="apple-touch-icon" href={appleTouchIcon.src} />
     <meta name="generator" content={Astro.generator} />
     <SocialMetaTags title={""} />
