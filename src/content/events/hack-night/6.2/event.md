@@ -13,5 +13,7 @@ Fall into place at @Hack Night 6.2! 🟦🟦🟦🟦
 - `0~0~0` **(12:00am)**: Checkpoints
 
 🟪🟪🟪
+
 🟥🟪🟩🟩
+
 🟥🟥🟥🟩🟩
