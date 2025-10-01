@@ -33,12 +33,12 @@ importers:
         specifier: ^0.34.4
         version: 0.34.4
       tailwindcss:
-        specifier: ^4.1.13
-        version: 4.1.13
+        specifier: ^4.1.14
+        version: 4.1.14
     devDependencies:
       '@tailwindcss/typography':
         specifier: ^0.5.19
-        version: 0.5.19(tailwindcss@4.1.13)
+        version: 0.5.19(tailwindcss@4.1.14)
 
 packages:
 
@@ -2184,10 +2184,10 @@ snapshots:
       '@tailwindcss/oxide-win32-arm64-msvc': 4.1.14
       '@tailwindcss/oxide-win32-x64-msvc': 4.1.14
 
-  '@tailwindcss/typography@0.5.19(tailwindcss@4.1.13)':
+  '@tailwindcss/typography@0.5.19(tailwindcss@4.1.14)':
     dependencies:
       postcss-selector-parser: 6.0.10
-      tailwindcss: 4.1.13
+      tailwindcss: 4.1.14
 
   '@tailwindcss/vite@4.1.14(vite@6.3.6(@types/node@24.5.2)(jiti@2.6.1)(lightningcss@1.30.1))':
     dependencies:
