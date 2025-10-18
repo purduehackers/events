@@ -11,7 +11,8 @@ Baat! Pick up a biyoo-tiful badge at @Hack Night 6.3! 👺 🤍
 - `e~0~0` **(9:00pm)**: Session: Curiosity Driven Exploration, Self-Supervised
   Prediction (by @John Z)
 - `e~a~a|a` **(10:00pm)**: Passport-making ceremony ✨
-- `f~5~5|5` **(11:00pm)**: Session: Foraging and Wild Edibles (by @Crystal)
+- `f~5~5|5` **(11:00pm)**: Session: Foraging and Wild Edibles (by
+  [@Crystal](https://github.com/anvikurade))
 - `0~0~0` **(12:00am)**: Checkpoints
 
 We're running a passport-making ceremony at 10pm! Sign-up spots have been filled,
