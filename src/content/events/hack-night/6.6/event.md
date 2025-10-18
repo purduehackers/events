@@ -10,7 +10,8 @@ Be not afraid to make something heavenly... or hellish... at Hack Night 6.6! ğŸ˜
 Here's what's happening:
 
 - `d~5~5|5` **(8:00pm)**: Hacking begins
-- `f~5~5|5` **(11:00pm)**: Session: **Making Mac & Cheese + Ice Cream** (by @Odker)
+- `f~5~5|5` **(11:00pm)**: Session: **Making Mac & Cheese + Ice Cream** (by
+  [@Odker](https://github.com/odker1))
 - `0~0~0` **(12:00am)**: Checkpoints
 
 Miracles and mistakes alike are welcome! ğŸ¨
