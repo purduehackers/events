@@ -51,7 +51,7 @@ for classification_path, classification_name in classifications:
                         # Upload to R2-bucket/images/<classifcation>/<version>/<image original file name>
                         s3_target_path = os.path.join(
                             "/images", classification_name, version_name, image_name
-                        )
+                        ).replace("\\", "/")
                         s3.upload_file(image_path, BUCKET_NAME, s3_target_path)
 
                         console.log(
