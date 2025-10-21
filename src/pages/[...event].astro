@@ -108,11 +108,7 @@ const { name, localizedStart, localizedStartTime, localizedEndTime } =
               </div>
             </div>
 
-            {
-              event.data.images && event.data.images.length > 0 && (
-                <Gallery images={event.data.images} />
-              )
-            }
+            <Gallery event_classification={event.filePath?.split("/").slice(2)[1]!} event_version={event.filePath?.split("/").slice(2)[2]!} />
           </div>
         </div>
       </div>
