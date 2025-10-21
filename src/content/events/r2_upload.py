@@ -17,6 +17,7 @@ console = Console()
 
 IMAGES_SUBDIR_NAME = "images"
 BUCKET_NAME = "events"
+BUCKET_IMAGES_SUBDIR_NAME = IMAGES_SUBDIR_NAME
 
 
 # Glob for all folders in current directory
@@ -50,7 +51,10 @@ for classification_path, classification_name in classifications:
                     ) as status:
                         # Upload to R2-bucket/images/<classifcation>/<version>/<image original file name>
                         s3_target_path = os.path.join(
-                            "/images", classification_name, version_name, image_name
+                            BUCKET_IMAGES_SUBDIR_NAME,
+                            classification_name,
+                            version_name,
+                            image_name,
                         ).replace("\\", "/")
                         s3.upload_file(image_path, BUCKET_NAME, s3_target_path)
 
