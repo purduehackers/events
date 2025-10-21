@@ -9,7 +9,7 @@ s3 = boto3.client(
     service_name="s3",
     endpoint_url=os.getenv("S3_ENDPOINT"),
     aws_access_key_id=os.getenv("ACCESS_KEY_ID"),
-    aws_secret_access_key=os.getenv("ACCESS_KEY_ID"),
+    aws_secret_access_key=os.getenv("SECRET_ACCESS_KEY"),
     region_name="auto",
 )
 
