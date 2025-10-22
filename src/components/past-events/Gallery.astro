@@ -8,7 +8,7 @@ const { event_classification, event_version } = Astro.props;
 ---
 
 <div class="flex flex-col gap-y-4 mx-4 sm:mx-0 items-center">
-    <div id="gallery">
+    <div id="lightgallery">
         <div
             id="image-area"
             class="grid grid-cols-2 gap-2 md:grid-cols-3 md:gap-x-2 sm:max-w-lg md:max-w-xl items-center"
@@ -93,7 +93,6 @@ const { event_classification, event_version } = Astro.props;
                 const img_link = document.createElement("a");
                 img_link.href = img_url;
                 img_link.target = "_blank";
-                img_link.dataset.cropped = "true";
 
                 const img = document.createElement("img");
                 img.src = img_url;
@@ -117,19 +116,20 @@ const { event_classification, event_version } = Astro.props;
 </script>
 
 <script>
-    import PhotoSwipeLightbox from "photoswipe/lightbox";
-    import "photoswipe/style.css";
+    import lightGallery from "lightgallery";
+    import lgZoom from "lightgallery/plugins/zoom";
+    import "lightgallery/css/lightgallery.css";
+    import "lightgallery/css/lg-zoom.css";
+    
 
-    const lightbox = new PhotoSwipeLightbox({
-        gallery: "#gallery",
-        children: "a",
-        showHideAnimationType: "fade",
-        pswpModule: () => import("photoswipe"),
+    const lg = lightGallery(document.getElementById("lightgallery")!, {
+        plugins: [lgZoom],
+        selector: 'div img',
+        zoomFromOrigin: false,
+        hideScrollbar: true,
     });
 
-    lightbox.init();
-
     document.querySelectorAll(".gallery-more").forEach((btn) => {
-        btn.addEventListener("click", (_e) => lightbox.loadAndOpen(3));
+        btn.addEventListener("click", (_e) => lg.openGallery(3));
     });
 </script>
