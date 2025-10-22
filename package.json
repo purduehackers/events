@@ -18,7 +18,7 @@
     "@tailwindcss/vite": "^4.1.15",
     "astro": "^5.14.7",
     "date-fns": "^4.1.0",
-    "photoswipe": "^5.4.4",
+    "lightgallery": "^2.9.0",
     "sharp": "^0.34.4",
     "tailwindcss": "^4.1.15"
   },
