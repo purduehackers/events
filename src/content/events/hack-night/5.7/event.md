@@ -1,26 +1,5 @@
 ---
 end: '2024-10-19T14:20:00.000Z'
-images:
-- ./images/IMG_5064.jpg
-- ./images/IMG_5071.jpg
-- ./images/IMG_5073.jpg
-- ./images/IMG_5074.jpg
-- ./images/IMG_5076.jpg
-- ./images/IMG_5077.jpg
-- ./images/IMG_5079.jpg
-- ./images/IMG_5080.jpg
-- ./images/IMG_5082.jpg
-- ./images/IMG_5083.jpg
-- ./images/IMG_5084.jpg
-- ./images/IMG_5086.jpg
-- ./images/IMG_5087.jpg
-- ./images/IMG_5088.jpg
-- ./images/IMG_5094.jpg
-- ./images/IMG_5111.jpg
-- ./images/IMG_5113.jpg
-- ./images/IMG_5118.jpg
-- ./images/IMG_5121.jpg
-- ./images/IMG_5124.jpg
 location_name: The Bechtel Center
 location_url: https://goo.gl/maps/ZTWH61rc5ZkTJp2QA
 name: Hack Night 5.7

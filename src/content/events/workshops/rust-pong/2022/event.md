@@ -1,10 +1,5 @@
 ---
 end: '2022-04-07T23:30:00.000Z'
-images:
-- ./images/1F49A719-9A0C-4ADD-B6E0-55131FC34B7F.jpg
-- ./images/C44C8E2B-EF55-46E6-98A7-25B237055390.jpg
-- ./images/EE0B6054-E349-444F-BBAF-6C99C3058F82.jpg
-- ./images/IMG_2960.jpg
 location_name: MRGN 129
 location_url: https://goo.gl/maps/qKNAgE2c6EcxfkTx7
 name: Rust Pong Workshop (2022)

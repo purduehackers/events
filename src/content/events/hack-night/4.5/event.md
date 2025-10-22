@@ -1,25 +1,5 @@
 ---
 end: '2024-04-06T10:15:00.000Z'
-images:
-- ./images/IMG_2512.jpg
-- ./images/IMG_2514.jpg
-- ./images/IMG_2516.jpg
-- ./images/IMG_2517.jpg
-- ./images/IMG_2518.jpg
-- ./images/IMG_2519.jpg
-- ./images/IMG_2520.jpg
-- ./images/IMG_2522.jpg
-- ./images/IMG_2524.jpg
-- ./images/IMG_2525.jpg
-- ./images/IMG_2526.jpg
-- ./images/IMG_2527.jpg
-- ./images/IMG_2528.jpg
-- ./images/IMG_2529.jpg
-- ./images/IMG_2531.jpg
-- ./images/IMG_2533.jpg
-- ./images/IMG_2534.jpg
-- ./images/IMG_2535.jpg
-- ./images/20240405_224332.jpg
 location_name: The Bechtel Center
 location_url: https://goo.gl/maps/ZTWH61rc5ZkTJp2QA
 name: Hack Night 4.5

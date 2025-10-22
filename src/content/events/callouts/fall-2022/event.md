@@ -1,12 +1,5 @@
 ---
 end: '2022-08-30T23:00:00.000Z'
-images:
-- ./images/IMG_4877.jpg
-- ./images/IMG_4878.jpg
-- ./images/IMG_4879.jpg
-- ./images/IMG_4880.jpg
-- ./images/IMG_4882.jpg
-- ./images/IMG_6048.jpg
 location_name: LWSN B155
 location_url: https://goo.gl/maps/EVQCSyHCoeC6T8LXA
 name: Fall 2022 Callout

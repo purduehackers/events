@@ -1,11 +1,5 @@
 ---
 end: '2023-03-11T17:30:00.000Z'
-images:
-- ./images/IMG_3326.jpg
-- ./images/IMG_3327.jpg
-- ./images/IMG_3328.jpg
-- ./images/IMG_3329.jpg
-- ./images/IMG_3305.jpg
 location_name: The Bechtel Center
 location_url: https://goo.gl/maps/ZTWH61rc5ZkTJp2QA
 name: Hack Lite

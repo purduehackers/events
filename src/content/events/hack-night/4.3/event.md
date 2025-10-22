@@ -1,43 +1,5 @@
 ---
 end: '2024-03-23T09:15:00.000Z'
-images:
-- ./images/IMG_2082.jpg
-- ./images/20240323_052702.jpg
-- ./images/IMG_2087.jpg
-- ./images/IMG_2085.jpg
-- ./images/IMG_2088.jpg
-- ./images/IMG_2090.jpg
-- ./images/IMG_2091.jpg
-- ./images/IMG_2092.jpg
-- ./images/IMG_2096.jpg
-- ./images/IMG_2098.jpg
-- ./images/IMG_2099.jpg
-- ./images/IMG_2100.jpg
-- ./images/IMG_2102.jpg
-- ./images/IMG_2109.jpg
-- ./images/IMG_2110.jpg
-- ./images/IMG_2111.jpg
-- ./images/IMG_2112.jpg
-- ./images/IMG_2114.jpg
-- ./images/IMG_2115.jpg
-- ./images/IMG_2131.jpg
-- ./images/IMG_2132.jpg
-- ./images/IMG_2139.jpg
-- ./images/IMG_2144.jpg
-- ./images/IMG_2145.jpg
-- ./images/IMG_2147.jpg
-- ./images/IMG_2148.jpg
-- ./images/IMG_2150.jpg
-- ./images/IMG_2153.jpg
-- ./images/IMG_2155.jpg
-- ./images/IMG_2156.jpg
-- ./images/IMG_2157.jpg
-- ./images/IMG_2161.jpg
-- ./images/IMG_2163.jpg
-- ./images/IMG_2167.jpg
-- ./images/IMG_2168.jpg
-- ./images/IMG_2170.jpg
-- ./images/IMG_3496.jpg
 location_name: The Bechtel Center
 location_url: https://goo.gl/maps/ZTWH61rc5ZkTJp2QA
 name: Hack Night 4.3

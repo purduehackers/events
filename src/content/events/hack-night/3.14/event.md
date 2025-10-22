@@ -1,34 +1,5 @@
 ---
 end: '2024-01-27T13:50:00.000Z'
-images:
-- ./images/IMG_0867.jpg
-- ./images/IMG_0868.jpg
-- ./images/IMG_0870.jpg
-- ./images/IMG_0872.jpg
-- ./images/IMG_0873.jpg
-- ./images/IMG_0874.jpg
-- ./images/IMG_0875.jpg
-- ./images/IMG_0878.jpg
-- ./images/IMG_0879.jpg
-- ./images/IMG_0880.jpg
-- ./images/IMG_0881.jpg
-- ./images/IMG_0883.jpg
-- ./images/IMG_0886.jpg
-- ./images/IMG_0890.jpg
-- ./images/IMG_0891.jpg
-- ./images/IMG_0896.jpg
-- ./images/IMG_0898.jpg
-- ./images/IMG_0900.jpg
-- ./images/IMG_0901.jpg
-- ./images/IMG_0903.jpg
-- ./images/IMG_0904.jpg
-- ./images/IMG_0906.jpg
-- ./images/IMG_0908.jpg
-- ./images/IMG_0909.jpg
-- ./images/IMG_0910.jpg
-- ./images/IMG_0913.jpg
-- ./images/IMG_0916.jpg
-- ./images/IMG_0919.jpg
 location_name: The Bechtel Center
 location_url: https://goo.gl/maps/ZTWH61rc5ZkTJp2QA
 name: Hack Night 3.14

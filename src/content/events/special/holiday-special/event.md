@@ -1,11 +1,5 @@
 ---
 end: '2022-12-03T02:00:00.000Z'
-images:
-- ./images/IMG_1609.jpg
-- ./images/IMG_1610.jpg
-- ./images/IMG_1611.jpg
-- ./images/IMG_1614.jpg
-- ./images/IMG_1620.jpg
 location_name: WALC 1087
 location_url: https://goo.gl/maps/FukRQ6JiFcyH9QND6
 name: Holiday Social

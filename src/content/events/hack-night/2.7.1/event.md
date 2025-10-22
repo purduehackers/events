@@ -1,21 +1,5 @@
 ---
 end: '2023-04-29T05:00:00.000Z'
-images:
-- ./images/IMG_4404.jpg
-- ./images/IMG_4410.jpg
-- ./images/IMG_4413.jpg
-- ./images/IMG_4414.jpg
-- ./images/IMG_4415.jpg
-- ./images/IMG_4417.jpg
-- ./images/IMG_4420.jpg
-- ./images/IMG_4424.jpg
-- ./images/IMG_4427.jpg
-- ./images/IMG_4432.jpg
-- ./images/IMG_4446.jpg
-- ./images/IMG_4452.jpg
-- ./images/IMG_4459.jpg
-- ./images/IMG_4461.jpg
-- ./images/IMG_4462.jpg
 location_name: The Bechtel Center
 location_url: https://goo.gl/maps/ZTWH61rc5ZkTJp2QA
 name: 'Hack Night: Encore'

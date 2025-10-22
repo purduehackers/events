@@ -1,48 +1,5 @@
 ---
 end: '2024-10-26T09:30:00.000Z'
-images:
-- ./images/IMG_9987.jpg
-- ./images/IMG_9980.jpg
-- ./images/IMG_9978.jpg
-- ./images/IMG_9976.jpg
-- ./images/IMG_9973.jpg
-- ./images/IMG_9971.jpg
-- ./images/IMG_9969.jpg
-- ./images/IMG_9964.jpg
-- ./images/IMG_9961.jpg
-- ./images/IMG_9960.jpg
-- ./images/IMG_9955.jpg
-- ./images/IMG_9953.jpg
-- ./images/IMG_9952.jpg
-- ./images/IMG_9949.jpg
-- ./images/IMG_9946.jpg
-- ./images/IMG_9945.jpg
-- ./images/IMG_9944.jpg
-- ./images/IMG_9943.jpg
-- ./images/IMG_9941.jpg
-- ./images/IMG_9939.jpg
-- ./images/IMG_9937.jpg
-- ./images/IMG_9932.jpg
-- ./images/IMG_9930.jpg
-- ./images/IMG_9926.jpg
-- ./images/IMG_9922.jpg
-- ./images/IMG_9921.jpg
-- ./images/IMG_9920.jpg
-- ./images/IMG_9916.jpg
-- ./images/IMG_9913.jpg
-- ./images/IMG_9911.jpg
-- ./images/IMG_9908.jpg
-- ./images/IMG_9907.jpg
-- ./images/IMG_9905.jpg
-- ./images/IMG_9903.jpg
-- ./images/IMG_9902.jpg
-- ./images/IMG_9901.jpg
-- ./images/IMG_9900.jpg
-- ./images/IMG_9898.jpg
-- ./images/IMG_9896.jpg
-- ./images/IMG_9894.jpg
-- ./images/IMG_9892.jpg
-- ./images/IMG_9888.jpg
 location_name: The Bechtel Center
 location_url: https://goo.gl/maps/ZTWH61rc5ZkTJp2QA
 name: Hack Night 5.8

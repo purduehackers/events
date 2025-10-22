@@ -1,32 +1,5 @@
 ---
 end: '2024-03-02T11:40:00.000Z'
-images:
-- ./images/IMG_1649.jpg
-- ./images/IMG_1653.jpg
-- ./images/IMG_1654.jpg
-- ./images/20240302_031108.jpg
-- ./images/IMG_1656.jpg
-- ./images/IMG_1658.jpg
-- ./images/IMG_1659.jpg
-- ./images/IMG_1661.jpg
-- ./images/IMG_1663.jpg
-- ./images/IMG_1665.jpg
-- ./images/IMG_1666.jpg
-- ./images/IMG_1668.jpg
-- ./images/IMG_1669.jpg
-- ./images/IMG_1670.jpg
-- ./images/IMG_1672.jpg
-- ./images/IMG_1676.jpg
-- ./images/IMG_1678.jpg
-- ./images/IMG_1679.jpg
-- ./images/IMG_1680.jpg
-- ./images/IMG_1681.jpg
-- ./images/IMG_1682.jpg
-- ./images/IMG_1683.jpg
-- ./images/IMG_1684.jpg
-- ./images/IMG_1686.jpg
-- ./images/IMG_1688.jpg
-- ./images/IMG_1691.jpg
 location_name: The Bechtel Center
 location_url: https://goo.gl/maps/ZTWH61rc5ZkTJp2QA
 name: Hack Night 4.2

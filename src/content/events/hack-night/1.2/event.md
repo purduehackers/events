@@ -1,9 +1,5 @@
 ---
 end: '2022-11-19T05:30:00.000Z'
-images:
-- ./images/IMG_1405.jpg
-- ./images/IMG_1406.jpg
-- ./images/IMG_1409.jpg
 location_name: WALC 1087
 location_url: https://goo.gl/maps/FukRQ6JiFcyH9QND6
 name: Hack Night 1.2

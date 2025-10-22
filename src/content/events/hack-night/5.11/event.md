@@ -1,28 +1,5 @@
 ---
 end: '2024-11-16T14:04:33.749Z'
-images:
-- ./images/20241115_230346.jpg
-- ./images/IMG_0277.jpg
-- ./images/IMG_0278.jpg
-- ./images/IMG_0280.jpg
-- ./images/IMG_0281.jpg
-- ./images/IMG_0283.jpg
-- ./images/IMG_0284.jpg
-- ./images/IMG_0286.jpg
-- ./images/IMG_0287.jpg
-- ./images/IMG_4912.jpg
-- ./images/IMG_4917.jpg
-- ./images/PXL_20241116_010314422.MP.jpg
-- ./images/PXL_20241116_011653179.MP.jpg
-- ./images/PXL_20241116_013616022.jpg
-- ./images/PXL_20241116_024627924.jpg
-- ./images/PXL_20241116_045028567.MP.jpg
-- ./images/PXL_20241116_030951910.MP.jpg
-- ./images/PXL_20241116_031234265.MP.jpg
-- ./images/PXL_20241116_031238676.jpg
-- ./images/PXL_20241116_031611658.jpg
-- ./images/PXL_20241116_031824521.jpg
-- ./images/PXL_20241116_034157927.MP.jpg
 location_name: The Bechtel Center
 location_url: https://goo.gl/maps/ZTWH61rc5ZkTJp2QA
 name: Hack Night 5.11

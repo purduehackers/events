@@ -1,10 +1,5 @@
 ---
 end: '2023-10-07T10:35:00.000Z'
-images:
-- ./images/20231006_201901.jpg
-- ./images/PXL_20231007_025041858.jpg
-- ./images/PXL_20231007_072839909.jpg
-- ./images/PXL_20231007_054626909.jpg
 location_name: The Bechtel Center
 location_url: https://goo.gl/maps/ZTWH61rc5ZkTJp2QA
 name: Hack Night 3.4

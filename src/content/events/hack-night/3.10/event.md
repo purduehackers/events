@@ -1,18 +1,5 @@
 ---
 end: '2023-11-18T10:00:00.000Z'
-images:
-- ./images/IMG_3077.jpg
-- ./images/IMG_9355.jpg
-- ./images/IMG_9356.jpg
-- ./images/IMG_9358.jpg
-- ./images/IMG_9359.jpg
-- ./images/IMG_9360.jpg
-- ./images/IMG_9362.jpg
-- ./images/IMG_9363.jpg
-- ./images/IMG_9364.jpg
-- ./images/IMG_9371.jpg
-- ./images/IMG_9375.jpg
-- ./images/IMG_9377.jpg
 location_name: The Bechtel Center
 location_url: https://goo.gl/maps/ZTWH61rc5ZkTJp2QA
 name: Hack Night 3.10

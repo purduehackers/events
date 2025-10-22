@@ -1,33 +1,5 @@
 ---
 end: '2024-04-13T10:30:00.000Z'
-images:
-- ./images/IMG_0191.jpg
-- ./images/IMG_0197.jpg
-- ./images/IMG_0198.jpg
-- ./images/IMG_0199.jpg
-- ./images/IMG_0201.jpg
-- ./images/IMG_0202.jpg
-- ./images/IMG_0203.jpg
-- ./images/IMG_0204.jpg
-- ./images/IMG_0205.jpg
-- ./images/IMG_0206.jpg
-- ./images/IMG_0208.jpg
-- ./images/IMG_0209.jpg
-- ./images/IMG_0211.jpg
-- ./images/IMG_0212.jpg
-- ./images/IMG_0213.jpg
-- ./images/IMG_0214.jpg
-- ./images/IMG_0216.jpg
-- ./images/IMG_0217.jpg
-- ./images/IMG_0220.jpg
-- ./images/IMG_0222.jpg
-- ./images/IMG_0223.jpg
-- ./images/IMG_0224.jpg
-- ./images/IMG_0225.jpg
-- ./images/IMG_0226.jpg
-- ./images/IMG_0227.jpg
-- ./images/IMG_0230.jpg
-- ./images/20240412_235804.jpg
 location_name: The Bechtel Center
 location_url: https://goo.gl/maps/ZTWH61rc5ZkTJp2QA
 name: Hack Night 4.6

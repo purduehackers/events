@@ -1,22 +1,5 @@
 ---
 end: '2023-08-29T23:30:00.000Z'
-images:
-- ./images/IMG_6979.jpg
-- ./images/PXL_20230829_224731504.jpg
-- ./images/PXL_20230829_223622048.jpg
-- ./images/IMG_2712.jpg
-- ./images/IMG_2715.jpg
-- ./images/IMG_2719.jpg
-- ./images/PXL_20230829_224028080.jpg
-- ./images/PXL_20230829_224039469.jpg
-- ./images/PXL_20230829_224045285.jpg
-- ./images/PXL_20230829_224148821.jpg
-- ./images/PXL_20230829_224353346.jpg
-- ./images/PXL_20230829_224440789.jpg
-- ./images/PXL_20230829_224557876.jpg
-- ./images/PXL_20230829_224630434.jpg
-- ./images/PXL_20230829_225141604.jpg
-- ./images/PXL_20230829_225401897.jpg
 location_name: MTHW 210
 location_url: https://goo.gl/maps/PyEeBTFzM9TVgTnX6
 name: Fall 2023 Callout

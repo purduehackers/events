@@ -1,10 +1,5 @@
 ---
 end: '2022-12-02T00:30:00.000Z'
-images:
-- ./images/Screenshot 2022-12-07 at 2.52.08 PM.png
-- ./images/Screenshot 2022-12-07 at 2.52.33 PM.png
-- ./images/Screenshot 2022-12-07 at 2.53.13 PM.png
-- ./images/Screenshot 2022-12-07 at 2.51.43 PM.png
 location_name: WTHR 420
 location_url: https://goo.gl/maps/uwYzY3kBqCkAFdcR6
 name: Programming Languages Workshop

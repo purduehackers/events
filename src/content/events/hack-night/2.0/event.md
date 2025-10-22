@@ -1,28 +1,5 @@
 ---
 end: '2023-02-18T10:00:00.000Z'
-images:
-- ./images/IMG_2928.jpg
-- ./images/IMG_2961.jpg
-- ./images/IMG_2963.jpg
-- ./images/IMG_2964.jpg
-- ./images/IMG_2967.jpg
-- ./images/IMG_2968.jpg
-- ./images/IMG_2969.jpg
-- ./images/IMG_2970.jpg
-- ./images/IMG_2972.jpg
-- ./images/IMG_2976.jpg
-- ./images/IMG_2977.jpg
-- ./images/IMG_2978.jpg
-- ./images/IMG_2979.jpg
-- ./images/IMG_2982.jpg
-- ./images/IMG_2983.jpg
-- ./images/IMG_2986.jpg
-- ./images/IMG_2987.jpg
-- ./images/IMG_2990.jpg
-- ./images/IMG_2991.jpg
-- ./images/IMG_2995.jpg
-- ./images/IMG_3001.jpg
-- ./images/IMG_3002.jpg
 location_name: The Bechtel Center
 location_url: https://goo.gl/maps/ZTWH61rc5ZkTJp2QA
 name: Hack Night 2.0

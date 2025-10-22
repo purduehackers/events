@@ -1,28 +1,5 @@
 ---
 end: '2024-04-27T11:45:00.000Z'
-images:
-- ./images/IMG_0500.jpg
-- ./images/IMG_0502.jpg
-- ./images/IMG_0503.jpg
-- ./images/IMG_0507.jpg
-- ./images/IMG_0508.jpg
-- ./images/IMG_0509.jpg
-- ./images/IMG_0510.jpg
-- ./images/IMG_0511.jpg
-- ./images/IMG_0512.jpg
-- ./images/IMG_0514.jpg
-- ./images/IMG_0515.jpg
-- ./images/IMG_0517.jpg
-- ./images/IMG_0518.jpg
-- ./images/IMG_0519.jpg
-- ./images/IMG_0522.jpg
-- ./images/IMG_0525.jpg
-- ./images/IMG_0526.jpg
-- ./images/IMG_0529.jpg
-- ./images/IMG_0531.jpg
-- ./images/IMG_0536.jpg
-- ./images/IMG_0539.jpg
-- ./images/IMG_0541.jpg
 location_name: The Bechtel Center
 location_url: https://goo.gl/maps/ZTWH61rc5ZkTJp2QA
 name: Hack Night 4.7.1

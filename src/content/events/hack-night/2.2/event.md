@@ -1,13 +1,5 @@
 ---
 end: '2023-03-04T07:30:00.000Z'
-images:
-- ./images/IMG_3245.jpg
-- ./images/IMG_3248.jpg
-- ./images/IMG_3249.jpg
-- ./images/IMG_3250.jpg
-- ./images/IMG_3253.jpg
-- ./images/IMG_3254.jpg
-- ./images/IMG_3258.jpg
 location_name: The Bechtel Center
 location_url: https://goo.gl/maps/ZTWH61rc5ZkTJp2QA
 name: Hack Night 2.2

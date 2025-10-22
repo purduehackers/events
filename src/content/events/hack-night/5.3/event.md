@@ -1,38 +1,5 @@
 ---
 end: '2024-09-21T11:30:00.000Z'
-images:
-- ./images/IMG_4138.jpg
-- ./images/IMG_4140.jpg
-- ./images/IMG_4143.jpg
-- ./images/IMG_4146.jpg
-- ./images/IMG_4154.jpg
-- ./images/IMG_4155.jpg
-- ./images/IMG_4158.jpg
-- ./images/IMG_4160.jpg
-- ./images/IMG_4162.jpg
-- ./images/IMG_4175.jpg
-- ./images/IMG_4176.jpg
-- ./images/IMG_4178.jpg
-- ./images/IMG_4179.jpg
-- ./images/IMG_4180.jpg
-- ./images/IMG_4183.jpg
-- ./images/IMG_4192.jpg
-- ./images/IMG_4194.jpg
-- ./images/IMG_4197.jpg
-- ./images/IMG_4202.jpg
-- ./images/IMG_4209.jpg
-- ./images/IMG_4216.jpg
-- ./images/IMG_4217.jpg
-- ./images/IMG_4219.jpg
-- ./images/IMG_4225.jpg
-- ./images/IMG_4235.jpg
-- ./images/IMG_4240.jpg
-- ./images/IMG_4244.jpg
-- ./images/IMG_4248.jpg
-- ./images/IMG_4250.jpg
-- ./images/IMG_4255.jpg
-- ./images/IMG_4260.jpg
-- ./images/PXL_20240921_081910866.MP.jpg
 location_name: The Bechtel Center
 location_url: https://goo.gl/maps/ZTWH61rc5ZkTJp2QA
 name: Hack Night 5.3

@@ -1,48 +1,5 @@
 ---
 end: '2024-08-31T09:08:00.000Z'
-images:
-- ./images/IMG_3479.jpg
-- ./images/IMG_8616.jpg
-- ./images/IMG_8640.jpg
-- ./images/IMG_8610.jpg
-- ./images/IMG_8655.jpg
-- ./images/IMG_8650.jpg
-- ./images/IMG_2424.jpg
-- ./images/IMG_3405.jpg
-- ./images/IMG_3409.jpg
-- ./images/IMG_3410.jpg
-- ./images/IMG_3412.jpg
-- ./images/IMG_3414.jpg
-- ./images/IMG_3415.jpg
-- ./images/IMG_3416.jpg
-- ./images/IMG_3417.jpg
-- ./images/IMG_3419.jpg
-- ./images/IMG_3421.jpg
-- ./images/IMG_3423.jpg
-- ./images/IMG_3425.jpg
-- ./images/IMG_3427.jpg
-- ./images/IMG_3428.jpg
-- ./images/IMG_3429.jpg
-- ./images/IMG_8658.jpg
-- ./images/IMG_3431.jpg
-- ./images/IMG_3432.jpg
-- ./images/IMG_3436.jpg
-- ./images/IMG_3438.jpg
-- ./images/IMG_3441.jpg
-- ./images/IMG_3446.jpg
-- ./images/IMG_3447.jpg
-- ./images/IMG_3456.jpg
-- ./images/IMG_3457.jpg
-- ./images/IMG_3462.jpg
-- ./images/IMG_3467.jpg
-- ./images/IMG_3468.jpg
-- ./images/IMG_3471.jpg
-- ./images/IMG_3473.jpg
-- ./images/IMG_3476.jpg
-- ./images/IMG_3478.jpg
-- ./images/empty-pizza.jpg
-- ./images/IMG_8656.png
-- ./images/20240831_035856.jpg
 location_name: The Bechtel Center
 location_url: https://goo.gl/maps/ZTWH61rc5ZkTJp2QA
 name: Hack Night 5.0

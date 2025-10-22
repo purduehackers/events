@@ -1,12 +1,5 @@
 ---
 end: '2022-02-11T00:30:00.000Z'
-images:
-- ./images/IMG_2002.jpg
-- ./images/IMG_2003.jpg
-- ./images/IMG_2005.jpg
-- ./images/IMG_2007.jpg
-- ./images/IMG_2012.jpg
-- ./images/IMG_2015.jpg
 location_name: LWSN B134
 location_url: https://goo.gl/maps/EVQCSyHCoeC6T8LXA
 name: GDB Workshop

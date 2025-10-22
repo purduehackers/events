@@ -1,14 +1,5 @@
 ---
 end: '2023-04-13T23:30:00.000Z'
-images:
-- ./images/IMG_3952.jpg
-- ./images/IMG_3954.jpg
-- ./images/IMG_3955.jpg
-- ./images/IMG_3945.jpg
-- ./images/IMG_3946.jpg
-- ./images/IMG_3949.jpg
-- ./images/IMG_3950.jpg
-- ./images/IMG_3951.jpg
 location_name: ME 3006
 location_url: https://goo.gl/maps/5RyYxkkc9qeNo1uE6
 name: Go Game of Life Workshop

@@ -1,7 +1,5 @@
 ---
 end: '2024-04-24T00:00:00.000Z'
-images:
-- ./images/cuteness-1(1).jpg
 location_name: Online
 name: AMA with Steve Wozniak
 start: '2024-04-23T23:00:00.000Z'

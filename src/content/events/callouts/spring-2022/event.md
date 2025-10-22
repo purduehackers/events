@@ -1,11 +1,5 @@
 ---
 end: '2022-01-27T00:00:00.000Z'
-images:
-- ./images/IMG_1577.jpg
-- ./images/IMG_1578.jpg
-- ./images/IMG_1580.jpg
-- ./images/IMG_1581.jpg
-- ./images/IMG_1585.jpg
 location_name: BHEE 117
 location_url: https://goo.gl/maps/1vRjR7DqrJpQta5W6
 name: Spring 2022 Callout

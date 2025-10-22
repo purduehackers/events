@@ -1,12 +1,5 @@
 ---
 end: '2022-09-29T00:30:00.000Z'
-images:
-- ./images/IMG_0229.jpg
-- ./images/IMG_0231.jpg
-- ./images/IMG_0233.jpg
-- ./images/IMG_0235.jpg
-- ./images/IMG_0237.jpg
-- ./images/IMG_0239.jpg
 location_name: WTHR 420
 location_url: https://goo.gl/maps/uwYzY3kBqCkAFdcR6
 name: Shaders Workshop (2022)

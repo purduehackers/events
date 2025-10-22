@@ -1,11 +1,5 @@
 ---
 end: '2023-03-02T01:00:00.000Z'
-images:
-- ./images/IMG_3201.jpg
-- ./images/IMG_3202.jpg
-- ./images/IMG_3203.jpg
-- ./images/IMG_3205.jpg
-- ./images/IMG_3208.jpg
 location_name: LWSN B155
 location_url: https://goo.gl/maps/Zf11gkds1MKLJJYT6
 name: Gravity Simulator Workshop
