@@ -20,7 +20,7 @@
     "date-fns": "^4.1.0",
     "lightgallery": "^2.9.0",
     "sharp": "^0.34.5",
-    "tailwindcss": "^4.1.16"
+    "tailwindcss": "^4.1.17"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.19"
