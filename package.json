@@ -16,7 +16,7 @@
     "@fontsource-variable/space-grotesk": "^5.2.10",
     "@fontsource/space-mono": "^5.2.9",
     "@tailwindcss/vite": "^4.1.17",
-    "astro": "^5.15.5",
+    "astro": "^5.15.6",
     "date-fns": "^4.1.0",
     "lightgallery": "^2.9.0",
     "sharp": "^0.34.5",
