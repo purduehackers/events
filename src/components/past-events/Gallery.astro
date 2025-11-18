@@ -71,13 +71,6 @@ const { event_classification, event_version } = Astro.props;
     </div>
 </div>
 
-<style>
-    /* Custom scrollbar for lightbox */
-    #lightbox img {
-        max-height: 90vh;
-    }
-</style>
-
 <script is:inline define:vars={{ event_classification, event_version }}>
     const imageArea = document.getElementById("image-area");
     const mobileViewMoreBtn = document.getElementById("mobile-view-more");
