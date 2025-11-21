@@ -26,9 +26,6 @@ importers:
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
-      lightgallery:
-        specifier: ^2.9.0
-        version: 2.9.0
       sharp:
         specifier: ^0.34.5
         version: 0.34.5
@@ -1005,10 +1002,6 @@ packages:
   kleur@3.0.3:
     resolution: {integrity: sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==}
     engines: {node: '>=6'}
-
-  lightgallery@2.9.0:
-    resolution: {integrity: sha512-58Ud1DyhD2ao58t+kPEqSZrjFxg23tGd5ZKr75erm7q31g5xhUtWUJH3sTUkhHzlyJAKHj5eTrJ37HQRXG4Wbg==}
-    engines: {node: '>=6.0.0'}
 
   lightningcss-android-arm64@1.30.2:
     resolution: {integrity: sha512-BH9sEdOCahSgmkVhBLeU7Hc9DWeZ1Eb6wNS6Da8igvUwAe0sqROHddIlvU06q3WyXVEOYDZ6ykBZQnjTbmo4+A==}
@@ -2629,8 +2622,6 @@ snapshots:
       argparse: 2.0.1
 
   kleur@3.0.3: {}
-
-  lightgallery@2.9.0: {}
 
   lightningcss-android-arm64@1.30.2:
     optional: true
