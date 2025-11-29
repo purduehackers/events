@@ -18,5 +18,3 @@ Here's what's happening:
 Lightning talks are short, 5-minute talks about literally anything. Just show up
 and share something you're passionate about! If you'd like to be scheduled to
 host a longer session in a future Hack Night, reach out!
-
-See you TOMORROW (Friday 10/24) at 8pm on the 2nd Floor of the Bechtel Center! 💻🐇
