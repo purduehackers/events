@@ -10,7 +10,7 @@ Get ready to JACK up your personal projects at Hack Night 6.9! :jack:
 Here's what's happening:
 
 - `d~5~5|5` **(8:00pm)**: Hacking begins
-- `e~0~0` **(9:00pm)**: Session: HOW TO DJ! (by @gurt) 🎧
+- `e~0~0` **(9:00pm)**: Session: HOW TO DJ! (by [@gurt](https://www.linkedin.com/in/kurtkhaustov/)) 🎧
 - `0~0~0` **(12:00am)**: Checkpoints
 
 We're also running a **passport-making ceremony** at 10pm! Sign up before 12pm
