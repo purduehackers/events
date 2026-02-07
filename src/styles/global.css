@@ -1,10 +1,32 @@
 @import "tailwindcss";
 @plugin '@tailwindcss/typography';
 
+@font-face {
+  font-family: "DepartureMono";
+  src: url("../assets/fonts/DepartureMono-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Use CSS dark selector instead of media queries */
 @custom-variant dark (&:where(.dark, .dark *));
 
+:root {
+  /* Color variables */
+  --yellow: #FDD34A;
+  --amber: #FFA600;
+  --purple-400: #BD8BFF;
+  --purple-700: #8B33FF;
 
+  /* Font variables */
+  --fontJetBrainsMono: 'JetBrains Mono Variable', monospace;
+  --fontInconsolata: 'Inconsolata Variable', monospace;
+  --fontSilkscreen: 'Silkscreen', system-ui;
+  --fontDepartureMono: "DepartureMono", monospace;
+  --fontSpaceGrotesk: 'Space Grotesk Variable', sans-serif;
+  --fontSpaceMono: 'Space Mono', monospace;
+}
 
 @layer base {
   body {
@@ -31,10 +53,72 @@
   }
 }
 
-@theme {
-  --font-sans: 'Space Grotesk Variable', sans-serif;
-  --font-mono: 'Space Mono', monospace;
+@layer utilities {
+  .bg-grid {
+    --grid-size: 30px;
+    background-image: 
+      linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+    background-size: var(--grid-size) var(--grid-size);
+    background-position: 50% -50%;
+    background-repeat: repeat;
+  }
+  .bg-grid-animated {
+    --grid-size: 30px;
+    background-image: 
+      linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+    background-size: var(--grid-size) var(--grid-size);
+    background-position: 50% -50%;
+    background-repeat: repeat;
+    animation: gridMove 4s linear infinite;
+  }
+  @keyframes gridMove {
+    0% { background-position: 0 0; }
+    100% { background-position: var(--grid-size) var(--grid-size); }
+  }
 
+  @keyframes zoom-out {
+    0% { transform: scale(1); }
+    100% { transform: scale(0); }
+  }
+
+  @keyframes bg-flash {
+    0% { background-color: rgb(59, 235, 135); }
+    100% { background-color: rgb(3, 111, 252); }
+  }
+
+  @keyframes horizontal-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(0px - 50%)); }
+  }
+
+  /* Marquee scroll */
+  .animate-horizontal-scroll-reverse {
+    animation: horizontal-scroll-reverse var(--marquee-duration, 20s) linear infinite;
+  }
+  @keyframes horizontal-scroll-reverse {
+    0% { transform: translateX(calc(0px - 50%)); }
+    100% { transform: translateX(0); }
+  }
+
+  @keyframes vertical-scroll {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(calc(0px + 100%)); }
+  }
+}
+
+@theme {
+  --font-sans: var(--fontSpaceGrotesk);
+  --font-mono: var(--fontJetBrainsMono);
+  --font-pixel: var(--fontDepartureMono);
+  --font-display: var(--fontSilkscreen);
+  --font-subtext: var(--fontInconsolata);
+
+  --color-yellow: var(--yellow);
+  --color-amber: var(--amber);
+  --color-purple-400: var(--purple-400);
+  --color-purple-700: var(--purple-700);
   --color-discord: #807cfc;
   --color-discord-light: #9b98fa;
 }

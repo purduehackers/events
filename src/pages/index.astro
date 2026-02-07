@@ -2,6 +2,7 @@
 import CurrentEvents from "../components/CurrentEvents.astro";
 
 import Hero from "../components/Hero.astro";
+import Marquee from "@/components/Marquee.astro";
 
 import PastEvents from "../components/past-events/PastEvents.astro";
 import Layout from "../layouts/Layout.astro";
@@ -9,8 +10,10 @@ import Layout from "../layouts/Layout.astro";
 
 <Layout>
   <Hero />
+  <Marquee />
+  <div class="z-10 bg-white ">
+    <CurrentEvents />
 
-  <CurrentEvents />
-
-  <PastEvents />
+    <PastEvents />
+  </div>
 </Layout>
