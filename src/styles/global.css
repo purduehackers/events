@@ -26,6 +26,8 @@
   --fontDepartureMono: "DepartureMono", monospace;
   --fontSpaceGrotesk: 'Space Grotesk Variable', sans-serif;
   --fontSpaceMono: 'Space Mono', monospace;
+
+  overflow-x: hidden;
 }
 
 @layer base {

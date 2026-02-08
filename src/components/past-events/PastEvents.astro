@@ -11,10 +11,10 @@ const events = (await getCollection("events")).sort(
 ---
 
 <div
-  class="container flex flex-col mb-14 sm:pt-14 px-5 sm:px-20 text-left gap-y-4 lg:max-w-screen-2xl mx-auto"
+  class="container flex flex-col mb-14 sm:pt-14 px-5 sm:px-28 text-left gap-y-4 lg:max-w-screen-2xl mx-auto"
 >
   <h2 class="text-3xl sm:text-4xl font-bold ml-1">Past events</h2><div
-    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:auto-cols-fr text-center"
+    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 sm:auto-cols-fr text-center"
   >
     {
       events.map((event) => {
@@ -27,6 +27,7 @@ const events = (await getCollection("events")).sort(
           <Card
             date={format(localizedStart, "MMM do, yyyy")}
             time={`${localizedStartTime}—${localizedEndTime}`}
+            location={event.data.location_name}
             name={name}
             link={slug}
           />

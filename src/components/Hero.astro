@@ -1,17 +1,19 @@
 ---
 import PixelGraphic from "./PixelGraphic.astro";
 import angryManImage from "../assets/graphics/angry_man.png";
+import fishLegsImage from "../assets/graphics/fish_with_legs.png";
+import lizardGunImage from "../assets/graphics/lizard_gun.png";
 ---
 
 <div
-  class="bg-grid-animated sticky top-0 z-0 w-full px-5 py-14 flex flex-col items-center justify-top mt-0 grow-0 flex-1"
+  class="bg-grid-animated sticky top-0 z-0 w-full px-5 py-14 flex flex-col items-start justify-top mt-0 grow-0 flex-1"
 >
   <div class="mt-8 sm:mt-16">
     <h1
       class="text-4xl sm:text-5xl lg:text-6xl uppercase font-pixel dark:text-amber-500"
     >
       Purdue Hackers 
-      <span class="text-yellow">Events</span>
+      <span class="text-amber-500 dark:text-yellow">Events</span>
     </h1>
     <p class="mt-12 text-lg sm:text-[15px] font-subtext font-normal">
       <span class="font-display">{'> '}</span>
@@ -25,10 +27,21 @@ import angryManImage from "../assets/graphics/angry_man.png";
       >.
     </p>
   </div>
-  <div class="absolute -top-10">
+  <div >
     <PixelGraphic
+      class="hidden absolute top-40 -left-10 rotate-50 opacity-70"
+      src={fishLegsImage.src}
+      size={270}
+    />
+    <PixelGraphic
+      class="hidden absolute top-6 left-0 opacity-70"
+      src={lizardGunImage.src}
+      size={340}
+    />
+    <PixelGraphic
+      class="absolute top-6 -right-20 opacity-70"
       src={angryManImage.src}
-      size={400}
+      size={340}
     />
   </div>
 </div>

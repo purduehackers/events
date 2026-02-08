@@ -18,12 +18,8 @@ const currentPath = Astro.url.pathname;
   aria-hidden="false"
 >
   <div class="container px-4 sm:px-2 mx-auto flex justify-between items-center">
-    <Glider class="ml-2 w-4 h-4" />
-    {currentPath !== "/" && (
-      <a href={`/`} class="flex items-center gap-x-2 text-amber-500 hover:text-amber-400 transition">
-        <ArrowLeftIcon class="w-4 h-4" /> All Events
-      </a>
-    )}
+    
+    <Glider class="m4-40 w-4 h-4 " />
     <div 
       class="flex gap-2"
     >
@@ -50,6 +46,14 @@ const currentPath = Astro.url.pathname;
         </button>
       </a>
     </div>
+    <div class="">
+      <ThemeButton />
+    </div>
+    {currentPath !== "/" && (
+      <a href={`/`} class="flex items-center gap-x-2 text-amber-500 hover:text-amber-400 transition">
+        <ArrowLeftIcon class="w-4 h-4" /> All Events
+      </a>
+    )}
     <div class="hidden flex gap-2">
       <a
         href="https://purduehackers.com"
@@ -68,6 +72,5 @@ const currentPath = Astro.url.pathname;
         </button>
       </a>
     </div>
-    <ThemeButton />
   </div>
 </nav>
