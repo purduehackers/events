@@ -1,6 +1,6 @@
 ---
-import SunIcon from "@/assets/feather/sun.svg";
-import MoonIcon from "@/assets/feather/moon.svg";
+import SunIcon from "@/components/icons/Sun.astro";
+import MoonIcon from "@/components/icons/Moon.astro";
 ---
 
 <button class="p-4 cursor-pointer" aria-hidden="true" id="theme-selector">
@@ -9,9 +9,9 @@ import MoonIcon from "@/assets/feather/moon.svg";
     <span class="hidden dark:inline">dark</span> mode
   </span>
 
-  <SunIcon class="dark:hidden w-8 h-8" />
+  <SunIcon class="dark:hidden w-4.5 h-4.5" />
 
-  <MoonIcon class="hidden dark:inline w-8 h-8" />
+  <MoonIcon class="hidden dark:inline w-4 h-4 text-white" />
 </button>
 
 <script is:inline>

@@ -10,8 +10,15 @@ import Layout from "../layouts/Layout.astro";
 
 <Layout>
   <Hero />
-  <Marquee />
-  <div class="z-10 bg-white ">
+  <Marquee 
+    class="hidden text-pink-500 bg-amber-300" 
+    text="HACK."
+  />
+  <Marquee 
+    class="text-white bg-black text-sm py-1" 
+    text="HACK"
+  />
+  <div class="z-10 bg-white dark:bg-gray-900">
     <CurrentEvents />
 
     <PastEvents />

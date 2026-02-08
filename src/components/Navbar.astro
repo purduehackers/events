@@ -1,13 +1,15 @@
 ---
 import ThemeButton from "./ThemeButton.astro";
 import ArrowLeftIcon from "@/assets/arrow-left.svg";
+import Glider from "./icons/Glider.astro";
 
 const currentPath = Astro.url.pathname;
 
 ---
 
 <nav class="fixed top-0 z-50 w-full h-8 bg-purple-700/0 dark:bg-gray-800 flex justify-between items-center">
-  <div class="container px-4 sm:px-14 mx-auto flex justify-between items-center">
+  <div class="container px-4 sm:px-2 mx-auto flex justify-between items-center">
+    <Glider class="ml-2 w-4 h-4" />
     {currentPath !== "/" && (
       <a href={`/`} class="flex items-center gap-x-2 text-amber-500 hover:text-amber-400 transition">
         <ArrowLeftIcon class="w-4 h-4" /> All Events

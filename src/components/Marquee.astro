@@ -1,15 +1,24 @@
 ---
+interface Props {
+  class?: string;
+  text: string;
+  [key: string]: unknown;
+}
+const { class: className, text, ...rest } = Astro.props;
 ---
 
-<div class="flex">
+<div
+    class="flex"
+    {...rest}
+>
     {
         [...Array(2)].map((_, _i) => (
-            <div class="z-30 font-pixel flex text-pink-500 bg-amber-300 whitespace-nowrap animate-horizontal-scroll-reverse" 
+            <div class={`${className} z-30 font-display font-bold flex flex items-center whitespace-nowrap animate-horizontal-scroll-reverse`} 
                 style="--marquee-duration: 25s"
             >
                 {
                     [...Array(20)].map((_, _j) => (
-                        <div class="mr-2">HACK.</div>
+                        <div class="mr-4">{text}</div>
                     ))
                 }
             </div>
