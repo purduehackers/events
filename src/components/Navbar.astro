@@ -7,7 +7,16 @@ const currentPath = Astro.url.pathname;
 
 ---
 
-<nav class="fixed top-0 z-50 w-full h-8 bg-purple-700/0 dark:bg-gray-800 flex justify-between items-center">
+<script>
+  import "../scripts/scrollAnim";
+</script>
+
+<nav
+  data-scroll-threshold="2"
+  data-sentinel="#hero-sentinel"
+  class="fixed top-0 z-50 w-full h-8 flex justify-between items-center transition-[background-color] duration-500 bg-transparent data-[scrolled=true]:bg-purple-700/95 data-[scrolled=true]:dark:bg-gray-900 text-black dark:text-white data-[scrolled=true]:text-white"
+  aria-hidden="false"
+>
   <div class="container px-4 sm:px-2 mx-auto flex justify-between items-center">
     <Glider class="ml-2 w-4 h-4" />
     {currentPath !== "/" && (
@@ -15,7 +24,50 @@ const currentPath = Astro.url.pathname;
         <ArrowLeftIcon class="w-4 h-4" /> All Events
       </a>
     )}
-    <div class="grow"></div>
+    <div 
+      class="flex gap-2"
+    >
+      <a
+        href="https://purduehackers.com"
+        target="_blank"
+      >
+        <button 
+          data-scroll-threshold="2" 
+          class="cursor-pointer px-2 uppercase text-sm font-pixel font-normal text-black data-[scrolled=true]:text-white bg-transparent border-1 border-black data-[scrolled=true]:border-white rounded-sm "
+        >
+          Learn more
+        </button>
+      </a>
+      <a
+        href="https://discord.com/invite/purduehackers"
+        target="_blank"
+      >
+        <button 
+          data-scroll-threshold="2" 
+          class="cursor-pointer px-2 uppercase text-sm font-pixel font-normal text-white data-[scrolled=true]:text-purple-700 bg-black data-[scrolled=true]:bg-white rounded-sm"
+        >
+          Join us
+        </button>
+      </a>
+    </div>
+    <div class="hidden flex gap-2">
+      <a
+        href="https://purduehackers.com"
+        target="_blank"
+      >
+        <button class="px-2 uppercase font-pixel font-normal text-white bg-purple-700 rounded-sm">
+          Join us
+        </button>
+      </a>
+      <a
+        href="https://purduehackers.com"
+        target="_blank"
+      >
+        <button class="uppercase font-mono text-white bg-purple-700">
+          See more
+        </button>
+      </a>
+    </div>
     <ThemeButton />
   </div>
 </nav>

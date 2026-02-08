@@ -1,0 +1,33 @@
+---
+interface Props {
+  class?: string;
+  src: string;
+  size?: number;
+  backgroundSize?: string;
+  rowPosition?: string;
+  [key: string]: unknown;
+}
+const { 
+    class: className, 
+    src, 
+    size = 64, 
+    backgroundSize = "contain",
+    rowPosition = 0,
+    ...rest } = Astro.props;
+---
+
+<div
+  class={className}
+  style={{
+    width: `${size}px`,
+    height: `${size}px`,
+    backgroundImage: `url(${src})`,
+    backgroundSize: backgroundSize,
+    backgroundPosition: `0px -${rowPosition}px`,
+    backgroundRepeat: "no-repeat",
+    imageRendering: "pixelated",
+  }}
+  {...rest}
+>
+  
+</div>

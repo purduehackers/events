@@ -1,5 +1,6 @@
 ---
-
+import PixelGraphic from "./PixelGraphic.astro";
+import angryManImage from "../assets/graphics/angry_man.png";
 ---
 
 <div
@@ -13,6 +14,7 @@
       <span class="text-yellow">Events</span>
     </h1>
     <p class="mt-12 text-lg sm:text-[15px] font-subtext font-normal">
+      <span class="font-display">{'> '}</span>
       Check out &amp; sign up for upcoming events from <span
         ><a
           href="https://purduehackers.com"
@@ -22,5 +24,11 @@
         ></span
       >.
     </p>
+  </div>
+  <div class="absolute -top-10">
+    <PixelGraphic
+      src={angryManImage.src}
+      size={400}
+    />
   </div>
 </div>
