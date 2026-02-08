@@ -14,7 +14,7 @@ const currentPath = Astro.url.pathname;
 <nav
   data-scroll-threshold="2"
   data-sentinel="#hero-sentinel"
-  class="fixed top-0 z-50 w-full h-8 flex justify-between items-center transition-[background-color] duration-500 bg-transparent data-[scrolled=true]:bg-purple-700/95 data-[scrolled=true]:dark:bg-gray-900 text-black dark:text-white data-[scrolled=true]:text-white"
+  class="fixed top-0 z-50 w-full h-8 flex justify-between items-center transition-[background-color] duration-500 bg-transparent data-[scrolled=true]:bg-purple-700 data-[scrolled=true]:dark:bg-purple-700 text-black dark:text-white data-[scrolled=true]:text-white"
   aria-hidden="false"
 >
   <div class="container px-4 sm:px-2 mx-auto flex justify-between items-center">
@@ -29,7 +29,7 @@ const currentPath = Astro.url.pathname;
       >
         <button 
           data-scroll-threshold="2" 
-          class="cursor-pointer px-2 uppercase text-sm font-pixel font-normal text-black data-[scrolled=true]:text-white bg-transparent border-1 border-black data-[scrolled=true]:border-white rounded-sm "
+          class="cursor-pointer px-2 uppercase text-sm font-pixel font-normal text-black dark:text-white/85 data-[scrolled=true]:text-white bg-transparent border-1 border-black dark:border-white/85 data-[scrolled=true]:border-white rounded-sm "
         >
           Learn more
         </button>
@@ -40,7 +40,7 @@ const currentPath = Astro.url.pathname;
       >
         <button 
           data-scroll-threshold="2" 
-          class="cursor-pointer px-2 uppercase text-sm font-pixel font-normal text-white data-[scrolled=true]:text-purple-700 bg-black data-[scrolled=true]:bg-white rounded-sm"
+          class="cursor-pointer px-2 uppercase text-sm font-pixel font-normal text-white dark:text-black data-[scrolled=true]:text-purple-700 bg-black dark:bg-white/85 data-[scrolled=true]:bg-white rounded-sm"
         >
           Join us
         </button>
