@@ -66,18 +66,17 @@
     background-repeat: repeat;
   }
   .bg-grid-animated {
-    --grid-size: 30px;
     background-image: 
-      linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
-    background-size: var(--grid-size) var(--grid-size);
+      linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+    background-size: var(--grid-size, 30px) var(--grid-size, 30px);
     background-position: 50% -50%;
     background-repeat: repeat;
     animation: gridMove 4s linear infinite;
   }
   @keyframes gridMove {
     0% { background-position: 0 0; }
-    100% { background-position: var(--grid-size) var(--grid-size); }
+    100% { background-position: var(--grid-size, 30px) var(--grid-size, 30px); }
   }
 
   @keyframes zoom-out {
@@ -90,18 +89,13 @@
     100% { background-color: rgb(3, 111, 252); }
   }
 
+  /* Marquee scroll */
+  .animate-horizontal-scroll {
+    animation: horizontal-scroll var(--marquee-duration, 20s) linear infinite;
+  }
   @keyframes horizontal-scroll {
     0% { transform: translateX(0); }
     100% { transform: translateX(calc(0px - 50%)); }
-  }
-
-  /* Marquee scroll */
-  .animate-horizontal-scroll-reverse {
-    animation: horizontal-scroll-reverse var(--marquee-duration, 20s) linear infinite;
-  }
-  @keyframes horizontal-scroll-reverse {
-    0% { transform: translateX(calc(0px - 50%)); }
-    100% { transform: translateX(0); }
   }
 
   @keyframes vertical-scroll {

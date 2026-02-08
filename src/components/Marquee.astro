@@ -8,12 +8,12 @@ const { class: className, text, ...rest } = Astro.props;
 ---
 
 <div
-    class="w-screen overflow-hidden flex"
+    class="group/marquee w-screen overflow-hidden select-none flex"
     {...rest}
 >
     {
         [...Array(2)].map((_, _i) => (
-            <div class={`${className} z-30 font-display font-bold flex flex items-center whitespace-nowrap animate-horizontal-scroll-reverse`} 
+            <div class={`${className} z-30 font-display font-bold flex flex items-center whitespace-nowrap animate-horizontal-scroll`} 
                 style="--marquee-duration: 25s"
             >
                 {

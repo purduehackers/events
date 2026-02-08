@@ -13,8 +13,18 @@ const { class: className, ...rest } = Astro.props;
   class={className}
   {...rest}
 >
-  <path
+  <path filter="url(#)"
     fill="currentColor"
     d="M7.3 16v-3h1.4v3H7.3Zm5.8-1.5v-1.4h1.4v1.4h-1.4Zm-11.6 0v-1.4h1.4v1.4H1.5ZM11.6 4.4V2.9h1.5v1.5h-1.5ZM3 4.4V2.9h1.5v1.5H2.9Zm4.4-1.5V0h1.4v3H7.3Zm-1.5 8.7v-1.4H4.4V5.8h1.4V4.4h4.4v1.4h1.4v4.4h-1.4v1.4H5.8ZM16 7.3v1.4h-3V7.3h3Zm-13 0v1.4H0V7.3h3Zm8.6 5.8v-1.5h1.5v1.5h-1.5ZM3 11.6h1.5v1.5H2.9v-1.5ZM13.1 1.5h1.4v1.4h-1.4V1.5ZM1.5 2.9V1.5h1.4v1.4H1.5Z"
   />
+  <defs>
+    <filter id="pixelate" x="0" y="0">
+      <!-- Define pixel size -->
+      <feFlood x="4" y="4" height="2" width="2"/>
+      <feComposite width="10" height="10"/>
+      <feTile result="a"/>
+      <!-- Apply to stroke -->
+      <feComposite in="SourceGraphic" in2="a" operator="in"/>
+    </filter>
+  </defs>
 </svg>
