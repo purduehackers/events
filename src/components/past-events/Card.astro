@@ -9,13 +9,13 @@ const { date, time, location, name, link } = Astro.props;
     class="col-span-1 h-full flex flex-col items-start justify-center gap-2 text-left px-8 py-5 bg-gray-100 dark:bg-gray-700 rounded-sm"
     href={link}
   >
-    <p class="uppercase text-gray-500 text-base font-subtext font-semibold">
+    <p class="uppercase text-gray-500 dark:text-gray-400 text-base font-subtext font-semibold">
       {date} • {time}
     </p>
     <h3 class="text-xl font-mono font-black">
       {name}
     </h3>
-    <div class="flex gap-2 text-gray-500 text-base font-subtext font-semibold">
+    <div class="flex gap-2 text-gray-500 dark:text-gray-400 text-base font-subtext font-semibold">
       <MapPin class="w-4" /> {location}
     </div>
   </a>
