@@ -3,6 +3,9 @@ import PixelGraphic from "./PixelGraphic.astro";
 import angryManImage from "../assets/graphics/angry_man.png";
 import fishLegsImage from "../assets/graphics/fish_with_legs.png";
 import lizardGunImage from "../assets/graphics/lizard_gun.png";
+import angryDudeSpriteSheet from "../assets/sprites/angry_dude_sprite.png";
+
+import Sprite from "./Sprite.astro";
 ---
 
 <div
@@ -40,9 +43,20 @@ import lizardGunImage from "../assets/graphics/lizard_gun.png";
       size={340}
     />
     <PixelGraphic
-      class="absolute top-6 -right-20 opacity-85 dark:invert"
+      class="hidden absolute top-6 -right-20 opacity-85 dark:invert"
       src={angryManImage.src}
       size={340}
+    />
+    <!-- Animated creatura -->
+    <Sprite
+      id="angry-guy-sprite"
+      className="absolute top-15 right-12 opacity-85 scale-180 dark:invert"
+      backgroundImage={angryDudeSpriteSheet.src}
+      spriteSize={224}
+      numRows={1}
+      numCols={2}
+      numFrames={2}
+      duration={1.5}
     />
   </div>
 </div>
