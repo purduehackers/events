@@ -25,7 +25,7 @@ const events = (await getCollection("events")).sort(
 
         return (
           <Card
-            date={format(localizedStart, "MMM do, yyyy")}
+            date={format(localizedStart, "MMM d, yyyy")}
             time={`${localizedStartTime}—${localizedEndTime}`}
             location={event.data.location_name}
             name={name}
