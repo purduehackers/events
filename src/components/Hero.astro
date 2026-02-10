@@ -3,42 +3,42 @@ import PixelGraphic from "./PixelGraphic.astro";
 import angryManImage from "../assets/graphics/angry_man.png";
 import fishLegsImage from "../assets/graphics/fish_with_legs.png";
 import lizardGunImage from "../assets/graphics/lizard_gun.png";
-import angryDudeSpriteSheet from "../assets/sprites/angry_dude_sprite.png";
+import angryDudeSpriteSheet from "../assets/sprites/angry_dude_sprite_yellow.png";
 
 import Sprite from "./Sprite.astro";
 ---
 
 <div
-  class="bg-grid-animated sticky top-0 z-0 w-full px-5 py-14 flex flex-col items-start justify-top mt-0 grow-0 flex-1"
-  style="--grid-size: 26px;"
+  class="sticky top-0 z-0 w-full px-5 py-14 flex flex-col items-center justify-top mt-0 grow-0 flex-1 bg-grid-animated [--grid-size:26px] [--grid-color:rgba(0,0,0,0.05)] dark:[--grid-color:rgba(255,255,255,0.08)]"
 >
-  <div class="mt-8 sm:mt-16">
+  <div class="mt-8 sm:mt-16 text-center">
     <h1
       class="text-4xl sm:text-5xl lg:text-6xl uppercase font-pixel dark:text-amber-500"
     >
       Purdue Hackers 
       <span class="text-amber-500 dark:text-yellow">Events</span>
     </h1>
-    <p class="mt-12 text-lg sm:text-[15px] font-subtext font-normal">
+    <p class="mt-12 text-lg sm:text-lg font-subtext font-normal">
       <span class="font-display">{'> '}</span>
       Check out &amp; sign up for upcoming events from <span
         ><a
           href="https://purduehackers.com"
           target="_blank"
-          class="font-bold"
+          class="font-bold hover:text-amber-500"
           >Purdue Hackers</a
         ></span
       >.
     </p>
   </div>
   <div >
+    <div class=`absolute top-20 -left-3 w-40 h-50 scale-130 rotate-50 opacity-100 bg-yellow dark:bg-purple-400 mask-[url(../assets/graphics/fish_with_legs.png)] mask-contain mask-center`></div>
     <PixelGraphic
-      class="hidden absolute top-40 -left-10 rotate-50 opacity-70"
+      class="hidden absolute top-20 -left-10 rotate-50 opacity-85 dark:invert"
       src={fishLegsImage.src}
-      size={270}
+      size={260}
     />
     <PixelGraphic
-      class="hidden absolute top-6 left-0 opacity-70"
+      class="hidden absolute top-6 left-0 opacity-70 dark:invert"
       src={lizardGunImage.src}
       size={340}
     />
@@ -48,15 +48,17 @@ import Sprite from "./Sprite.astro";
       size={340}
     />
     <!-- Animated creatura -->
-    <Sprite
-      id="angry-guy-sprite"
-      className="absolute top-15 right-12 opacity-85 scale-180 dark:invert"
-      backgroundImage={angryDudeSpriteSheet.src}
-      spriteSize={224}
-      numRows={1}
-      numCols={2}
-      numFrames={2}
-      duration={1.5}
-    />
+    <div class="absolute top-15 right-12 scale-160 opacity-100 hue-rotate-200 saturate-200 dark:opacity-100">
+      <Sprite
+        id="angry-guy-sprite"
+        className="opacity-85"
+        backgroundImage={angryDudeSpriteSheet.src}
+        spriteSize={224}
+        numRows={1}
+        numCols={2}
+        numFrames={2}
+        duration={1.5}
+      />
+    </div>
   </div>
 </div>

@@ -40,6 +40,15 @@
   ul {
     @apply list-disc pl-6 marker:text-amber-400 dark:marker:text-amber-500;
   }
+  button {
+    outline: none;
+  }
+  button:active {
+    outline: none;
+  }
+  button:focus {
+    outline: none;
+  }
 }
 
 @layer components {
@@ -59,16 +68,16 @@
   .bg-grid {
     --grid-size: 30px;
     background-image: 
-      linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+      linear-gradient(var(--grid-color, rgba(0, 0, 0, 0.1)) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-color, rgba(0, 0, 0, 0.1)) 1px, transparent 1px);
     background-size: var(--grid-size) var(--grid-size);
     background-position: 50% -50%;
     background-repeat: repeat;
   }
   .bg-grid-animated {
     background-image: 
-      linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+      linear-gradient(var(--grid-color, rgba(0, 0, 0, 0.05)) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-color, rgba(0, 0, 0, 0.05)) 1px, transparent 1px);
     background-size: var(--grid-size, 30px) var(--grid-size, 30px);
     background-position: 50% -50%;
     background-repeat: repeat;
