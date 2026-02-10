@@ -88,16 +88,6 @@
     100% { background-position: var(--grid-size, 30px) var(--grid-size, 30px); }
   }
 
-  @keyframes zoom-out {
-    0% { transform: scale(1); }
-    100% { transform: scale(0); }
-  }
-
-  @keyframes bg-flash {
-    0% { background-color: rgb(59, 235, 135); }
-    100% { background-color: rgb(3, 111, 252); }
-  }
-
   /* Marquee scroll */
   .animate-horizontal-scroll {
     animation: horizontal-scroll var(--marquee-duration, 20s) linear infinite;
@@ -105,11 +95,6 @@
   @keyframes horizontal-scroll {
     0% { transform: translateX(0); }
     100% { transform: translateX(calc(0px - 50%)); }
-  }
-
-  @keyframes vertical-scroll {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(calc(0px + 100%)); }
   }
 }
 
@@ -126,4 +111,11 @@
   --color-purple-700: var(--purple-700);
   --color-discord: #807cfc;
   --color-discord-light: #9b98fa;
+
+  /* Icon idle animation */
+  --animate-idle-icon: zoom-rotate-idle 0.75s steps(1, end) .3s infinite;
+  @keyframes zoom-rotate-idle {
+    0% { transform: scale(0.9) rotate(20deg); }
+    50% { transform: scale(1) rotate(0deg); }
+  }
 }
