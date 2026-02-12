@@ -3,36 +3,71 @@ import { getCollection } from "astro:content";
 import { format } from "date-fns";
 
 import Card from "./Card.astro";
-import { getEventMetadata, getEventSlug } from "@/utilities/helpers";
+import {
+  getEventMetadata,
+  getEventSlug,
+  getSemesterFromDate,
+  getSemestersNewestFirst,
+} from "@/utilities/helpers";
 
-const events = (await getCollection("events")).sort(
-  (a, b) => new Date(b.data.start).getTime() - new Date(a.data.start).getTime()
-);
+const allEvents = await getCollection("events");
+const semesters = getSemestersNewestFirst();
+
+// Get all events of a given semester
+function eventsInSemester(semester: { year: number; season: string }) {
+  return allEvents
+    .filter((event) => {
+      const s = getSemesterFromDate(new Date(event.data.start));
+      return s.year === semester.year && s.season === semester.season;
+    })
+    .sort((a, b) =>
+        // Sort by newest 
+        new Date(b.data.start).getTime() - new Date(a.data.start).getTime()
+    );
+}
 ---
 
 <div
   class="container flex flex-col mb-14 sm:pt-14 px-5 sm:px-28 text-left gap-y-4 lg:max-w-screen-2xl mx-auto"
 >
-  <h2 class="text-3xl sm:text-4xl font-bold ml-1">Past events</h2><div
-    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 sm:auto-cols-fr text-center"
-  >
-    {
-      events.map((event) => {
-        const { name, localizedStart, localizedStartTime, localizedEndTime } =
-          getEventMetadata(event);
+  <h2 class="text-3xl sm:text-4xl font-bold ml-1">Past events</h2>
 
-        const slug = getEventSlug(event.filePath ?? "");
+  {
+    semesters.map((semester) => {
+      const events = eventsInSemester(semester);
+      if (events.length === 0) return null;
 
-        return (
-          <Card
-            date={format(localizedStart, "MMM d, yyyy")}
-            time={`${localizedStartTime}—${localizedEndTime}`}
-            location={event.data.location_name}
-            name={name}
-            link={slug}
-          />
-        );
-      })
-    }
-  </div>
+      return (
+        <section class="flex flex-col gap-4">
+          <h3 class="text-xl sm:text-xl font-normal ml-1 uppercase font-pixel">
+            {semester.season} {semester.year}
+          </h3>
+          <div
+            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 sm:auto-cols-fr text-center"
+          >
+            {events.map((event) => {
+              const {
+                name,
+                localizedStart,
+                localizedStartTime,
+                localizedEndTime,
+              } = getEventMetadata(event);
+
+              const slug = getEventSlug(event.filePath ?? "");
+
+              return (
+                <Card
+                  date={format(localizedStart, "MMM d")}
+                  time={`${localizedStartTime}—${localizedEndTime}`}
+                  location={event.data.location_name}
+                  name={name}
+                  link={slug}
+                />
+              );
+            })}
+          </div>
+        </section>
+      );
+    })
+  }
 </div>
