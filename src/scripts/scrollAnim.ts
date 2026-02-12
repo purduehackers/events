@@ -38,7 +38,8 @@ if (typeof window !== "undefined") {
       update();
     }
 
-    // Element leave view update 
+    // Sticky sentinel: set data-past-sentinel when the sentinel’s top has passed
+    // the viewport top (e.g. when a sticky label is stuck).
     if (sentinelEls.length > 0) {
       const bySelector = new Map<string, HTMLElement[]>();
       sentinelEls.forEach((el) => {
@@ -48,26 +49,32 @@ if (typeof window !== "undefined") {
         bySelector.get(sel)!.push(el);
       });
 
-      // Update data-past-sentinel on each subscriber
-      bySelector.forEach((subscribers, selector) => {
-        const sentinel = document.querySelector(selector);
-        if (!sentinel) return;
+      let sentinelRafId: number | null = null;
+      const sentinelState = new Map<string, boolean>();
 
-        subscribers.forEach((el) => el.setAttribute("data-past-sentinel", "false"));
-
-        const observer = new IntersectionObserver(
-          (entries) => {
-            const entry = entries[0];
-            if (!entry) return;
-            const past = !entry.isIntersecting;
+      function updateSentinels() {
+        bySelector.forEach((subscribers, selector) => {
+          const sentinel = document.querySelector(selector);
+          if (!sentinel) return;
+          const rect = sentinel.getBoundingClientRect();
+          // Past = section top has passed viewport top (label is stuck)
+          const past = rect.top <= 0;
+          if (sentinelState.get(selector) !== past) {
+            sentinelState.set(selector, past);
             subscribers.forEach((el) =>
               el.setAttribute("data-past-sentinel", past ? "true" : "false")
             );
-          },
-          { root: null, rootMargin: "0px", threshold: 0 }
-        );
-        observer.observe(sentinel);
-      });
+          }
+        });
+        sentinelRafId = null;
+      }
+
+      function onSentinelScroll() {
+        if (sentinelRafId === null) sentinelRafId = requestAnimationFrame(updateSentinels);
+      }
+
+      window.addEventListener("scroll", onSentinelScroll, { passive: true });
+      updateSentinels();
     }
   }
 
