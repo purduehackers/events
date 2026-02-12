@@ -30,7 +30,7 @@ function eventsInSemester(semester: { year: number; season: string }) {
 <div
   class="container flex flex-col mb-14 sm:pt-14 px-5 sm:px-28 text-left gap-y-4 lg:max-w-screen-2xl mx-auto"
 >
-  <h2 class="text-3xl sm:text-4xl font-bold ml-1">Past events</h2>
+  <h2 class="text-3xl sm:text-4xl font-bold mb-0">Past events</h2>
 
   {
     semesters.map((semester) => {
@@ -38,33 +38,52 @@ function eventsInSemester(semester: { year: number; season: string }) {
       if (events.length === 0) return null;
 
       return (
-        <section class="flex flex-col gap-4">
-          <h3 class="text-xl sm:text-xl font-normal ml-1 uppercase font-pixel">
-            {semester.season} {semester.year}
-          </h3>
-          <div
-            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 sm:auto-cols-fr text-center"
-          >
-            {events.map((event) => {
-              const {
-                name,
-                localizedStart,
-                localizedStartTime,
-                localizedEndTime,
-              } = getEventMetadata(event);
+        <section class="[--line-card-gap:40px] [--sem-icon-size:14px] flex flex-col gap-4"
+                style="padding-left: calc((var(--sem-icon-size) / 2));"
+        >
+          {/* Semester label */}
+          <div class="sticky top-0 pt-12 w-fit">
+            <div class="relative -left-2 p-2 rounded-full flex items-center bg-body-light dark:bg-body-dark "
+                style="gap: calc(var(--line-card-gap) - var(--sem-icon-size));"
+            >
+              <div
+                class="relative -top-[1px] w-(--sem-icon-size) h-(--sem-icon-size) bg-yellow flex items-center justify-center"
+                style="left: calc(-1 * var(--sem-icon-size) / 2);"
+              >
+                <div class="w-1.5 h-1.5 bg-white"></div>
+              </div>
+              <h3 class="text-base sm:text-base font-normal leading-none p-0 m-0 uppercase font-pixel">
+                {semester.season} {semester.year}
+              </h3>
+            </div>
+          </div>
 
-              const slug = getEventSlug(event.filePath ?? "");
+          {/* Event cards */}
+          <div class="pl-(--line-card-gap) border-l-1 border-gray-300">
+            <div
+              class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 sm:auto-cols-fr text-center"
+            >
+              {events.map((event) => {
+                const {
+                  name,
+                  localizedStart,
+                  localizedStartTime,
+                  localizedEndTime,
+                } = getEventMetadata(event);
 
-              return (
-                <Card
-                  date={format(localizedStart, "MMM d")}
-                  time={`${localizedStartTime}—${localizedEndTime}`}
-                  location={event.data.location_name}
-                  name={name}
-                  link={slug}
-                />
-              );
-            })}
+                const slug = getEventSlug(event.filePath ?? "");
+
+                return (
+                  <Card
+                    date={format(localizedStart, "MMM d")}
+                    time={`${localizedStartTime}—${localizedEndTime}`}
+                    location={event.data.location_name}
+                    name={name}
+                    link={slug}
+                  />
+                );
+              })}
+            </div>
           </div>
         </section>
       );

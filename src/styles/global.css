@@ -19,6 +19,12 @@
   --purple-400: #BD8BFF;
   --purple-700: #8B33FF;
 
+  --gray-100: #f5f5f5;
+  --gray-900: #18181b;
+
+  --highlight-bg: #BD8BFF;
+  --highlight-fg: black;
+
   /* Font variables */
   --fontJetBrainsMono: 'JetBrains Mono Variable', monospace;
   --fontInconsolata: 'Inconsolata Variable', monospace;
@@ -28,6 +34,11 @@
   --fontSpaceMono: 'Space Mono', monospace;
 
   overflow-x: hidden;
+}
+
+::selection {
+  background-color: var(--highlight-bg);
+  color: var(--highlight-fg);
 }
 
 @layer base {
@@ -111,6 +122,8 @@
   --color-purple-700: var(--purple-700);
   --color-discord: #807cfc;
   --color-discord-light: #9b98fa;
+  --color-body-light: var(--gray-100);
+  --color-body-dark: var(--gray-900);
 
   /* Icon idle animation */
   --animate-idle-icon: zoom-rotate-idle 0.75s steps(1, end) .3s infinite;
