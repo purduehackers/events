@@ -9,16 +9,16 @@ import Sprite from "./Sprite.astro";
 ---
 
 <div
-  class="sticky top-0 z-0 w-full px-5 py-14 flex flex-col items-center justify-top mt-0 grow-0 flex-1 bg-grid-animated [--grid-size:26px] [--grid-color:rgba(0,0,0,0.05)] dark:[--grid-color:rgba(255,255,255,0.08)]"
+  class="sticky top-0 z-0 w-full px-5 py-14 xl:py-20 2xl:py-40 flex flex-col items-center justify-top mt-0 grow-0 flex-1 bg-grid-animated [--grid-size:26px] [--grid-color:rgba(0,0,0,0.05)] dark:[--grid-color:rgba(255,255,255,0.08)]"
 >
   <div class="mt-8 sm:mt-16 text-center">
     <h1
-      class="text-4xl sm:text-5xl lg:text-6xl uppercase font-pixel dark:text-amber-500"
+      class="text-4xl sm:text-5xl lg:text-6xl 2xl:text-8xl uppercase font-pixel dark:text-amber-500"
     >
       Purdue Hackers 
       <span class="text-amber-500 dark:text-yellow">Events</span>
     </h1>
-    <p class="mt-12 text-lg sm:text-lg font-subtext font-normal">
+    <p class="mt-12 text-base md:text-lg 2xl:text-2xl font-subtext font-normal">
       <span class="font-display">{'> '}</span>
       Check out &amp; sign up for upcoming events from <span
         ><a
@@ -31,7 +31,7 @@ import Sprite from "./Sprite.astro";
     </p>
   </div>
   <div >
-    <div class=`absolute top-20 -left-3 w-40 h-50 scale-130 rotate-50 opacity-100 bg-yellow dark:bg-purple-400 mask-[url(../assets/graphics/fish_with_legs.png)] mask-contain mask-center`></div>
+    <div class=`absolute top-20 2xl:top-30 -left-3 w-40 h-50 scale-130 2xl:scale-180 rotate-50 opacity-100 bg-yellow dark:bg-purple-400 mask-[url(../assets/graphics/fish_with_legs.png)] mask-contain mask-center`></div>
     <PixelGraphic
       class="hidden absolute top-20 -left-10 rotate-50 opacity-85 dark:invert"
       src={fishLegsImage.src}
@@ -48,7 +48,7 @@ import Sprite from "./Sprite.astro";
       size={340}
     />
     <!-- Animated creatura -->
-    <div class="absolute top-15 right-12 scale-160 opacity-100 hue-rotate-200 saturate-200 dark:opacity-100">
+    <div class="absolute top-15 2xl:top-50 right-12 2xl:right-22 scale-160 2xl:scale-200 opacity-100 hue-rotate-200 saturate-200 dark:opacity-100">
       <Sprite
         id="angry-guy-sprite"
         className="opacity-85"
