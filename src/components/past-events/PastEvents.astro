@@ -32,7 +32,7 @@ function eventsInSemester(semester: { year: number; season: string }) {
 </script>
 
 <div
-  class="lg:container flex flex-col mb-14 sm:pt-14 px-5 sm:px-12 md:px-18 lg:px-28 text-left gap-y-4 lg:max-w-screen-2xl mx-auto"
+  class="lg:container flex flex-col mb-14 sm:pt-14 px-4 sm:px-12 md:px-18 xl:px-28 text-left gap-y-4 lg:max-w-screen-2xl mx-auto"
 >
   <h2 class="text-3xl sm:text-4xl font-bold mb-0">Past events</h2>
 
@@ -42,7 +42,7 @@ function eventsInSemester(semester: { year: number; season: string }) {
       if (events.length === 0) return null;
 
       return (
-        <section class="[--line-card-gap:40px] [--sem-icon-size:14px] flex flex-col gap-4"
+        <section class="[--line-card-gap:25px] sm:[--line-card-gap:40px] [--sem-icon-size:14px] flex flex-col gap-4"
                 style="padding-left: calc((var(--sem-icon-size) / 2));"
                 id={`sem-sec-${i}`}
         >
