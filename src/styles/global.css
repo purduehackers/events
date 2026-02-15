@@ -91,11 +91,10 @@
 
 @layer utilities {
   .bg-grid {
-    --grid-size: 30px;
     background-image: 
       linear-gradient(var(--grid-color, rgba(0, 0, 0, 0.1)) 1px, transparent 1px),
       linear-gradient(90deg, var(--grid-color, rgba(0, 0, 0, 0.1)) 1px, transparent 1px);
-    background-size: var(--grid-size) var(--grid-size);
+    background-size: var(--grid-size, 30px) var(--grid-size, 30px);
     background-position: 50% -50%;
     background-repeat: repeat;
   }

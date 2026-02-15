@@ -2,10 +2,27 @@
 
 ---
 
+<style>
+  .prose pre.astro-code {
+    color: black;
+  }
+  .dark .prose pre.astro-code {
+    color: white;
+  }
+  .prose pre.astro-code * {
+    color: inherit !important;
+  }
+</style>
+
 <div
   class:list={[
     "prose",
     "dark:prose-invert",
+    "font-subtext",
+    "text-white dark:text-black",
+    "prose-p:text-white prose-p:dark:text-black prose-li:text-white prose-li:dark:text-black prose-strong:text-white prose-strong:dark:text-black prose-em:text-white prose-em:dark:text-black prose-blockquote:text-white prose-blockquote:dark:text-black prose-headings:text-white prose-headings:dark:text-black",
+    "prose-code:text-black prose-code:dark:text-gray-200 prose-pre:text-black dark:prose-pre:text-white",
+    "[&_pre.astro-code]:text-black [&_pre.astro-code]:dark:text-white [&_pre.astro-code_*]:text-inherit",
     "prose-a:no-underline prose-a:text-amber-500 prose-a:hover:text-amber-400 wrap-anywhere",
     "prose-li:marker:text-amber-400 dark:prose-li:marker:text-amber-500",
   ]}

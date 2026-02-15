@@ -17,10 +17,10 @@ const currentPath = Astro.url.pathname;
   class="fixed top-0 z-50 w-full h-8 flex justify-between items-center transition-[background-color] duration-500 bg-transparent data-[scrolled=true]:bg-purple-700 data-[scrolled=true]:dark:bg-purple-700 text-black dark:text-white data-[scrolled=true]:text-white"
   aria-hidden="false"
 >
-  <div class="w-full px-2 md:px-3 mx-auto grid grid-cols-3 ">
+  <div class="w-full px-2 md:px-3 mx-auto flex justify-between items-center sm:grid sm:grid-cols-3">
     {currentPath !== "/" ? 
       <a href={`/`} class="justify-self-start flex items-center gap-x-2 uppercase text-sm font-pixel">
-        <ArrowLeftIcon class="hidden w-4 h-4" /> {'<<'} <span class="hover:underline decoration-[1.5px]">All Events</span>
+        <ArrowLeftIcon class="hidden w-4 h-4" /> {'<<'} <span>All Events</span>
       </a>
     :
       <a class="h-fit self-center justify-self-start"
@@ -56,7 +56,7 @@ const currentPath = Astro.url.pathname;
         </button>
       </a>
     </div>
-    <div class="justify-self-end">
+    <div class="h-fit self-center justify-self-end">
       <div class="hover:animate-idle-icon">
         <ThemeButton />
       </div>

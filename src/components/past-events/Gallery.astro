@@ -18,14 +18,14 @@ const { event_classification, event_version } = Astro.props;
 
     <button
         id="mobile-view-more"
-        class="gallery-more sm:hidden rounded-lg mx-auto py-2 px-2 font-bold text-l dark:text-gray-200 shadow-md dark:shadow-black/25 border-solid border-2 border-amber-400 dark:border-amber-500 p-2 text-center hover:scale-105 transform transition-transform cursor-pointer"
+        class="gallery-more sm:hidden bg-white dark:bg-zinc-900 rounded-sm mx-auto py-2 px-2 font-pixel uppercase font-bold text-black dark:text-gray-200 border-solid border-2 border-amber-500 dark:border-amber-500 p-2 text-center hover:scale-105 transform cursor-pointer"
     >
         See more photos
     </button>
 
     <button
         id="desktop-view-more"
-        class="gallery-more hidden sm:block rounded-lg mx-auto py-2 px-2 font-bold text-l dark:text-gray-200 shadow-md dark:shadow-black/25 border-solid border-2 border-amber-400 dark:border-amber-500 p-2 text-center hover:scale-105 transform transition-transform cursor-pointer"
+        class="gallery-more hidden sm:block bg-white dark:bg-zinc-900 rounded-sm mx-auto py-2 px-2 font-pixel uppercase font-bold text-sm text-black dark:text-gray-200 border-solid border-2 border-amber-500 dark:border-amber-500 p-2 text-center hover:scale-105 transform cursor-pointer"
     >
         See more photos
     </button>
@@ -297,14 +297,14 @@ const { event_classification, event_version } = Astro.props;
                         img_wrapper.className = "hidden-gallery-item hidden";
                     } else {
                         img_wrapper.className =
-                            "w-full break-inside-avoid hover:scale-[1.03] transition transform cursor-pointer mb-2";
+                            "w-full break-inside-avoid hover:scale-[1.03] transform cursor-pointer mb-2";
                     }
 
                     img_wrapper.onclick = () => openLightbox(i);
 
                     const img = document.createElement("img");
                     img.src = img_url;
-                    img.className = "rounded-lg w-full";
+                    img.className = "rounded-sm w-full";
 
                     img_wrapper.appendChild(img);
                     imageArea.appendChild(img_wrapper);
