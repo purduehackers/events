@@ -17,15 +17,21 @@ const currentPath = Astro.url.pathname;
   class="fixed top-0 z-50 w-full h-8 flex justify-between items-center transition-[background-color] duration-500 bg-transparent data-[scrolled=true]:bg-purple-700 data-[scrolled=true]:dark:bg-purple-700 text-black dark:text-white data-[scrolled=true]:text-white"
   aria-hidden="false"
 >
-  <div class="w-full px-0 mx-auto flex justify-between items-center">
-    <a
-      href="https://purduehackers.com"
-      target="_blank"
-    >
-      <Glider class="ml-4 w-4 h-4 " />
-    </a>
+  <div class="w-full px-2 md:px-3 mx-auto grid grid-cols-3 ">
+    {currentPath !== "/" ? 
+      <a href={`/`} class="justify-self-start flex items-center gap-x-2 uppercase text-sm font-pixel">
+        <ArrowLeftIcon class="hidden w-4 h-4" /> {'<<'} <span class="hover:underline decoration-[1.5px]">All Events</span>
+      </a>
+    :
+      <a class="h-fit self-center justify-self-start"
+        href="https://purduehackers.com"
+        target="_blank"
+      >
+        <Glider class="w-4 h-4" />
+      </a>
+    }
     <div 
-      class="flex gap-2"
+      class="flex gap-2 justify-center"
     >
       <a
         href="https://purduehackers.com"
@@ -33,7 +39,7 @@ const currentPath = Astro.url.pathname;
       >
         <button 
           data-scroll-threshold="2" 
-          class="cursor-pointer px-2 uppercase text-sm font-pixel font-normal text-black dark:text-white/85 data-[scrolled=true]:text-white bg-transparent border-1 border-black dark:border-white/85 data-[scrolled=true]:border-white rounded-sm "
+          class="cursor-pointer px-2 uppercase text-sm font-pixel font-normal text-black/80 dark:text-white/85 data-[scrolled=true]:text-white bg-transparent border-1 border-black/80 dark:border-white/85 data-[scrolled=true]:border-white rounded-sm "
         >
           Learn more
         </button>
@@ -44,20 +50,17 @@ const currentPath = Astro.url.pathname;
       >
         <button 
           data-scroll-threshold="2" 
-          class="cursor-pointer px-2 uppercase text-sm font-pixel font-normal text-white dark:text-black data-[scrolled=true]:text-purple-700 bg-black dark:bg-white/85 data-[scrolled=true]:bg-white rounded-sm"
+          class="cursor-pointer px-2 uppercase text-sm font-pixel font-normal text-white dark:text-black data-[scrolled=true]:text-purple-700 bg-black/80 dark:bg-white/85 data-[scrolled=true]:bg-white rounded-sm"
         >
           Join us
         </button>
       </a>
     </div>
-    <div class="hover:animate-idle-icon">
-      <ThemeButton />
+    <div class="justify-self-end">
+      <div class="hover:animate-idle-icon">
+        <ThemeButton />
+      </div>
     </div>
-    {currentPath !== "/" && (
-      <a href={`/`} class="flex items-center gap-x-2 text-amber-500 hover:text-amber-400 transition">
-        <ArrowLeftIcon class="w-4 h-4" /> All Events
-      </a>
-    )}
     <div class="hidden flex gap-2">
       <a
         href="https://purduehackers.com"

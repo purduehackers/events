@@ -9,6 +9,14 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: "Silver";
+  src: url("../assets/fonts/Silver.ttf") format("ttf");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Use CSS dark selector instead of media queries */
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -20,7 +28,8 @@
   --purple-700: #8B33FF;
 
   --gray-100: #f5f5f5;
-  --gray-900: #18181b;
+  --gray-800: #1e1e23;
+  --gray-900: #101013;
 
   --highlight-bg: #BD8BFF;
   --highlight-fg: black;
@@ -29,11 +38,16 @@
   --fontJetBrainsMono: 'JetBrains Mono Variable', monospace;
   --fontInconsolata: 'Inconsolata Variable', monospace;
   --fontSilkscreen: 'Silkscreen', system-ui;
+  --fontSilver: 'Silver', monospace;
   --fontDepartureMono: "DepartureMono", monospace;
   --fontSpaceGrotesk: 'Space Grotesk Variable', sans-serif;
   --fontSpaceMono: 'Space Mono', monospace;
 
+  background-color: white;
   overflow-x: hidden;
+}
+:root.dark {
+  background-color: var(--gray-900);
 }
 
 ::selection {
@@ -113,6 +127,7 @@
   --font-sans: var(--fontSpaceGrotesk);
   --font-mono: var(--fontJetBrainsMono);
   --font-pixel: var(--fontDepartureMono);
+  --font-silver: var(--fontSilver);
   --font-display: var(--fontSilkscreen);
   --font-subtext: var(--fontInconsolata);
 
@@ -123,7 +138,7 @@
   --color-discord: #807cfc;
   --color-discord-light: #9b98fa;
   --color-body-light: var(--gray-100);
-  --color-body-dark: var(--gray-900);
+  --color-body-dark: var(--gray-800);
 
   /* Icon idle animation */
   --animate-idle-icon: zoom-rotate-idle 0.75s steps(1, end) .3s infinite;
