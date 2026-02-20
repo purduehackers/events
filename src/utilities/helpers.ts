@@ -2,6 +2,15 @@ import { TZDate } from "@date-fns/tz";
 import type { RenderedContent } from "astro:content";
 import { format } from "date-fns";
 
+export interface Event {
+  id?: string;
+  body?: string;
+  collection?: "events";
+  data: any;
+  rendered?: RenderedContent;
+  filePath?: string;
+}
+
 // Academic semester: Spring (Jan–May), Summer (June–July), Fall (Aug–Dec) 
 export type SemesterSeason = "spring" | "summer" | "fall";
 export interface Semester {
@@ -10,7 +19,7 @@ export interface Semester {
 }
 
 // Earliest semester constant
-export const EARLIEST_SEMESTER: Semester = { year: 2021, season: "spring" };
+export const EARLIEST_SEMESTER: Semester = { year: 2022, season: "spring" };
 
 // Return academic semester for given date
 export function getSemesterFromDate(date: Date): Semester {
@@ -39,23 +48,32 @@ export function getSemestersNewestFirst(): Semester[] {
   for (let y = current.year; y >= EARLIEST_SEMESTER.year; y--) {
     let semOrder = SEMESTERS_NEWEST_FIRST;
     for (const season of semOrder) {
-      if (
-        y === current.year &&
-        semOrder.indexOf(season) > semOrder.indexOf(current.season)
-      )
+      if (y === current.year && semOrder.indexOf(season) < semOrder.indexOf(current.season)) {
         // Skip nonexistent future semesters this year
         continue;
-      if (
-        y === EARLIEST_SEMESTER.year &&
-        semOrder.indexOf(season) < semOrder.indexOf(EARLIEST_SEMESTER.season)
-      )
+      }
+      if (y === EARLIEST_SEMESTER.year && semOrder.indexOf(season) > semOrder.indexOf(EARLIEST_SEMESTER.season)) {
         // Skip nonexistent past semesters from earliest year
         continue;
+      }
       list.push({ year: y, season });
     }
   }
 
   return list;
+}
+
+// Get all events of a given semester
+export function getEventsInSemester(events: Event[], semester: Semester) {
+  return events
+    .filter((event) => {
+      const s = getSemesterFromDate(new Date(event.data.start));
+      return s.year === semester.year && s.season === semester.season;
+    })
+    .sort((a, b) =>
+      // Sort by newest 
+      new Date(b.data.start).getTime() - new Date(a.data.start).getTime()
+    );
 }
 
 export function getEventSlug(path: string) {
@@ -70,14 +88,7 @@ export function getLocalizedDate(date: string): TZDate {
   return new TZDate(date, "America/Indiana/Indianapolis");
 }
 
-export function getEventMetadata(event: {
-  id?: string;
-  body?: string;
-  collection?: "events";
-  data: any;
-  rendered?: RenderedContent;
-  filePath?: string;
-}): {
+export function getEventMetadata(event: Event): {
   name: string;
   localizedStart: TZDate;
   localizedStartTime: string;

@@ -3,39 +3,35 @@ import { getCollection } from "astro:content";
 import { format } from "date-fns";
 
 import Card from "./Card.astro";
+import SemesterFilter from "./SemesterFilter";
 import {
   getEventMetadata,
   getEventSlug,
-  getSemesterFromDate,
+  getEventsInSemester,
   getSemestersNewestFirst,
 } from "@/utilities/helpers";
 
 const allEvents = await getCollection("events");
-const semesters = getSemestersNewestFirst();
+const allSemesters = getSemestersNewestFirst();
+const semesters = allSemesters.filter((sem) => getEventsInSemester(allEvents, sem).length > 0);
 
-// Get all events of a given semester
-function eventsInSemester(semester: { year: number; season: string }) {
-  return allEvents
-    .filter((event) => {
-      const s = getSemesterFromDate(new Date(event.data.start));
-      return s.year === semester.year && s.season === semester.season;
-    })
-    .sort((a, b) =>
-        // Sort by newest 
-        new Date(b.data.start).getTime() - new Date(a.data.start).getTime()
-    );
-}
 ---
 
 <div
   id="past-events"
   class="lg:container flex flex-col mb-14 sm:pt-14 px-4 sm:px-12 md:px-18 xl:px-28 text-left gap-y-4 lg:max-w-screen-2xl mx-auto"
 >
-  <h2 class="text-3xl sm:text-4xl font-bold mb-0">Past events</h2>
+  <div class="flex flex-wrap items-end justify-between gap-4">
+    <h2 class="text-3xl sm:text-4xl font-bold m-0">Past events</h2>
+    <div class="flex items-center gap-2 text-[15px] font-pixel uppercase">
+      <h4>Filter by:</h4>
+      <SemesterFilter client:load semesters={semesters} />
+    </div>
+  </div>
 
   {
     semesters.map((semester, i) => {
-      const events = eventsInSemester(semester);
+      const events = getEventsInSemester(allEvents, semester);
       if (events.length === 0) return null;
 
       return (
@@ -99,48 +95,43 @@ function eventsInSemester(semester: { year: number; season: string }) {
 <script>
   import "../../scripts/scrollAnim";
 
-  // Filter events by semester using url params
-  // Default to show all events if invalid or none
+  const CONTAINER_ID = "past-events";
+
   function applySemesterFilter() {
-    const container = document.getElementById("past-events");
+    const container = document.getElementById(CONTAINER_ID);
     if (!container) return;
 
-    // Get all section els with sem-key data attr
     const sections = Array.from(
-      container.querySelectorAll("section[data-sem-key]")
+      container.querySelectorAll("section[data-sem-key]") as NodeListOf<HTMLElement>
     );
     if (sections.length === 0) return;
 
-    // Get semester query param from url
     const semParam = new URLSearchParams(window.location.search).get("sem");
-    if (!semParam) return; // default to show all events if no param
+    if (!semParam?.trim()) {
+      sections.forEach((el) => { el.style.display = ""; });
+      return;
+    }
+
     const raw = semParam.trim().toLowerCase();
-    if (!raw) return;
-
-    // Match valid semester key format (ex: ?sem=fall-2025)
-    let semKeyToShow;
     const m = raw.match(/(spring|summer|fall)[\s_-]?(\d{4})/);
-    if (!m) return;
+    if (!m) {
+      sections.forEach((el) => { el.style.display = ""; });
+      return;
+    }
 
-    // Make sure semester exists
     const key = `${m[1]}-${m[2]}`;
-    const semExists = sections.some(
-      (s) => (s as HTMLElement).dataset.semKey === key
-    );
-    if (!semExists) return;
-    semKeyToShow = key;
+    const semExists = sections.some((s) => s.dataset.semKey === key);
+    const semKeyToShow = semExists ? key : null;
 
-    // Only display relevant semester event section
-    for (const section of sections) {
-      const el = section as HTMLElement;
-      el.style.display = el.dataset.semKey === semKeyToShow ? "" : "none";
+    for (const el of sections) {
+      el.style.display = !semKeyToShow || el.dataset.semKey === semKeyToShow ? "" : "none";
     }
   }
 
+  (window as unknown as { applySemesterFilter: () => void }).applySemesterFilter = applySemesterFilter;
+
   if (document.readyState === "loading") {
-    window.addEventListener("DOMContentLoaded", applySemesterFilter, {
-      once: true,
-    });
+    window.addEventListener("DOMContentLoaded", applySemesterFilter, { once: true });
   } else {
     applySemesterFilter();
   }
