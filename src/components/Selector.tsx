@@ -1,3 +1,5 @@
+
+import { useState } from "react";
 import {
   Select,
   SelectContent,
@@ -41,52 +43,73 @@ const Selector = ({
   defaultValue,
   ariaLabel = "Select option",
   className = "",
-}: SelectorProps) => (
-  <Select
-    {...(value !== undefined && { value })}
-    {...(defaultValue !== undefined && { defaultValue })}
-    onValueChange={onValueChange}
-  >
-    <SelectTrigger
-      className={`group ${className} cursor-pointer select-none inline-flex w-37 px-2 py-1 items-center justify-between gap-1 rounded border-1 border-black dark:border-white font-pixel uppercase text-[15px] leading-none text-gray-900 dark:text-gray-100 data-[placeholder]:text-gray-500`}
-      aria-label={ariaLabel}
-    >
-      <SelectValue placeholder={placeholder} />
-      <SelectIcon className="ml-2 h-2 flex items-center justify-center leading-none text-sm text-gray-600 dark:text-gray-400 transition-transform -rotate-0 group-data-[state=open]:rotate-90">
-        {'>'}
-      </SelectIcon>
-    </SelectTrigger>
-    <SelectPortal>
-        <SelectContent
-          className="z-[100] cursor-pointer overflow-hidden rounded-md bg-body-light dark:bg-body-dark border border-zinc-200 dark:border-zinc-700 font-pixel uppercase text-[15px]"
-          position="popper"
-          sideOffset={4}
+}: SelectorProps) => {
+    const [open, setOpen] = useState(false); // whether selectPortal is displayed
+
+    const handleClear = () => {
+        onValueChange("");
+        setOpen(false);
+    };
+
+    return (
+        <div>
+        <Select
+            {...(value !== undefined && { value })}
+            {...(defaultValue !== undefined && { defaultValue })}
+            onValueChange={onValueChange}
+            open={open}
+            onOpenChange={setOpen}
         >
-            <SelectScrollUpButton className="flex h-6 cursor-default items-center justify-center bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400">
-                
-            </SelectScrollUpButton>
-            <SelectViewport className="p-1">
-                <SelectGroup>
-                    {options.map((opt) => (
-                        <SelectItem 
-                            key={opt.value} 
-                            value={opt.value} 
-                            className={itemClassName}
-                        >
-                            <SelectItemText>{opt.label}</SelectItemText>
-                            <SelectItemIndicator className="absolute left-0 inline-flex w-6 items-center justify-center">
-                                <SquareIcon className="w-2 h-2" strokeWidth={0} />
-                            </SelectItemIndicator>
-                        </SelectItem>
-                    ))}
-                </SelectGroup>
-            </SelectViewport>
-            <SelectScrollDownButton className="flex h-[25px] cursor-default items-center justify-center bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400">
-                
-            </SelectScrollDownButton>
-        </SelectContent>
-    </SelectPortal>
-  </Select>
-);
+            <SelectTrigger
+                className={`group ${className} cursor-pointer select-none inline-flex w-37 px-2 py-1 items-center justify-between gap-1 rounded border-1 border-black dark:border-white font-pixel uppercase text-[15px] leading-none text-gray-900 dark:text-gray-100 data-[placeholder]:text-gray-400`}
+                aria-label={ariaLabel}
+            >
+                <SelectValue placeholder={placeholder} />
+                <SelectIcon className="ml-2 h-2 flex items-center justify-center leading-none text-sm text-gray-600 dark:text-gray-400 transition-transform -rotate-0 group-data-[state=open]:rotate-90">
+                    {'>'}
+                </SelectIcon>
+            </SelectTrigger>
+            <SelectPortal>
+                <SelectContent
+                    className="z-[100] cursor-pointer overflow-hidden rounded-md bg-body-light dark:bg-body-dark border border-zinc-200 dark:border-zinc-700 font-pixel uppercase text-[15px]"
+                    position="popper"
+                    sideOffset={4}
+                >
+                    <SelectScrollUpButton className="flex h-6 cursor-default items-center justify-center bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400">
+                        
+                    </SelectScrollUpButton>
+                    <SelectViewport className="p-1">
+                        <SelectGroup>
+                            {value && ( 
+                                <button 
+                                    className={`${itemClassName} cursor-pointer hover:bg-purple-400 w-full`}
+                                    onClick={handleClear}
+                                >
+                                    -- All --
+                                </button>
+                            )}
+                            {options.map((opt) => (
+                                <SelectItem 
+                                    key={opt.value} 
+                                    value={opt.value} 
+                                    className={itemClassName}
+                                >
+                                    <SelectItemText>{opt.label}</SelectItemText>
+                                    <SelectItemIndicator className="absolute left-0 inline-flex w-6 items-center justify-center">
+                                        <SquareIcon className="w-2 h-2" strokeWidth={0} />
+                                    </SelectItemIndicator>
+                                </SelectItem>
+                            ))}
+                        </SelectGroup>
+                    </SelectViewport>
+                    <SelectScrollDownButton className="flex h-[25px] cursor-default items-center justify-center bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400">
+                        
+                    </SelectScrollDownButton>
+                </SelectContent>
+            </SelectPortal>
+        </Select>
+        </div>
+    );
+};
 
 export default Selector;
