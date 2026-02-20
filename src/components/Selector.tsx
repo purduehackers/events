@@ -58,7 +58,7 @@ const Selector = ({
     </SelectTrigger>
     <SelectPortal>
         <SelectContent
-          className="z-[100] cursor-pointer overflow-hidden rounded-md bg-(--gray-100) border border-gray-200 dark:border-gray-700 font-pixel uppercase text-[15px]"
+          className="z-[100] cursor-pointer overflow-hidden rounded-md bg-body-light dark:bg-body-dark border border-zinc-200 dark:border-zinc-700 font-pixel uppercase text-[15px]"
           position="popper"
           sideOffset={4}
         >
