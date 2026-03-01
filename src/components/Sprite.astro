@@ -1,0 +1,154 @@
+---
+export interface Props {
+  id: string;
+  spriteSize?: number;
+  numRows?: number;
+  numCols?: number;
+  backgroundImage: string;
+  numFrames?: number;
+  duration?: number;
+  fillMode?: "forwards" | "backwards" | "both" | "none";
+  iterationCount?: string;
+  className?: string;
+  style?: Record<string, string | number>;
+  onHover?: boolean;
+  hoverNumFrames?: number;
+  hoverDuration?: number;
+  row?: number;
+  hoverRow?: number;
+  hoverIterationCount?: string;
+  /** CSS selector for parent element to detect hover ("[data-sprite-hover]", "#parent-id") */
+  parentSelector?: string;
+}
+
+const {
+  id,
+  spriteSize = 32,
+  numRows = 1,
+  numCols = 1,
+  backgroundImage,
+  numFrames = 2,
+  duration = 1,
+  fillMode = "forwards",
+  iterationCount = "infinite",
+  className = "",
+  style = {},
+  onHover = false,
+  hoverNumFrames = 2,
+  hoverDuration = 0.2,
+  row = 0,
+  hoverRow = 0,
+  hoverIterationCount = "infinite",
+  parentSelector,
+} = Astro.props;
+
+const spriteSheetWidth = spriteSize * numCols;
+const spriteSheetHeight = spriteSize * numRows;
+
+const infinite = iterationCount === "infinite";
+const steps = infinite ? numFrames : numFrames - 1;
+const hoverSteps = infinite ? hoverNumFrames : hoverNumFrames - 1;
+
+const defaultAnimSheetWidth = spriteSize * steps;
+const hoverAnimSheetWidth = spriteSize * hoverSteps;
+
+const idleAnimationName = `sprite-idle-${id}`;
+const hoverAnimationName = `sprite-hover-${id}`;
+
+const rowPosition = row * spriteSize;
+const backgroundSize = `${spriteSheetWidth}px ${spriteSheetHeight}px`;
+
+const shouldAnimate = numFrames > 1;
+const shouldHoverAnimate = hoverNumFrames > 1;
+
+const rowOffsetPx = row * spriteSize;
+const hoverRowOffsetPx = hoverRow * spriteSize;
+
+const inlineStyle = {
+  width: `${spriteSize}px`,
+  height: `${spriteSize}px`,
+  backgroundImage: `url(${backgroundImage})`,
+  backgroundSize,
+  backgroundPosition: `0px -${rowPosition}px`,
+  backgroundRepeat: "no-repeat",
+  imageRendering: "pixelated",
+  ...style,
+};
+
+const idleAnimValue = `${idleAnimationName} ${duration}s steps(${steps}) ${iterationCount} ${fillMode}`;
+const hoverAnimValue = `${hoverAnimationName} ${hoverDuration}s steps(${hoverSteps}) ${hoverIterationCount} ${fillMode}`;
+const idleKeyframesContent = `from { background-position: 0px -${rowOffsetPx}px; } to { background-position: -${defaultAnimSheetWidth}px -${rowOffsetPx}px; }`;
+const hoverKeyframesContent = `from { background-position: 0px -${hoverRowOffsetPx}px; } to { background-position: -${hoverAnimSheetWidth}px -${hoverRowOffsetPx}px; }`;
+
+const spriteStyleContent = `
+  .sprite[data-sprite-id="${id}"] {
+    --sprite-idle-anim: ${idleAnimValue};
+    --sprite-hover-anim: ${hoverAnimValue};
+  }
+  .sprite[data-sprite-id="${id}"]:not([data-sprite-hovered="true"])[data-sprite-idle-animate="true"] {
+    animation: var(--sprite-idle-anim);
+  }
+  .sprite[data-sprite-id="${id}"]:not([data-sprite-hovered="true"]):not([data-sprite-idle-animate="true"]) {
+    animation: none;
+  }
+  .sprite[data-sprite-id="${id}"][data-sprite-hovered="true"][data-sprite-hover-has-frames="true"] {
+    animation: var(--sprite-hover-anim);
+  }
+  .sprite[data-sprite-id="${id}"][data-sprite-hovered="true"]:not([data-sprite-hover-has-frames="true"]) {
+    animation: none;
+  }
+  @keyframes ${idleAnimationName} {
+    ${idleKeyframesContent}
+  }
+  @keyframes ${hoverAnimationName} {
+    ${hoverKeyframesContent}
+  }
+`;
+---
+
+<div
+  class:list={["sprite", className]}
+  data-sprite-id={id}
+  data-sprite-use-parent={parentSelector ? "true" : undefined}
+  data-sprite-parent-selector={parentSelector ?? undefined}
+  data-sprite-idle-animate={shouldAnimate ? "true" : undefined}
+  data-sprite-hover-has-frames={shouldHoverAnimate ? "true" : undefined}
+  data-sprite-on-hover={onHover ? "true" : undefined}
+  style={inlineStyle}
+  aria-hidden="true"
+></div>
+
+<style set:html={spriteStyleContent} />
+
+<script is:inline>
+  function initSprites() {
+    document.querySelectorAll("[data-sprite-id]").forEach((el) => {
+      const parentSelector = el.getAttribute("data-sprite-parent-selector");
+      const useParent = el.hasAttribute("data-sprite-use-parent");
+      const onHover = el.hasAttribute("data-sprite-on-hover");
+
+      const target =
+        useParent && parentSelector
+          ? document.querySelector(parentSelector)
+          : el;
+
+      if (!target) return;
+
+      if (el._spriteInitialized) return;
+      el._spriteInitialized = true;
+
+      function setHovered(value) {
+        el.setAttribute("data-sprite-hovered", value ? "true" : "false");
+      }
+
+      target.addEventListener("mouseenter", () => onHover && setHovered(true));
+      target.addEventListener("mouseleave", () => setHovered(false));
+
+      setHovered(false);
+    });
+  }
+
+  initSprites();
+  document.addEventListener("astro:page-load", initSprites);
+  document.addEventListener("astro:after-swap", initSprites);
+</script>

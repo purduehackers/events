@@ -1,19 +1,83 @@
 ---
 import ThemeButton from "./ThemeButton.astro";
 import ArrowLeftIcon from "@/assets/arrow-left.svg";
+import Glider from "./icons/Glider.astro";
 
 const currentPath = Astro.url.pathname;
 
 ---
 
-<nav class="w-full bg-gray-100 dark:bg-gray-800 h-fit">
-  <div class="container px-4 sm:px-14 mx-auto flex justify-between items-center">
-    {currentPath !== "/" && (
-      <a href={`/`} class="flex items-center gap-x-2 text-amber-500 hover:text-amber-400 transition">
-        <ArrowLeftIcon class="w-4 h-4" /> All Events
+<script>
+  import "../scripts/scrollAnim";
+</script>
+
+<nav
+  data-scroll-threshold="2"
+  data-sentinel="#hero-sentinel"
+  class="fixed top-0 z-50 w-full h-8 flex justify-between items-center transition-[background-color] duration-500 bg-transparent data-[scrolled=true]:bg-purple-700 data-[scrolled=true]:dark:bg-purple-700 text-black dark:text-white data-[scrolled=true]:text-white"
+  aria-hidden="false"
+>
+  <div class="w-full px-2 md:px-3 mx-auto flex justify-between items-center sm:grid sm:grid-cols-3">
+    {currentPath !== "/" ? 
+      <a href={`/`} class="justify-self-start flex items-center gap-x-2 uppercase text-sm font-pixel">
+        <ArrowLeftIcon class="hidden w-4 h-4" /> {'<<'} <span>All Events</span>
       </a>
-    )}
-    <div class="grow"></div>
-    <ThemeButton />
+    :
+      <a class="h-fit self-center justify-self-start"
+        href="https://purduehackers.com"
+        target="_blank"
+      >
+        <Glider class="w-4 h-4" />
+      </a>
+    }
+    <div 
+      class="flex gap-2 justify-center"
+    >
+      <a
+        href="https://purduehackers.com"
+        target="_blank"
+      >
+        <button 
+          data-scroll-threshold="2" 
+          class="cursor-pointer px-2 uppercase text-sm font-pixel font-normal text-black/80 dark:text-white/85 data-[scrolled=true]:text-white bg-transparent border-1 border-black/80 dark:border-white/85 data-[scrolled=true]:border-white rounded-sm "
+        >
+          Learn more
+        </button>
+      </a>
+      <a
+        href="https://discord.com/invite/5paFjKzdPE"
+        target="_blank"
+      >
+        <button 
+          data-scroll-threshold="2" 
+          class="cursor-pointer px-2 uppercase text-sm font-pixel font-normal text-white dark:text-black data-[scrolled=true]:text-purple-700 bg-black/80 dark:bg-white/85 data-[scrolled=true]:bg-white rounded-sm"
+        >
+          Join us
+        </button>
+      </a>
+    </div>
+    <div class="h-fit self-center justify-self-end">
+      <div class="hover:animate-idle-icon">
+        <ThemeButton />
+      </div>
+    </div>
+    <div class="hidden flex gap-2">
+      <a
+        href="https://purduehackers.com"
+        target="_blank"
+      >
+        <button class="px-2 uppercase font-pixel font-normal text-white bg-purple-700 rounded-sm">
+          Join us
+        </button>
+      </a>
+      <a
+        href="https://purduehackers.com"
+        target="_blank"
+      >
+        <button class="uppercase font-mono text-white bg-purple-700">
+          See more
+        </button>
+      </a>
+    </div>
   </div>
 </nav>

@@ -2,6 +2,10 @@
 import "../styles/global.css";
 
 // Import fonts
+import '@fontsource-variable/inconsolata'; // Supports weights 200-900
+import '@fontsource-variable/jetbrains-mono'; // Supports weights 100-800
+import '@fontsource/silkscreen/400.css';
+import '@fontsource/silkscreen/700.css';
 import "@fontsource-variable/space-grotesk";
 import "@fontsource/space-mono";
 
@@ -35,7 +39,7 @@ const appleTouchIcon = await getImage({
   <body>
     <main>
       <div
-        class="min-h-screen overflow-hidden flex flex-col font-title dark:bg-gray-900"
+        class="min-h-screen flex flex-col font-title"
       >
         <Navbar />
 

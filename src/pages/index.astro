@@ -2,6 +2,7 @@
 import CurrentEvents from "../components/CurrentEvents.astro";
 
 import Hero from "../components/Hero.astro";
+import Marquee from "@/components/Marquee.astro";
 
 import PastEvents from "../components/past-events/PastEvents.astro";
 import Layout from "../layouts/Layout.astro";
@@ -9,8 +10,18 @@ import Layout from "../layouts/Layout.astro";
 
 <Layout>
   <Hero />
+  <div id="hero-sentinel" class="relative -top-16 h-0 w-full pointer-events-none" aria-hidden="true" />
+  <Marquee 
+    class="hidden text-pink-500 bg-amber-300" 
+    text="HACK."
+  />
+  <Marquee 
+    class="sticky top-0 text-sm text-white dark:text-white bg-neutral-800 dark:bg-purple-700 group-hover/marquee:bg-amber-400 py-1" 
+    text="HACK"
+  />
+  <div class="z-10 bg-body-light dark:bg-body-dark">
+    <CurrentEvents />
 
-  <CurrentEvents />
-
-  <PastEvents />
+    <PastEvents />
+  </div>
 </Layout>

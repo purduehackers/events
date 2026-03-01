@@ -1,0 +1,27 @@
+---
+interface Props {
+  class?: string;
+  text: string;
+  [key: string]: unknown;
+}
+const { class: className, text, ...rest } = Astro.props;
+---
+
+<div
+    class="group/marquee w-screen overflow-hidden select-none flex"
+    {...rest}
+>
+    {
+        [...Array(2)].map((_, _i) => (
+            <div class={`${className} z-30 font-display font-bold flex flex items-center whitespace-nowrap animate-horizontal-scroll`} 
+                style="--marquee-duration: 25s"
+            >
+                {
+                    [...Array(30)].map((_, _j) => (
+                        <div class="mr-4">{text}</div>
+                    ))
+                }
+            </div>
+        ))
+    }
+</div>

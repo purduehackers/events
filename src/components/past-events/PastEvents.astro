@@ -3,35 +3,136 @@ import { getCollection } from "astro:content";
 import { format } from "date-fns";
 
 import Card from "./Card.astro";
-import { getEventMetadata, getEventSlug } from "@/utilities/helpers";
+import SemesterFilter from "./SemesterFilter";
+import {
+  getEventMetadata,
+  getEventSlug,
+  getEventsInSemester,
+  getSemestersNewestFirst,
+} from "@/utilities/helpers";
 
-const events = (await getCollection("events")).sort(
-  (a, b) => new Date(b.data.start).getTime() - new Date(a.data.start).getTime()
-);
+const allEvents = await getCollection("events");
+const allSemesters = getSemestersNewestFirst();
+const semesters = allSemesters.filter((sem) => getEventsInSemester(allEvents, sem).length > 0);
+
 ---
 
 <div
-  class="container flex flex-col mb-14 sm:pt-14 px-5 sm:px-20 text-left gap-y-4 lg:max-w-screen-2xl mx-auto"
+  id="past-events"
+  class="lg:container flex flex-col mb-14 sm:pt-14 px-4 sm:px-12 md:px-18 xl:px-28 text-left gap-y-4 lg:max-w-screen-2xl mx-auto"
 >
-  <h2 class="text-3xl sm:text-4xl font-bold ml-1">Past events</h2><div
-    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:auto-cols-fr text-center"
-  >
-    {
-      events.map((event) => {
-        const { name, localizedStart, localizedStartTime, localizedEndTime } =
-          getEventMetadata(event);
-
-        const slug = getEventSlug(event.filePath ?? "");
-
-        return (
-          <Card
-            date={format(localizedStart, "MMM do, yyyy")}
-            time={`${localizedStartTime}—${localizedEndTime}`}
-            name={name}
-            link={slug}
-          />
-        );
-      })
-    }
+  <div class="flex flex-wrap items-end justify-between gap-4">
+    <h2 class="text-3xl sm:text-4xl font-mono font-black m-0">Past events</h2>
+    <div class="flex items-center gap-2 text-[15px] font-pixel uppercase">
+      <h4>Filter by:</h4>
+      <SemesterFilter client:load semesters={semesters} />
+    </div>
   </div>
+
+  {
+    semesters.map((semester, i) => {
+      const events = getEventsInSemester(allEvents, semester);
+      if (events.length === 0) return null;
+
+      return (
+        <section class="[--line-card-gap:25px] sm:[--line-card-gap:40px] [--sem-icon-size:14px] flex flex-col gap-4"
+                style="padding-left: calc((var(--sem-icon-size) / 2));"
+                id={`sem-sec-${i}`}
+                data-sem-key={`${semester.season}-${semester.year}`}
+        >
+          {/* Semester label */}
+          <div class="sticky top-0 pt-12 w-fit"
+          >
+            <div class="relative -left-2 p-2 rounded-full flex items-center bg-body-light dark:bg-body-dark "
+                style="gap: calc(var(--line-card-gap) - var(--sem-icon-size));"
+            >
+              <div
+                data-sentinel={`#sem-sec-${i}`}
+                class="relative -top-[1px] w-(--sem-icon-size) h-(--sem-icon-size) bg-gray-300 dark:bg-zinc-600 data-[past-sentinel=true]:bg-yellow flex items-center justify-center"
+                style="left: calc(-1 * var(--sem-icon-size) / 2);"
+              >
+                <div class="w-1.5 h-1.5 bg-white dark:bg-zinc-900"></div>
+              </div>
+              <h3 class="text-base sm:text-base font-normal leading-none p-0 m-0 uppercase font-pixel">
+                {semester.season} {semester.year}
+              </h3>
+            </div>
+          </div>
+
+          {/* Event cards */}
+          <div class="pl-(--line-card-gap) border-l-1 border-gray-300">
+            <div
+              class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 sm:auto-cols-fr text-center"
+            >
+              {events.map((event) => {
+                const {
+                  name,
+                  localizedStart,
+                  localizedStartTime,
+                  localizedEndTime,
+                } = getEventMetadata(event);
+
+                const slug = getEventSlug(event.filePath ?? "");
+
+                return (
+                  <Card
+                    date={format(localizedStart, "MMM d")}
+                    time={`${localizedStartTime}—${localizedEndTime}`}
+                    location={event.data.location_name}
+                    name={name}
+                    link={slug}
+                  />
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      );
+    })
+  }
 </div>
+
+<script>
+  import "../../scripts/scrollAnim";
+
+  const CONTAINER_ID = "past-events";
+
+  function applySemesterFilter() {
+    const container = document.getElementById(CONTAINER_ID);
+    if (!container) return;
+
+    const sections = Array.from(
+      container.querySelectorAll("section[data-sem-key]") as NodeListOf<HTMLElement>
+    );
+    if (sections.length === 0) return;
+
+    const semParam = new URLSearchParams(window.location.search).get("sem");
+    if (!semParam?.trim()) {
+      sections.forEach((el) => { el.style.display = ""; });
+      return;
+    }
+
+    const raw = semParam.trim().toLowerCase();
+    const m = raw.match(/(spring|summer|fall)[\s_-]?(\d{4})/);
+    if (!m) {
+      sections.forEach((el) => { el.style.display = ""; });
+      return;
+    }
+
+    const key = `${m[1]}-${m[2]}`;
+    const semExists = sections.some((s) => s.dataset.semKey === key);
+    const semKeyToShow = semExists ? key : null;
+
+    for (const el of sections) {
+      el.style.display = !semKeyToShow || el.dataset.semKey === semKeyToShow ? "" : "none";
+    }
+  }
+
+  (window as unknown as { applySemesterFilter: () => void }).applySemesterFilter = applySemesterFilter;
+
+  if (document.readyState === "loading") {
+    window.addEventListener("DOMContentLoaded", applySemesterFilter, { once: true });
+  } else {
+    applySemesterFilter();
+  }
+</script>
