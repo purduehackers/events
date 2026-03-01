@@ -1,10 +1,34 @@
 ---
+import type { EventType, PayloadResponse } from "../types";
+import Card from "./past-events/Card.astro";
+import { format } from "date-fns";
 
+const res = await fetch("https://cms.purduehackers.com/api/events?sort=start");
+const data: PayloadResponse<EventType> = await res.json();
+let events: EventType[] = data.docs;
+console.log(events)
 ---
 
 <div
-  class="lg:container py-8 sm:pt-14 sm:pb-0 mx-auto px-4 flex justify-center"
+  class="lg:container py-8 sm:pt-14 sm:pb-0 mx-auto px-4 flex flex-col justify-center items-center"
 >
+
+  <div class="flex flex-row gap-2">
+    {
+      events.map((event) => {
+        return (
+          <Card
+            date={format(event.start, "MMM d")}
+            time={`${event.start}—${event.end}`}
+            location={event.location_name}
+            name={event.name}
+            link={event.id}
+          />
+        );
+      })
+    }
+  </div>
+
   <a href="https://lu.ma/user/purduehackers" target="_blank" rel="noreferrer">
     <div
       class="w-full md:w-fit rounded-sm bg-yellow dark:text-black p-4 flex flex-col justify-center gap-y-3"
