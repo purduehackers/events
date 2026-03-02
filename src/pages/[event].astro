@@ -1,5 +1,6 @@
 ---
 import { format } from "date-fns";
+import { getLocalizedEventTimes } from "@/utilities/helpers";
 
 import Layout from "@/layouts/Layout.astro";
 
@@ -12,7 +13,7 @@ import Description from "@/components/past-events/Description.astro";
 import DiscordCard from "@/components/past-events/DiscordCard.astro";
 
 import type { EventType, PayloadResponse } from "../types";
-const {name, description, location, location_url, start, end, image, stats} = Astro.props
+const {event} = Astro.props
 
 export async function getStaticPaths() {
     let res = await fetch("https://cms.purduehackers.com/api/events?sort=start")
@@ -23,18 +24,17 @@ export async function getStaticPaths() {
         return {
             params: {event: event.id},
             props: {
-                name: event.name, 
-                description: event.description,
-                location: event.location_name,
-                location_url: event.location_url,
-                start: event.start,
-                end: event.end,
-                image: event.images[0]?.url || null,
-                stats: event.stats || null,
+                event
             },
         };
     });
 }
+
+const {
+          localizedStart,
+          localizedStartTime,
+          localizedEndTime,
+        } = getLocalizedEventTimes(event);
 ---
 <Layout>
   <div
@@ -45,30 +45,30 @@ export async function getStaticPaths() {
       class=" bg-body-light dark:bg-body-dark flex flex-col grow-0 items-center justify-top w-full flex-1 px-5 pt-20 sm:pt-28 pb-8 sm:pb-16 text-center sm:px-20"
     >
       <h1 class="text-black dark:text-amber-500 font-pixel uppercase text-4xl sm:text-5xl lg:text-6xl font-normal">
-        {name}
+        {event.name}
       </h1>
       <div class="mt-4 text-base md:text-lg 2xl:text-2xl font-subtext font-normal">
         <p class="mt-3 flex flex-row gap-x-2 items-center justify-center dark:text-gray-200">
           <Clock class="w-5" />
-          {format(start, "MMM do, yyyy")} • {
-            start
-          }—{end}
+          {format(localizedStart, "MMM do, yyyy")} • {
+            localizedStartTime
+          }—{localizedEndTime}
         </p>
         {
-          location && (
+          event.location && (
             <p class="mt-1 flex flex-row gap-x-2 items-center justify-center font-bold dark:text-gray-200">
               <MapPin class="w-5" />
               <span>
-                {location_url ? (
+                {event.location_url ? (
                   <a
-                    href={location_url}
+                    href={event.location_url}
                     target="_blank"
                     class="hover:text-amber-500"
                   >
-                    {location}
+                    {event.location}
                   </a>
                 ) : (
-                  <>{location}</>
+                  <>{event.location}</>
                 )}
               </span>
             </p>
@@ -81,25 +81,25 @@ export async function getStaticPaths() {
     <div class="flex flex-col items-center justify-center py-12 sm:px-20 mb-auto border-t-2 border-b-2 bg-grid [--grid-size:100px] [--grid-color:rgba(0,0,0,0.5)] dark:[--grid-color:rgba(255,255,255,0.5)]">
       <div class="flex flex-col sm:flex-row-reverse sm:items-start sm:gap-x-4 items-center">
         {
-          stats && stats.length > 0 && (
-            <div class="bg-white dark:bg-black text-black dark:text-white border-2 border-black dark:border-amber-400 flex flex-row flex-1 items-center justify-center gap-4 sm:gap-8 mx-4 sm:mx-0 max-w-fit sm:max-w-min max-h-fit p-6 sm:p-8 text-center sm:flex-col">
-              {stats.map((stat) => (
-                <Stat data={stat.data} label={stat.label} />
-              ))}
-            </div>
-          )
+            event.stats && event.stats.length > 0 && (
+                <div class="bg-white dark:bg-black text-black dark:text-white border-2 border-black dark:border-amber-400 flex flex-row flex-1 items-center justify-center gap-4 sm:gap-8 mx-4 sm:mx-0 max-w-fit sm:max-w-min max-h-fit p-6 sm:p-8 text-center sm:flex-col">
+                {event.stats.map((stat) => (
+                    <Stat data={stat.data} label={stat.label} />
+                ))}
+                </div>
+            )
         }
 
         <div class="sm:max-w-lg md:max-w-xl">
           <div class="flex flex-col justify-items-center sm:justify-items-end">
             <div class="bg-zinc-900 dark:bg-gray-300 rounded-sm text-white dark:text-black border-2 p-4 sm:p-6 mx-4 mt-4 sm:mx-0 sm:mt-0 mb-4 sm:w-fit">
               <p class="text-yellow dark:text-purple-700 font-display uppercase text-sm mb-4">--details--</p>
-              <Description> {description} </Description>
+              <Description> {event.description} </Description>
             </div>
 
             {/*<Gallery event_classification={event.filePath?.split("/").slice(2)[1]!} event_version={event.filePath?.split("/").slice(2)[2]!} />*/}
             <div>
-                image: {image && <img src={image} alt={name} />}
+                image: {event.images[0]?.url && <img src={event.images[0].url} alt={event.name} />}
             </div>
           </div>
         </div>

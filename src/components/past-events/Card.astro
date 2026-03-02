@@ -2,7 +2,7 @@
 import MapPin from "@/assets/map-pin.svg";
 import Star2 from "../icons/Star2.astro";
 
-const { date, time, location, name, link } = Astro.props;
+const { date, time, location, name, link, category } = Astro.props;
 ---
 
 <div>
@@ -24,9 +24,11 @@ const { date, time, location, name, link } = Astro.props;
         <MapPin class="w-4" /> 
         <div class="line-clamp-1">{location}</div>
       </div>
-      <div class="hidden min-w-fit px-0.5 bg-gray-600 text-white uppercase text-[11px] font-mono">
-        Hack night
-      </div>
+      {category && (
+        <div class="min-w-fit px-0.5 bg-gray-600 text-white uppercase text-[11px] font-mono">
+          {category}
+        </div>
+      )}
     </div>
   </a>
 </div>

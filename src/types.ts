@@ -14,7 +14,7 @@ export interface EventType {
     eventType: string;
     start: string;
     end: string;
-    location_name: string;
+    location: string;
     location_url: string;
     stats: StatType[];
     description: string;

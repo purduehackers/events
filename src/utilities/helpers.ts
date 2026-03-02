@@ -1,3 +1,4 @@
+import type { EventType } from "@/types";
 import { TZDate } from "@date-fns/tz";
 import type { RenderedContent } from "astro:content";
 import { format } from "date-fns";
@@ -106,6 +107,28 @@ export function getEventMetadata(event: Event): {
 
   return {
     name,
+    localizedStart,
+    localizedStartTime,
+    localizedEnd,
+    localizedEndTime,
+  };
+}
+
+export function getLocalizedEventTimes(event: EventType): {
+  localizedStart: TZDate;
+  localizedStartTime: string;
+  localizedEnd: TZDate | undefined;
+  localizedEndTime: string;
+} {
+  const start = event.start;
+  const localizedStart = getLocalizedDate(start);
+  const localizedStartTime = format(localizedStart, "hh:mm a");
+  const localizedEnd = event.end
+    ? getLocalizedDate(event.end)
+    : undefined;
+  const localizedEndTime = getTime(localizedEnd);
+
+  return {
     localizedStart,
     localizedStartTime,
     localizedEnd,

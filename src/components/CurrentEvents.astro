@@ -1,7 +1,9 @@
 ---
 import type { EventType, PayloadResponse } from "../types";
-import Card from "./past-events/Card.astro";
 import { format } from "date-fns";
+import { getLocalizedEventTimes } from "@/utilities/helpers";
+
+import Card from "./past-events/Card.astro";
 
 const res = await fetch("https://cms.purduehackers.com/api/events?sort=start");
 const data: PayloadResponse<EventType> = await res.json();
@@ -10,19 +12,27 @@ console.log(events)
 ---
 
 <div
-  class="lg:container py-8 sm:pt-14 sm:pb-0 mx-auto px-4 flex flex-col justify-center items-center"
+  class="lg:container flex flex-col mb-14 sm:pt-14 px-4 sm:px-12 md:px-18 xl:px-28 text-left gap-y-4 lg:max-w-screen-2xl mx-auto"
 >
+  <h2 class="text-3xl sm:text-4xl font-mono font-black m-0">Upcoming events</h2>
 
-  <div class="flex flex-row gap-2">
+  <div class="flex flex-row gap-2 mb-8">
     {
       events.map((event) => {
+        const {
+          localizedStart,
+          localizedStartTime,
+          localizedEndTime,
+        } = getLocalizedEventTimes(event);
+
         return (
           <Card
-            date={format(event.start, "MMM d")}
-            time={`${event.start}—${event.end}`}
-            location={event.location_name}
+            date={format(localizedStart, "MMM d")}
+            time={`${localizedStartTime}—${localizedEndTime}`}
+            location={event.location}
             name={event.name}
             link={event.id}
+            category={event.eventType}
           />
         );
       })
