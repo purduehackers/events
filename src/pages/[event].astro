@@ -13,28 +13,37 @@ import Description from "@/components/past-events/Description.astro";
 import DiscordCard from "@/components/past-events/DiscordCard.astro";
 
 import type { EventType, PayloadResponse } from "../types";
-const {event} = Astro.props
+import { ROOT_URL } from "../utilities/constants";
+import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical';
+import { convertLexicalToHTMLAsync } from '@payloadcms/richtext-lexical/html-async';
+
+const { event } = Astro.props;
+
+// Convert rich text once during build
+const descriptionHTML = await convertLexicalToHTMLAsync({
+  data: event.description as SerializedEditorState,
+});
 
 export async function getStaticPaths() {
-    let res = await fetch("https://cms.purduehackers.com/api/events?sort=start")
+    let res = await fetch(`${ROOT_URL}/api/events?sort=start`);
     const data: PayloadResponse<EventType> = await res.json();
-    let events: EventType[] = data.docs;
+    const events: EventType[] = data.docs;
 
     return events.map((event) => {
         return {
-            params: {event: event.id},
+            params: { event: event.id },
             props: {
-                event
+                event,
             },
         };
     });
 }
 
 const {
-          localizedStart,
-          localizedStartTime,
-          localizedEndTime,
-        } = getLocalizedEventTimes(event);
+    localizedStart,
+    localizedStartTime,
+    localizedEndTime,
+} = getLocalizedEventTimes(event);
 ---
 <Layout>
   <div
@@ -94,12 +103,14 @@ const {
           <div class="flex flex-col justify-items-center sm:justify-items-end">
             <div class="bg-zinc-900 dark:bg-gray-300 rounded-sm text-white dark:text-black border-2 p-4 sm:p-6 mx-4 mt-4 sm:mx-0 sm:mt-0 mb-4 sm:w-fit">
               <p class="text-yellow dark:text-purple-700 font-display uppercase text-sm mb-4">--details--</p>
-              <Description> {event.description} </Description>
+              <Description>
+                <div set:html={descriptionHTML} />
+              </Description>
             </div>
 
             {/*<Gallery event_classification={event.filePath?.split("/").slice(2)[1]!} event_version={event.filePath?.split("/").slice(2)[2]!} />*/}
             <div>
-                image: {event.images[0]?.url && <img src={event.images[0].url} alt={event.name} />}
+                image: {event.images[0]?.image.url && <img src={ROOT_URL + event.images[0].image.url} alt={event.name} />}
             </div>
           </div>
         </div>

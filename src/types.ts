@@ -1,6 +1,24 @@
-interface ImageType {
-    url: string;
+// For rich text (payload description field)
+import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical';
+
+// Payload CMS returns image as embedded asset object
+interface ImageAsset {
+    id: number;
     alt?: string;
+    updatedAt: string;
+    createdAt: string;
+    url: string;
+    thumbnailURL: string | null;
+    filename: string;
+    mimeType: string;
+    filesize: number;
+    width: number;
+    height: number;
+}
+
+interface ImageType {
+    id: string;
+    image: ImageAsset;
 }
 
 interface StatType {
@@ -17,7 +35,7 @@ export interface EventType {
     location: string;
     location_url: string;
     stats: StatType[];
-    description: string;
+    description: SerializedEditorState;
     images: ImageType[];
     updatedAt: string;
     createdAt: string;
