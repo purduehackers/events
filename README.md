@@ -10,6 +10,6 @@ A website where you can check out previous Purdue Hackers events.
 ```
 git clone https://github.com/purduehackers/events.git
 cd events
-pnpm install
-pnpm run dev
+bun install
+bun run dev
 ```
