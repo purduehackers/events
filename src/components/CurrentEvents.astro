@@ -2,10 +2,11 @@
 import type { EventType, PayloadResponse } from "../types";
 import { format } from "date-fns";
 import { getLocalizedEventTimes } from "@/utilities/helpers";
+import { CMS_URL } from "../utilities/constants";
 
 import Card from "./past-events/Card.astro";
 
-const res = await fetch("https://cms.purduehackers.com/api/events?sort=start");
+const res = await fetch(`${CMS_URL}/api/events?sort=start&where[start][greater_than]=${new Date().toISOString()}`);
 const data: PayloadResponse<EventType> = await res.json();
 let events: EventType[] = data.docs;
 console.log(events)

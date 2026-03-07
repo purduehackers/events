@@ -13,7 +13,7 @@ import Description from "@/components/past-events/Description.astro";
 import DiscordCard from "@/components/past-events/DiscordCard.astro";
 
 import type { EventType, PayloadResponse } from "../types";
-import { ROOT_URL } from "../utilities/constants";
+import { CMS_URL } from "../utilities/constants";
 import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical';
 import { convertLexicalToHTMLAsync } from '@payloadcms/richtext-lexical/html-async';
 
@@ -25,7 +25,7 @@ const descriptionHTML = await convertLexicalToHTMLAsync({
 });
 
 export async function getStaticPaths() {
-    let res = await fetch(`${ROOT_URL}/api/events?sort=start`);
+    let res = await fetch(`${CMS_URL}/api/events?sort=start`);
     const data: PayloadResponse<EventType> = await res.json();
     const events: EventType[] = data.docs;
 
@@ -110,7 +110,7 @@ const {
 
             {/*<Gallery event_classification={event.filePath?.split("/").slice(2)[1]!} event_version={event.filePath?.split("/").slice(2)[2]!} />*/}
             <div>
-                image: {event.images[0]?.image.url && <img src={ROOT_URL + event.images[0].image.url} alt={event.name} />}
+                image: {event.images[0]?.image.url && <img src={CMS_URL + event.images[0].image.url} alt={event.name} />}
             </div>
           </div>
         </div>
