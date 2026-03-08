@@ -258,13 +258,14 @@ export default function PastEventsClient({
                                     getLocalizedEventTimes(event);
 
                                 return (
-<Card date={format(localizedStart, "MMMM d, yyyy")}
-              time={`${localizedStartTime}${localizedEndTime ? ` - ${localizedEndTime}` : ""}`}     
-              location={event.location_name}
-              name={event.name}
-              link={`/events/${event.id}`}
-              category={event.eventType}
-            />
+                                    <Card key={event.id}
+                                        date={format(localizedStart, "MMM d")}
+                                        time={`${localizedStartTime}${localizedEndTime ? ` - ${localizedEndTime}` : ""}`}     
+                                        location={event.location_name}
+                                        name={event.name}
+                                        link={`/events/${event.id}`}
+                                        category={event.eventType}
+                                    />
                                 );
                             })}
                         </div>
