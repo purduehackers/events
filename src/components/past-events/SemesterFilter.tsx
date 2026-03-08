@@ -11,7 +11,6 @@ function getSemFromUrl(): string | null {
   if (typeof window === "undefined") return null;
   const url = new URL(window.location.href);
   const pathSegments = url.pathname.split("/");
-  console.log("pathsegments:", pathSegments)
   const raw = pathSegments[1]?.trim().toLowerCase();
   if (!raw) return null;
   const m = raw.match(/(spring|summer|fall)[\s_-]?(\d{4})/);
@@ -27,13 +26,14 @@ declare global {
 export default function SemesterFilter({ semesters }: SemesterFilterProps) {
   // Get semester options (formatted w value and label)
   const options: SelectorOption[] = useMemo(() => {
-    const list: SelectorOption[] = [];// [{ value: "", label: "All semesters" }];
+    const list: SelectorOption[] = [];
     for (const s of semesters) {
       list.push({
         value: `${s.season}-${s.year}`,
         label: `${s.season} ${s.year}`,
       });
     }
+    console.log("semesters: ", semesters)
     return list;
   }, [semesters]);
 

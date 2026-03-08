@@ -1,21 +1,20 @@
 ---
 import CurrentEvents from "../components/CurrentEvents.astro";
-import { getCollection } from "astro:content";
 
 import Hero from "../components/Hero.astro";
 import Marquee from "@/components/Marquee.astro";
 import SemesterFilter from "../components/past-events/SemesterFilter.tsx";
+import CategoryFilter from "@/components/past-events/CategoryFilter";
 
 import PastEvents from "../components/past-events/PastEvents.astro";
 import Layout from "../layouts/Layout.astro";
 
 import {
-  getEventsInSemester,
   getSemestersNewestFirst,
 } from "@/utilities/helpers";
 
-const allEvents = await getCollection("events");
-const allSemesters = getSemestersNewestFirst().filter((sem) => getEventsInSemester(allEvents, sem).length > 0);
+const allSemesters = getSemestersNewestFirst();
+console.log("allSems: ", allSemesters)
 ---
 
 <Layout>
@@ -33,6 +32,7 @@ const allSemesters = getSemestersNewestFirst().filter((sem) => getEventsInSemest
     <div class="flex items-center gap-2 text-[15px] font-pixel uppercase">
       <h4>Filter by:</h4>
       <SemesterFilter client:load semesters={allSemesters} />
+      <CategoryFilter client:load categories={[]} />
     </div>
 
     <CurrentEvents />

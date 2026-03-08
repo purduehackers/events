@@ -5,7 +5,7 @@ import Star2 from "../icons/Star2.astro";
 const { date, time, location, name, link, category } = Astro.props;
 ---
 
-<div>
+<div data-category={category?.toLowerCase() ?? ""}>
   <a
     class="group col-span-1 h-full flex flex-col items-start justify-between gap-2 text-left px-8 py-5 bg-white dark:bg-(--gray-900) rounded-sm"
     href={link}

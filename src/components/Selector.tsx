@@ -61,7 +61,7 @@ const Selector = ({
             onOpenChange={setOpen}
         >
             <SelectTrigger
-                className={`group ${className} cursor-pointer select-none inline-flex w-37 px-2 py-1 items-center justify-between gap-1 rounded border-1 border-black dark:border-white font-pixel uppercase text-[15px] leading-none text-gray-900 dark:text-gray-100 data-[placeholder]:text-gray-400`}
+                className={`group ${className} cursor-pointer select-none inline-flex w-37 px-2 py-1 items-center justify-between gap-1 rounded border-0 border-black dark:border-white font-pixel uppercase text-[15px] leading-none text-gray-900 dark:text-gray-100 data-[placeholder]:text-gray-400`}
                 aria-label={ariaLabel}
             >
                 <SelectValue placeholder={placeholder} />
@@ -85,7 +85,7 @@ const Selector = ({
                                     className={`${itemClassName} cursor-pointer hover:bg-purple-400 w-full`}
                                     onClick={handleClear}
                                 >
-                                    -- All --
+                                    -- Clear --
                                 </button>
                             )}
                             {options.map((opt) => (

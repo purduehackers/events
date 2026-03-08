@@ -1,72 +1,70 @@
 import { useEffect, useMemo, useState } from "react";
 import Selector, { type SelectorOption } from "@/components/Selector";
-import type { SemesterType } from "@/types";
 
-interface SemesterFilterProps {
-  semesters: SemesterType[];
+interface CategoryFilterProps {
+  categories: string[];
 }
 
-// Get semester query param from url
-function getSemFromUrl(): string | null {
+// Get category query param from url
+function getCategoryFromUrl(): string | null {
   if (typeof window === "undefined") return null;
-  const raw = new URLSearchParams(window.location.search).get("sem")?.trim().toLowerCase();
-  if (!raw) return null;
-  const m = raw.match(/(spring|summer|fall)[\s_-]?(\d{4})/);
-  return m ? `${m[1]}-${m[2]}` : null;
+  const raw = new URLSearchParams(window.location.search).get("cat")?.trim().toLowerCase();
+  return raw || null;
 }
 
 declare global {
   interface Window {
-    applySemesterFilter?: () => void;
+    applyCategoryFilter?: () => void;
   }
 }
 
-export default function SemesterFilter({ semesters }: SemesterFilterProps) {
-  // Get semester options (formatted w value and label)
+export default function CategoryFilter({ categories }: CategoryFilterProps) {
   const options: SelectorOption[] = useMemo(() => {
-    const list: SelectorOption[] = [];// [{ value: "", label: "All semesters" }];
-    for (const s of semesters) {
-      list.push({
-        value: `${s.season}-${s.year}`,
-        label: `${s.season} ${s.year}`,
-      });
-    }
-    return list;
-  }, [semesters]);
+    const uniqueCategories = Array.from(
+      new Set(categories.filter(Boolean).map((c) => c.toLowerCase()))
+    );
+
+    return uniqueCategories
+      .sort((a, b) => a.localeCompare(b))
+      .map((value) => ({
+        value,
+        label: value
+          .split(/[-\s]/)
+          .map((part) => part[0]?.toUpperCase() + part.slice(1))
+          .join(" "),
+      }));
+  }, [categories]);
 
   const [value, setValue] = useState<string>("");
 
   useEffect(() => {
-    // Set semester value if valid
-    const sem = getSemFromUrl();
-    if (sem && options.some((o) => o.value === sem)) {
-      setValue(sem);
+    const cat = getCategoryFromUrl();
+    if (cat && options.some((o) => o.value === cat)) {
+      setValue(cat);
     }
   }, [options]);
 
   const onValueChange = (newValue: string) => {
     setValue(newValue);
 
-    // Update url query params 
     const url = new URL(window.location.href);
     if (newValue) {
-      url.searchParams.set("sem", newValue);
+      url.searchParams.set("cat", newValue);
     } else {
-      url.searchParams.delete("sem");
+      url.searchParams.delete("cat");
     }
     window.history.replaceState(null, "", url.toString());
 
-    // Call func defined in PastEvents page to update semesters view
-    window.applySemesterFilter?.();
+    window.applyCategoryFilter?.();
   };
 
   return (
     <Selector
       options={options}
       onValueChange={onValueChange}
-      placeholder="Semester"
+      placeholder="Category"
       value={value}
-      ariaLabel="Filter past events by semester"
+      ariaLabel="Filter events by category"
     />
   );
 }

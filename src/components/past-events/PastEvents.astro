@@ -1,17 +1,33 @@
 ---
-import { format } from "date-fns";
-import { getCollection } from "astro:content";
 
-import Card from "./Card.astro";
+import type { EventType, PayloadResponse, SemesterType } from "@/types";
+import { CMS_URL } from "../../utilities/constants";
 import {
-  getEventMetadata,
-  getEventSlug,
   getEventsInSemester,
 } from "@/utilities/helpers";
-import type { SemesterType } from "@/types";
 
-const allEvents = await getCollection("events");
+import SemesterEvents from "./SemesterEvents.astro";
+import CategoryFilter from "./CategoryFilter";
+
+//const allEvents = await getCollection("events");
 const { semesters } = Astro.props;
+
+const params = new URLSearchParams();
+params.set("sort", "start");
+params.set("where[start][less_than]", new Date().toISOString());
+
+const res = await fetch(`${CMS_URL}/api/events?${params.toString()}`);
+const data: PayloadResponse<EventType> = await res.json();
+let allEvents: EventType[] = data.docs;
+
+const categories: string[] = Array.from(
+  new Set(
+    allEvents
+      .map((event) => event.eventType ?? "")
+      .filter(Boolean)
+      .map((cat) => cat.toLowerCase())
+  )
+).sort();
 ---
 
 <div
@@ -20,6 +36,7 @@ const { semesters } = Astro.props;
 >
   <div class="flex flex-wrap items-end justify-between gap-4">
     <h2 class="text-3xl sm:text-4xl font-mono font-black m-0">Past events</h2>
+    <CategoryFilter categories={categories} />
   </div>
 
   {
@@ -28,61 +45,13 @@ const { semesters } = Astro.props;
       if (events.length === 0) return null;
 
       return (
-        <section class="[--line-card-gap:25px] sm:[--line-card-gap:40px] [--sem-icon-size:14px] flex flex-col gap-4"
-                style="padding-left: calc((var(--sem-icon-size) / 2));"
-                id={`sem-sec-${i}`}
-                data-sem-key={`${semester.season}-${semester.year}`}
-        >
-          {/* Semester label */}
-          <div class="sticky top-0 pt-12 w-fit"
-          >
-            <div class="relative -left-2 p-2 rounded-full flex items-center bg-body-light dark:bg-body-dark "
-                style="gap: calc(var(--line-card-gap) - var(--sem-icon-size));"
-            >
-              <div
-                data-sentinel={`#sem-sec-${i}`}
-                class="relative -top-[1px] w-(--sem-icon-size) h-(--sem-icon-size) bg-gray-300 dark:bg-zinc-600 data-[past-sentinel=true]:bg-yellow flex items-center justify-center"
-                style="left: calc(-1 * var(--sem-icon-size) / 2);"
-              >
-                <div class="w-1.5 h-1.5 bg-white dark:bg-zinc-900"></div>
-              </div>
-              <h3 class="text-base sm:text-base font-normal leading-none p-0 m-0 uppercase font-pixel">
-                {semester.season} {semester.year}
-              </h3>
-            </div>
-          </div>
-
-          {/* Event cards */}
-          <div class="pl-(--line-card-gap) border-l-1 border-gray-300">
-            <div
-              class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 sm:auto-cols-fr text-center"
-            >
-              {events.map((event) => {
-                const {
-                  name,
-                  localizedStart,
-                  localizedStartTime,
-                  localizedEndTime,
-                } = getEventMetadata(event);
-
-                const slug = getEventSlug(event.filePath ?? "");
-
-                return (
-                  <Card
-                    date={format(localizedStart, "MMM d")}
-                    time={`${localizedStartTime}—${localizedEndTime}`}
-                    location={event.data.location_name}
-                    name={name}
-                    link={slug}
-                  />
-                );
-              })}
-            </div>
-          </div>
-        </section>
+        <SemesterEvents semester={semester} i={i} />
       );
     })
   }
+  <button class="cursor-pointer w-fit m-auto mt-4 font-pixel text-sm font-bold text-purple-700 dark:text-amber-400">
+    Load more ...
+  </button>
 </div>
 
 <script>
@@ -90,42 +59,40 @@ const { semesters } = Astro.props;
 
   const CONTAINER_ID = "past-events";
 
-  function applySemesterFilter() {
+  function applyCategoryFilter() {
     const container = document.getElementById(CONTAINER_ID);
     if (!container) return;
+
+    const cards = Array.from(
+      container.querySelectorAll("[data-category]") as NodeListOf<HTMLElement>
+    );
+    if (cards.length === 0) return;
+
+    const catParam = new URLSearchParams(window.location.search).get("cat")?.trim().toLowerCase();
+    const shouldFilter = Boolean(catParam);
+
+    cards.forEach((card) => {
+      const cardCategory = card.dataset.category?.toLowerCase() ?? "";
+      card.style.display = !shouldFilter || cardCategory === catParam ? "" : "none";
+    });
 
     const sections = Array.from(
       container.querySelectorAll("section[data-sem-key]") as NodeListOf<HTMLElement>
     );
-    if (sections.length === 0) return;
-
-    const semParam = new URLSearchParams(window.location.search).get("sem");
-    if (!semParam?.trim()) {
-      sections.forEach((el) => { el.style.display = ""; });
-      return;
-    }
-
-    const raw = semParam.trim().toLowerCase();
-    const m = raw.match(/(spring|summer|fall)[\s_-]?(\d{4})/);
-    if (!m) {
-      sections.forEach((el) => { el.style.display = ""; });
-      return;
-    }
-
-    const key = `${m[1]}-${m[2]}`;
-    const semExists = sections.some((s) => s.dataset.semKey === key);
-    const semKeyToShow = semExists ? key : null;
-
-    for (const el of sections) {
-      el.style.display = !semKeyToShow || el.dataset.semKey === semKeyToShow ? "" : "none";
-    }
+    sections.forEach((section) => {
+      const sectionCards = Array.from(
+        section.querySelectorAll("[data-category]") as NodeListOf<HTMLElement>
+      );
+      const hasVisibleCard = sectionCards.some((c) => c.style.display !== "none");
+      section.style.display = hasVisibleCard ? "" : "none";
+    });
   }
 
-  (window as unknown as { applySemesterFilter: () => void }).applySemesterFilter = applySemesterFilter;
+  (window as unknown as { applyCategoryFilter: () => void }).applyCategoryFilter = applyCategoryFilter;
 
   if (document.readyState === "loading") {
-    window.addEventListener("DOMContentLoaded", applySemesterFilter, { once: true });
+    window.addEventListener("DOMContentLoaded", applyCategoryFilter, { once: true });
   } else {
-    applySemesterFilter();
+    applyCategoryFilter();
   }
 </script>

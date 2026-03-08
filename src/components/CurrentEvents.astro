@@ -9,7 +9,6 @@ import Card from "./past-events/Card.astro";
 const res = await fetch(`${CMS_URL}/api/events?sort=start&where[start][greater_than]=${new Date().toISOString()}`);
 const data: PayloadResponse<EventType> = await res.json();
 let events: EventType[] = data.docs;
-console.log(events)
 ---
 
 <div
@@ -30,7 +29,7 @@ console.log(events)
           <Card
             date={format(localizedStart, "MMM d")}
             time={`${localizedStartTime}—${localizedEndTime}`}
-            location={event.location}
+            location={event.location_name}
             name={event.name}
             link={`/events/${event.id}`}
             category={event.eventType}

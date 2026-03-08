@@ -1,0 +1,84 @@
+---
+import { format } from "date-fns";
+
+import type { EventType, PayloadResponse } from "@/types";
+import { CMS_URL } from "../../utilities/constants";
+import {
+  getLocalizedEventTimes,
+  getSemesterDateRange
+} from "@/utilities/helpers";
+
+import Card from "./Card.astro";
+
+//const allEvents = await getCollection("events");
+const { semester, i } = Astro.props;
+
+// Get semester date range
+const { start, end } = getSemesterDateRange(semester);
+console.log(`Fetching events for semester ${semester.season} ${semester.year} with range ${start.toISOString()} - ${end.toISOString()}`);
+
+// Fetch events in given semester
+const params = new URLSearchParams();
+params.set("sort", "start");
+params.set("where[start][greater_than]", start.toISOString());
+params.set("where[start][less_than]", end.toISOString());
+
+const res = await fetch(`${CMS_URL}/api/events?${params.toString()}`);
+const data: PayloadResponse<EventType> = await res.json();
+const events: EventType[] = data.docs;
+console.log(data);
+---
+
+<section class="[--line-card-gap:25px] sm:[--line-card-gap:40px] [--sem-icon-size:14px] flex flex-col gap-4"
+        style="padding-left: calc((var(--sem-icon-size) / 2));"
+        id={`sem-sec-${i}`}
+        data-sem-key={`${semester.season}-${semester.year}`}
+>
+    {/* Semester label */}
+    <div class="sticky top-0 pt-12 w-fit">
+        <div class="relative -left-2 p-2 rounded-full flex items-center bg-body-light dark:bg-body-dark "
+            style="gap: calc(var(--line-card-gap) - var(--sem-icon-size));"
+        >
+            <div
+                data-sentinel={`#sem-sec-${i}`}
+                class="relative -top-[1px] w-(--sem-icon-size) h-(--sem-icon-size) bg-gray-300 dark:bg-zinc-600 data-[past-sentinel=true]:bg-yellow flex items-center justify-center"
+                style="left: calc(-1 * var(--sem-icon-size) / 2);"
+            >
+            <div class="w-1.5 h-1.5 bg-white dark:bg-zinc-900"></div>
+            </div>
+            <h3 class="text-base sm:text-base font-normal leading-none p-0 m-0 uppercase font-pixel">
+            {semester.season} {semester.year}
+            </h3>
+        </div>
+    </div>
+
+    {/* Event cards */}
+    <div class="pl-(--line-card-gap) border-l-1 border-gray-300">
+        <div
+            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 sm:auto-cols-fr text-center"
+        >
+            {events?.length > 0 && events.map((event) => {
+                const {
+                    localizedStart,
+                    localizedStartTime,
+                    localizedEndTime,
+                } = getLocalizedEventTimes(event);
+
+                return (
+                    <Card
+                        date={format(localizedStart, "MMM d")}
+                        time={`${localizedStartTime}—${localizedEndTime}`}
+                        location={event.location_name}
+                        name={event.name}
+                        link={`/events/${event.id}`}
+                        category={event.eventType}
+                    />
+                );
+            })}
+        </div>
+    </div>
+</section>
+
+<script>
+  import "../../scripts/scrollAnim";
+</script>

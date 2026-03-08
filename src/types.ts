@@ -26,13 +26,15 @@ interface StatType {
     label: string;
 }
 
+export type EventCategory = "hack-night" | "workshop" | "show" | "session" | "call out" | string;
+
 export interface EventType {
     id: string;
     name: string;
-    eventType: string;
+    eventType: EventCategory;
     start: string;
     end: string;
-    location: string;
+    location_name: string;
     location_url: string;
     stats: StatType[];
     description: SerializedEditorState;

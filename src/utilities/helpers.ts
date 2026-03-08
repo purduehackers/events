@@ -15,23 +15,36 @@ export interface Event {
 // Earliest semester constant
 export const EARLIEST_SEMESTER: SemesterType = { year: 2022, season: "spring" };
 
-// Return academic semester for given date
+// Get date range given semester
+export function getSemesterDateRange(semester: SemesterType): { start: Date; end: Date } {
+  const { year, season } = semester;
+  let start: Date, end: Date;
+  if (season === "spring") {
+    start = new Date(year, 0, 1); // Jan 1
+    end = new Date(year, 5, 30); // June 30
+  } else { // fall
+    start = new Date(year, 6, 1); // July 1
+    end = new Date(year, 11, 31); // Dec 31
+  }
+  return { start, end };
+}
+
+// Get academic semester for given date
 export function getSemesterFromDate(date: Date): SemesterType {
   const d = new Date(date);
   const year = d.getFullYear();
   const month = d.getMonth() + 1; // 1–12
-  if (month >= 8) return { year, season: "fall" };
-  if (month >= 6) return { year, season: "summer" };
+  if (month >= 7) return { year, season: "fall" };
   return { year, season: "spring" };
 }
 
-// Current semester based on today's date. 
+// Current semester based on today's date
 export function getCurrentSemester(): SemesterType {
   return getSemesterFromDate(new Date());
 }
 
 // Sort by newest semester within a year
-const SEMESTERS_NEWEST_FIRST: SemesterSeason[] = ["fall", "summer", "spring"];
+const SEMESTERS_NEWEST_FIRST: SemesterSeason[] = ["fall", "spring"];
 
 // Get all semesters from current to earliest, newest first
 export function getSemestersNewestFirst(): SemesterType[] {
@@ -58,15 +71,15 @@ export function getSemestersNewestFirst(): SemesterType[] {
 }
 
 // Get all events of a given semester
-export function getEventsInSemester(events: Event[], semester: SemesterType) {
+export function getEventsInSemester(events: EventType[], semester: SemesterType) {
   return events
     .filter((event) => {
-      const s = getSemesterFromDate(new Date(event.data.start));
+      const s = getSemesterFromDate(new Date(event.start));
       return s.year === semester.year && s.season === semester.season;
     })
     .sort((a, b) =>
       // Sort by newest 
-      new Date(b.data.start).getTime() - new Date(a.data.start).getTime()
+      new Date(b.start).getTime() - new Date(a.start).getTime()
     );
 }
 

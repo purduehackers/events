@@ -1,7 +1,4 @@
 ---
-import CurrentEvents from "../components/CurrentEvents.astro";
-import { getCollection } from "astro:content";
-
 import Hero from "../components/Hero.astro";
 import Marquee from "@/components/Marquee.astro";
 import SemesterFilter from "../components/past-events/SemesterFilter.tsx";
@@ -10,13 +7,12 @@ import PastEvents from "../components/past-events/PastEvents.astro";
 import Layout from "../layouts/Layout.astro";
 
 import {
-  getEventsInSemester,
   getSemestersNewestFirst,
 } from "@/utilities/helpers";
 
 export async function getStaticPaths() {
-    const allEvents = await getCollection("events");
-    const allSemesters = getSemestersNewestFirst().filter((sem) => getEventsInSemester(allEvents, sem).length > 0);
+    // Get all valid semesters for path generation
+    const allSemesters = getSemestersNewestFirst(); //.filter((sem) => getEventsInSemester(allEvents, sem).length > 0);
 
     return allSemesters.map((semester) => {
         return {
@@ -49,8 +45,6 @@ const { allSemesters, semester } = Astro.props;
       <h4>Filter by:</h4>
       <SemesterFilter client:load semesters={allSemesters} />
     </div>
-
-    <CurrentEvents />
 
     <PastEvents semesters={[semester]} />
   </div>

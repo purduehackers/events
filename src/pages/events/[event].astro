@@ -66,7 +66,7 @@ const {
           }—{localizedEndTime}
         </p>
         {
-          event.location && (
+          event.location_name && (
             <p class="mt-1 flex flex-row gap-x-2 items-center justify-center font-bold dark:text-gray-200">
               <MapPin class="w-5" />
               <span>
@@ -76,10 +76,10 @@ const {
                     target="_blank"
                     class="hover:text-amber-500"
                   >
-                    {event.location}
+                    {event.location_name}
                   </a>
                 ) : (
-                  <>{event.location}</>
+                  <>{event.location_name}</>
                 )}
               </span>
             </p>
