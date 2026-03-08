@@ -3,7 +3,7 @@ import Hero from "../components/Hero.astro";
 import Marquee from "@/components/Marquee.astro";
 import SemesterFilter from "../components/past-events/SemesterFilter.tsx";
 import CategoryFilter from "@/components/past-events/CategoryFilter";
-import PastEvents from "../components/past-events/PastEvents.astro";
+import SemesterEvents from "@/components/past-events/SemesterEvents.astro";
 import Layout from "../layouts/Layout.astro";
 
 import { EVENT_CATEGORIES } from "@/types";
@@ -32,23 +32,39 @@ const categories = [...EVENT_CATEGORIES, "other"];
 ---
 
 <Layout>
-  <Hero />
-  <div id="hero-sentinel" class="relative -top-16 h-0 w-full pointer-events-none" aria-hidden="true" />
-  <Marquee 
-    class="hidden text-pink-500 bg-amber-300" 
-    text="HACK."
-  />
-  <Marquee 
-    class="sticky top-0 text-sm text-white dark:text-white bg-neutral-800 dark:bg-purple-700 group-hover/marquee:bg-amber-400 py-1" 
-    text="HACK"
-  />
-  <div class="z-10 bg-body-light dark:bg-body-dark">
-    <div class="flex items-center gap-2 text-[15px] font-pixel uppercase">
-      <h4>Filter by:</h4>
-      <SemesterFilter client:load semesters={allSemesters} />
-      <CategoryFilter client:load categories={categories} />
-    </div>
+    <Hero />
+    <div id="hero-sentinel" class="relative -top-16 h-0 w-full pointer-events-none" aria-hidden="true" />
+    <Marquee 
+        class="hidden text-pink-500 bg-amber-300" 
+        text="HACK."
+    />
+    <Marquee 
+        class="sticky top-0 text-sm text-white dark:text-white bg-neutral-800 dark:bg-purple-700 group-hover/marquee:bg-amber-400 py-1" 
+        text="HACK"
+    />
+    <div class="z-10 bg-body-light dark:bg-body-dark">
+        <div class="z-60 sticky top-8 p-4 flex items-center gap-2 bg-zinc-200 dark:bg-zinc-700 text-[15px] font-pixel uppercase">
+            <h4>Filter by:</h4>
+            <SemesterFilter client:load semesters={allSemesters} />
+            <CategoryFilter client:load categories={categories} />
+        </div>
 
-    <PastEvents semesters={[semester]} />
+        <div
+            id="past-events"
+            class="lg:container flex flex-col mb-14 sm:pt-14 px-4 sm:px-12 md:px-18 xl:px-28 text-left gap-y-4 lg:max-w-screen-2xl mx-auto"
+        >
+            <div class="flex flex-wrap items-end justify-between gap-4">
+                 <h3 class="text-base sm:text-2xl font-normal leading-none p-0 m-0 uppercase font-pixel">
+                    {semester.season} {semester.year}
+                </h3>
+            </div>
+
+            <SemesterEvents semester={semester} i={0} />
+        </div>
   </div>
 </Layout>
+
+<script>
+  import "../scripts/scrollAnim";
+  import "../scripts/categoryFilter";
+</script>

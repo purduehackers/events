@@ -1,23 +1,9 @@
 ---
-
-import type { EventType, PayloadResponse, SemesterType } from "@/types";
-import { CMS_URL } from "../../utilities/constants";
-import {
-  getEventsInSemester,
-} from "@/utilities/helpers";
+import type { SemesterType } from "@/types";
 
 import SemesterEvents from "./SemesterEvents.astro";
 
-//const allEvents = await getCollection("events");
 const { semesters } = Astro.props;
-
-const params = new URLSearchParams();
-params.set("sort", "start");
-params.set("where[start][less_than]", new Date().toISOString());
-
-const res = await fetch(`${CMS_URL}/api/events?${params.toString()}`);
-const data: PayloadResponse<EventType> = await res.json();
-let allEvents: EventType[] = data.docs;
 ---
 
 <div
@@ -28,16 +14,11 @@ let allEvents: EventType[] = data.docs;
     <h2 class="text-3xl sm:text-4xl font-mono font-black m-0">Past events</h2>
   </div>
 
-  {
-    semesters.map((semester: SemesterType, i: number) => {
-      const events = getEventsInSemester(allEvents, semester);
-      if (events.length === 0) return null;
-
+  {semesters.map((semester: SemesterType, i: number) => {
       return (
         <SemesterEvents semester={semester} i={i} />
       );
-    })
-  }
+  })}
   <button class="cursor-pointer w-fit m-auto mt-4 font-pixel text-sm font-bold text-purple-700 dark:text-amber-400">
     Load more ...
   </button>

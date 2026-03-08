@@ -32,7 +32,7 @@ const categories = [...EVENT_CATEGORIES, "other"];
     text="HACK"
   />
   <div class="z-10 bg-body-light dark:bg-body-dark">
-    <div class="flex items-center gap-2 text-[15px] font-pixel uppercase">
+    <div class="z-60 sticky top-8 p-4 flex items-center gap-2 bg-zinc-200 dark:bg-zinc-700 text-[15px] font-pixel uppercase">
       <h4>Filter by:</h4>
       <SemesterFilter client:load semesters={allSemesters} />
       <CategoryFilter client:load categories={categories} />
