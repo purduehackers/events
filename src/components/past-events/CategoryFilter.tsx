@@ -64,7 +64,12 @@ export default function CategoryFilter({ categories }: CategoryFilterProps) {
     }
     window.history.replaceState(null, "", url.toString());
 
-    window.applyCategoryFilter?.();
+    // Notify the past-events component so it can re-fetch / re-filter.
+    window.dispatchEvent(
+      new CustomEvent<string | null>("pastEvents:categoryChange", {
+        detail: newValue || null,
+      })
+    );
   };
 
   return (

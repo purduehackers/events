@@ -15,8 +15,6 @@ import {
 } from "@/utilities/helpers";
 
 const allSemesters = getSemestersNewestFirst();
-console.log("allSems: ", allSemesters)
-
 const categories = [...EVENT_CATEGORIES, "other"];
 ---
 
@@ -40,6 +38,6 @@ const categories = [...EVENT_CATEGORIES, "other"];
 
     <CurrentEvents />
 
-    <PastEvents semesters={allSemesters.splice(0, 2)} />
+    <PastEvents />
   </div>
 </Layout>

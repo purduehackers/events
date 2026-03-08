@@ -1,63 +1,11 @@
 ---
 import type { EventType, PayloadResponse } from "../types";
-import { format } from "date-fns";
-import { getLocalizedEventTimes } from "@/utilities/helpers";
 import { CMS_URL } from "../utilities/constants";
-
-import Card from "./past-events/Card.astro";
+import CurrentEventsClient from "./CurrentEventsClient.tsx";
 
 const res = await fetch(`${CMS_URL}/api/events?sort=start&where[start][greater_than]=${new Date().toISOString()}`);
 const data: PayloadResponse<EventType> = await res.json();
-let events: EventType[] = data.docs;
+const events: EventType[] = data.docs;
 ---
 
-<div
-  data-category-section="current-events"
-  class="lg:container flex flex-col mb-0 sm:pt-14 px-4 sm:px-12 md:px-18 xl:px-28 text-left gap-y-4 lg:max-w-screen-2xl mx-auto"
->
-  <h2 class="text-3xl sm:text-4xl font-mono font-black m-0">Upcoming events</h2>
-
-  <div class="flex flex-row gap-2 mb-8">
-    {
-      events.map((event) => {
-        const {
-          localizedStart,
-          localizedStartTime,
-          localizedEndTime,
-        } = getLocalizedEventTimes(event);
-
-        return (
-          <Card
-            date={format(localizedStart, "MMM d")}
-            time={`${localizedStartTime}—${localizedEndTime}`}
-            location={event.location_name}
-            name={event.name}
-            link={`/events/${event.id}`}
-            category={event.eventType}
-          />
-        );
-      })
-    }
-  </div>
-
-  <a class="hidden" href="https://lu.ma/user/purduehackers" target="_blank" rel="noreferrer">
-    <div
-      class="w-full md:w-fit rounded-sm bg-yellow dark:text-black p-4 flex flex-col justify-center gap-y-3"
-    >
-      <p class="font-pixel uppercase text-sm">--new--</p>
-      <h2 class="font-mono text-left text-2xl sm:text-3xl font-bold">
-        Looking for upcoming events?
-      </h2>
-      <p class="font-subtext">Current and future events are now posted on Luma!</p>
-      <button 
-        class="cursor-pointer w-fit px-2 uppercase text-sm font-pixel font-normal text-white bg-black rounded-sm"
-      >
-        Check it out {'>>'}
-      </button>
-    </div>
-  </a>
-</div>
-
-<script>
-  import "../scripts/categoryFilter";
-</script>
+<CurrentEventsClient client:load initialEvents={events} />

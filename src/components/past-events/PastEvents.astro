@@ -1,9 +1,27 @@
 ---
-import type { SemesterType } from "@/types";
+import type { EventType, SemesterType } from "@/types";
+import { CMS_URL } from "@/utilities/constants";
+import { getSemestersNewestFirst } from "@/utilities/helpers";
 
-import SemesterEvents from "./SemesterEvents.astro";
+import PastEventsClient from "./PastEventsClient.tsx";
 
-const { semesters } = Astro.props;
+const INITIAL_PAGE = 1;
+const INITIAL_LIMIT = 1;
+
+const initialSemesters: SemesterType[] = getSemestersNewestFirst();
+
+// Build search params to query cms events
+const params = new URLSearchParams();
+params.set("sort", "-start");
+params.set("where[start][less_than]", new Date().toISOString());
+params.set("limit", String(INITIAL_LIMIT));
+params.set("page", String(INITIAL_PAGE));
+
+// Fetch initial page of past events to render on the server
+const res = await fetch(`${CMS_URL}/api/events?${params.toString()}`);
+const data = (await res.json()) as { docs: EventType[]; hasNextPage: boolean };
+const initialEvents = data.docs ?? [];
+const initialHasNextPage = Boolean(data.hasNextPage);
 ---
 
 <div
@@ -14,17 +32,16 @@ const { semesters } = Astro.props;
     <h2 class="text-3xl sm:text-4xl font-mono font-black m-0">Past events</h2>
   </div>
 
-  {semesters.map((semester: SemesterType, i: number) => {
-      return (
-        <SemesterEvents semester={semester} i={i} />
-      );
-  })}
-  <button class="cursor-pointer w-fit m-auto mt-4 font-pixel text-sm font-bold text-purple-700 dark:text-amber-400">
-    Load more ...
-  </button>
+  <PastEventsClient
+    client:load
+    initialEvents={initialEvents}
+    initialSemesters={initialSemesters}
+    initialPage={INITIAL_PAGE}
+    limit={INITIAL_LIMIT}
+    initialHasNextPage={initialHasNextPage}
+  />
 </div>
 
 <script>
   import "../../scripts/scrollAnim";
-  import "../../scripts/categoryFilter";
 </script>
