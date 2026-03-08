@@ -69,7 +69,7 @@ const Selector = ({
                     {'>'}
                 </SelectIcon>
             </SelectTrigger>
-            <SelectPortal>
+            <SelectPortal container={typeof document !== "undefined" ? document.body : undefined}>
                 <SelectContent
                     className="z-[100] cursor-pointer overflow-hidden bg-body-light dark:bg-body-dark border border-zinc-200 dark:border-zinc-700 font-pixel uppercase text-[15px]"
                     position="popper"

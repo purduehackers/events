@@ -50,6 +50,22 @@
   background-color: var(--gray-900);
 }
 
+html {
+  scrollbar-gutter: stable both-edges;
+}
+html body[data-scroll-locked] {
+  padding-right: 0 !important;
+  --removed-body-scroll-bar-size: 0px !important;
+}
+body {
+   margin-right: 0px !important;
+}
+/* Ensure sticky elements do not move */
+.sticky-scroll-lock {
+  padding-right: var(--removed-body-scroll-bar-size);
+}
+
+
 ::selection {
   background-color: var(--highlight-bg);
   color: var(--highlight-fg);
