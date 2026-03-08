@@ -18,10 +18,10 @@ const currentPath = Astro.url.pathname;
   aria-hidden="false"
 >
   <div class="w-full px-2 md:px-3 mx-auto flex justify-between items-center sm:grid sm:grid-cols-3">
-    {currentPath !== "/" ? 
-      <a href={`/`} class="justify-self-start flex items-center gap-x-2 uppercase text-sm font-pixel">
+    {currentPath.includes("/events") ? 
+      <button onclick="history.back()" class="cursor-pointer justify-self-start flex items-center gap-x-2 uppercase text-sm font-pixel">
         <ArrowLeftIcon class="hidden w-4 h-4" /> {'<<'} <span>All Events</span>
-      </a>
+      </button>
     :
       <a class="h-fit self-center justify-self-start"
         href="https://purduehackers.com"

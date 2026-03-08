@@ -17,13 +17,6 @@ import { CMS_URL } from "../../utilities/constants";
 import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical';
 import { convertLexicalToHTMLAsync } from '@payloadcms/richtext-lexical/html-async';
 
-const { event } = Astro.props;
-
-// Convert rich text once during build
-const descriptionHTML = await convertLexicalToHTMLAsync({
-  data: event.description as SerializedEditorState,
-});
-
 export async function getStaticPaths() {
   let res = await fetch(`${CMS_URL}/api/events?sort=start`);
   const data: PayloadResponse<EventType> = await res.json();
@@ -31,13 +24,22 @@ export async function getStaticPaths() {
 
   return events.map((event) => {
     return {
-      params: { event: event.id },
+      params: { 
+        event: event.id 
+      },
       props: {
         event,
       },
     };
   });
 }
+
+const { event } = Astro.props;
+
+// Convert rich text once during build
+const descriptionHTML = await convertLexicalToHTMLAsync({
+  data: event.description as SerializedEditorState,
+});
 
 const {
     localizedStart,
