@@ -9,12 +9,15 @@ import CategoryFilter from "@/components/past-events/CategoryFilter";
 import PastEvents from "../components/past-events/PastEvents.astro";
 import Layout from "../layouts/Layout.astro";
 
+import { EVENT_CATEGORIES } from "@/types";
 import {
   getSemestersNewestFirst,
 } from "@/utilities/helpers";
 
 const allSemesters = getSemestersNewestFirst();
 console.log("allSems: ", allSemesters)
+
+const categories = [...EVENT_CATEGORIES, "other"];
 ---
 
 <Layout>
@@ -32,7 +35,7 @@ console.log("allSems: ", allSemesters)
     <div class="flex items-center gap-2 text-[15px] font-pixel uppercase">
       <h4>Filter by:</h4>
       <SemesterFilter client:load semesters={allSemesters} />
-      <CategoryFilter client:load categories={[]} />
+      <CategoryFilter client:load categories={categories} />
     </div>
 
     <CurrentEvents />

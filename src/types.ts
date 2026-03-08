@@ -26,7 +26,15 @@ interface StatType {
     label: string;
 }
 
-export type EventCategory = "hack-night" | "workshop" | "show" | "session" | "call out" | string;
+export const EVENT_CATEGORIES = [
+  "hack-night",
+  "workshop",
+  "show",
+  "session",
+  "call-out",
+] as const;
+export type KnownEventCategory = (typeof EVENT_CATEGORIES)[number];
+export type EventCategory = KnownEventCategory | string;
 
 export interface EventType {
     id: string;

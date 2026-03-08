@@ -7,7 +7,6 @@ import {
 } from "@/utilities/helpers";
 
 import SemesterEvents from "./SemesterEvents.astro";
-import CategoryFilter from "./CategoryFilter";
 
 //const allEvents = await getCollection("events");
 const { semesters } = Astro.props;
@@ -19,15 +18,6 @@ params.set("where[start][less_than]", new Date().toISOString());
 const res = await fetch(`${CMS_URL}/api/events?${params.toString()}`);
 const data: PayloadResponse<EventType> = await res.json();
 let allEvents: EventType[] = data.docs;
-
-const categories: string[] = Array.from(
-  new Set(
-    allEvents
-      .map((event) => event.eventType ?? "")
-      .filter(Boolean)
-      .map((cat) => cat.toLowerCase())
-  )
-).sort();
 ---
 
 <div
@@ -36,7 +26,6 @@ const categories: string[] = Array.from(
 >
   <div class="flex flex-wrap items-end justify-between gap-4">
     <h2 class="text-3xl sm:text-4xl font-mono font-black m-0">Past events</h2>
-    <CategoryFilter categories={categories} />
   </div>
 
   {
@@ -56,43 +45,5 @@ const categories: string[] = Array.from(
 
 <script>
   import "../../scripts/scrollAnim";
-
-  const CONTAINER_ID = "past-events";
-
-  function applyCategoryFilter() {
-    const container = document.getElementById(CONTAINER_ID);
-    if (!container) return;
-
-    const cards = Array.from(
-      container.querySelectorAll("[data-category]") as NodeListOf<HTMLElement>
-    );
-    if (cards.length === 0) return;
-
-    const catParam = new URLSearchParams(window.location.search).get("cat")?.trim().toLowerCase();
-    const shouldFilter = Boolean(catParam);
-
-    cards.forEach((card) => {
-      const cardCategory = card.dataset.category?.toLowerCase() ?? "";
-      card.style.display = !shouldFilter || cardCategory === catParam ? "" : "none";
-    });
-
-    const sections = Array.from(
-      container.querySelectorAll("section[data-sem-key]") as NodeListOf<HTMLElement>
-    );
-    sections.forEach((section) => {
-      const sectionCards = Array.from(
-        section.querySelectorAll("[data-category]") as NodeListOf<HTMLElement>
-      );
-      const hasVisibleCard = sectionCards.some((c) => c.style.display !== "none");
-      section.style.display = hasVisibleCard ? "" : "none";
-    });
-  }
-
-  (window as unknown as { applyCategoryFilter: () => void }).applyCategoryFilter = applyCategoryFilter;
-
-  if (document.readyState === "loading") {
-    window.addEventListener("DOMContentLoaded", applyCategoryFilter, { once: true });
-  } else {
-    applyCategoryFilter();
-  }
+  import "../../scripts/categoryFilter";
 </script>

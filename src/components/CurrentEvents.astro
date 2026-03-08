@@ -12,6 +12,7 @@ let events: EventType[] = data.docs;
 ---
 
 <div
+  data-category-section="current-events"
   class="lg:container flex flex-col mb-14 sm:pt-14 px-4 sm:px-12 md:px-18 xl:px-28 text-left gap-y-4 lg:max-w-screen-2xl mx-auto"
 >
   <h2 class="text-3xl sm:text-4xl font-mono font-black m-0">Upcoming events</h2>
@@ -55,4 +56,7 @@ let events: EventType[] = data.docs;
       </button>
     </div>
   </a>
+  <script>
+    import "../scripts/categoryFilter";
+  </script>
 </div>

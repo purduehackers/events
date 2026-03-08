@@ -2,10 +2,11 @@
 import Hero from "../components/Hero.astro";
 import Marquee from "@/components/Marquee.astro";
 import SemesterFilter from "../components/past-events/SemesterFilter.tsx";
-
+import CategoryFilter from "@/components/past-events/CategoryFilter";
 import PastEvents from "../components/past-events/PastEvents.astro";
 import Layout from "../layouts/Layout.astro";
 
+import { EVENT_CATEGORIES } from "@/types";
 import {
   getSemestersNewestFirst,
 } from "@/utilities/helpers";
@@ -27,6 +28,7 @@ export async function getStaticPaths() {
     });
 }
 const { allSemesters, semester } = Astro.props;
+const categories = [...EVENT_CATEGORIES, "other"];
 ---
 
 <Layout>
@@ -44,6 +46,7 @@ const { allSemesters, semester } = Astro.props;
     <div class="flex items-center gap-2 text-[15px] font-pixel uppercase">
       <h4>Filter by:</h4>
       <SemesterFilter client:load semesters={allSemesters} />
+      <CategoryFilter client:load categories={categories} />
     </div>
 
     <PastEvents semesters={[semester]} />

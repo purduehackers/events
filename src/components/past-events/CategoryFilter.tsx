@@ -14,6 +14,7 @@ function getCategoryFromUrl(): string | null {
 
 declare global {
   interface Window {
+    knownEventCategories?: string[];
     applyCategoryFilter?: () => void;
   }
 }
@@ -24,20 +25,28 @@ export default function CategoryFilter({ categories }: CategoryFilterProps) {
       new Set(categories.filter(Boolean).map((c) => c.toLowerCase()))
     );
 
-    return uniqueCategories
-      .sort((a, b) => a.localeCompare(b))
-      .map((value) => ({
-        value,
-        label: value
-          .split(/[-\s]/)
-          .map((part) => part[0]?.toUpperCase() + part.slice(1))
-          .join(" "),
-      }));
+    const sorted = uniqueCategories.sort((a, b) => a.localeCompare(b));
+    const optionList: SelectorOption[] = sorted.map((value) => ({
+      value,
+      label: value
+        .split(/[-\s]/)
+        .map((part) => part[0]?.toUpperCase() + part.slice(1))
+        .join(" "),
+    }));
+
+    if (!optionList.some((o) => o.value === "other")) {
+      optionList.push({ value: "other", label: "Other" });
+    }
+
+    return optionList;
   }, [categories]);
 
   const [value, setValue] = useState<string>("");
 
   useEffect(() => {
+    // Expose known categories to filtering script (for "other" logic)
+    window.knownEventCategories = options.map((o) => o.value).filter((v) => v !== "other");
+
     const cat = getCategoryFromUrl();
     if (cat && options.some((o) => o.value === cat)) {
       setValue(cat);
