@@ -12,8 +12,8 @@ import MapPin from "@/assets/map-pin.svg";
 import Description from "@/components/past-events/Description.astro";
 import DiscordCard from "@/components/past-events/DiscordCard.astro";
 
-import type { EventType, PayloadResponse } from "../types";
-import { CMS_URL } from "../utilities/constants";
+import type { EventType, PayloadResponse } from "../../types";
+import { CMS_URL } from "../../utilities/constants";
 import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical';
 import { convertLexicalToHTMLAsync } from '@payloadcms/richtext-lexical/html-async';
 
@@ -25,18 +25,18 @@ const descriptionHTML = await convertLexicalToHTMLAsync({
 });
 
 export async function getStaticPaths() {
-    let res = await fetch(`${CMS_URL}/api/events?sort=start`);
-    const data: PayloadResponse<EventType> = await res.json();
-    const events: EventType[] = data.docs;
+  let res = await fetch(`${CMS_URL}/api/events?sort=start`);
+  const data: PayloadResponse<EventType> = await res.json();
+  const events: EventType[] = data.docs;
 
-    return events.map((event) => {
-        return {
-            params: { event: event.id },
-            props: {
-                event,
-            },
-        };
-    });
+  return events.map((event) => {
+    return {
+      params: { event: event.id },
+      props: {
+        event,
+      },
+    };
+  });
 }
 
 const {

@@ -1,11 +1,21 @@
 ---
 import CurrentEvents from "../components/CurrentEvents.astro";
+import { getCollection } from "astro:content";
 
 import Hero from "../components/Hero.astro";
 import Marquee from "@/components/Marquee.astro";
+import SemesterFilter from "../components/past-events/SemesterFilter.tsx";
 
 import PastEvents from "../components/past-events/PastEvents.astro";
 import Layout from "../layouts/Layout.astro";
+
+import {
+  getEventsInSemester,
+  getSemestersNewestFirst,
+} from "@/utilities/helpers";
+
+const allEvents = await getCollection("events");
+const allSemesters = getSemestersNewestFirst().filter((sem) => getEventsInSemester(allEvents, sem).length > 0);
 ---
 
 <Layout>
@@ -20,8 +30,13 @@ import Layout from "../layouts/Layout.astro";
     text="HACK"
   />
   <div class="z-10 bg-body-light dark:bg-body-dark">
+    <div class="flex items-center gap-2 text-[15px] font-pixel uppercase">
+      <h4>Filter by:</h4>
+      <SemesterFilter client:load semesters={allSemesters} />
+    </div>
+
     <CurrentEvents />
 
-    <PastEvents />
+    <PastEvents semesters={allSemesters.splice(0, 2)} />
   </div>
 </Layout>

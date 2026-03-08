@@ -1,20 +1,17 @@
 ---
-import { getCollection } from "astro:content";
 import { format } from "date-fns";
+import { getCollection } from "astro:content";
 
 import Card from "./Card.astro";
-import SemesterFilter from "./SemesterFilter";
 import {
   getEventMetadata,
   getEventSlug,
   getEventsInSemester,
-  getSemestersNewestFirst,
 } from "@/utilities/helpers";
+import type { SemesterType } from "@/types";
 
 const allEvents = await getCollection("events");
-const allSemesters = getSemestersNewestFirst();
-const semesters = allSemesters.filter((sem) => getEventsInSemester(allEvents, sem).length > 0);
-
+const { semesters } = Astro.props;
 ---
 
 <div
@@ -23,14 +20,10 @@ const semesters = allSemesters.filter((sem) => getEventsInSemester(allEvents, se
 >
   <div class="flex flex-wrap items-end justify-between gap-4">
     <h2 class="text-3xl sm:text-4xl font-mono font-black m-0">Past events</h2>
-    <div class="flex items-center gap-2 text-[15px] font-pixel uppercase">
-      <h4>Filter by:</h4>
-      <SemesterFilter client:load semesters={semesters} />
-    </div>
   </div>
 
   {
-    semesters.map((semester, i) => {
+    semesters.map((semester: SemesterType, i: number) => {
       const events = getEventsInSemester(allEvents, semester);
       if (events.length === 0) return null;
 

@@ -53,3 +53,10 @@ export interface PayloadResponse<T> {
     prevPage: number | null;
     nextPage: number | null;
 }
+
+// Academic semester: Spring (Jan–May), Summer (June–July), Fall (Aug–Dec) 
+export type SemesterSeason = "spring" | "summer" | "fall";
+export interface SemesterType {
+  year: number;
+  season: SemesterSeason;
+}

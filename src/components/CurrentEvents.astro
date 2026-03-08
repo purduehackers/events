@@ -32,7 +32,7 @@ console.log(events)
             time={`${localizedStartTime}—${localizedEndTime}`}
             location={event.location}
             name={event.name}
-            link={event.id}
+            link={`/events/${event.id}`}
             category={event.eventType}
           />
         );
@@ -40,7 +40,7 @@ console.log(events)
     }
   </div>
 
-  <a href="https://lu.ma/user/purduehackers" target="_blank" rel="noreferrer">
+  <a class="hidden" href="https://lu.ma/user/purduehackers" target="_blank" rel="noreferrer">
     <div
       class="w-full md:w-fit rounded-sm bg-yellow dark:text-black p-4 flex flex-col justify-center gap-y-3"
     >

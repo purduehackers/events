@@ -1,4 +1,4 @@
-import type { EventType } from "@/types";
+import type { EventType, SemesterType, SemesterSeason } from "@/types";
 import { TZDate } from "@date-fns/tz";
 import type { RenderedContent } from "astro:content";
 import { format } from "date-fns";
@@ -12,18 +12,11 @@ export interface Event {
   filePath?: string;
 }
 
-// Academic semester: Spring (Jan–May), Summer (June–July), Fall (Aug–Dec) 
-export type SemesterSeason = "spring" | "summer" | "fall";
-export interface Semester {
-  year: number;
-  season: SemesterSeason;
-}
-
 // Earliest semester constant
-export const EARLIEST_SEMESTER: Semester = { year: 2022, season: "spring" };
+export const EARLIEST_SEMESTER: SemesterType = { year: 2022, season: "spring" };
 
 // Return academic semester for given date
-export function getSemesterFromDate(date: Date): Semester {
+export function getSemesterFromDate(date: Date): SemesterType {
   const d = new Date(date);
   const year = d.getFullYear();
   const month = d.getMonth() + 1; // 1–12
@@ -33,7 +26,7 @@ export function getSemesterFromDate(date: Date): Semester {
 }
 
 // Current semester based on today's date. 
-export function getCurrentSemester(): Semester {
+export function getCurrentSemester(): SemesterType {
   return getSemesterFromDate(new Date());
 }
 
@@ -41,9 +34,9 @@ export function getCurrentSemester(): Semester {
 const SEMESTERS_NEWEST_FIRST: SemesterSeason[] = ["fall", "summer", "spring"];
 
 // Get all semesters from current to earliest, newest first
-export function getSemestersNewestFirst(): Semester[] {
+export function getSemestersNewestFirst(): SemesterType[] {
   const current = getCurrentSemester();
-  const list: Semester[] = [];
+  const list: SemesterType[] = [];
 
   // Iterate thru semesters starting from current year
   for (let y = current.year; y >= EARLIEST_SEMESTER.year; y--) {
@@ -65,7 +58,7 @@ export function getSemestersNewestFirst(): Semester[] {
 }
 
 // Get all events of a given semester
-export function getEventsInSemester(events: Event[], semester: Semester) {
+export function getEventsInSemester(events: Event[], semester: SemesterType) {
   return events
     .filter((event) => {
       const s = getSemesterFromDate(new Date(event.data.start));
