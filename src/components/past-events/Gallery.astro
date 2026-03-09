@@ -1,10 +1,22 @@
 ---
-interface Props {
-    event_classification: string;
-    event_version: string;
+interface ImageItem {
+  url: string;
+  alt?: string;
 }
 
-const { event_classification, event_version } = Astro.props;
+interface Props {
+  images?: Array<ImageItem | string>;
+}
+
+const { images = [] } = Astro.props;
+
+const imageItems: ImageItem[] = images.map((img) => {
+  if (typeof img === "string") {
+    return { url: img, alt: "Event photo" };
+  }
+  return { url: img.url, alt: img.alt ?? "Event photo" };
+});
+console.log("gallery images:", imageItems)
 ---
 
 <div
@@ -103,7 +115,7 @@ const { event_classification, event_version } = Astro.props;
             id="lightbox-img"
             src=""
             alt="Event photo"
-            class="pointer-events-auto max-h-[90vh] max-w-[90vw] object-contain rounded-sm shadow-2xl select-none"
+            class="pointer-events-auto max-h-[90vh] max-w-[90vw] object-contain rounded-xs shadow-2xl select-none"
         />
     </div>
 
@@ -152,7 +164,7 @@ const { event_classification, event_version } = Astro.props;
     </div>
 </div>
 
-<script is:inline define:vars={{ event_classification, event_version }}>
+<script is:inline define:vars={{ imageItems }}>
     const imageArea = document.getElementById("image-area");
     const mobileViewMoreBtn = document.getElementById("mobile-view-more");
     const desktopViewMoreBtn = document.getElementById("desktop-view-more");
@@ -166,11 +178,7 @@ const { event_classification, event_version } = Astro.props;
     const prevBtnMobile = document.getElementById("lightbox-prev-mobile");
     const nextBtnMobile = document.getElementById("lightbox-next-mobile");
 
-    const r2_base = "https://event-assets.purduehackers.com/images";
-    const event_base = `${r2_base}/${event_classification}/${event_version}`;
-    const manifest_url = `${event_base}/index.json`;
-
-    let allImageUrls = [];
+    let allImageItems = Array.isArray(imageItems) ? imageItems : [];
     let currentImageIndex = 0;
 
     // Lightbox Logic
@@ -189,29 +197,32 @@ const { event_classification, event_version } = Astro.props;
     };
 
     const updateLightboxImage = () => {
-        if (allImageUrls.length > 0) {
+        if (allImageItems.length > 0) {
             // Preload next and previous images
-            const nextIndex = (currentImageIndex + 1) % allImageUrls.length;
+            const nextIndex = (currentImageIndex + 1) % allImageItems.length;
             const prevIndex =
-                (currentImageIndex - 1 + allImageUrls.length) %
-                allImageUrls.length;
-            new Image().src = allImageUrls[nextIndex];
-            new Image().src = allImageUrls[prevIndex];
+                (currentImageIndex - 1 + allImageItems.length) %
+                allImageItems.length;
+            new Image().src = allImageItems[nextIndex].url;
+            new Image().src = allImageItems[prevIndex].url;
 
-            lightboxImg.src = allImageUrls[currentImageIndex];
+            lightboxImg.src = allImageItems[currentImageIndex].url;
+            lightboxImg.alt =
+                allImageItems[currentImageIndex].alt ?? "Event photo";
         }
     };
 
     const showNext = (e) => {
         e?.stopPropagation();
-        currentImageIndex = (currentImageIndex + 1) % allImageUrls.length;
+        if (!allImageItems.length) return;
+        currentImageIndex = (currentImageIndex + 1) % allImageItems.length;
         updateLightboxImage();
     };
 
     const showPrev = (e) => {
         e?.stopPropagation();
-        currentImageIndex =
-            (currentImageIndex - 1 + allImageUrls.length) % allImageUrls.length;
+        if (!allImageItems.length) return;
+        currentImageIndex = (currentImageIndex - 1 + allImageItems.length) % allImageItems.length;
         updateLightboxImage();
     };
 
@@ -235,16 +246,6 @@ const { event_classification, event_version } = Astro.props;
         if (e.key === "ArrowRight") showNext();
         if (e.key === "ArrowLeft") showPrev();
     });
-
-    // Data Fetching
-    const checkManifest = async () => {
-        try {
-            const res = await fetch(manifest_url, { method: "HEAD" });
-            return res.status === 200;
-        } catch (e) {
-            return false;
-        }
-    };
 
     const fixViewMoreBtns = (count) => {
         if (count > 3) {
@@ -275,52 +276,35 @@ const { event_classification, event_version } = Astro.props;
         }
     };
 
-    const populateImages = async () => {
-        if (await checkManifest()) {
-            try {
-                const res = await fetch(manifest_url);
-                const manifest = await res.json();
+    const populateImages = () => {
+        const image_count = allImageItems.length;
 
-                allImageUrls = manifest["images"].map((image) => {
-                    return `${event_base}/${image.filename}`;
-                });
+        for (let i = 0; i < image_count; i++) {
+            const isHidden = i >= 3;
+            const { url: img_url, alt: img_alt } = allImageItems[i];
 
-                const image_count = allImageUrls.length;
+            const img_wrapper = document.createElement("div");
 
-                for (let i = 0; i < image_count; i++) {
-                    const isHidden = i >= 3;
-                    const img_url = allImageUrls[i];
-
-                    const img_wrapper = document.createElement("div");
-
-                    if (isHidden) {
-                        img_wrapper.className = "hidden-gallery-item hidden";
-                    } else {
-                        img_wrapper.className =
-                            "w-full break-inside-avoid hover:scale-[1.03] transform cursor-pointer mb-2";
-                    }
-
-                    img_wrapper.onclick = () => openLightbox(i);
-
-                    const img = document.createElement("img");
-                    img.src = img_url;
-                    img.className = "rounded-sm w-full";
-
-                    img_wrapper.appendChild(img);
-                    imageArea.appendChild(img_wrapper);
-                }
-
-                fixViewMoreBtns(image_count);
-            } catch (e) {
-                console.error("Failed to load images", e);
-                fixViewMoreBtns(0);
+            if (isHidden) {
+                img_wrapper.className = "hidden-gallery-item hidden";
+            } else {
+                img_wrapper.className =
+                    "w-full break-inside-avoid hover:scale-[1.03] transform cursor-pointer mb-2";
             }
-        } else {
-            fixViewMoreBtns(0);
+
+            img_wrapper.onclick = () => openLightbox(i);
+
+            const img = document.createElement("img");
+            img.src = img_url;
+            img.alt = img_alt ?? "Event photo";
+            img.className = "rounded-xs w-full";
+
+            img_wrapper.appendChild(img);
+            imageArea.appendChild(img_wrapper);
         }
+
+        fixViewMoreBtns(image_count);
     };
 
-    populateImages().catch(() => {
-        fixViewMoreBtns(0);
-    });
+    populateImages();
 </script>

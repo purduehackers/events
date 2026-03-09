@@ -8,7 +8,7 @@ import Clock from "@/assets/clock.svg";
 import Stat from "@/components/past-events/Stat.astro";
 import MapPin from "@/assets/map-pin.svg";
 
-//import Gallery from "@/components/past-events/Gallery.astro";
+import Gallery from "@/components/past-events/Gallery.astro";
 import Description from "@/components/past-events/Description.astro";
 import DiscordCard from "@/components/past-events/DiscordCard.astro";
 
@@ -101,19 +101,23 @@ const {
             )
         }
 
-        <div class="sm:max-w-lg md:max-w-xl">
+        <div class="w-full sm:min-w-100 sm:max-w-lg md:max-w-xl">
           <div class="flex flex-col justify-items-center sm:justify-items-end">
-            <div class="bg-zinc-900 dark:bg-gray-300 rounded-sm text-white dark:text-black border-2 p-4 sm:p-6 mx-4 mt-4 sm:mx-0 sm:mt-0 mb-4 sm:w-fit">
+            <div class="bg-zinc-900 dark:bg-gray-300 rounded-sm text-white dark:text-black border-2 p-4 sm:p-6 mx-4 mt-4 sm:mx-0 sm:mt-0 mb-4">
               <p class="text-yellow dark:text-purple-700 font-display uppercase text-sm mb-4">--details--</p>
               <Description>
                 <div set:html={descriptionHTML} />
               </Description>
             </div>
 
-            {/*<Gallery event_classification={event.filePath?.split("/").slice(2)[1]!} event_version={event.filePath?.split("/").slice(2)[2]!} />*/}
-            <div>
-                image: {event.images[0]?.image.url && <img src={CMS_URL + event.images[0].image.url} alt={event.name} />}
-            </div>
+            {event.images && event.images.length > 0 && (
+              <Gallery
+                images={event.images.map((img) => ({
+                  url: CMS_URL + img.image.url,
+                  alt: img.image?.alt ?? event.name,
+                }))}
+              />
+            )}
           </div>
         </div>
       </div>
