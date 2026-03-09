@@ -4,11 +4,8 @@
  */
 
 if (typeof window !== "undefined") {
-  const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
-
   function run() {
-    if (window.matchMedia(REDUCED_MOTION).matches) return;
-
+    // Get target elements to change on scroll
     const scrollThresholdEls = document.querySelectorAll<HTMLElement>("[data-scroll-threshold]");
     const sentinelEls = document.querySelectorAll<HTMLElement>("[data-sentinel]");
 
@@ -38,8 +35,8 @@ if (typeof window !== "undefined") {
       update();
     }
 
-    // Sticky sentinel: set data-past-sentinel when the sentinel’s top has passed
-    // the viewport top (e.g. when a sticky label is stuck).
+    // Sticky sentinel
+    // Set data-past-sentinel when the sentinel’s top has passed the viewport top
     if (sentinelEls.length > 0) {
       const bySelector = new Map<string, HTMLElement[]>();
       sentinelEls.forEach((el) => {
@@ -57,6 +54,7 @@ if (typeof window !== "undefined") {
           const sentinel = document.querySelector(selector);
           if (!sentinel) return;
           const rect = sentinel.getBoundingClientRect();
+          
           // Past = section top has passed viewport top (label is stuck)
           const past = rect.top <= 0;
           if (sentinelState.get(selector) !== past) {
