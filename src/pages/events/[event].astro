@@ -18,9 +18,14 @@ import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical
 import { convertLexicalToHTMLAsync } from '@payloadcms/richtext-lexical/html-async';
 
 export async function getStaticPaths() {
-  let res = await fetch(`${CMS_URL}/api/events?sort=start`);
-  const data: PayloadResponse<EventType> = await res.json();
-  const events: EventType[] = data.docs;
+  let events: EventType[] = [];
+  let pageNum: number | null = 1;
+  while (pageNum != null) {
+    let res = await fetch(`${CMS_URL}/api/events?limit=100&page=${pageNum}`);
+    const data: PayloadResponse<EventType> = await res.json();
+    events.push(...data.docs); // append this page of events
+    pageNum = data.nextPage; // get next page of events
+  }
 
   return events.map((event) => {
     return {

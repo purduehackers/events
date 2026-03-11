@@ -33,7 +33,6 @@ export default function SemesterFilter({ semesters }: SemesterFilterProps) {
         label: `${s.season} ${s.year}`,
       });
     }
-    console.log("semesters: ", semesters)
     return list;
   }, [semesters]);
 
