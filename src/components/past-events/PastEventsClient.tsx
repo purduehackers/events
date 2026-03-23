@@ -223,56 +223,62 @@ export default function PastEventsClient({
 
     return (
         <>
-        {semestersWithEvents.map(({ semester, events }, idx) => {
-            return (
-                <section
-                    key={`${semester.season}-${semester.year}`}
-                    className="[--line-card-gap:25px] sm:[--line-card-gap:40px] [--sem-icon-size:14px] flex flex-col gap-4"
-                    style={{ paddingLeft: "calc((var(--sem-icon-size) / 2))" }}
-                    id={`sem-sec-${idx}`}
-                    data-sem-key={`${semester.season}-${semester.year}`}
-                >
-                    <div className="z-50 sticky top-24 w-fit">
-                        <div
-                            className="relative -left-2 p-2 rounded-full flex items-center bg-body-light dark:bg-body-dark"
-                            style={{ gap: "calc(var(--line-card-gap) - var(--sem-icon-size))" }}
-                        >
+        {semestersWithEvents.length > 0 ? 
+            semestersWithEvents.map(({ semester, events }, idx) => {
+                return (
+                    <section
+                        key={`${semester.season}-${semester.year}`}
+                        className="[--line-card-gap:25px] sm:[--line-card-gap:40px] [--sem-icon-size:14px] flex flex-col gap-4"
+                        style={{ paddingLeft: "calc((var(--sem-icon-size) / 2))" }}
+                        id={`sem-sec-${idx}`}
+                        data-sem-key={`${semester.season}-${semester.year}`}
+                    >
+                        <div className="z-50 sticky top-24 w-fit">
                             <div
-                                data-sentinel={`#sem-sec-${idx}`}
-                                data-past-sentinel="false"
-                                className="relative -top-[1px] w-(--sem-icon-size) h-(--sem-icon-size) bg-gray-300 dark:bg-zinc-600 data-[past-sentinel=true]:bg-yellow flex items-center justify-center"
-                                style={{ left: "calc(-1 * var(--sem-icon-size) / 2)" }}
+                                className="relative -left-2 p-2 rounded-full flex items-center bg-body-light dark:bg-body-dark"
+                                style={{ gap: "calc(var(--line-card-gap) - var(--sem-icon-size))" }}
                             >
-                                <div className="w-1.5 h-1.5 bg-white dark:bg-zinc-900" />
+                                <div
+                                    data-sentinel={`#sem-sec-${idx}`}
+                                    data-past-sentinel="false"
+                                    className="relative -top-[1px] w-(--sem-icon-size) h-(--sem-icon-size) bg-gray-300 dark:bg-zinc-600 data-[past-sentinel=true]:bg-yellow flex items-center justify-center"
+                                    style={{ left: "calc(-1 * var(--sem-icon-size) / 2)" }}
+                                >
+                                    <div className="w-1.5 h-1.5 bg-white dark:bg-zinc-900" />
+                                </div>
+                                <h3 className="text-base sm:text-base font-normal leading-none p-0 m-0 uppercase font-pixel">
+                                {semester.season} {semester.year}
+                                </h3>
                             </div>
-                            <h3 className="text-base sm:text-base font-normal leading-none p-0 m-0 uppercase font-pixel">
-                            {semester.season} {semester.year}
-                            </h3>
                         </div>
-                    </div>
 
-                    <div className="pl-(--line-card-gap) border-l-1 border-gray-300">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 sm:auto-cols-fr text-center">
-                            {events.map((event) => {
-                                const { localizedStart, localizedStartTime, localizedEndTime } =
-                                    getLocalizedEventTimes(event);
+                        <div className="pl-(--line-card-gap) border-l-1 border-gray-300">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 sm:auto-cols-fr text-center">
+                                {events.map((event) => {
+                                    const { localizedStart, localizedStartTime, localizedEndTime } =
+                                        getLocalizedEventTimes(event);
 
-                                return (
-                                    <Card key={event.id}
-                                        date={format(localizedStart, "MMM d")}
-                                        time={`${localizedStartTime}${localizedEndTime ? ` - ${localizedEndTime}` : ""}`}     
-                                        location={event.location_name}
-                                        name={event.name}
-                                        link={`/events/${event.id}`}
-                                        category={event.eventType}
-                                    />
-                                );
-                            })}
+                                    return (
+                                        <Card key={event.id}
+                                            date={format(localizedStart, "MMM d")}
+                                            time={`${localizedStartTime}${localizedEndTime ? ` - ${localizedEndTime}` : ""}`}     
+                                            location={event.location_name}
+                                            name={event.name}
+                                            link={`/events/${event.id}`}
+                                            category={event.eventType}
+                                        />
+                                    );
+                                })}
+                            </div>
                         </div>
-                    </div>
-                </section>
-            );
-        })}
+                    </section>
+                );
+            })
+        :
+            <div className="w-full text-xl">
+                No events match your selection, try filtering for something else.
+            </div>
+        }
 
         <button
             className="cursor-pointer w-fit m-auto mt-4 font-pixel text-sm font-bold text-purple-700 dark:text-amber-400"

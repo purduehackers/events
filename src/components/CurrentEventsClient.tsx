@@ -59,39 +59,43 @@ export default function CurrentEventsClient({ initialEvents }: CurrentEventsClie
     return (
         <div
             data-category-section="current-events"
-            className="lg:container flex flex-col mb-0 sm:pt-14 px-4 sm:px-12 md:px-18 xl:px-28 text-left gap-y-4 lg:max-w-screen-2xl mx-auto"
+            className="lg:container flex flex-col mb-0 pt-6 sm:pt-14 px-4 sm:px-12 md:px-18 xl:px-28 text-left gap-y-4 lg:max-w-screen-2xl mx-auto"
         >
-            <h2 className="text-3xl sm:text-4xl font-mono font-black m-0">Upcoming events</h2>
+            <h2 className="sm:mb-2 text-3xl sm:text-4xl font-mono font-black m-0">Upcoming events</h2>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 sm:auto-cols-fr text-center">
-                {filteredEvents.map((event) => {
-                    const { localizedStart, localizedStartTime, localizedEndTime } = getLocalizedEventTimes(event);
+            { filteredEvents.length > 0 ?
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 sm:auto-cols-fr text-center">
+                    {filteredEvents.map((event) => {
+                        const { localizedStart, localizedStartTime, localizedEndTime } = getLocalizedEventTimes(event);
 
-                    return (
-                        <Card key={event.id} 
-                            date={format(localizedStart, "MMM d")}
-                            time={`${localizedStartTime}${localizedEndTime ? ` - ${localizedEndTime}` : ""}`}     
-                            location={event.location_name}
-                            name={event.name}
-                            link={`/events/${event.id}`}
-                            category={event.eventType}
-                        />
-                    );
-                })}
-            </div>
-
-            <a className="hidden" href="https://lu.ma/user/purduehackers" target="_blank" rel="noreferrer">
-                <div className="w-full md:w-fit rounded-sm bg-yellow dark:text-black p-4 flex flex-col justify-center gap-y-3">
-                    <p className="font-pixel uppercase text-sm">--new--</p>
-                    <h2 className="font-mono text-left text-2xl sm:text-3xl font-bold">
-                        Looking for upcoming events?
-                    </h2>
-                    <p className="font-subtext">Current and future events are now posted on Luma!</p>
-                    <button className="cursor-pointer w-fit px-2 uppercase text-sm font-pixel font-normal text-white bg-black rounded-sm">
-                        Check it out {'>>'}
-                    </button>
+                        return (
+                            <Card key={event.id} 
+                                date={format(localizedStart, "MMM d")}
+                                time={`${localizedStartTime}${localizedEndTime ? ` - ${localizedEndTime}` : ""}`}     
+                                location={event.location_name}
+                                name={event.name}
+                                link={`/events/${event.id}`}
+                                category={event.eventType}
+                            />
+                        );
+                    })}
                 </div>
-            </a>
+            :
+                <div className="w-full flex justify-start items-center">
+                    <a className="w-full" href="https://lu.ma/user/purduehackers" target="_blank" rel="noreferrer">
+                        <div className="w-full md:w-fit rounded-sm bg-yellow dark:text-black p-4 flex flex-col justify-center gap-y-3">
+                            <p className="font-pixel uppercase text-sm">--presenting--</p>
+                            <h2 className="font-mono text-left text-xl sm:text-2xl font-bold">
+                                Weekly Hack Night!!
+                            </h2>
+                            <p className="font-subtext">Every Friday 8pm at the Bechtel Center.</p>
+                            <button className="cursor-pointer w-fit px-2 uppercase text-sm font-pixel font-normal text-white bg-black rounded-sm">
+                                Check it out {'>>'}
+                            </button>
+                        </div>
+                    </a>
+                </div>
+            }
         </div>
     );
 }
