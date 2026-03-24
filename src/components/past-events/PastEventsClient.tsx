@@ -241,7 +241,7 @@ export default function PastEventsClient({
                                 <div
                                     data-sentinel={`#sem-sec-${idx}`}
                                     data-past-sentinel="false"
-                                    className="relative -top-[1px] w-(--sem-icon-size) h-(--sem-icon-size) bg-gray-300 dark:bg-zinc-600 data-[past-sentinel=true]:bg-yellow flex items-center justify-center"
+                                    className="relative -top-[1px] w-(--sem-icon-size) h-(--sem-icon-size) bg-gray-300 dark:bg-zinc-600 data-[past-sentinel=true]:bg-yellow-400 flex items-center justify-center"
                                     style={{ left: "calc(-1 * var(--sem-icon-size) / 2)" }}
                                 >
                                     <div className="w-1.5 h-1.5 bg-white dark:bg-zinc-900" />

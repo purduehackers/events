@@ -20,7 +20,7 @@ export default function Card({ date, time, location, name, link, category }: Car
           <p className="uppercase text-gray-500 dark:text-gray-400 text-base font-subtext font-semibold">
             {date} • {time}
           </p>
-          <StarIcon className="w-4 h-4 text-yellow dark:text-yellow group-hover:animate-idle-icon group-hover:text-purple-700 dark:group-hover:text-purple-400 group-hover:scale-115 group-hover:-rotate-90 transition-transform" />
+          <StarIcon className="w-4 h-4 text-yellow-400 dark:text-yellow group-hover:animate-idle-icon group-hover:text-purple-700 dark:group-hover:text-purple-400 group-hover:scale-115 group-hover:-rotate-90 transition-transform" />
         </div>
 
         <h3 className="text-xl font-mono font-black">{name}</h3>

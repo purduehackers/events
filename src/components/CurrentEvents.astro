@@ -2,10 +2,13 @@
 import type { EventType, PayloadResponse } from "../types";
 import { CMS_URL } from "../utilities/constants";
 import CurrentEventsClient from "./CurrentEventsClient.tsx";
+import { getSemesterFromDate } from "@/utilities/helpers";
 
 const res = await fetch(`${CMS_URL}/api/events?sort=start&where[start][greater_than]=${new Date().toISOString()}`);
 const data: PayloadResponse<EventType> = await res.json();
 const events: EventType[] = data.docs;
+
+const currentSemester = getSemesterFromDate(new Date());
 ---
 
-<CurrentEventsClient client:load initialEvents={events} />
+<CurrentEventsClient client:load initialEvents={events} currentSemester={currentSemester} />
