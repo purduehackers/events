@@ -274,14 +274,14 @@ export default function PastEventsClient({
                     </section>
                 );
             })
-        :
-            <div className="w-full text-xl">
-                No events match your selection, try filtering for something else.
+        : !isLoading &&
+            <div className="w-full text-base font-pixel text-gray-500">
+                No past events found.
             </div>
         }
 
         <button
-            className="cursor-pointer w-fit m-auto mt-4 font-pixel text-sm font-bold text-purple-700 dark:text-amber-400"
+            className="cursor-pointer w-fit m-auto my-4 sm:my-6 font-pixel text-base font-bold text-purple-700 dark:text-amber-400"
             onClick={loadMore}
             disabled={!hasNextPage || isLoading}
         >
