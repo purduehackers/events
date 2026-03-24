@@ -30,7 +30,7 @@ export async function getStaticPaths() {
   return events.map((event) => {
     return {
       params: { 
-        event: event.id 
+        event: String(event.id)
       },
       props: {
         event,
