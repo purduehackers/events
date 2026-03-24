@@ -26,13 +26,15 @@ export default function Card({ date, time, location, name, link, category }: Car
         <h3 className="text-xl font-mono font-black">{name}</h3>
 
         <div className="w-full flex justify-between items-center gap-1">
-          <div className="flex gap-2 text-gray-500 dark:text-gray-400 text-base font-subtext font-semibold">
-            <MapPinIcon className="w-4" />
-            <div className="line-clamp-1">{location}</div>
-          </div>
+          {location &&
+            <div className="flex gap-2 text-gray-500 dark:text-gray-400 text-base font-subtext font-semibold">
+              <MapPinIcon className="w-4" />
+              <div className="line-clamp-1">{location}</div>
+            </div>
+          }
           {category && (
             <div className="min-w-fit px-0.5 bg-gray-600 text-white uppercase text-[11px] font-mono">
-              {category}
+              {category.replaceAll(" ", "-")}
             </div>
           )}
         </div>

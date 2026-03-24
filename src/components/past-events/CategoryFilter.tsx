@@ -25,8 +25,7 @@ export default function CategoryFilter({ categories }: CategoryFilterProps) {
       new Set(categories.filter(Boolean).map((c) => c.toLowerCase()))
     );
 
-    const sorted = uniqueCategories.sort((a, b) => a.localeCompare(b));
-    const optionList: SelectorOption[] = sorted.map((value) => ({
+    const optionList: SelectorOption[] = uniqueCategories.map((value) => ({
       value,
       label: value
         .split(/[-\s]/)

@@ -91,12 +91,12 @@ export default function CurrentEventsClient({ initialEvents, currentSemester }: 
                         {(!selectedCategory || selectedCategory === "hack-night") &&
                             <div className="w-full flex justify-start items-center">
                                 <a className="w-full" href="https://discord.com/invite/5paFjKzdPE" target="_blank" rel="noreferrer">
-                                    <div className="w-full md:w-fit rounded-sm bg-black text-white p-4 flex flex-col justify-center gap-y-3">
-                                        <p className="font-pixel text-purple-400 uppercase text-sm">--weekly--</p>
-                                        <h2 className="font-mono text-yellow text-left text-xl sm:text-2xl font-bold">
+                                    <div className="w-full md:w-fit rounded-sm bg-black dark:bg-yellow text-white dark:text-black p-4 flex flex-col justify-center gap-y-3">
+                                        <p className="w-fit font-pixel text-yellow dark:text-black uppercase text-sm">--weekly--</p>
+                                        <h2 className="font-mono text-white dark:text-black text-left text-xl sm:text-2xl font-bold">
                                             Come to Hack Night!!
                                         </h2>
-                                        <p className="font-subtext">Every Friday 8pm at the Bechtel Center.</p>
+                                        <p className="font-subtext">Every Friday 8pm at the Bechtel Center. Come check it out!</p>
                                         <button className="hidden cursor-pointer w-fit px-2 uppercase text-sm font-pixel font-normal text-white bg-black rounded-sm">
                                             Check it out {'>>'}
                                         </button>
