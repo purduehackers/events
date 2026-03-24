@@ -18,9 +18,10 @@ const { start, end } = getSemesterDateRange(semester);
 
 // Fetch events in given semester
 const params = new URLSearchParams();
-params.set("sort", "start");
+params.set("sort", "-start");
 params.set("where[start][greater_than]", start.toISOString());
 params.set("where[start][less_than]", end < new Date() ? end.toISOString() : new Date().toISOString()); // only show past events
+params.set("limit", "100");
 
 const res = await fetch(`${CMS_URL}/api/events?${params.toString()}`);
 const data: PayloadResponse<EventType> = await res.json();

@@ -13,17 +13,17 @@ import {
 
 export async function getStaticPaths() {
     // Get all valid semesters for path generation
-    const allSemesters = getSemestersNewestFirst(); //.filter((sem) => getEventsInSemester(allEvents, sem).length > 0);
+    const allSemesters = getSemestersNewestFirst();
 
     return allSemesters.map((semester) => {
         return {
-        params: { 
-            semester: `${semester.season}-${semester.year}`
-        },
-        props: {
-            allSemesters: allSemesters,
-            semester,
-        },
+            params: { 
+                semester: `${semester.season}-${semester.year}`
+            },
+            props: {
+                allSemesters: allSemesters,
+                semester,
+            },
         };
     });
 }
