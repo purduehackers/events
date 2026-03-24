@@ -1,19 +1,17 @@
 import { useEffect, useMemo, useState } from "react";
 import Selector, { type SelectorOption } from "@/components/Selector";
-
-export interface Semester {
-  year: number;
-  season: string;
-}
+import type { SemesterType } from "@/types";
 
 interface SemesterFilterProps {
-  semesters: Semester[];
+  semesters: SemesterType[];
 }
 
 // Get semester query param from url
 function getSemFromUrl(): string | null {
   if (typeof window === "undefined") return null;
-  const raw = new URLSearchParams(window.location.search).get("sem")?.trim().toLowerCase();
+  const url = new URL(window.location.href);
+  const pathSegments = url.pathname.split("/");
+  const raw = pathSegments[1]?.trim().toLowerCase();
   if (!raw) return null;
   const m = raw.match(/(spring|summer|fall)[\s_-]?(\d{4})/);
   return m ? `${m[1]}-${m[2]}` : null;
@@ -28,7 +26,7 @@ declare global {
 export default function SemesterFilter({ semesters }: SemesterFilterProps) {
   // Get semester options (formatted w value and label)
   const options: SelectorOption[] = useMemo(() => {
-    const list: SelectorOption[] = [];// [{ value: "", label: "All semesters" }];
+    const list: SelectorOption[] = [];
     for (const s of semesters) {
       list.push({
         value: `${s.season}-${s.year}`,
@@ -54,11 +52,12 @@ export default function SemesterFilter({ semesters }: SemesterFilterProps) {
     // Update url query params 
     const url = new URL(window.location.href);
     if (newValue) {
-      url.searchParams.set("sem", newValue);
+      url.pathname = newValue;
     } else {
-      url.searchParams.delete("sem");
+      url.pathname = "";
     }
-    window.history.replaceState(null, "", url.toString());
+    window.location.href = url.toString();
+    //window.history.pushState(null, "", url.toString());
 
     // Call func defined in PastEvents page to update semesters view
     window.applySemesterFilter?.();

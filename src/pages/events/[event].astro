@@ -1,9 +1,8 @@
 ---
-import { getCollection, render } from "astro:content";
 import { format } from "date-fns";
+import { getLocalizedEventTimes } from "@/utilities/helpers";
 
 import Layout from "@/layouts/Layout.astro";
-import { getEventMetadata, getEventSlug } from "@/utilities/helpers";
 
 import Clock from "@/assets/clock.svg";
 import Stat from "@/components/past-events/Stat.astro";
@@ -13,14 +12,25 @@ import Gallery from "@/components/past-events/Gallery.astro";
 import Description from "@/components/past-events/Description.astro";
 import DiscordCard from "@/components/past-events/DiscordCard.astro";
 
+import type { EventType, PayloadResponse } from "../../types";
+import { CMS_URL } from "../../utilities/constants";
+import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical';
+import { convertLexicalToHTMLAsync } from '@payloadcms/richtext-lexical/html-async';
+
 export async function getStaticPaths() {
-  const events = await getCollection("events");
+  let events: EventType[] = [];
+  let pageNum: number | null = 1;
+  while (pageNum != null) {
+    let res = await fetch(`${CMS_URL}/api/events?limit=100&page=${pageNum}`);
+    const data: PayloadResponse<EventType> = await res.json();
+    events.push(...data.docs); // append this page of events
+    pageNum = data.nextPage; // get next page of events
+  }
 
   return events.map((event) => {
-    let slug = getEventSlug(event.filePath ?? "");
     return {
-      params: {
-        event: slug,
+      params: { 
+        event: String(event.id)
       },
       props: {
         event,
@@ -30,22 +40,28 @@ export async function getStaticPaths() {
 }
 
 const { event } = Astro.props;
-const { Content } = await render(event);
 
-const { name, localizedStart, localizedStartTime, localizedEndTime } =
-  getEventMetadata(event);
+// Convert rich text once during build
+const descriptionHTML = await convertLexicalToHTMLAsync({
+  data: event.description as SerializedEditorState,
+});
+
+const {
+    localizedStart,
+    localizedStartTime,
+    localizedEndTime,
+} = getLocalizedEventTimes(event);
 ---
-
 <Layout>
   <div
-    class="min-h-screen overflow-hidden flex flex-col font-title"
+    class="min-h-screen overflow-hidden flex flex-col font-name"
   >
     {/* Event header */}
     <div
       class=" bg-body-light dark:bg-body-dark flex flex-col grow-0 items-center justify-top w-full flex-1 px-5 pt-20 sm:pt-28 pb-8 sm:pb-16 text-center sm:px-20"
     >
       <h1 class="text-black dark:text-amber-500 font-pixel uppercase text-4xl sm:text-5xl lg:text-6xl font-normal">
-        {name}
+        {event.name}
       </h1>
       <div class="mt-4 text-base md:text-lg 2xl:text-2xl font-subtext font-normal">
         <p class="mt-3 flex flex-row gap-x-2 items-center justify-center dark:text-gray-200">
@@ -55,20 +71,20 @@ const { name, localizedStart, localizedStartTime, localizedEndTime } =
           }—{localizedEndTime}
         </p>
         {
-          event.data.location_name && (
+          event.location_name && (
             <p class="mt-1 flex flex-row gap-x-2 items-center justify-center font-bold dark:text-gray-200">
               <MapPin class="w-5" />
               <span>
-                {event.data.location_url ? (
+                {event.location_url ? (
                   <a
-                    href={event.data.location_url}
+                    href={event.location_url}
                     target="_blank"
                     class="hover:text-amber-500"
                   >
-                    {event.data.location_name}
+                    {event.location_name}
                   </a>
                 ) : (
-                  <>{event.data.location_name}</>
+                  <>{event.location_name}</>
                 )}
               </span>
             </p>
@@ -81,23 +97,32 @@ const { name, localizedStart, localizedStartTime, localizedEndTime } =
     <div class="flex flex-col items-center justify-center py-12 sm:px-20 mb-auto border-t-2 border-b-2 bg-grid [--grid-size:100px] [--grid-color:rgba(0,0,0,0.5)] dark:[--grid-color:rgba(255,255,255,0.5)]">
       <div class="flex flex-col sm:flex-row-reverse sm:items-start sm:gap-x-4 items-center">
         {
-          event.data.stats && event.data.stats.length > 0 && (
-            <div class="bg-white dark:bg-black text-black dark:text-white border-2 border-black dark:border-amber-400 flex flex-row flex-1 items-center justify-center gap-4 sm:gap-8 mx-4 sm:mx-0 max-w-fit sm:max-w-min max-h-fit p-6 sm:p-8 text-center sm:flex-col">
-              {event.data.stats.map((stat) => (
-                <Stat data={stat.data} label={stat.label} />
-              ))}
-            </div>
-          )
+            event.stats && event.stats.length > 0 && (
+                <div class="bg-white dark:bg-black text-black dark:text-white border-2 border-black dark:border-amber-400 flex flex-row flex-1 items-center justify-center gap-4 sm:gap-8 mx-4 sm:mx-0 max-w-fit sm:max-w-min max-h-fit p-6 sm:p-8 text-center sm:flex-col">
+                {event.stats.map((stat) => (
+                    <Stat data={stat.data} label={stat.label} />
+                ))}
+                </div>
+            )
         }
 
-        <div class="sm:max-w-lg md:max-w-xl">
+        <div class="w-full sm:min-w-100 sm:max-w-lg md:max-w-xl">
           <div class="flex flex-col justify-items-center sm:justify-items-end">
-            <div class="bg-zinc-900 dark:bg-gray-300 rounded-sm text-white dark:text-black border-2 p-4 sm:p-6 mx-4 mt-4 sm:mx-0 sm:mt-0 mb-4 sm:w-fit">
+            <div class="bg-zinc-900 dark:bg-gray-300 rounded-sm text-white dark:text-black border-2 p-4 sm:p-6 mx-4 mt-4 sm:mx-0 sm:mt-0 mb-4">
               <p class="text-yellow dark:text-purple-700 font-display uppercase text-sm mb-4">--details--</p>
-              <Description><Content /></Description>
+              <Description>
+                <div set:html={descriptionHTML} />
+              </Description>
             </div>
 
-            <Gallery images={[]} />
+            {event.images && event.images.length > 0 && (
+              <Gallery
+                images={event.images.map((img) => ({
+                  url: CMS_URL + img.image.url,
+                  alt: img.image?.alt ?? event.name,
+                }))}
+              />
+            )}
           </div>
         </div>
       </div>

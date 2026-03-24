@@ -1,3 +1,4 @@
+import type { EventType, SemesterType, SemesterSeason } from "@/types";
 import { TZDate } from "@date-fns/tz";
 import type { RenderedContent } from "astro:content";
 import { format } from "date-fns";
@@ -11,38 +12,44 @@ export interface Event {
   filePath?: string;
 }
 
-// Academic semester: Spring (Jan–May), Summer (June–July), Fall (Aug–Dec) 
-export type SemesterSeason = "spring" | "summer" | "fall";
-export interface Semester {
-  year: number;
-  season: SemesterSeason;
+// Earliest semester constant
+export const EARLIEST_SEMESTER: SemesterType = { year: 2022, season: "spring" };
+
+// Get date range given semester
+export function getSemesterDateRange(semester: SemesterType): { start: Date; end: Date } {
+  const { year, season } = semester;
+  let start: Date, end: Date;
+  if (season === "spring") {
+    start = new Date(year, 0, 1); // Jan 1
+    end = new Date(year, 5, 30); // June 30
+  } else { // fall
+    start = new Date(year, 6, 1); // July 1
+    end = new Date(year, 11, 31); // Dec 31
+  }
+  return { start, end };
 }
 
-// Earliest semester constant
-export const EARLIEST_SEMESTER: Semester = { year: 2022, season: "spring" };
-
-// Return academic semester for given date
-export function getSemesterFromDate(date: Date): Semester {
+// Get academic semester for given date
+export function getSemesterFromDate(date: Date): SemesterType {
   const d = new Date(date);
   const year = d.getFullYear();
   const month = d.getMonth() + 1; // 1–12
-  if (month >= 8) return { year, season: "fall" };
-  if (month >= 6) return { year, season: "summer" };
+  if (month >= 7) return { year, season: "fall" };
   return { year, season: "spring" };
 }
 
-// Current semester based on today's date. 
-export function getCurrentSemester(): Semester {
+// Current semester based on today's date
+export function getCurrentSemester(): SemesterType {
   return getSemesterFromDate(new Date());
 }
 
 // Sort by newest semester within a year
-const SEMESTERS_NEWEST_FIRST: SemesterSeason[] = ["fall", "summer", "spring"];
+const SEMESTERS_NEWEST_FIRST: SemesterSeason[] = ["fall", "spring"];
 
 // Get all semesters from current to earliest, newest first
-export function getSemestersNewestFirst(): Semester[] {
+export function getSemestersNewestFirst(): SemesterType[] {
   const current = getCurrentSemester();
-  const list: Semester[] = [];
+  const list: SemesterType[] = [];
 
   // Iterate thru semesters starting from current year
   for (let y = current.year; y >= EARLIEST_SEMESTER.year; y--) {
@@ -64,15 +71,15 @@ export function getSemestersNewestFirst(): Semester[] {
 }
 
 // Get all events of a given semester
-export function getEventsInSemester(events: Event[], semester: Semester) {
+export function getEventsInSemester(events: EventType[], semester: SemesterType) {
   return events
     .filter((event) => {
-      const s = getSemesterFromDate(new Date(event.data.start));
+      const s = getSemesterFromDate(new Date(event.start));
       return s.year === semester.year && s.season === semester.season;
     })
     .sort((a, b) =>
       // Sort by newest 
-      new Date(b.data.start).getTime() - new Date(a.data.start).getTime()
+      new Date(b.start).getTime() - new Date(a.start).getTime()
     );
 }
 
@@ -106,6 +113,28 @@ export function getEventMetadata(event: Event): {
 
   return {
     name,
+    localizedStart,
+    localizedStartTime,
+    localizedEnd,
+    localizedEndTime,
+  };
+}
+
+export function getLocalizedEventTimes(event: EventType): {
+  localizedStart: TZDate;
+  localizedStartTime: string;
+  localizedEnd: TZDate | undefined;
+  localizedEndTime: string;
+} {
+  const start = event.start;
+  const localizedStart = getLocalizedDate(start);
+  const localizedStartTime = format(localizedStart, "hh:mm a");
+  const localizedEnd = event.end
+    ? getLocalizedDate(event.end)
+    : undefined;
+  const localizedEndTime = getTime(localizedEnd);
+
+  return {
     localizedStart,
     localizedStartTime,
     localizedEnd,

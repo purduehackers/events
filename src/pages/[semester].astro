@@ -1,0 +1,43 @@
+---
+import SemesterEvents from "@/components/past-events/SemesterEvents.astro";
+import Layout from "../layouts/Layout.astro";
+import HomeLayout from "@/layouts/HomeLayout.astro";
+
+import {
+  getSemestersNewestFirst,
+} from "@/utilities/helpers";
+
+export async function getStaticPaths() {
+    // Get all valid semesters for path generation
+    const allSemesters = getSemestersNewestFirst();
+
+    return allSemesters.map((semester) => {
+        return {
+            params: { 
+                semester: `${semester.season}-${semester.year}`
+            },
+            props: {
+                semester,
+            },
+        };
+    });
+}
+const { semester } = Astro.props;
+---
+
+<Layout>
+    <HomeLayout>
+        <div
+            id="past-events"
+            class="lg:container flex flex-col mb-14 sm:pt-14 px-4 sm:px-12 md:px-18 xl:px-28 text-left gap-y-4 lg:max-w-screen-2xl mx-auto"
+        >
+            <div class="flex flex-wrap items-end justify-between gap-4">
+                 <h3 class="hidden text-base sm:text-2xl font-normal leading-none p-0 m-0 uppercase font-pixel">
+                    {semester.season} {semester.year}
+                </h3>
+            </div>
+
+            <SemesterEvents semester={semester} i={0} />
+        </div>
+    </HomeLayout>
+</Layout>
