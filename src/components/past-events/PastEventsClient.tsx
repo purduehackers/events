@@ -59,7 +59,11 @@ export default function PastEventsClient({
                 params.set("where[eventType][equals]", category as string);
 
                 const baseUrl = import.meta.env.DEV ? "/api/events" : `${CMS_URL}/api/events`;
-                const res = await fetch(`${baseUrl}?${params.toString()}`);
+                const res = await fetch(`${baseUrl}?${params.toString()}`, {
+                    headers: {
+                        Authorization: `service-accounts API-Key ${import.meta.env.PAYLOAD_API_KEY}`,
+                    },
+                });
                 if (!res.ok) {
                     setIsLoading(false);
                     return;
