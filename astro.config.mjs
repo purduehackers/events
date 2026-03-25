@@ -8,6 +8,7 @@ import react from "@astrojs/react";
 // https://astro.build/config
 export default defineConfig({
   site: "https://events.purduehackers.com",
+  output: "server",
   adapter: node({ mode: 'standalone' }),
   vite: {
     plugins: [tailwindcss()],
