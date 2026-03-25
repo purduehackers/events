@@ -152,9 +152,6 @@ export default function PastEventsClient({
 
         setIsLoading(true);
         let nextPage = page + 1;
-        console.log(baseUrl)
-        console.log(import.meta.env.PUBLIC_PAYLOAD_API_KEY)
-        console.log(import.meta.env.PUBLIC_ENVIRONMENT)
 
         const accumulatedEvents: EventType[] = [];
         let finalHasNextPage: boolean = hasNextPage;
@@ -179,8 +176,9 @@ export default function PastEventsClient({
             if (isKnown) {
                 params.set("where[eventType][equals]", categoryFilter as string);
             }
-
-            const res = await fetch(`${baseUrl}?${params.toString()}`);
+            const url = `${baseUrl}?${params.toString()}`;
+            console.log(url)
+            const res = await fetch(url);
             console.log(res)
             if (!res.ok) {
                 finalHasNextPage = false;

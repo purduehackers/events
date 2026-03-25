@@ -1,11 +1,14 @@
+export const prerender = false;
+
 import type { APIRoute } from 'astro';
 import { CMS_URL } from "@/utilities/constants";
 
-export const GET: APIRoute = async ({ request }) => {
+export const GET: APIRoute = async ({ url }) => {
     try {
-        const url = new URL(request.url);
-        const query = url.search; // query params from the client
-        const baseUrl = `${CMS_URL}/api/events${query}`;
+        console.log("url:", url);
+        console.log("query:", url.search);
+
+        const baseUrl = `${CMS_URL}/api/events${url.search}`;
         const apiKey = import.meta.env.PAYLOAD_API_KEY;
 
         const cmsRes = await fetch(baseUrl, {

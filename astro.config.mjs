@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from "astro/config";
+import node from '@astrojs/node';
 import tailwindcss from "@tailwindcss/vite";
 
 import react from "@astrojs/react";
@@ -7,9 +8,10 @@ import react from "@astrojs/react";
 // https://astro.build/config
 export default defineConfig({
   site: "https://events.purduehackers.com",
+  adapter: node({ mode: 'standalone' }),
   vite: {
     plugins: [tailwindcss()],
-    server: {
+    /*server: {
       proxy: {
         // Proxy API requests during local dev to avoid CORS issues
         "/api/events": {
@@ -18,7 +20,7 @@ export default defineConfig({
           rewrite: (path) => path.replace(/^\/api\/events/, "/api/events"),
         },
       },
-    },
+    },*/
   },
   integrations: [react()],
 });
