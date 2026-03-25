@@ -5,9 +5,6 @@ import { CMS_URL } from "@/utilities/constants";
 
 export const GET: APIRoute = async ({ url }) => {
     try {
-        console.log("url:", url);
-        console.log("query:", url.search);
-
         const baseUrl = `${CMS_URL}/api/events${url.search}`;
         const apiKey = import.meta.env.PAYLOAD_API_KEY;
 

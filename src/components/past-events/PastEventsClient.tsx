@@ -3,7 +3,6 @@ import { format } from "date-fns";
 
 import { EVENT_CATEGORIES, type EventType, type SemesterType } from "@/types";
 import Card from "@/components/Card";
-import { CMS_URL } from "@/utilities/constants";
 import { getEventsInSemester, getLocalizedEventTimes } from "@/utilities/helpers";
 
 interface PastEventsClientProps {
@@ -75,7 +74,7 @@ export default function PastEventsClient({
                     hasNextPage: boolean;
                 };
 
-                setEvents(data.docs);
+                setEvents(data.docs.filter((e) => e.published));
                 setPage(1);
                 setHasNextPage(Boolean(data.hasNextPage));
                 setIsLoading(false);
@@ -115,7 +114,7 @@ export default function PastEventsClient({
                         hasNextPage: boolean;
                     };
 
-                    setEvents(data.docs);
+                    setEvents(data.docs.filter((e) => e.published));
                     setPage(1);
                     setHasNextPage(Boolean(data.hasNextPage));
                     setIsLoading(false);
@@ -212,7 +211,7 @@ export default function PastEventsClient({
 
         setEvents((prev) => {
             const existingIds = new Set(prev.map((e) => e.id));
-            const newEvents = accumulatedEvents.filter((e) => !existingIds.has(e.id));
+            const newEvents = accumulatedEvents.filter((e) => e.published && !existingIds.has(e.id));
             return [...prev, ...newEvents];
         });
 
