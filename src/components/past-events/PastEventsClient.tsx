@@ -37,6 +37,8 @@ export default function PastEventsClient({
     const [isLoading, setIsLoading] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
+    const baseUrl = "/api/events";
+
     // Use semesters computed at build time so server render matches hydration
     const allSemesters = useMemo(() => initialSemesters, [initialSemesters]);
 
@@ -58,8 +60,11 @@ export default function PastEventsClient({
                 params.set("page", String(1));
                 params.set("where[eventType][equals]", category as string);
 
-                const baseUrl = import.meta.env.DEV ? "/api/events" : `${CMS_URL}/api/events`;
-                const res = await fetch(`${baseUrl}?${params.toString()}`);
+                const res = await fetch(`${baseUrl}?${params.toString()}`, {
+                    headers: {
+                        Authorization: `service-accounts API-Key ${import.meta.env.PUBLIC_PAYLOAD_API_KEY}`,
+                    },
+                });
                 if (!res.ok) {
                     setIsLoading(false);
                     return;
@@ -95,8 +100,11 @@ export default function PastEventsClient({
                     params.set("page", String(1));
                     params.set("where[eventType][equals]", detail as string);
 
-                    const baseUrl = import.meta.env.DEV ? "/api/events" : `${CMS_URL}/api/events`;
-                    const res = await fetch(`${baseUrl}?${params.toString()}`);
+                    const res = await fetch(`${baseUrl}?${params.toString()}`, {
+                        headers: {
+                            Authorization: `service-accounts API-Key ${import.meta.env.PUBLIC_PAYLOAD_API_KEY}`,
+                        },
+                    });
                     if (!res.ok) {
                         setIsLoading(false);
                         return;
@@ -144,7 +152,6 @@ export default function PastEventsClient({
 
         setIsLoading(true);
         let nextPage = page + 1;
-        const baseUrl = import.meta.env.DEV ? "/api/events" : `${CMS_URL}/api/events`;
 
         const accumulatedEvents: EventType[] = [];
         let finalHasNextPage: boolean = hasNextPage;
@@ -169,8 +176,10 @@ export default function PastEventsClient({
             if (isKnown) {
                 params.set("where[eventType][equals]", categoryFilter as string);
             }
-
-            const res = await fetch(`${baseUrl}?${params.toString()}`);
+            const url = `${baseUrl}?${params.toString()}`;
+            console.log(url)
+            const res = await fetch(url);
+            console.log(res)
             if (!res.ok) {
                 finalHasNextPage = false;
                 break;
@@ -180,6 +189,7 @@ export default function PastEventsClient({
                 docs: EventType[];
                 hasNextPage: boolean;
             };
+            console.log(data)
 
             accumulatedEvents.push(...data.docs);
 
