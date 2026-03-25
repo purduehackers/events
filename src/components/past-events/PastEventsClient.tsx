@@ -37,7 +37,7 @@ export default function PastEventsClient({
     const [isLoading, setIsLoading] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
-    const baseUrl = import.meta.env.PUBLIC_ENVIRONMENT === "dev" ? "/api/events" : `${CMS_URL}/api/events`;
+    const baseUrl = "/api/events";
 
     // Use semesters computed at build time so server render matches hydration
     const allSemesters = useMemo(() => initialSemesters, [initialSemesters]);
@@ -180,11 +180,7 @@ export default function PastEventsClient({
                 params.set("where[eventType][equals]", categoryFilter as string);
             }
 
-            const res = await fetch(`${baseUrl}?${params.toString()}`, {
-                headers: {
-                    Authorization: `service-accounts API-Key ${import.meta.env.PUBLIC_PAYLOAD_API_KEY}`,
-                },
-            });
+            const res = await fetch(`${baseUrl}?${params.toString()}`);
             console.log(res)
             if (!res.ok) {
                 finalHasNextPage = false;
