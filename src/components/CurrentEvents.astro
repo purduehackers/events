@@ -1,7 +1,7 @@
 ---
-import type { EventType, PayloadResponse } from "../types";
-import { CMS_URL } from "../utilities/constants";
-import CurrentEventsClient from "./CurrentEventsClient.tsx";
+import type { EventType, PayloadResponse } from "@/types";
+import { CMS_URL } from "@/utilities/constants";
+import SemesterEvents from "@/components/SemesterEvents";
 import { getSemesterFromDate } from "@/utilities/helpers";
 
 const res = await fetch(`${CMS_URL}/api/events?sort=start&where[start][greater_than]=${new Date().toISOString()}`);
@@ -11,4 +11,9 @@ const events: EventType[] = data.docs;
 const currentSemester = getSemesterFromDate(new Date());
 ---
 
-<CurrentEventsClient client:load initialEvents={events} currentSemester={currentSemester} />
+<div
+    class="lg:container mb-0 pt-6 sm:pt-14 px-4 sm:px-12 md:px-18 xl:px-28 text-left lg:max-w-screen-2xl mx-auto"
+>
+    <h2 class="sm:mb-4 text-3xl sm:text-4xl font-mono font-black m-0">Upcoming</h2>
+    <SemesterEvents client:load initialEvents={events} semester={currentSemester} currentSemester />
+</div>
