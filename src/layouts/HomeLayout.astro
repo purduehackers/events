@@ -1,13 +1,14 @@
 ---
-import Hero from "../components/Hero.astro";
+import Hero from "@/components/Hero.astro";
 import Marquee from "@/components/Marquee.astro";
-import SemesterFilter from "../components/past-events/SemesterFilter.tsx";
-import CategoryFilter from "@/components/past-events/CategoryFilter";
+import SemesterFilter from "@/components/SemesterFilter.tsx";
+import CategoryFilter from "@/components/CategoryFilter.tsx";
 
 import { EVENT_CATEGORIES } from "@/types";
 import {
   getSemestersNewestFirst,
 } from "@/utilities/helpers";
+import SearchBar from "@/components/SearchBar";
 
 const allSemesters = getSemestersNewestFirst();
 const categories = [...EVENT_CATEGORIES];
@@ -24,10 +25,16 @@ const categories = [...EVENT_CATEGORIES];
     text="HACK"
 />
 <div class="z-10 bg-body-light dark:bg-body-dark">
-    <div class="sticky-scroll-lock z-60 sticky top-8 p-4 flex items-center gap-2 bg-zinc-200 dark:bg-zinc-700 text-[15px] font-pixel uppercase">
-        <h4 class="hidden sm:block">Filter by:</h4>
-        <SemesterFilter client:load semesters={allSemesters} />
-        <CategoryFilter client:load categories={categories} />
+    <div class="sticky-scroll-lock z-60 sticky top-8 p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 bg-zinc-200 dark:bg-zinc-700 text-[15px] font-pixel uppercase">
+        <div class="flex items-center gap-2">
+            <h4 class="block sm:block">Filter:</h4>
+            <SemesterFilter client:load semesters={allSemesters} />
+            <CategoryFilter client:load categories={categories} />
+        </div>
+        <div class="w-full sm:w-1/3 flex items-center gap-2 pr-4">
+            <h4 class="block sm:block">Search:</h4>
+            <SearchBar client:load />
+        </div>
     </div>
 
     <slot/>

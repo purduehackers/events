@@ -61,7 +61,7 @@ const Selector = ({
             onOpenChange={setOpen}
         >
             <SelectTrigger
-                className={`group ${className} cursor-pointer select-none inline-flex w-32 px-2 py-1 items-center justify-between gap-1 rounded-none border-0 border-black dark:border-white font-pixel uppercase text-[15px] leading-none text-gray-900 dark:text-gray-100 data-[placeholder]:text-gray-400`}
+                className={`group ${className} cursor-pointer select-none inline-flex w-34 px-2 py-1 items-center justify-between gap-1 rounded-none border-0 border-black dark:border-white font-pixel uppercase text-[15px] leading-none text-gray-900 dark:text-gray-100 data-[placeholder]:text-gray-400`}
                 aria-label={ariaLabel}
             >
                 <SelectValue placeholder={placeholder} />
