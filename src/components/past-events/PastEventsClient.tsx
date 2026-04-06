@@ -58,16 +58,23 @@ export default function PastEventsClient({
 
         // If the user has a known category selected on load, reload the first page
         // from the API so our initial list matches the category selection
-        if (isKnownCategory(category)) {
+        if (isKnownCategory(category) || (query && query.length > 0)) {
             (async () => {
                 setIsLoading(true);
 
                 const params = new URLSearchParams();
                 params.set("sort", "-start");
                 params.set("where[start][less_than]", new Date().toISOString());
+                params.set("where[published][equals]", "true");
                 params.set("limit", String(limit));
                 params.set("page", String(1));
-                params.set("where[eventType][equals]", category as string);
+
+                if (isKnownCategory(category)) {
+                    params.set("where[eventType][equals]", category as string);
+                }
+                if (query && query.length > 0) {
+                    params.set("where[name][like]", query);
+                }
 
                 const res = await fetch(`${baseUrl}?${params.toString()}`, {
                     headers: {
@@ -94,7 +101,7 @@ export default function PastEventsClient({
 
     // Listen for category changes emitted by the selector (to keep client-side filtering in sync)
     useEffect(() => {
-        const handler = (event: Event) => {
+        const catHandler = (event: Event) => {
             const detail = (event as CustomEvent<string | null>).detail;
             setSelectedCategory(detail);
 
@@ -137,8 +144,55 @@ export default function PastEventsClient({
             }
         };
 
-        window.addEventListener("categoryChange", handler as EventListener);
-        return () => window.removeEventListener("categoryChange", handler as EventListener);
+        const searchHandler = (event: Event) => {
+            const query = (event as CustomEvent<string | null>).detail;
+            setSearchQuery(query);
+
+            if (query && query.length > 0) {
+                (async () => {
+                    setIsLoading(true);
+
+                    const params = new URLSearchParams();
+                    params.set("sort", "-start");
+                    params.set("where[start][less_than]", new Date().toISOString());
+                    params.set("limit", String(limit));
+                    params.set("page", String(1));
+                    params.set("where[name][like]", query);
+
+                    const res = await fetch(`${baseUrl}?${params.toString()}`, {
+                        headers: {
+                            Authorization: `service-accounts API-Key ${import.meta.env.PUBLIC_PAYLOAD_API_KEY}`,
+                        },
+                    });
+                    if (!res.ok) {
+                        setIsLoading(false);
+                        return;
+                    }
+
+                    const data = (await res.json()) as {
+                        docs: EventType[];
+                        hasNextPage: boolean;
+                    };
+
+                    setEvents(data.docs.filter((e) => e.published));
+                    setPage(1);
+                    setHasNextPage(Boolean(data.hasNextPage));
+                    setIsLoading(false);
+                })();
+            } else {
+                // Reset to the initial list when selecting "all" or "other".
+                setEvents(initialEvents);
+                setPage(initialPage);
+                setHasNextPage(initialHasNextPage);
+            }
+        }
+
+        window.addEventListener("categoryChange", catHandler as EventListener);
+        window.addEventListener("searchQueryChange", searchHandler as EventListener);
+        return () => {
+            window.removeEventListener("categoryChange", catHandler as EventListener);
+            window.removeEventListener("searchQueryChange", searchHandler as EventListener);
+        }
     }, [initialEvents, initialHasNextPage, initialPage, limit]);
 
     const isOtherCategory = selectedCategory === "other";
@@ -146,15 +200,25 @@ export default function PastEventsClient({
     const categoryFilter = selectedCategory && (isKnown || isOtherCategory) ? selectedCategory : null;
 
     const filteredEvents = useMemo(() => {
-        if (!categoryFilter) return events;
+        if (!selectedCategory && !searchQuery) return events;
 
+        let filtered = events;
+
+        // Appy cat filters
         if (isOtherCategory) {
             const knownLower = new Set(EVENT_CATEGORIES.map((c) => c.toLowerCase()));
             return events.filter((e) => !knownLower.has(e.eventType?.toLowerCase?.() ?? ""));
+        } else if (isKnown) {
+            filtered = events.filter((e) => e.eventType?.toLowerCase?.() === selectedCategory);
         }
 
-        return events.filter((e) => e.eventType?.toLowerCase?.() === categoryFilter);
-    }, [events, categoryFilter, isOtherCategory]);
+        // Apply search query
+        if (searchQuery && searchQuery.length > 0) {
+            filtered = filtered.filter((e) => e.name.toLowerCase().includes(searchQuery.toLowerCase()));
+        }
+
+        return filtered;
+    }, [events, categoryFilter, isOtherCategory, searchQuery]);
 
     const loadMore = async () => {
         if (!hasNextPage || isLoading) return;
@@ -185,6 +249,10 @@ export default function PastEventsClient({
             if (isKnown) {
                 params.set("where[eventType][equals]", categoryFilter as string);
             }
+            if (searchQuery && searchQuery.length > 0) {
+                params.set("where[name][like]", searchQuery);
+            }
+
             const url = `${baseUrl}?${params.toString()}`;
             console.log(url)
             const res = await fetch(url);
