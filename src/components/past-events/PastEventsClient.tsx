@@ -13,6 +13,13 @@ interface PastEventsClientProps {
   initialHasNextPage: boolean;
 }
 
+// Get search query param from url
+function getQueryFromUrl(): string | null {
+  if (typeof window === "undefined") return null;
+  const raw = new URLSearchParams(window.location.search).get("query")?.trim().toLowerCase();
+  return raw || null;
+}
+
 function getCategoryFromUrl(): string | null {
   if (typeof window === "undefined") return null;
   const raw = new URLSearchParams(window.location.search).get("cat")?.trim().toLowerCase();
@@ -35,8 +42,9 @@ export default function PastEventsClient({
     const [hasNextPage, setHasNextPage] = useState<boolean>(initialHasNextPage);
     const [isLoading, setIsLoading] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+    const [searchQuery, setSearchQuery] = useState<string | null>(null);
 
-    const baseUrl = "/api/events";
+    const baseUrl = "/api/events"; // astro api route
 
     // Use semesters computed at build time so server render matches hydration
     const allSemesters = useMemo(() => initialSemesters, [initialSemesters]);
@@ -45,9 +53,11 @@ export default function PastEventsClient({
     useEffect(() => {
         const category = getCategoryFromUrl();
         setSelectedCategory(category);
+        const query = getQueryFromUrl();
+        setSearchQuery(query);
 
         // If the user has a known category selected on load, reload the first page
-        // from the API so our initial list matches the category selection.
+        // from the API so our initial list matches the category selection
         if (isKnownCategory(category)) {
             (async () => {
                 setIsLoading(true);
@@ -127,8 +137,8 @@ export default function PastEventsClient({
             }
         };
 
-        window.addEventListener("pastEvents:categoryChange", handler as EventListener);
-        return () => window.removeEventListener("pastEvents:categoryChange", handler as EventListener);
+        window.addEventListener("categoryChange", handler as EventListener);
+        return () => window.removeEventListener("categoryChange", handler as EventListener);
     }, [initialEvents, initialHasNextPage, initialPage, limit]);
 
     const isOtherCategory = selectedCategory === "other";
@@ -202,10 +212,10 @@ export default function PastEventsClient({
 
             nextPage += 1;
 
-            // If we're not doing the tight "other" loop, just fetch a single page.
+            // If not doing the tight "other" loop, just fetch a single page
             if (!shouldFetchTightly) break;
 
-            // For "other", keep fetching until we find at least one other event or we run out of pages.
+            // For "other", keep fetching until at least one other event found or run out of pages
             if (foundOther || !finalHasNextPage) break;
         }
 

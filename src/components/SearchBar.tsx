@@ -1,10 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
-interface CategoryFilterProps {
-  categories: string[];
-}
-
-// Get search query query param from url
+// Get search query param from url
 function getQueryFromUrl(): string | null {
   if (typeof window === "undefined") return null;
   const raw = new URLSearchParams(window.location.search).get("query")?.trim().toLowerCase();
@@ -26,24 +22,42 @@ export default function SearchBar() {
     if (query) setValue(query);
   }, []);
 
-  const onValueChange = (newValue: string) => {
-    setValue(newValue);
-
+  const handleSubmit = () => {
     const url = new URL(window.location.href);
-    if (newValue) {
-      url.searchParams.set("query", newValue);
+    if (value) {
+      url.searchParams.set("query", value);
     } else {
       url.searchParams.delete("query");
     }
     window.history.replaceState(null, "", url.toString());
-  };
+    
+    // Notify past/current events components so they can re-fetch/re-filter
+    window.dispatchEvent(
+      new CustomEvent<string>("searchQueryChange", {
+        detail: value,
+      })
+    );
+  }
 
   return (
-    <input className="grow border-b border-gray-500"
+    <div className="w-full flex gap-2 items-center">
+      <input 
+        className="grow border-b border-gray-500"
         type="text"
         placeholder="phackers world domination..."
         value={value}
-        onChange={(e) => onValueChange(e.target.value)}
-    />
+        onChange={(e) => setValue(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") handleSubmit();
+        }}
+      />
+      <button 
+        className="hidden cursor-pointer min-w-fit h-fit px-1.5 py-0 text-sm rounded-xs border-1 text-black border-black dark:text-white dark:border-white disabled:text-gray-500 disabled:border-gray-500  disabled:dark:text-gray-400 disabled:dark:border-gray-400"
+        onClick={() => handleSubmit()}
+        disabled={(value?.length === 0)}
+      >
+        GO-{'>'}
+      </button>
+    </div>
   );
 }
