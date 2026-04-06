@@ -18,7 +18,7 @@ import {
 import { SquareIcon } from "./icons/Icons";
 
 const itemClassName =
-  "relative select-none flex items-center rounded-xs py-1.5 px-6 text-[13px] leading-none text-gray-900 dark:text-gray-100 data-[highlighted]:bg-purple-400 data-[highlighted]:text-white data-[highlighted]:outline-none data-[disabled]:pointer-events-none data-[disabled]:text-gray-500";
+  "relative select-none flex items-center rounded-none py-2 px-5 text-[13px] leading-none text-gray-900 dark:text-gray-100 data-[highlighted]:bg-purple-400 data-[highlighted]:text-white data-[highlighted]:outline-none data-[disabled]:pointer-events-none data-[disabled]:text-gray-500";
 
 export interface SelectorOption {
   value: string;
@@ -61,7 +61,7 @@ const Selector = ({
             onOpenChange={setOpen}
         >
             <SelectTrigger
-                className={`group ${className} cursor-pointer select-none inline-flex w-37 px-2 py-1 items-center justify-between gap-1 rounded border-0 border-black dark:border-white font-pixel uppercase text-[15px] leading-none text-gray-900 dark:text-gray-100 data-[placeholder]:text-gray-400`}
+                className={`group ${className} cursor-pointer select-none inline-flex w-32 px-2 py-1 items-center justify-between gap-1 rounded-none border-0 border-black dark:border-white font-pixel uppercase text-[15px] leading-none text-gray-900 dark:text-gray-100 data-[placeholder]:text-gray-400`}
                 aria-label={ariaLabel}
             >
                 <SelectValue placeholder={placeholder} />
@@ -78,7 +78,7 @@ const Selector = ({
                     <SelectScrollUpButton className="flex h-6 cursor-default items-center justify-center bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400">
                         
                     </SelectScrollUpButton>
-                    <SelectViewport className="p-1">
+                    <SelectViewport className="p-0">
                         <SelectGroup>
                             {value && ( 
                                 <button 
