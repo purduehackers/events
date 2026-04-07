@@ -22,6 +22,26 @@ export default function SearchBar() {
     if (query) setValue(query);
   }, []);
 
+  const handleChange = (newVal: string) => {
+    setValue(newVal);
+
+    // Update url query param
+    const url = new URL(window.location.href);
+    if (newVal) {
+      url.searchParams.set("query", newVal);
+    } else {
+      url.searchParams.delete("query");
+    }
+    window.history.replaceState(null, "", url.toString());
+    
+    // Notify past/current events components to re-fetch/re-filter
+    window.dispatchEvent(
+      new CustomEvent<string>("searchQueryChange", {
+        detail: newVal,
+      })
+    );
+  }
+
   const handleSubmit = () => {
     const url = new URL(window.location.href);
     if (value) {
@@ -42,11 +62,11 @@ export default function SearchBar() {
   return (
     <div className="w-full flex gap-2 items-center">
       <input 
-        className="grow border-b border-gray-500"
+        className="grow border-b border-dashed border-gray-500"
         type="text"
         placeholder="phackers world domination..."
         value={value}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={(e) => handleChange(e.target.value)}
         onKeyDown={(e) => {
           if (e.key === "Enter") handleSubmit();
         }}
