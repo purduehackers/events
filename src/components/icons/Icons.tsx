@@ -4,6 +4,14 @@ interface IconProps {
     strokeLength?: number;
 }
 
+export function XIcon({ className = "w-6 h-6", strokeWidth = 4 }: IconProps) {
+  return (
+    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinejoin="round" strokeWidth={strokeWidth} d="M6 18L18 6M6 6l12 12" />
+    </svg>
+  );
+}
+
 export function SquareIcon({ className = "w-6 h-6", strokeWidth = 2 }: IconProps) {
     return (
       <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

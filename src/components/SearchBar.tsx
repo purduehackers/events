@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { XIcon } from "./icons/Icons";
 
 // Get search query param from url
 function getQueryFromUrl(): string | null {
@@ -62,7 +63,7 @@ export default function SearchBar() {
   return (
     <div className="w-full flex gap-2 items-center">
       <input 
-        className="grow border-b border-dashed border-gray-500"
+        className="grow border-b-none sm:border-b-1 border-dashed border-zinc-400 dark:border-zinc-500"
         type="text"
         placeholder="wackhacker world domination..."
         value={value}
@@ -72,11 +73,11 @@ export default function SearchBar() {
         }}
       />
       <button 
-        className="hidden cursor-pointer min-w-fit h-fit px-1.5 py-0 text-sm rounded-xs border-1 text-black border-black dark:text-white dark:border-white disabled:text-gray-500 disabled:border-gray-500  disabled:dark:text-gray-400 disabled:dark:border-gray-400"
-        onClick={() => handleSubmit()}
+        className="absolute right-4 cursor-pointer disabled:hidden min-w-fit w-fit h-fit p-[1px] text-xs rounded-full text-zinc-200 dark:text-zinc-700 bg-zinc-400 dark:bg-zinc-400"
+        onClick={() => handleChange("")}
         disabled={(value?.length === 0)}
       >
-        GO-{'>'}
+        <XIcon className="w-3 w-3" />
       </button>
     </div>
   );
