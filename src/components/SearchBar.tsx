@@ -64,7 +64,7 @@ export default function SearchBar() {
       <input 
         className="grow border-b border-dashed border-gray-500"
         type="text"
-        placeholder="phackers world domination..."
+        placeholder="wackhacker world domination..."
         value={value}
         onChange={(e) => handleChange(e.target.value)}
         onKeyDown={(e) => {
