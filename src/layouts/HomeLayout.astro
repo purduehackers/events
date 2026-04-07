@@ -25,15 +25,17 @@ const categories = [...EVENT_CATEGORIES];
     text="HACK"
 />
 <div class="z-10 bg-body-light dark:bg-body-dark">
-    <div class="sticky-scroll-lock z-60 sticky top-8 py-0 sm:py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between sm:gap-2 bg-zinc-200 dark:bg-zinc-700 text-[15px] font-pixel uppercase">
-        <div class="px-4 py-3 sm:py-0 w-full sm:w-fit flex items-center gap-2 border-b-1 sm:border-none border-zinc-300 dark:border-zinc-600">
-            <h4 class="block sm:block">Filter:</h4>
-            <SemesterFilter client:load semesters={allSemesters} />
-            <CategoryFilter client:load categories={categories} />
-        </div>
-        <div class="px-4 py-3 bg-pink sm:py-0 w-full sm:w-1/3 flex items-center gap-2 pr-4">
-            <h4 class="block sm:block">Search:</h4>
-            <SearchBar client:load />
+    <div class="sticky-scroll-lock z-60 sticky top-8 p-0 sm:py-4 bg-zinc-200 dark:bg-zinc-700 text-[15px] font-pixel uppercase">
+        <div class="w-full xl:container mx-0 xl:m-auto flex flex-col sm:flex-row items-start sm:items-center justify-between sm:gap-2">
+            <div class="px-4 py-3 sm:py-0 w-full sm:w-fit flex items-center gap-2 border-b-1 sm:border-none border-zinc-300 dark:border-zinc-600">
+                <h4 class="block sm:block">Filter:</h4>
+                <SemesterFilter client:load semesters={allSemesters} />
+                <CategoryFilter client:load categories={categories} />
+            </div>
+            <div class="px-4 py-3 bg-pink sm:py-0 w-full sm:w-1/3 flex items-center gap-2 pr-4">
+                <h4 class="block sm:block">Search:</h4>
+                <SearchBar client:load />
+            </div>
         </div>
     </div>
 

@@ -86,11 +86,11 @@ export default function SemesterEvents({ initialEvents, semester, currentSemeste
 
     return (
         <div data-category-section="current-events"
-            className="[--line-card-gap:25px] sm:[--line-card-gap:40px] [--sem-icon-size:14px] flex flex-col gap-y-4"
+            className="[--line-card-gap:25px] sm:[--line-card-gap:40px] [--sem-icon-size:14px] px-2 flex flex-col gap-y-4"
             id={`current-events-sec`}
         >
             {/* Semester label */}
-            <div className="z-50 sticky top-24 w-fit">
+            <div className="z-50 sticky top-34 sm:top-24 w-fit">
                 <div className="relative -left-2 p-2 rounded-full flex items-center bg-body-light dark:bg-body-dark "
                     style={{gap: "calc(var(--line-card-gap) - var(--sem-icon-size))"}}
                 >

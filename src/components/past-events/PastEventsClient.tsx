@@ -315,7 +315,7 @@ export default function PastEventsClient({
                         id={`sem-sec-${idx}`}
                         data-sem-key={`${semester.season}-${semester.year}`}
                     >
-                        <div className="z-50 sticky top-24 w-fit">
+                        <div className="z-50 sticky top-34 sm:top-24 w-fit">
                             <div
                                 className="relative -left-2 p-2 rounded-full flex items-center bg-body-light dark:bg-body-dark"
                                 style={{ gap: "calc(var(--line-card-gap) - var(--sem-icon-size))" }}
@@ -329,7 +329,7 @@ export default function PastEventsClient({
                                     <div className="w-1.5 h-1.5 bg-white dark:bg-zinc-900" />
                                 </div>
                                 <h3 className="text-base sm:text-base font-normal leading-none p-0 m-0 uppercase font-pixel">
-                                {semester.season} {semester.year}
+                                    {semester.season} {semester.year}
                                 </h3>
                             </div>
                         </div>
