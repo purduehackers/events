@@ -81,13 +81,10 @@ html body[data-scroll-locked] {
   ul {
     @apply list-disc pl-6 marker:text-amber-400 dark:marker:text-amber-500;
   }
-  button {
+  button, button:active, button:focus {
     outline: none;
   }
-  button:active {
-    outline: none;
-  }
-  button:focus {
+  input, input:active, input:focus {
     outline: none;
   }
 }

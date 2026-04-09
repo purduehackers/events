@@ -63,9 +63,9 @@ export default function CategoryFilter({ categories }: CategoryFilterProps) {
     }
     window.history.replaceState(null, "", url.toString());
 
-    // Notify the past-events component so it can re-fetch / re-filter.
+    // Notify past and current events components so it can re-fetch / re-filter
     window.dispatchEvent(
-      new CustomEvent<string | null>("pastEvents:categoryChange", {
+      new CustomEvent<string | null>("categoryChange", {
         detail: newValue || null,
       })
     );
