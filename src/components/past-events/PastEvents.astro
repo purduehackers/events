@@ -22,6 +22,8 @@ const res = await fetch(`${CMS_URL}/api/events?${params.toString()}`);
 const data = (await res.json()) as { docs: EventType[]; hasNextPage: boolean };
 const initialEvents = data.docs ?? [];
 const initialHasNextPage = Boolean(data.hasNextPage);
+const url = new URL('/api/events', Astro.url);
+console.log(url.href)
 ---
 
 <div
@@ -39,6 +41,7 @@ const initialHasNextPage = Boolean(data.hasNextPage);
     initialPage={INITIAL_PAGE}
     limit={INITIAL_LIMIT}
     initialHasNextPage={initialHasNextPage}
+    apiUrl={url.href}
   />
 </div>
 

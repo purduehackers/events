@@ -11,6 +11,7 @@ interface PastEventsClientProps {
   initialPage: number;
   limit: number;
   initialHasNextPage: boolean;
+  apiUrl: string;
 }
 
 // Get search query param from url
@@ -36,6 +37,7 @@ export default function PastEventsClient({
   initialPage,
   limit,
   initialHasNextPage,
+  apiUrl
 }: PastEventsClientProps) {
     const [events, setEvents] = useState<EventType[]>(initialEvents);
     const [page, setPage] = useState(initialPage);
@@ -44,7 +46,7 @@ export default function PastEventsClient({
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
     const [searchQuery, setSearchQuery] = useState<string | null>(null);
 
-    const baseUrl = "/api/events"; // astro api route
+    const baseUrl = apiUrl; //"/api/events"; // astro api route
 
     // Helper for building fetch params
     const buildFetchParams = (pageNum: number, category: string | null, query: string | null) => {

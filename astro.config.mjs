@@ -8,13 +8,14 @@ import vercel from "@astrojs/vercel";
 
 // https://astro.build/config
 export default defineConfig({
+  //output: "server",
   site: "https://events.purduehackers.com",
   adapter: vercel({
     isr: {
       expiration: 60 * 60 * 24,
+      exclude: ['/api/events'] 
     },
   }),
-  //output: "server",
   vite: {
     plugins: [tailwindcss()],
     /*server: {
