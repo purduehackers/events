@@ -20,7 +20,12 @@ export async function getStaticPaths() {
   let events: EventType[] = [];
   let pageNum: number | null = 1;
   while (pageNum != null) {
-    let res = await fetch(`${CMS_URL}/api/events?limit=100&page=${pageNum}`);
+    const apiKey = import.meta.env.PAYLOAD_API_KEY;
+    let res = await fetch(`${CMS_URL}/api/events?limit=100&page=${pageNum}`, {
+        headers: {
+            Authorization: `service-accounts API-Key ${apiKey}`,
+        },
+    });
     const data: PayloadResponse<EventType> = await res.json();
     events.push(...data.docs); // append this page of events
     pageNum = data.nextPage; // get next page of events

@@ -46,7 +46,7 @@ export default function PastEventsClient({
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
     const [searchQuery, setSearchQuery] = useState<string | null>(null);
 
-    const baseUrl = apiUrl; //"/api/events"; // astro api route
+    const baseUrl = apiUrl; // astro api route "/api/events"
 
     // Helper for building fetch params
     const buildFetchParams = (pageNum: number, category: string | null, query: string | null) => {
@@ -82,11 +82,7 @@ export default function PastEventsClient({
             (async () => {
                 setIsLoading(true);
                 const params = buildFetchParams(1, category, query);
-                const res = await fetch(`${baseUrl}?${params.toString()}`, {
-                    headers: {
-                        Authorization: `service-accounts API-Key ${import.meta.env.PUBLIC_PAYLOAD_API_KEY}`,
-                    },
-                });
+                const res = await fetch(`${baseUrl}?${params.toString()}`);
                 if (!res.ok) {
                     setIsLoading(false);
                     return;
@@ -117,11 +113,7 @@ export default function PastEventsClient({
 
                     const params = buildFetchParams(1, detail, searchQuery);
 
-                    const res = await fetch(`${baseUrl}?${params.toString()}`, {
-                        headers: {
-                            Authorization: `service-accounts API-Key ${import.meta.env.PUBLIC_PAYLOAD_API_KEY}`,
-                        },
-                    });
+                    const res = await fetch(`${baseUrl}?${params.toString()}`);
                     if (!res.ok) {
                         setIsLoading(false);
                         return;
@@ -155,11 +147,7 @@ export default function PastEventsClient({
 
                     const params = buildFetchParams(1, selectedCategory, query);
 
-                    const res = await fetch(`${baseUrl}?${params.toString()}`, {
-                        headers: {
-                            Authorization: `service-accounts API-Key ${import.meta.env.PUBLIC_PAYLOAD_API_KEY}`,
-                        },
-                    });
+                    const res = await fetch(`${baseUrl}?${params.toString()}`);
                     if (!res.ok) {
                         setIsLoading(false);
                         return;

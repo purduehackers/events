@@ -1,6 +1,5 @@
 ---
 import type { EventType, SemesterType } from "@/types";
-import { CMS_URL } from "@/utilities/constants";
 import { getSemestersNewestFirst } from "@/utilities/helpers";
 
 import PastEventsClient from "./PastEventsClient.tsx";
@@ -18,8 +17,11 @@ params.set("limit", String(INITIAL_LIMIT));
 params.set("page", String(INITIAL_PAGE));
 
 // Fetch initial page of past events to render on the server
-const res = await fetch(`${CMS_URL}/api/events?${params.toString()}`);
+const apiUrl = new URL('/api/events', Astro.url);
+const res = await fetch(`${apiUrl}?${params.toString()}`);
+console.log("past events res: ", res)
 const data = (await res.json()) as { docs: EventType[]; hasNextPage: boolean };
+console.log("past events data: ", data)
 const initialEvents = data.docs ?? [];
 const initialHasNextPage = Boolean(data.hasNextPage);
 const url = new URL('/api/events', Astro.url);
