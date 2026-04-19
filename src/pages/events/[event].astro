@@ -10,6 +10,7 @@ import MapPin from "@/assets/map-pin.svg";
 
 import Gallery from "@/components/past-events/Gallery.astro";
 import Description from "@/components/past-events/Description.astro";
+import Rsvp from "@/components/Rsvp";
 
 import type { EventType, PayloadResponse } from "../../types";
 import { CMS_URL } from "../../utilities/constants";
@@ -49,6 +50,8 @@ const { event } = Astro.props;
 const descriptionHTML = await convertLexicalToHTMLAsync({
   data: event.description as SerializedEditorState,
 });
+
+const isUpcoming = new Date(event.start) > new Date();
 
 const {
     localizedStart,
@@ -119,10 +122,12 @@ const {
               </Description>
             </div>
 
+            {isUpcoming && <Rsvp client:load eventId={event.id} />}
+
             {event.images && event.images.length > 0 && (
               <Gallery
                 images={event.images.map((img) => ({
-                  url: CMS_URL + img.image.url,
+                  url: img.image.url,
                   alt: img.image?.alt ?? event.name,
                 }))}
               />
