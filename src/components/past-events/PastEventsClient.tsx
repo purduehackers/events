@@ -47,6 +47,7 @@ export default function PastEventsClient({
     const [searchQuery, setSearchQuery] = useState<string | null>(null);
 
     const baseUrl = apiUrl; // astro api route "/api/events"
+    console.log(apiUrl)
 
     // Helper for building fetch params
     const buildFetchParams = (pageNum: number, category: string | null, query: string | null) => {
