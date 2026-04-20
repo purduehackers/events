@@ -3,22 +3,24 @@ export const prerender = false;
 import type { APIRoute } from 'astro';
 import { CMS_URL } from "@/utilities/constants";
 
-// Get events
-export const GET: APIRoute = async ({ url }) => {
+// Create new rsvp
+export const POST: APIRoute = async ({ request }) => {
     try {
-        // Filter for published only
-        url.searchParams.set("where[published][equals]", "true");
-
-        // Make authorized fetch request
-        const baseUrl = `${CMS_URL}/api/events${url.search}`;
+        const baseUrl = `${CMS_URL}/api/rsvps`;
         const apiKey = import.meta.env.PAYLOAD_API_KEY;
+        const body = await request.json();
+
         const cmsRes = await fetch(baseUrl, {
+            method: "POST",
             headers: {
                 Authorization: `service-accounts API-Key ${apiKey}`,
+                'Content-Type': 'application/json',
             },
+            body: JSON.stringify(body)
         });
 
         const text = await cmsRes.text();
+        console.log("text: ", text)
 
         return new Response(text, {
             status: cmsRes.status,
@@ -27,8 +29,9 @@ export const GET: APIRoute = async ({ url }) => {
             },
         });
     } catch (err) {
+        console.log("Failed to create rsvp: ", err)
         return new Response(
-            JSON.stringify({ error: 'Failed to fetch events' }),
+            JSON.stringify({ error: `Failed to create rsvp: ${err}` }),
             { status: 500 }
         );
     }

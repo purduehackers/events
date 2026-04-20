@@ -8,7 +8,6 @@ import {
   getSemesterDateRange
 } from "@/utilities/helpers";
 import type { EventType, PayloadResponse } from "@/types";
-import { CMS_URL } from "@/utilities/constants";
 
 export async function getStaticPaths() {
     // Get all valid semesters for path generation
@@ -37,7 +36,8 @@ params.set("where[start][greater_than]", start.toISOString());
 params.set("where[start][less_than]", end < new Date() ? end.toISOString() : new Date().toISOString()); // only show past events
 params.set("limit", "100");
 
-const res = await fetch(`${CMS_URL}/api/events?${params.toString()}`);
+const apiUrl = new URL('/api/events', Astro.url);
+const res = await fetch(`${apiUrl}?${params.toString()}`);
 const data: PayloadResponse<EventType> = await res.json();
 const events: EventType[] = data.docs;
 ---
