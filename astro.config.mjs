@@ -3,7 +3,6 @@ import { defineConfig } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 
 import react from "@astrojs/react";
-
 import vercel from "@astrojs/vercel";
 
 // https://astro.build/config
@@ -13,7 +12,7 @@ export default defineConfig({
   adapter: vercel({
     isr: {
       expiration: 60 * 60 * 24,
-      exclude: ['/api/events'] 
+      exclude: ['/api/events', '/api/rsvps'] 
     },
   }),
   vite: {

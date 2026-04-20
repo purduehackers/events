@@ -24,7 +24,6 @@ const data = (await res.json()) as { docs: EventType[]; hasNextPage: boolean };
 console.log("past events data: ", data)
 const initialEvents = data.docs ?? [];
 const initialHasNextPage = Boolean(data.hasNextPage);
-console.log(apiUrl.href)
 ---
 
 <div
