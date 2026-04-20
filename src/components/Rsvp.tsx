@@ -52,7 +52,7 @@ export default function Rsvp({ eventId }: RsvpProps) {
     };
 
     return (
-        <div className="m-auto bg-black dark:bg-black rounded-sm text-white dark:text-white border-2 border-white dark:border-zinc-200 p-4 sm:p-10 sm:px-12 mx-4 mt-4 sm:mx-0 sm:mt-0 mb-4">
+        <div className="m-auto bg-black dark:bg-black rounded-sm text-white dark:text-white border-2 border-white dark:border-purple-400 p-4 sm:p-10 sm:px-12 mx-4 mt-4 sm:mx-0 sm:mt-0 mb-4">
             <p className="hidden text-yellow dark:text-purple-700 font-display uppercase text-sm mb-4">--rsvp--</p>
             <div className="flex items-center justify-center gap-4 text-white font-mono text-xl text-center mb-4">
                 <StarIcon2 className="w-4 h-4 animate-idle-icon text-purple-400" />
