@@ -9,14 +9,14 @@ export const POST: APIRoute = async ({ request }) => {
         const baseUrl = `${CMS_URL}/api/rsvps`;
         const apiKey = import.meta.env.PAYLOAD_API_KEY;
         const body = await request.json();
-        console.log("body: ", body)
 
         const cmsRes = await fetch(baseUrl, {
             method: "POST",
             headers: {
                 Authorization: `service-accounts API-Key ${apiKey}`,
+                'Content-Type': 'application/json',
             },
-            body
+            body: JSON.stringify(body)
         });
 
         const text = await cmsRes.text();
