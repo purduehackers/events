@@ -1,5 +1,5 @@
 ---
-import { optimizedSrcset, optimizedUrl } from "../../utilities/image.ts";
+import { optimizedSrcset, optimizedUrl } from "../../utilities/image";
 
 interface ImageInput {
   url: string;
@@ -35,9 +35,9 @@ const imageItems: ImageItem[] = images.map((img) => {
     alt: input.alt ?? "Event photo",
     width: input.width,
     height: input.height,
-    thumbSrc: optimizedUrl(input.url, 800),
+    thumbSrc: optimizedUrl(input.url, THUMB_WIDTHS[0]),
     thumbSrcset: optimizedSrcset(input.url, THUMB_WIDTHS),
-    lightboxSrc: optimizedUrl(input.url, 1600),
+    lightboxSrc: optimizedUrl(input.url, LIGHTBOX_WIDTHS[0]),
     lightboxSrcset: optimizedSrcset(input.url, LIGHTBOX_WIDTHS),
   };
 });
@@ -231,9 +231,9 @@ const imageItems: ImageItem[] = images.map((img) => {
             new Image().src = allImageItems[prevIndex].lightboxSrc;
 
             const current = allImageItems[currentImageIndex];
-            lightboxImg.src = current.lightboxSrc;
             lightboxImg.srcset = current.lightboxSrcset;
             lightboxImg.sizes = "100vw";
+            lightboxImg.src = current.lightboxSrc;
             lightboxImg.alt = current.alt ?? "Event photo";
         }
     };
@@ -321,12 +321,12 @@ const imageItems: ImageItem[] = images.map((img) => {
             img_wrapper.onclick = () => openLightbox(i);
 
             const img = document.createElement("img");
-            img.src = item.thumbSrc;
             img.srcset = item.thumbSrcset;
             img.sizes = "(min-width: 768px) 33vw, 50vw";
+            img.src = item.thumbSrc;
             img.alt = item.alt ?? "Event photo";
             img.className = "rounded-xs w-full";
-            img.loading = isHidden || i >= 3 ? "lazy" : "eager";
+            img.loading = isHidden ? "lazy" : "eager";
             img.decoding = "async";
             if (item.width) img.width = item.width;
             if (item.height) img.height = item.height;
