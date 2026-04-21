@@ -129,6 +129,8 @@ const {
                 images={event.images.map((img) => ({
                   url: img.image.url,
                   alt: img.image?.alt ?? event.name,
+                  width: img.image.width,
+                  height: img.image.height,
                 }))}
               />
             )}

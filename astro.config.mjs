@@ -5,28 +5,24 @@ import tailwindcss from "@tailwindcss/vite";
 import react from "@astrojs/react";
 import vercel from "@astrojs/vercel";
 
-// https://astro.build/config
 export default defineConfig({
-  //output: "server",
   site: "https://events.purduehackers.com",
   adapter: vercel({
     isr: {
       expiration: 60 * 60 * 24,
-      exclude: ['/api/events', '/api/rsvps'] 
+      exclude: ['/api/events', '/api/rsvps']
+    },
+    imageService: true,
+    imagesConfig: {
+      sizes: [400, 800, 1200, 1600, 2400],
+      domains: ['cms.purduehackers.com'],
     },
   }),
+  image: {
+    domains: ['cms.purduehackers.com'],
+  },
   vite: {
     plugins: [tailwindcss()],
-    /*server: {
-      proxy: {
-        // Proxy API requests during local dev to avoid CORS issues
-        "/api/events": {
-          target: process.env.PUBLIC_CMS_URL ?? "https://cms.purduehackers.com",
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api\/events/, "/api/events"),
-        },
-      },
-    },*/
   },
   integrations: [react()],
 });
