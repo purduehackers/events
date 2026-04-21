@@ -1,20 +1,45 @@
 ---
-interface ImageItem {
+import { optimizedSrcset, optimizedUrl } from "../../utilities/image.ts";
+
+interface ImageInput {
   url: string;
   alt?: string;
+  width?: number;
+  height?: number;
 }
 
 interface Props {
-  images?: Array<ImageItem | string>;
+  images?: Array<ImageInput | string>;
 }
+
+interface ImageItem {
+  url: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  thumbSrc: string;
+  thumbSrcset: string;
+  lightboxSrc: string;
+  lightboxSrcset: string;
+}
+
+const THUMB_WIDTHS = [400, 800, 1200];
+const LIGHTBOX_WIDTHS = [800, 1200, 1600, 2400];
 
 const { images = [] } = Astro.props;
 
 const imageItems: ImageItem[] = images.map((img) => {
-  if (typeof img === "string") {
-    return { url: img, alt: "Event photo" };
-  }
-  return { url: img.url, alt: img.alt ?? "Event photo" };
+  const input: ImageInput = typeof img === "string" ? { url: img } : img;
+  return {
+    url: input.url,
+    alt: input.alt ?? "Event photo",
+    width: input.width,
+    height: input.height,
+    thumbSrc: optimizedUrl(input.url, 800),
+    thumbSrcset: optimizedSrcset(input.url, THUMB_WIDTHS),
+    lightboxSrc: optimizedUrl(input.url, 1600),
+    lightboxSrcset: optimizedSrcset(input.url, LIGHTBOX_WIDTHS),
+  };
 });
 ---
 
@@ -202,12 +227,14 @@ const imageItems: ImageItem[] = images.map((img) => {
             const prevIndex =
                 (currentImageIndex - 1 + allImageItems.length) %
                 allImageItems.length;
-            new Image().src = allImageItems[nextIndex].url;
-            new Image().src = allImageItems[prevIndex].url;
+            new Image().src = allImageItems[nextIndex].lightboxSrc;
+            new Image().src = allImageItems[prevIndex].lightboxSrc;
 
-            lightboxImg.src = allImageItems[currentImageIndex].url;
-            lightboxImg.alt =
-                allImageItems[currentImageIndex].alt ?? "Event photo";
+            const current = allImageItems[currentImageIndex];
+            lightboxImg.src = current.lightboxSrc;
+            lightboxImg.srcset = current.lightboxSrcset;
+            lightboxImg.sizes = "100vw";
+            lightboxImg.alt = current.alt ?? "Event photo";
         }
     };
 
@@ -280,7 +307,7 @@ const imageItems: ImageItem[] = images.map((img) => {
 
         for (let i = 0; i < image_count; i++) {
             const isHidden = i >= 3;
-            const { url: img_url, alt: img_alt } = allImageItems[i];
+            const item = allImageItems[i];
 
             const img_wrapper = document.createElement("div");
 
@@ -294,9 +321,15 @@ const imageItems: ImageItem[] = images.map((img) => {
             img_wrapper.onclick = () => openLightbox(i);
 
             const img = document.createElement("img");
-            img.src = img_url;
-            img.alt = img_alt ?? "Event photo";
+            img.src = item.thumbSrc;
+            img.srcset = item.thumbSrcset;
+            img.sizes = "(min-width: 768px) 33vw, 50vw";
+            img.alt = item.alt ?? "Event photo";
             img.className = "rounded-xs w-full";
+            img.loading = isHidden || i >= 3 ? "lazy" : "eager";
+            img.decoding = "async";
+            if (item.width) img.width = item.width;
+            if (item.height) img.height = item.height;
 
             img_wrapper.appendChild(img);
             imageArea.appendChild(img_wrapper);
