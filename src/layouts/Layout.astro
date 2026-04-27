@@ -2,49 +2,48 @@
 import "../styles/global.css";
 
 // Import fonts
-import '@fontsource-variable/inconsolata'; // Supports weights 200-900
-import '@fontsource-variable/jetbrains-mono'; // Supports weights 100-800
-import '@fontsource/silkscreen/400.css';
-import '@fontsource/silkscreen/700.css';
+import "@fontsource-variable/inconsolata"; // Supports weights 200-900
+import "@fontsource-variable/jetbrains-mono"; // Supports weights 100-800
+import "@fontsource/silkscreen/400.css";
+import "@fontsource/silkscreen/700.css";
 import "@fontsource-variable/space-grotesk";
 import "@fontsource/space-mono";
 
 import Navbar from "../components/Navbar.astro";
 import Footer from "../components/Footer.astro";
 
-import logoImg from "@/../public/logo.svg";
+import logoImg from "@/../public/glider.svg";
 import { getImage } from "astro:assets";
 import SocialMetaTags from "./components/SocialMetaTags.astro";
 
 const appleTouchIcon = await getImage({
-  src: logoImg,
-  width: 180,
-  height: 180,
-  format: "png",
+    src: logoImg,
+    width: 180,
+    height: 180,
+    format: "png",
 });
-
 ---
 
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg" href="/logo.svg" />
-    <link rel="apple-touch-icon" href={appleTouchIcon.src} />
-    <meta name="generator" content={Astro.generator} />
-    <SocialMetaTags title={""} />
-    <title>Events - Purdue Hackers</title>
-  </head>
-  <body>
-    <main>
-      <div class="min-h-screen flex flex-col font-title">
-        <Navbar />
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <link rel="icon" type="image/svg" href="/glider.svg" />
+        <link rel="apple-touch-icon" href={appleTouchIcon.src} />
+        <meta name="generator" content={Astro.generator} />
+        <SocialMetaTags title={""} />
+        <title>Events - Purdue Hackers</title>
+    </head>
+    <body>
+        <main>
+            <div class="min-h-screen flex flex-col font-title">
+                <Navbar />
 
-        <slot />
+                <slot />
 
-        <Footer />
-      </div>
-    </main>
-  </body>
+                <Footer />
+            </div>
+        </main>
+    </body>
 </html>
