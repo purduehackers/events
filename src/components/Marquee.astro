@@ -14,10 +14,10 @@ const { class: className, text, ...rest } = Astro.props;
     {
         [...Array(2)].map((_, _i) => (
             <div class={`${className} z-30 font-display font-bold flex flex items-center whitespace-nowrap animate-horizontal-scroll`} 
-                style="--marquee-duration: 25s"
+                style="--marquee-duration: 50s"
             >
                 {
-                    [...Array(30)].map((_, _j) => (
+                    [...Array(60)].map((_, _j) => (
                         <div class="mr-4">{text}</div>
                     ))
                 }
