@@ -15,8 +15,8 @@ export const GET: APIRoute = async ({ url }) => {
         const cmsRes = await fetch(baseUrl, {
             headers: {
                 Authorization: `service-accounts API-Key ${apiKey}`,
-                cache: 'no-store',
             },
+            cache: 'no-store',
         });
 
         const text = await cmsRes.text();

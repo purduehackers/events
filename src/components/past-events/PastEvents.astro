@@ -1,4 +1,6 @@
 ---
+export const prerender = true;
+
 import type { EventType, SemesterType } from "@/types";
 import { getSemestersNewestFirst } from "@/utilities/helpers";
 
@@ -18,8 +20,9 @@ params.set("page", String(INITIAL_PAGE));
 
 // Fetch initial page of past events to render on the server
 const apiUrl = new URL('/api/events', Astro.url);
-console.log("baseurl in pastevents: ", `${apiUrl}?${params.toString()}`)
-const res = await fetch(`${apiUrl}?${params.toString()}`);
+// Add cache-busting to force fresh fetches during ISR revalidation
+const cacheBust = Math.random().toString(36).substring(2, 9);
+const res = await fetch(`${apiUrl}?${params.toString()}&_cache_bust=${cacheBust}`);
 const data = (await res.json()) as { docs: EventType[]; hasNextPage: boolean };
 const initialEvents = data.docs ?? [];
 const initialHasNextPage = Boolean(data.hasNextPage);
