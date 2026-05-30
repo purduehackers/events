@@ -12,7 +12,7 @@
   "keywords": [],
   "dependencies": {
     "@astrojs/react": "^5.0.0",
-    "@astrojs/vercel": "^10.0.2",
+    "@astrojs/vercel": "^10.0.8",
     "@date-fns/tz": "^1.4.1",
     "@fontsource-variable/inconsolata": "^5.2.8",
     "@fontsource-variable/jetbrains-mono": "^5.2.8",
@@ -24,7 +24,7 @@
     "@tailwindcss/vite": "^4.1.17",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "astro": "^6.0.0",
+    "astro": "^6.0.8",
     "date-fns": "^4.1.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
