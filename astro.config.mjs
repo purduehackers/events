@@ -11,7 +11,7 @@ export default defineConfig({
   site: "https://events.purduehackers.com",
   adapter: vercel({
     isr: {
-      expiration: 60 * 60 * 4,
+      expiration: 60 * 5,
       exclude: ['/api/events', '/api/rsvps'] 
     },
   }),
