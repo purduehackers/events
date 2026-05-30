@@ -7,7 +7,7 @@ import vercel from "@astrojs/vercel";
 
 // https://astro.build/config
 export default defineConfig({
-  //output: "server",
+  output: "server",
   site: "https://events.purduehackers.com",
   adapter: vercel({
     isr: {
