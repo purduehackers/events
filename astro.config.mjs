@@ -9,12 +9,7 @@ import vercel from "@astrojs/vercel";
 export default defineConfig({
   output: "server",
   site: "https://events.purduehackers.com",
-  adapter: vercel({
-    isr: {
-      expiration: 60 * 5,
-      exclude: ['/api/events', '/api/rsvps'] 
-    },
-  }),
+   adapter: vercel(),
   vite: {
     plugins: [tailwindcss()],
     /*server: {
