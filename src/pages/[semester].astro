@@ -6,12 +6,12 @@ import HomeLayout from "@/layouts/HomeLayout.astro";
 import SemesterEvents from "@/components/SemesterEvents";
 
 import {
-  getSemestersNewestFirst,
+  //getSemestersNewestFirst,
   getSemesterDateRange
 } from "@/utilities/helpers";
-import type { EventType, PayloadResponse } from "@/types";
+import type { EventType, SemesterType, PayloadResponse } from "@/types";
 
-export async function getStaticPaths() {
+/*export async function getStaticPaths() {
     // Get all valid semesters for path generation
     const allSemesters = getSemestersNewestFirst();
 
@@ -26,7 +26,23 @@ export async function getStaticPaths() {
         };
     });
 }
-const { semester } = Astro.props;
+const { semester } = Astro.props;*/
+
+// Process semester dynamically and validate params
+const { semString } = Astro.params; // e.g. "fall-2024"
+const parts = semString?.split("-");
+if (!parts || parts.length !== 2) {
+    return Astro.redirect('/404');
+}
+
+const seasonRaw = parts[0]?.toLowerCase();
+const yearNum = Number(parts[1]);
+const validSeasons = ["spring", "summer", "fall"];
+if (!seasonRaw || !validSeasons.includes(seasonRaw) || !Number.isInteger(yearNum) || Number.isNaN(yearNum)) {
+    return Astro.redirect('/404');
+}
+
+const semester: SemesterType = { year: yearNum, season: seasonRaw as SemesterType["season"] };
 
 // Get semester date range
 const { start, end } = getSemesterDateRange(semester);

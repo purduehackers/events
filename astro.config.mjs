@@ -12,7 +12,7 @@ export default defineConfig({
   adapter: vercel({
     isr: {
       expiration: 60 * 5,
-      bypassToken: "123123123123123123123123123123123123",
+      bypassToken: import.meta.env.ISR_REVALIDATION_TOKEN,
       exclude: ['/api/events', '/api/rsvps'] 
     },
   }),

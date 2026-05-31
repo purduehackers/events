@@ -19,14 +19,13 @@ import { CMS_URL } from "../../utilities/constants";
 import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical';
 import { convertLexicalToHTMLAsync } from '@payloadcms/richtext-lexical/html-async';
 
-export async function getStaticPaths() {
+/*export async function getStaticPaths() {
   let events: EventType[] = [];
   let pageNum: number | null = 1;
   while (pageNum != null) {
-    const apiKey = import.meta.env.PAYLOAD_API_KEY;
     let res = await fetch(`${CMS_URL}/api/events?limit=100&page=${pageNum}`, {
         headers: {
-            Authorization: `service-accounts API-Key ${apiKey}`,
+            Authorization: `service-accounts API-Key ${import.meta.env.PAYLOAD_API_KEY}`,
         },
     });
     const data: PayloadResponse<EventType> = await res.json();
@@ -46,7 +45,23 @@ export async function getStaticPaths() {
   });
 }
 
-const { event } = Astro.props;
+const { event } = Astro.props;*/
+
+const { slug } = Astro.params;
+
+// Fetch event dynamically from CMS
+// https://cms.purduehackers.com/api/events?where[name][equals]=Fall+2026+Callout
+let res = await fetch(`${CMS_URL}/api/events?where[id][equals]=${slug}`, {
+  headers: {
+    Authorization: `service-accounts API-Key ${import.meta.env.PAYLOAD_API_KEY}`,
+  },
+});
+const data: PayloadResponse<EventType> = await res.json();
+const event = data.docs[0];
+if (!event) {
+  // No matching event found
+  return Astro.redirect('/404');
+}
 
 // Convert rich text once during build
 const descriptionHTML = await convertLexicalToHTMLAsync({

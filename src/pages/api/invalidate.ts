@@ -12,7 +12,7 @@ export const POST: APIRoute = async ({ url, request }) => {
     method: "HEAD",
     headers: {
       // test bypass token provided to the Vercel adapter
-      "x-prerender-revalidate": "123123123123123123123123123123123123",
+      "x-prerender-revalidate": import.meta.env.ISR_REVALIDATION_TOKEN,
     },
   });
 
