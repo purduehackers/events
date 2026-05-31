@@ -18,9 +18,7 @@ params.set("page", String(INITIAL_PAGE));
 
 // Fetch initial page of past events to render on the server
 const apiUrl = new URL('/api/events', Astro.url);
-// Add cache-busting to force fresh fetches during ISR revalidation
-const cacheBust = Math.random().toString(36).substring(2, 9);
-const res = await fetch(`${apiUrl}?${params.toString()}&_cache_bust=${cacheBust}`);
+const res = await fetch(`${apiUrl}?${params.toString()}`);
 const data: PayloadResponse<EventType> = await res.json();
 const initialEvents = data.docs ?? [];
 const initialHasNextPage = Boolean(data.hasNextPage);
