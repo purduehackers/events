@@ -9,7 +9,7 @@ import "@fontsource/silkscreen/700.css";
 import "@fontsource-variable/space-grotesk";
 import "@fontsource/space-mono";
 
-import Navbar from "../components/Navbar.astro";
+import Navbar from "../components/Navbar.tsx";
 import Footer from "../components/Footer.astro";
 
 import logoImg from "@/../public/glider.svg";
@@ -34,11 +34,30 @@ const appleTouchIcon = await getImage({
         <meta name="generator" content={Astro.generator} />
         <SocialMetaTags title={""} />
         <title>Events - Purdue Hackers</title>
+        
+        <script is:inline>
+            // Apply theme synchronously before React hydration to prevent flash
+            function getTheme() {
+                const saved = typeof localStorage !== "undefined" ? localStorage.getItem("theme") : null;
+                if (saved) return saved;
+                return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+            }
+            
+            function setTheme() {
+                if (getTheme() === "light") {
+                    document.documentElement.classList.remove("dark");
+                } else {
+                    document.documentElement.classList.add("dark");
+                }
+            }
+            
+            setTheme();
+        </script>
     </head>
     <body>
         <main>
             <div class="min-h-screen flex flex-col font-title">
-                <Navbar />
+                <Navbar client:load />
 
                 <slot />
 
