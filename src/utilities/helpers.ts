@@ -1,16 +1,6 @@
 import type { EventType, SemesterType, SemesterSeason } from "@/types";
 import { TZDate } from "@date-fns/tz";
-import type { RenderedContent } from "astro:content";
 import { format } from "date-fns";
-
-export interface Event {
-  id?: string;
-  body?: string;
-  collection?: "events";
-  data: any;
-  rendered?: RenderedContent;
-  filePath?: string;
-}
 
 // Earliest semester constant
 export const EARLIEST_SEMESTER: SemesterType = { year: 2022, season: "spring" };
@@ -93,31 +83,6 @@ export function getTime(time: TZDate | string | undefined) {
 
 export function getLocalizedDate(date: string): TZDate {
   return new TZDate(date, "America/Indiana/Indianapolis");
-}
-
-export function getEventMetadata(event: Event): {
-  name: string;
-  localizedStart: TZDate;
-  localizedStartTime: string;
-  localizedEnd: TZDate | undefined;
-  localizedEndTime: string;
-} {
-  const name = event.data.name;
-  const start = event.data.start;
-  const localizedStart = getLocalizedDate(start);
-  const localizedStartTime = format(localizedStart, "hh:mm a");
-  const localizedEnd = event.data.end
-    ? getLocalizedDate(event.data.end)
-    : undefined;
-  const localizedEndTime = getTime(localizedEnd);
-
-  return {
-    name,
-    localizedStart,
-    localizedStartTime,
-    localizedEnd,
-    localizedEndTime,
-  };
 }
 
 export function getLocalizedEventTimes(event: EventType): {

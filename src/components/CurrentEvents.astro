@@ -20,6 +20,6 @@ const currentSemester = getSemesterFromDate(new Date());
 <div
     class="lg:container mb-0 pt-6 sm:pt-14 px-4 sm:px-12 md:px-18 xl:px-28 text-left lg:max-w-screen-2xl mx-auto"
 >
-    <h2 class="sm:mb-4 text-3xl sm:text-4xl font-mono font-black m-0">Upcoming</h2>
+    <h2 class="sm:mb-4 text-3xl sm:text-3xl font-mono font-black m-0">Upcoming</h2>
     <SemesterEvents client:load initialEvents={events} semester={currentSemester} currentSemester />
 </div>
