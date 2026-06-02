@@ -3,19 +3,16 @@ export const prerender = false;
 
 import CurrentEvents from "../components/CurrentEvents.astro";
 import PastEvents from "../components/past-events/PastEvents.astro";
-import Layout from "../layouts/Layout.astro";
+import Layout from "@/layouts/Layout.astro";
 import HomeLayout from "@/layouts/HomeLayout.astro";
-
-const formatter = new Intl.DateTimeFormat('en-US', {
-  timeStyle: 'long'
-});
+import Clock from "@components/Clock";
 ---
 
 <Layout>
   <HomeLayout>
-    <div class="font-mono text-gray-400 text-sm flex justify-between lg:container mb-0 pt-6 sm:pt-14 px-4 sm:px-12 md:px-18 xl:px-28 text-left lg:max-w-screen-2xl mx-auto">
-      <div>* All event times are listed in the Eastern Time Zone (ET).</div>
-      <div>Local - {formatter.format(new Date())}</div>
+    <div class="font-mono text-gray-500 dark:text-gray-400 text-sm flex justify-between lg:container mb-0 pt-6 sm:pt-14 px-4 sm:px-12 md:px-18 xl:px-28 text-left lg:max-w-screen-2xl mx-auto">
+      <div>* All event times are listed in Eastern Time (America/Indianapolis).</div>
+      <div>Local - <Clock client:load /></div>
     </div>
     <CurrentEvents />
     <PastEvents />
