@@ -6,27 +6,9 @@ import HomeLayout from "@/layouts/HomeLayout.astro";
 import SemesterEvents from "@/components/SemesterEvents";
 
 import {
-  //getSemestersNewestFirst,
   getSemesterDateRange
 } from "@/utilities/helpers";
 import type { EventType, SemesterType, PayloadResponse } from "@/types";
-
-/*export async function getStaticPaths() {
-    // Get all valid semesters for path generation
-    const allSemesters = getSemestersNewestFirst();
-
-    return allSemesters.map((semester) => {
-        return {
-            params: { 
-                semester: `${semester.season}-${semester.year}`
-            },
-            props: {
-                semester,
-            },
-        };
-    });
-}
-const { semester } = Astro.props;*/
 
 // Process semester dynamically and validate params
 const { semSlug } = Astro.params; // e.g. "fall-2024"

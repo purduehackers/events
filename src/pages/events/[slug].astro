@@ -5,11 +5,9 @@ import { format } from "date-fns";
 import { getLocalizedEventTimes } from "@/utilities/helpers";
 
 import Layout from "@/layouts/Layout.astro";
-
 import Clock from "@/assets/clock.svg";
 import Stat from "@/components/past-events/Stat.astro";
 import MapPin from "@/assets/map-pin.svg";
-
 import Gallery from "@/components/past-events/Gallery.astro";
 import Description from "@/components/past-events/Description.astro";
 import Rsvp from "@/components/Rsvp";
@@ -18,34 +16,6 @@ import type { EventType, PayloadResponse } from "../../types";
 import { CMS_URL } from "../../utilities/constants";
 import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical';
 import { convertLexicalToHTMLAsync } from '@payloadcms/richtext-lexical/html-async';
-
-/*export async function getStaticPaths() {
-  let events: EventType[] = [];
-  let pageNum: number | null = 1;
-  while (pageNum != null) {
-    let res = await fetch(`${CMS_URL}/api/events?limit=100&page=${pageNum}`, {
-        headers: {
-            Authorization: `service-accounts API-Key ${import.meta.env.PAYLOAD_API_KEY}`,
-        },
-    });
-    const data: PayloadResponse<EventType> = await res.json();
-    events.push(...data.docs); // append this page of events
-    pageNum = data.nextPage; // get next page of events
-  }
-
-  return events.map((event) => {
-    return {
-      params: { 
-        event: String(event.id)
-      },
-      props: {
-        event,
-      },
-    };
-  });
-}
-
-const { event } = Astro.props;*/
 
 const { slug } = Astro.params;
 
