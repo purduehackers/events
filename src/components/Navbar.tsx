@@ -49,7 +49,7 @@ export default function Navbar() {
             data-scrolled={scrolled ? "true" : "false"}
         >
             <div className="w-full px-2 md:px-3 mx-auto flex justify-between items-center sm:grid sm:grid-cols-3">
-                {currentPath.includes("/events") ? (
+                {currentPath.length > 1 ? (
                     <button
                         type="button"
                         onClick={() => handleBack()}

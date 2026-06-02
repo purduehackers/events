@@ -17,9 +17,11 @@ import { CMS_URL } from "@/utilities/constants";
 import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical';
 import { convertLexicalToHTMLAsync } from '@payloadcms/richtext-lexical/html-async';
 
-const { cat, slug } = Astro.params;
+let { cat, slug } = Astro.params;
 
 // Fetch event dynamically from CMS
+if (cat == "workshops") cat = "workshop";
+if (cat == "callouts") cat = "callout";
 let res = await fetch(`${CMS_URL}/api/events?where[eventType][contains]=${cat?.toLowerCase()}&where[slug][equals]=${slug}`, {
   headers: {
     Authorization: `service-accounts API-Key ${import.meta.env.PAYLOAD_API_KEY}`,

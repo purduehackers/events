@@ -20,7 +20,6 @@ import { convertLexicalToHTMLAsync } from '@payloadcms/richtext-lexical/html-asy
 const { slug } = Astro.params;
 
 // Fetch event dynamically from CMS
-// https://cms.purduehackers.com/api/events?where[name][equals]=Fall+2026+Callout
 let res = await fetch(`${CMS_URL}/api/events?where[id][equals]=${slug}`, {
   headers: {
     Authorization: `service-accounts API-Key ${import.meta.env.PAYLOAD_API_KEY}`,
