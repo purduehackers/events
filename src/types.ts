@@ -37,6 +37,7 @@ export type EventCategory = KnownEventCategory | string;
 export interface EventType {
     id: string;
     name: string;
+    slug: string;
     published: boolean;
     eventType: EventCategory;
     start: string;

@@ -337,7 +337,7 @@ export default function PastEventsClient({
                                             time={`${localizedStartTime}${localizedEndTime ? ` - ${localizedEndTime}` : ""}`}     
                                             location={event.location_name}
                                             name={event.name}
-                                            link={`/events/${event.id}`}
+                                            link={`/events/${event.eventType}/${event.slug}`}
                                             category={event.eventType}
                                         />
                                     );
