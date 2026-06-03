@@ -33,7 +33,7 @@ export default function Card({ date, time, location, name, link, category }: Car
             </div>
           }
           {category && (
-            <div className="min-w-fit px-0.5 bg-gray-600 text-white uppercase text-[11px] font-mono">
+            <div className="min-w-fit px-0.5 bg-gray-800 dark:bg-gray-500 text-white uppercase text-[11px] font-mono">
               {category.replaceAll(" ", "-")}
             </div>
           )}

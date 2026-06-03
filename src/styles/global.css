@@ -31,6 +31,10 @@
   --gray-800: #1e1e23;
   --gray-900: #101013;
 
+  --pink: #ff63ea;
+  --blue: #365eff;
+  --green: #78ff3e;
+
   --highlight-bg: #FDD34A;
   --highlight-fg: black;
 
@@ -151,6 +155,10 @@ html body[data-scroll-locked] {
   --color-discord-light: #9b98fa;
   --color-body-light: var(--gray-100);
   --color-body-dark: var(--gray-800);
+
+  --color-pink: var(--pink);
+  --color-blue: var(--blue);
+  --color-green: var(--green);
 
   /* Icon idle animation */
   --animate-idle-icon: zoom-rotate-idle 0.75s steps(1, end) .3s infinite;
