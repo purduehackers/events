@@ -27,7 +27,7 @@ export default function Card({ date, time, location, name, link, category }: Car
 
   return (
     <div data-category={category?.toLowerCase() ?? ""}>
-      <span className="hidden bg-pink bg-blue bg-green bg-amber group-hover:text-pink group-hover:text-blue group-hover:text-green group-hover:text-amber"></span>
+      <span className="hidden bg-purple-700 bg-pink bg-blue bg-green bg-amber group-hover:purple-700 group-hover:text-pink group-hover:text-blue group-hover:text-green group-hover:text-amber"></span>
       <a
         className="group col-span-1 h-full flex flex-col items-start justify-between gap-2 text-left px-8 py-5 bg-white dark:bg-(--gray-900) rounded-sm"
         href={link}
