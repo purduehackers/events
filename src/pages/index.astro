@@ -14,7 +14,11 @@ import Clock from "@components/Clock";
       <div>* All event times are listed in Eastern Time (America/Indianapolis).</div>
       <div>Local - <Clock client:load /></div>
     </div>
-    <CurrentEvents />
-    <PastEvents />
+    <div class="flex">
+      <div class="">
+        <CurrentEvents />
+        <PastEvents />
+      </div>
+    </div>
   </HomeLayout>
 </Layout>

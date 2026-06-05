@@ -19,16 +19,16 @@ export default function Card({ date, time, location, name, link, category }: Car
 
   return (
     <div data-category={category?.toLowerCase() ?? ""}>
-      <span className="hidden dark:text-hack-night dark:text-workshop dark:text-show dark:text-other bg-hack-night bg-workshop bg-show bg-other group-hover:text-black group-hover:text-hack-night group-hover:text-workshop group-hover:text-show group-hover:text-other group-hover:border-hack-night group-hover:border-workshop group-hover:border-show group-hover:border-other"></span>
+      <span className="hidden dark:text-hack-night dark:text-workshop dark:text-show dark:text-other bg-hack-night bg-workshop bg-show bg-other dark:group-hover:text-hack-night group-hover:text-hack-night group-hover:text-workshop group-hover:text-show group-hover:text-other group-hover:border-hack-night group-hover:border-workshop group-hover:border-show group-hover:border-other"></span>
       <a
-        className={`group col-span-1 h-full flex flex-col items-start justify-between gap-2 text-left px-8 py-5 bg-(--gray-100) dark:bg-(--gray-900) border border-[1px] border-white dark:border-zinc-700 rounded-none`}
+        className={`group col-span-1 min-w-80 h-full flex flex-col items-start justify-between gap-2 text-left px-8 py-5 bg-(--gray-100) dark:bg-(--gray-900) border border-[1px] border-white dark:border-zinc-700 rounded-none`}
         href={link}
       >
         <div className="w-full flex justify-between items-center">
           <p className="uppercase text-gray-500 dark:text-gray-400 text-base font-subtext font-semibold">
             {date} • {time}
           </p>
-          <StarIcon className={`w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400 group-hover:animate-idle-icon group-hover:text-${categoryColor == "hack-night" ? "black" : categoryColor} group-hover:scale-115 group-hover:-rotate-90 transition-transform`} />
+          <StarIcon className={`w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400 group-hover:animate-idle-icon dark:group-hover:text-${categoryColor} group-hover:text-${categoryColor == "hack-night" ? "black" : categoryColor} group-hover:scale-115 group-hover:-rotate-90 transition-transform`} />
         </div>
 
         <h3 className="text-xl font-mono font-black">{name}</h3>
@@ -36,13 +36,13 @@ export default function Card({ date, time, location, name, link, category }: Car
         <div className="w-full flex justify-between items-center gap-1">
           {location &&
             <div className="flex gap-2 text-gray-500 dark:text-gray-400 text-base font-subtext font-semibold">
-              <MapPinIcon className="w-4" />
+              <MapPinIcon className="w-3" />
               <div className="line-clamp-1">{location}</div>
             </div>
           }
           {category && (
             <div
-              className={`min-w-fit px-1 bg-${categoryColor == "hack-night" ? "black" : categoryColor} dark:bg-transparent text-white dark:text-${categoryColor} border-solid border-[1px] uppercase text-[12px] font-mono`}
+              className={`min-w-fit px-1 bg-${categoryColor == "hack-night" ? "black" : categoryColor} dark:bg-transparent text-white dark:text-${categoryColor} border-solid border-[1px] uppercase text-[12px] font-pixel`}
             >
               {category.replaceAll(" ", "-")} 
             </div>
