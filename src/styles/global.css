@@ -25,15 +25,17 @@
   --yellow: #fdfa4a;
   --amber: #FFA600;
   --purple-400: #c497ff;
+  --purple-500:  #aa6aff;
   --purple-700: #8B33FF;
 
   --gray-100: #f5f5f5;
   --gray-800: #1e1e23;
   --gray-900: #101013;
 
-  --pink: #ff86ef;
-  --blue: #365eff;
-  --green: #71cc7a;
+  --pink: #EFB9FF;
+  --hot-pink: #ff86ef;
+  --blue: #a5e8ff;
+  --green: #86cc71;
 
   --highlight-bg: #FDD34A;
   --highlight-fg: black;
@@ -153,12 +155,17 @@ html body[data-scroll-locked] {
   --color-purple-700: var(--purple-700);
   --color-discord: #807cfc;
   --color-discord-light: #9b98fa;
-  --color-body-light: var(--gray-100);
-  --color-body-dark: var(--gray-800);
+  --color-body-light: white;
+  --color-body-dark: #000000;
 
   --color-pink: var(--pink);
   --color-blue: var(--blue);
   --color-green: var(--green);
+
+  --color-hack-night: var(--yellow);
+  --color-workshop: var(--pink);
+  --color-show: var(--amber);
+  --color-other: var(--purple-500);
 
   /* Icon idle animation */
   --animate-idle-icon: zoom-rotate-idle 0.75s steps(1, end) .3s infinite;

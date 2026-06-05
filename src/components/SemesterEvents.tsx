@@ -113,7 +113,7 @@ export default function SemesterEvents({ initialEvents, semester, currentSemeste
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 sm:auto-cols-fr">
                         {(currentSemester && !searchQuery && (!selectedCategory || selectedCategory === "hack-night")) &&
                             <a className="w-full h-full" href="https://discord.com/invite/5paFjKzdPE" target="_blank" rel="noreferrer">
-                                <div className="w-full h-full md:w-fit rounded-sm bg-black dark:bg-yellow text-white dark:text-black p-4 flex flex-col justify-between gap-y-3">
+                                <div className="w-full h-full md:w-fit bg-black dark:bg-yellow text-white dark:text-black p-4 flex flex-col justify-between gap-y-3">
                                     <p className="w-fit font-pixel text-yellow dark:text-black uppercase text-sm">--weekly--</p>
                                     <h2 className="font-mono text-white dark:text-black text-left text-xl sm:text-[22px] font-bold">
                                         Come to Hack Night!!
@@ -154,7 +154,7 @@ export default function SemesterEvents({ initialEvents, semester, currentSemeste
             {(!selectedCategory || selectedCategory === "hack-night") &&
                 <div className="hidden w-full flex justify-start items-center">
                     <a className="w-full" href="https://lu.ma/user/purduehackers" target="_blank" rel="noreferrer">
-                        <div className="w-full md:w-fit rounded-sm bg-yellow dark:text-black p-4 flex flex-col justify-center gap-y-3">
+                        <div className="w-full md:w-fit bg-yellow dark:text-black p-4 flex flex-col justify-center gap-y-3">
                             <p className="font-pixel uppercase text-sm">--weekly--</p>
                             <h2 className="font-mono text-left text-xl sm:text-2xl font-bold">
                                 Come to Hack Night!!
