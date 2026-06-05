@@ -354,7 +354,7 @@ export default function PastEventsClient({
         }
 
         <button
-            className="cursor-pointer w-fit m-auto my-4 sm:my-6 font-pixel text-base font-bold text-purple-700 dark:text-amber-400"
+            className="cursor-pointer w-fit m-auto my-4 sm:my-6 font-pixel text-base font-bold text-purple-700 dark:text-yellow"
             onClick={loadMore}
             disabled={!hasNextPage || isLoading}
         >
