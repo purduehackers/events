@@ -6,6 +6,9 @@ import PastEventsClient from "../components/past-events/PastEventsClient.tsx";
 import Layout from "@/layouts/Layout.astro";
 import HomeLayout from "@/layouts/HomeLayout.astro";
 import Clock from "@components/Clock";
+
+const INITIAL_LIMIT = 30;
+const apiUrl = new URL('/api/events', Astro.url).href;
 ---
 
 <Layout>
@@ -25,7 +28,11 @@ import Clock from "@components/Clock";
             <h2 class="text-3xl sm:text-3xl font-mono font-black m-0">Past events</h2>
           </div>
 
-          <PastEventsClient client:load limit={30} apiUrl="/api/events" />
+          <PastEventsClient
+            client:load
+            limit={INITIAL_LIMIT}
+            apiUrl={apiUrl}
+          />
         </div>
       </div>
       <div class="hidden w-1/3">
