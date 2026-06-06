@@ -30,7 +30,7 @@ export const EVENT_CATEGORIES = [
   "hack-night",
   "workshop",
   "show",
-] as const;
+];
 export type KnownEventCategory = (typeof EVENT_CATEGORIES)[number];
 export type EventCategory = KnownEventCategory | string;
 

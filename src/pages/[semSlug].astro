@@ -54,7 +54,7 @@ const events: EventType[] = data.docs;
                 </h3>
             </div>
 
-            <SemesterEvents client:load initialEvents={events} semester={semester} />
+            <SemesterEvents client:load events={events} semester={semester} idx={0} />
         </div>
     </HomeLayout>
 </Layout>

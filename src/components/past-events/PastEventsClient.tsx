@@ -1,16 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
-import { format } from "date-fns";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
-import { EVENT_CATEGORIES, type EventType, type SemesterType } from "@/types";
-import Card from "@/components/Card";
-import { getEventsInSemester, getLocalizedEventTimes } from "@/utilities/helpers";
+import { EVENT_CATEGORIES, type EventType } from "@/types";
+import SemesterEvents from "../SemesterEvents";
+import { getEventsInSemester, getSemestersNewestFirst } from "@/utilities/helpers";
 
 interface PastEventsClientProps {
-  initialEvents: EventType[];
-  initialSemesters: SemesterType[];
-  initialPage: number;
   limit: number;
-  initialHasNextPage: boolean;
   apiUrl: string;
 }
 
@@ -31,23 +26,20 @@ function isKnownCategory(category: string | null) {
   return Boolean(category && EVENT_CATEGORIES.map((c) => c.toLowerCase()).includes(category));
 }
 
+const INITIAL_PAGE = 1;
+
 export default function PastEventsClient({
-  initialEvents,
-  initialSemesters,
-  initialPage,
   limit,
-  initialHasNextPage,
   apiUrl
 }: PastEventsClientProps) {
-    const [events, setEvents] = useState<EventType[]>(initialEvents);
-    const [page, setPage] = useState(initialPage);
-    const [hasNextPage, setHasNextPage] = useState<boolean>(initialHasNextPage);
+    const [events, setEvents] = useState<EventType[]>([]);
+    const [page, setPage] = useState(INITIAL_PAGE);
+    const [hasNextPage, setHasNextPage] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
     const [searchQuery, setSearchQuery] = useState<string | null>(null);
 
-    const baseUrl = apiUrl; // astro api route "/api/events"
-    console.log(apiUrl)
+    const baseUrl = apiUrl;
 
     // Helper for building fetch params
     const buildFetchParams = (pageNum: number, category: string | null, query: string | null) => {
@@ -68,107 +60,62 @@ export default function PastEventsClient({
         return params;
     };
 
-    // Use semesters computed at build time so server render matches hydration
-    const allSemesters = useMemo(() => initialSemesters, [initialSemesters]);
+    const allSemesters = getSemestersNewestFirst();
 
-    // Apply category filter and search query
+    const fetchEvents = useCallback(async (pageNum: number, category: string | null, query: string | null) => {
+        setIsLoading(true);
+        const params = buildFetchParams(pageNum, category, query);
+        const res = await fetch(`${baseUrl}?${params.toString()}`);
+
+        if (!res.ok) {
+            setIsLoading(false);
+            return null;
+        }
+
+        const data = (await res.json()) as {
+            docs: EventType[];
+            hasNextPage: boolean;
+        };
+
+        const docs = data.docs.filter((e) => e.published);
+        setEvents(docs);
+        setPage(pageNum);
+        setHasNextPage(Boolean(data.hasNextPage));
+        setIsLoading(false);
+
+        return data;
+    }, [baseUrl, limit]);
+
+    // Load the first page on client mount with any URL filters
     useEffect(() => {
         const category = getCategoryFromUrl();
-        setSelectedCategory(category);
         const query = getQueryFromUrl();
+        setSelectedCategory(category);
         setSearchQuery(query);
+        fetchEvents(INITIAL_PAGE, category, query);
+    }, [fetchEvents]);
 
-        // If category or query selected on load, reload the first page
-        if (isKnownCategory(category) || (query && query.length > 0)) {
-            (async () => {
-                setIsLoading(true);
-                const params = buildFetchParams(1, category, query);
-                const res = await fetch(`${baseUrl}?${params.toString()}`);
-                if (!res.ok) {
-                    setIsLoading(false);
-                    return;
-                }
-
-                const data = (await res.json()) as {
-                    docs: EventType[];
-                    hasNextPage: boolean;
-                };
-
-                setEvents(data.docs.filter((e) => e.published));
-                setPage(1);
-                setHasNextPage(Boolean(data.hasNextPage));
-                setIsLoading(false);
-            })();
-        }
-    }, [limit]);
-
-    // Listen for category changes emitted by the selector (to keep client-side filtering in sync)
+    // Listen for category/search events and reload the list
     useEffect(() => {
-        const catHandler = (event: Event) => {
+        const catHandler = async (event: Event) => {
             const detail = (event as CustomEvent<string | null>).detail;
             setSelectedCategory(detail);
 
             if (isKnownCategory(detail) || (detail === "other" && searchQuery && searchQuery.length > 0)) {
-                (async () => {
-                    setIsLoading(true);
-
-                    const params = buildFetchParams(1, detail, searchQuery);
-
-                    const res = await fetch(`${baseUrl}?${params.toString()}`);
-                    if (!res.ok) {
-                        setIsLoading(false);
-                        return;
-                    }
-
-                    const data = (await res.json()) as {
-                        docs: EventType[];
-                        hasNextPage: boolean;
-                    };
-
-                    setEvents(data.docs.filter((e) => e.published));
-                    setPage(1);
-                    setHasNextPage(Boolean(data.hasNextPage));
-                    setIsLoading(false);
-                })();
+                await fetchEvents(INITIAL_PAGE, detail, searchQuery);
             } else {
-                // Reset to the initial list when selecting "all" or "other" without a search query
-                setEvents(initialEvents);
-                setPage(initialPage);
-                setHasNextPage(initialHasNextPage);
+                await fetchEvents(INITIAL_PAGE, null, null);
             }
         };
 
-        const searchHandler = (event: Event) => {
+        const searchHandler = async (event: Event) => {
             const query = (event as CustomEvent<string | null>).detail;
             setSearchQuery(query);
 
             if (query && query.length > 0) {
-                (async () => {
-                    setIsLoading(true);
-
-                    const params = buildFetchParams(1, selectedCategory, query);
-
-                    const res = await fetch(`${baseUrl}?${params.toString()}`);
-                    if (!res.ok) {
-                        setIsLoading(false);
-                        return;
-                    }
-
-                    const data = (await res.json()) as {
-                        docs: EventType[];
-                        hasNextPage: boolean;
-                    };
-
-                    setEvents(data.docs.filter((e) => e.published));
-                    setPage(1);
-                    setHasNextPage(Boolean(data.hasNextPage));
-                    setIsLoading(false);
-                })();
+                await fetchEvents(INITIAL_PAGE, selectedCategory, query);
             } else {
-                // Reset to the initial list when clearing search
-                setEvents(initialEvents);
-                setPage(initialPage);
-                setHasNextPage(initialHasNextPage);
+                await fetchEvents(INITIAL_PAGE, null, null);
             }
         };
 
@@ -177,8 +124,8 @@ export default function PastEventsClient({
         return () => {
             window.removeEventListener("categoryChange", catHandler as EventListener);
             window.removeEventListener("searchQueryChange", searchHandler as EventListener);
-        }
-    }, [initialEvents, initialHasNextPage, initialPage, limit, selectedCategory, searchQuery]);
+        };
+    }, [fetchEvents, searchQuery, selectedCategory]);
 
     const isOtherCategory = selectedCategory === "other";
     const isKnown = isKnownCategory(selectedCategory);
@@ -225,19 +172,7 @@ export default function PastEventsClient({
         let foundOther = false;
 
         while (true) {
-            const params = new URLSearchParams();
-            params.set("sort", "-start");
-            params.set("where[start][less_than]", new Date().toISOString());
-            params.set("limit", String(limit));
-            params.set("page", String(nextPage));
-
-            if (isKnown) {
-                params.set("where[eventType][equals]", categoryFilter as string);
-            }
-            if (searchQuery && searchQuery.length > 0) {
-                params.set("where[name][like]", searchQuery);
-            }
-
+            const params = buildFetchParams(nextPage, selectedCategory, searchQuery);
             const url = `${baseUrl}?${params.toString()}`;
             console.log(url)
             const res = await fetch(url);
@@ -306,44 +241,7 @@ export default function PastEventsClient({
                         id={`sem-sec-${idx}`}
                         data-sem-key={`${semester.season}-${semester.year}`}
                     >
-                        <div className="z-50 sticky top-34 sm:top-24 w-fit">
-                            <div
-                                className="relative -left-2 p-2 rounded-full flex items-center bg-body-light dark:bg-body-dark"
-                                style={{ gap: "calc(var(--line-card-gap) - var(--sem-icon-size))" }}
-                            >
-                                <div
-                                    data-sentinel={`#sem-sec-${idx}`}
-                                    data-past-sentinel="false"
-                                    className="relative -top-[1px] w-(--sem-icon-size) h-(--sem-icon-size) bg-gray-300 dark:bg-zinc-600 data-[past-sentinel=true]:bg-yellow-400 flex items-center justify-center"
-                                    style={{ left: "calc(-1 * var(--sem-icon-size) / 2)" }}
-                                >
-                                    <div className="w-1.5 h-1.5 bg-white dark:bg-zinc-900" />
-                                </div>
-                                <h3 className="text-base sm:text-base font-normal leading-none p-0 m-0 uppercase font-pixel">
-                                    {semester.season} {semester.year}
-                                </h3>
-                            </div>
-                        </div>
-
-                        <div className="pl-(--line-card-gap) border-l-1 border-gray-300">
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 sm:auto-cols-fr text-center">
-                                {events.map((event) => {
-                                    const { localizedStart, localizedStartTime, localizedEndTime } =
-                                        getLocalizedEventTimes(event);
-
-                                    return (
-                                        <Card key={event.id}
-                                            date={format(localizedStart, "MMM d")}
-                                            time={`${localizedStartTime}${localizedEndTime ? ` - ${localizedEndTime}` : ""}`}     
-                                            location={event.location_name}
-                                            name={event.name}
-                                            link={`/events/${event.eventType}/${event.slug}`}
-                                            category={event.eventType}
-                                        />
-                                    );
-                                })}
-                            </div>
-                        </div>
+                        <SemesterEvents events={events} semester={semester} idx={idx} />
                     </section>
                 );
             })
