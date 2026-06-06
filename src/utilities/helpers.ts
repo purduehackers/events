@@ -1,3 +1,4 @@
+import { EVENT_CATEGORIES } from "@/types";
 import type { EventType, SemesterType, SemesterSeason } from "@/types";
 import { TZDate } from "@date-fns/tz";
 import { format } from "date-fns";
@@ -105,4 +106,8 @@ export function getLocalizedEventTimes(event: EventType): {
     localizedEnd,
     localizedEndTime,
   };
+}
+
+export function isKnownCategory(category: string | null) {
+  return Boolean(category && EVENT_CATEGORIES.map((c) => c.toLowerCase()).includes(category));
 }

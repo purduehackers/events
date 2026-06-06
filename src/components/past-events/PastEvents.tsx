@@ -1,43 +1,26 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { EVENT_CATEGORIES, type EventType } from "@/types";
 import SemesterEvents from "../SemesterEvents";
-import { getEventsInSemester, getSemestersNewestFirst } from "@/utilities/helpers";
+import { getEventsInSemester, getSemestersNewestFirst, isKnownCategory } from "@/utilities/helpers";
 
-interface PastEventsClientProps {
+interface PastEventsProps {
   limit: number;
   apiUrl: string;
 }
 
-// Get search query param from url
-function getQueryFromUrl(): string | null {
-  if (typeof window === "undefined") return null;
-  const raw = new URLSearchParams(window.location.search).get("query")?.trim().toLowerCase();
-  return raw || null;
-}
-
-function getCategoryFromUrl(): string | null {
-  if (typeof window === "undefined") return null;
-  const raw = new URLSearchParams(window.location.search).get("cat")?.trim().toLowerCase();
-  return raw || null;
-}
-
-function isKnownCategory(category: string | null) {
-  return Boolean(category && EVENT_CATEGORIES.map((c) => c.toLowerCase()).includes(category));
-}
-
 const INITIAL_PAGE = 1;
 
-export default function PastEventsClient({
+export default function PastEvents({
   limit,
   apiUrl
-}: PastEventsClientProps) {
+}: PastEventsProps) {
     const [events, setEvents] = useState<EventType[]>([]);
     const [page, setPage] = useState(INITIAL_PAGE);
     const [hasNextPage, setHasNextPage] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-    const [searchQuery, setSearchQuery] = useState<string | null>(null);
+    const [selectedCategory, setSelectedCategory] = useState<string>("");
+    const [searchQuery, setSearchQuery] = useState<string>("");
 
     const baseUrl = apiUrl;
 
@@ -60,72 +43,70 @@ export default function PastEventsClient({
         return params;
     };
 
-    const allSemesters = getSemestersNewestFirst();
+    useEffect(() => {
+        if (typeof window === "undefined") return;
+        const params = new URLSearchParams(window.location.search);
+        setSelectedCategory(params.get("cat") ?? "");
+        setSearchQuery(params.get("query") ?? "");
+    }, []);
 
-    const fetchEvents = useCallback(async (pageNum: number, category: string | null, query: string | null) => {
-        setIsLoading(true);
-        const params = buildFetchParams(pageNum, category, query);
-        const res = await fetch(`${baseUrl}?${params.toString()}`);
+    // Listen for and apply filtering/searching updates
+    useEffect(() => {
+        const handleCategoryChange = (event: Event) => {
+            setSelectedCategory((event as CustomEvent<string | null>).detail ?? "");
+        };
 
-        if (!res.ok) {
+        const handleSearchQueryChange = (event: Event) => {
+            setSearchQuery((event as CustomEvent<string>).detail ?? "");
+        };
+
+        const handlePopState = () => {
+            const params = new URLSearchParams(window.location.search);
+            setSelectedCategory(params.get("cat") ?? "");
+            setSearchQuery(params.get("query") ?? "");
+        };
+
+        window.addEventListener("categoryChange", handleCategoryChange as EventListener);
+        window.addEventListener("searchQueryChange", handleSearchQueryChange as EventListener);
+        window.addEventListener("popstate", handlePopState);
+
+        return () => {
+            window.removeEventListener("categoryChange", handleCategoryChange as EventListener);
+            window.removeEventListener("searchQueryChange", handleSearchQueryChange as EventListener);
+            window.removeEventListener("popstate", handlePopState);
+        };
+    }, []);
+
+    // Fetch events data
+    useEffect(() => {
+        const fetchEvents = async (pageNum: number, category: string | null, query: string | null) => {
+            setIsLoading(true);
+            const params = buildFetchParams(pageNum, category, query);
+            const res = await fetch(`${baseUrl}?${params.toString()}`);
+
+            if (!res.ok) {
+                setIsLoading(false);
+                return null;
+            }
+
+            const data = (await res.json()) as {
+                docs: EventType[];
+                hasNextPage: boolean;
+            };
+
+            const docs = data.docs.filter((e) => e.published);
+            setEvents(docs);
+            setPage(pageNum);
+            setHasNextPage(Boolean(data.hasNextPage));
             setIsLoading(false);
-            return null;
+
+            return data;
         }
 
-        const data = (await res.json()) as {
-            docs: EventType[];
-            hasNextPage: boolean;
-        };
+        fetchEvents(INITIAL_PAGE, selectedCategory || null, searchQuery || null);
+    }, [selectedCategory, searchQuery]);
 
-        const docs = data.docs.filter((e) => e.published);
-        setEvents(docs);
-        setPage(pageNum);
-        setHasNextPage(Boolean(data.hasNextPage));
-        setIsLoading(false);
-
-        return data;
-    }, [baseUrl, limit]);
-
-    // Load the first page on client mount with any URL filters
-    useEffect(() => {
-        const category = getCategoryFromUrl();
-        const query = getQueryFromUrl();
-        setSelectedCategory(category);
-        setSearchQuery(query);
-        fetchEvents(INITIAL_PAGE, category, query);
-    }, [fetchEvents]);
-
-    // Listen for category/search events and reload the list
-    useEffect(() => {
-        const catHandler = async (event: Event) => {
-            const detail = (event as CustomEvent<string | null>).detail;
-            setSelectedCategory(detail);
-
-            if (isKnownCategory(detail) || (detail === "other" && searchQuery && searchQuery.length > 0)) {
-                await fetchEvents(INITIAL_PAGE, detail, searchQuery);
-            } else {
-                await fetchEvents(INITIAL_PAGE, null, null);
-            }
-        };
-
-        const searchHandler = async (event: Event) => {
-            const query = (event as CustomEvent<string | null>).detail;
-            setSearchQuery(query);
-
-            if (query && query.length > 0) {
-                await fetchEvents(INITIAL_PAGE, selectedCategory, query);
-            } else {
-                await fetchEvents(INITIAL_PAGE, null, null);
-            }
-        };
-
-        window.addEventListener("categoryChange", catHandler as EventListener);
-        window.addEventListener("searchQueryChange", searchHandler as EventListener);
-        return () => {
-            window.removeEventListener("categoryChange", catHandler as EventListener);
-            window.removeEventListener("searchQueryChange", searchHandler as EventListener);
-        };
-    }, [fetchEvents, searchQuery, selectedCategory]);
+    const allSemesters = getSemestersNewestFirst();
 
     const isOtherCategory = selectedCategory === "other";
     const isKnown = isKnownCategory(selectedCategory);
@@ -228,19 +209,15 @@ export default function PastEventsClient({
             }))
             .filter((item) => item.events.length > 0);
     }, [allSemesters, filteredEvents]);
+    console.log(filteredEvents)
+    console.log(semestersWithEvents)
 
     return (
         <>
         {semestersWithEvents.length > 0 ? 
             semestersWithEvents.map(({ semester, events }, idx) => {
                 return (
-                    <section
-                        key={`${semester.season}-${semester.year}`}
-                        className="[--line-card-gap:25px] sm:[--line-card-gap:40px] [--sem-icon-size:14px] flex flex-col gap-4"
-                        style={{ paddingLeft: "calc((var(--sem-icon-size) / 2))" }}
-                        id={`sem-sec-${idx}`}
-                        data-sem-key={`${semester.season}-${semester.year}`}
-                    >
+                    <section key={`${semester.season}-${semester.year}`}>
                         <SemesterEvents events={events} semester={semester} idx={idx} />
                     </section>
                 );

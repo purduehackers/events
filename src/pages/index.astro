@@ -1,8 +1,8 @@
 ---
 export const prerender = false;
 
-import CurrentEvents from "../components/CurrentEvents.astro";
-import PastEventsClient from "../components/past-events/PastEventsClient.tsx";
+import CurrentEvents from "../components/CurrentEvents.tsx";
+import PastEvents from "../components/past-events/PastEvents.tsx";
 import Layout from "@/layouts/Layout.astro";
 import HomeLayout from "@/layouts/HomeLayout.astro";
 import Clock from "@components/Clock";
@@ -19,7 +19,7 @@ const apiUrl = new URL('/api/events', Astro.url).href;
     </div>
     <div class="flex">
       <div class=" pr-8">
-        <CurrentEvents />
+        <CurrentEvents client:load apiUrl={apiUrl} />
         <div
           id="past-events"
           class="lg:container flex flex-col mb-14 pt-6 sm:pt-14 px-4 sm:px-12 md:px-18 xl:px-28 text-left gap-y-4 lg:max-w-screen-2xl mx-auto"
@@ -28,7 +28,7 @@ const apiUrl = new URL('/api/events', Astro.url).href;
             <h2 class="text-3xl sm:text-3xl font-mono font-black m-0">Past events</h2>
           </div>
 
-          <PastEventsClient
+          <PastEvents
             client:load
             limit={INITIAL_LIMIT}
             apiUrl={apiUrl}
