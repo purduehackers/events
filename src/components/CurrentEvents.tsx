@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import type { EventType } from "@/types";
 import SemesterEvents from "@/components/SemesterEvents";
-import { getSemesterFromDate, isKnownCategory } from "@/utilities/helpers";
+import { getSemestersNewestFirst, getEventsInSemester, getSemesterFromDate, isKnownCategory } from "@/utilities/helpers";
 import SkeletonSemesterEvents from "./SkeletonLoader";
 
 interface CurrentEventsProps {
@@ -98,13 +98,25 @@ export default function CurrentEvents({ apiUrl }: CurrentEventsProps) {
         fetchEvents(INITIAL_PAGE, selectedCategory || null, searchQuery || null);
     }, [selectedCategory, searchQuery]);
 
+    const allSemesters = getSemestersNewestFirst();
+
+    // Group events by semester, filter out those with no events
+    const semestersWithEvents = useMemo(() => {
+        return allSemesters
+            .map((semester) => ({
+                semester,
+                events: getEventsInSemester(events, semester),
+            }))
+            .filter((item) => item.events.length > 0);
+    }, [allSemesters, events]);
+
     return (
         <div
             className="lg:container mb-0 pt-6 sm:pt-14 px-4 sm:px-12 md:px-18 xl:px-28 text-left lg:max-w-screen-2xl mx-auto"
         >
             <h2 className="sm:mb-4 text-3xl sm:text-3xl font-mono font-black m-0">Upcoming</h2>
             {isLoading ?
-                <SkeletonSemesterEvents numEvents={5} semester={currentSemester} />
+                <SkeletonSemesterEvents numEvents={3} semester={currentSemester} />
             :
                 <SemesterEvents events={events} semester={currentSemester} currentSemester={true} idx={0} />
             }

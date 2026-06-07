@@ -32,9 +32,9 @@ export default function SkeletonSemesterEvents({ numEvents = 5, semester }: Skel
             {/* Event cards */}
             <div className="pl-(--line-card-gap) border-l-1 border-gray-300">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 sm:auto-cols-fr">
-                    {Array(numEvents).map(() => {
+                    {Array(numEvents).fill(0).map((i) => {
                         return (
-                            <SkeletonCard />
+                            <SkeletonCard key={i} />
                         );
                     })}
                 </div>
@@ -45,8 +45,8 @@ export default function SkeletonSemesterEvents({ numEvents = 5, semester }: Skel
 
 export function SkeletonCard() {
     return (
-        <div className="group col-span-1 w-full min-w-80 min-h-20 h-full flex flex-col items-start justify-between gap-2 text-left px-8 py-5 bg-(--gray-100) dark:bg-(--gray-900) border border-[1px] border-white dark:border-zinc-700 rounded-none">
-            hi asldkfj l
+        <div className="skeleton dark:[--skeleton-bg:rgb(15,15,15)] dark:[--skeleton-highlight:rgb(22,22,22)] group col-span-1 w-full min-w-80 min-h-40 h-full flex flex-col items-start justify-between gap-2 text-left px-8 py-5 bg-(--gray-100) dark:bg-(--gray-900) border border-[1px] border-white dark:border-zinc-700 rounded-none">
+            
         </div>
     )
 }

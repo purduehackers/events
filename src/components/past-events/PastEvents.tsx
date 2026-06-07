@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 
 import { EVENT_CATEGORIES, type EventType } from "@/types";
 import SemesterEvents from "../SemesterEvents";
+import SkeletonSemesterEvents from "../SkeletonLoader";
 import { getEventsInSemester, getSemestersNewestFirst, isKnownCategory } from "@/utilities/helpers";
 
 interface PastEventsProps {
@@ -107,31 +108,7 @@ export default function PastEvents({
     }, [selectedCategory, searchQuery]);
 
     const allSemesters = getSemestersNewestFirst();
-
     const isOtherCategory = selectedCategory === "other";
-    const isKnown = isKnownCategory(selectedCategory);
-    const categoryFilter = selectedCategory && (isKnown || isOtherCategory) ? selectedCategory : null;
-
-    const filteredEvents = useMemo(() => {
-        if (!selectedCategory && !searchQuery) return events;
-
-        let filtered = events;
-
-        // Apply category filters
-        if (isOtherCategory) {
-            const knownLower = new Set(EVENT_CATEGORIES.map((c) => c.toLowerCase()));
-            filtered = events.filter((e) => !knownLower.has(e.eventType?.toLowerCase?.() ?? ""));
-        } else if (isKnown) {
-            filtered = events.filter((e) => e.eventType?.toLowerCase?.() === selectedCategory);
-        }
-
-        // Apply search query
-        if (searchQuery && searchQuery.length > 0) {
-            filtered = filtered.filter((e) => e.name.toLowerCase().includes(searchQuery.toLowerCase()));
-        }
-
-        return filtered;
-    }, [events, categoryFilter, isOtherCategory, searchQuery]);
 
     const loadMore = async () => {
         if (!hasNextPage || isLoading) return;
@@ -205,20 +182,23 @@ export default function PastEvents({
         return allSemesters
             .map((semester) => ({
                 semester,
-                events: getEventsInSemester(filteredEvents, semester),
+                events: getEventsInSemester(events, semester),
             }))
             .filter((item) => item.events.length > 0);
-    }, [allSemesters, filteredEvents]);
-    console.log(filteredEvents)
-    console.log(semestersWithEvents)
+    }, [allSemesters, events]);
 
     return (
         <>
+        {isLoading &&
+            <SkeletonSemesterEvents numEvents={5} semester={{season: "fall", year: 2026}} />
+        }
         {semestersWithEvents.length > 0 ? 
             semestersWithEvents.map(({ semester, events }, idx) => {
                 return (
                     <section key={`${semester.season}-${semester.year}`}>
-                        <SemesterEvents events={events} semester={semester} idx={idx} />
+                        {!isLoading &&
+                            <SemesterEvents events={events} semester={semester} idx={idx} />
+                        }
                     </section>
                 );
             })
