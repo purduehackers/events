@@ -19,7 +19,8 @@ export default function PastEvents({
     const [events, setEvents] = useState<EventType[]>([]);
     const [page, setPage] = useState(INITIAL_PAGE);
     const [hasNextPage, setHasNextPage] = useState<boolean>(false);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isLoadingMore, setIsLoadingMore] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState<string>("");
     const [searchQuery, setSearchQuery] = useState<string>("");
 
@@ -111,9 +112,9 @@ export default function PastEvents({
     const isOtherCategory = selectedCategory === "other";
 
     const loadMore = async () => {
-        if (!hasNextPage || isLoading) return;
+        if (!hasNextPage || isLoadingMore) return;
 
-        setIsLoading(true);
+        setIsLoadingMore(true);
         let nextPage = page + 1;
 
         const accumulatedEvents: EventType[] = [];
@@ -174,7 +175,7 @@ export default function PastEvents({
 
         setPage(nextPage - 1);
         setHasNextPage(finalHasNextPage);
-        setIsLoading(false);
+        setIsLoadingMore(false);
     };
 
     // Group events by semester, filter out those with no events
@@ -187,22 +188,19 @@ export default function PastEvents({
             .filter((item) => item.events.length > 0);
     }, [allSemesters, events]);
 
+    if (isLoading) return <SkeletonSemesterEvents numEvents={8} semester={{season: "fall", year: 2026}} />;
+
     return (
         <>
-        {isLoading &&
-            <SkeletonSemesterEvents numEvents={5} semester={{season: "fall", year: 2026}} />
-        }
         {semestersWithEvents.length > 0 ? 
             semestersWithEvents.map(({ semester, events }, idx) => {
                 return (
                     <section key={`${semester.season}-${semester.year}`}>
-                        {!isLoading &&
-                            <SemesterEvents events={events} semester={semester} idx={idx} />
-                        }
+                        <SemesterEvents events={events} semester={semester} idx={idx} />
                     </section>
                 );
             })
-        : !isLoading &&
+        :
             <div className="w-full text-base font-pixel text-gray-500">
                 No past events found.
             </div>
@@ -211,9 +209,9 @@ export default function PastEvents({
         <button
             className="cursor-pointer w-fit m-auto my-4 sm:my-6 font-pixel text-base font-bold text-purple-700 dark:text-yellow"
             onClick={loadMore}
-            disabled={!hasNextPage || isLoading}
+            disabled={!hasNextPage || isLoadingMore}
         >
-            {isLoading ? "Loading..." : hasNextPage ? "Load more ..." : ""}
+            {isLoadingMore ? "Loading..." : hasNextPage ? "Load more ..." : ""}
         </button>
         </>
     );
