@@ -25,7 +25,7 @@ export function getSemesterFromDate(date: Date): SemesterType {
   const d = new Date(date);
   const year = d.getFullYear();
   const month = d.getMonth() + 1; // 1–12
-  if (month >= 5) return { year, season: "fall" };
+  if (month >= 6) return { year, season: "fall" };
   return { year, season: "spring" };
 }
 

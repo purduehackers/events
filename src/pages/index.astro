@@ -13,13 +13,13 @@ const apiUrl = new URL('/api/events', Astro.url).href;
 
 <Layout>
   <HomeLayout>
-    <div class="font-mono text-gray-500 dark:text-gray-400 text-xs sm:text-sm flex flex-col md:flex-row justify-between gap-2 mb-0 pt-6 sm:pt-14 px-4 sm:px-12 md:px-18 xl:px-28 text-left lg:max-w-screen-2xl mx-auto">
-      <div>* All event times are listed in Eastern Time (America/Indianapolis).</div>
-      <div>Local - <Clock client:load /></div>
-    </div>
     <div class="flex justify-center">
-      <div class="lg:max-w-screen-2xl px-4 sm:px-12 md:px-18 xl:px-28">
+      <div class="lg:max-w-screen-2xl px-4 sm:px-12 md:px-18 xl:px-20">
         <div class=" pr-8">
+          <div class="font-mono text-gray-500 dark:text-gray-400 text-xs sm:text-sm flex flex-col md:flex-row justify-between gap-2 mb-0 pt-6 sm:pt-14 text-left mx-auto">
+            <div>* All event times are listed in Eastern Time (America/Indianapolis).</div>
+            <div>Local - <Clock client:load /></div>
+          </div>
           <div
             class="flex flex-col pt-6 sm:pt-14 text-left gap-y-4 mx-auto"
           >
