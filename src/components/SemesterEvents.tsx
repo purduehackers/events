@@ -39,7 +39,8 @@ export default function SemesterEvents({ events, semester, currentSemester = fal
         amount: 0,
         margin: "-34px 0px 0px 0px",
     });
-    const dotBackground = sectionTopInView ? "#facc15" : "#9ca3af";
+    //const dotBackground = sectionTopInView ? "#facc15" : "#9ca3af";
+    const dotBackground = sectionTopInView ? "#919191" : "#9ca3af";
 
     useEffect(() => {
         const category = getCategoryFromUrl();
