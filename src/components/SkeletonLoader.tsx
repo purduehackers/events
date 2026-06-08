@@ -32,7 +32,7 @@ export default function SkeletonSemesterEvents({ numEvents = 5, semester }: Skel
             {/* Event cards */}
             <div className="pl-(--line-card-gap) border-l-1 border-gray-300">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 sm:auto-cols-fr">
-                    {Array(numEvents).fill(0).map((i) => {
+                    {Array(numEvents).fill(0).map((_, i) => {
                         return (
                             <SkeletonCard key={i} />
                         );

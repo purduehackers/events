@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 
-import { EVENT_CATEGORIES, type EventType } from "@/types";
+import { EVENT_CATEGORIES, type EventType, type SemesterType } from "@/types";
 import SemesterEvents from "../SemesterEvents";
 import SkeletonSemesterEvents from "../SkeletonLoader";
-import { getEventsInSemester, getSemestersNewestFirst, isKnownCategory } from "@/utilities/helpers";
+import { getSemesterFromDate, getEventsInSemester, getSemestersNewestFirst, getSemesterDateRange, isKnownCategory } from "@/utilities/helpers";
 
 interface PastEventsProps {
   limit: number;
@@ -21,6 +21,7 @@ export default function PastEvents({
     const [hasNextPage, setHasNextPage] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState(true);
     const [isLoadingMore, setIsLoadingMore] = useState(false);
+    const [selectedSemester, setSelectedSemester] = useState<SemesterType | null>(null);
     const [selectedCategory, setSelectedCategory] = useState<string>("");
     const [searchQuery, setSearchQuery] = useState<string>("");
 
@@ -30,10 +31,30 @@ export default function PastEvents({
     const buildFetchParams = (pageNum: number, category: string | null, query: string | null) => {
         const params = new URLSearchParams();
         params.set("sort", "-start");
-        params.set("where[start][less_than]", new Date().toISOString());
         params.set("where[published][equals]", "true");
         params.set("limit", String(limit));
         params.set("page", String(pageNum));
+
+        // Add semester date range filtering if semester is selected
+        if (selectedSemester) {
+            const { start, end } = getSemesterDateRange(selectedSemester);
+            const now = new Date();
+
+            if (isFinite(start.getTime())) {
+                params.set("where[start][greater_than]", start.toISOString());
+            }
+
+            // Use the smaller of now and end if end is valid; otherwise use now
+            if (isFinite(end.getTime())) {
+                const upper = Math.min(now.getTime(), end.getTime());
+                params.set("where[start][less_than]", new Date(upper).toISOString());
+            } else {
+                params.set("where[start][less_than]", now.toISOString());
+            }
+        } else {
+            // Default: only show past events
+            params.set("where[start][less_than]", new Date().toISOString());
+        }
 
         // Add filter/search query params
         if (isKnownCategory(category)) {
@@ -45,15 +66,57 @@ export default function PastEvents({
         return params;
     };
 
+    // Get initial url query params
     useEffect(() => {
         if (typeof window === "undefined") return;
         const params = new URLSearchParams(window.location.search);
         setSelectedCategory(params.get("cat") ?? "");
         setSearchQuery(params.get("query") ?? "");
+
+        // Parse semester from string (e.g. sem=fall-2024)
+        const semSlug = params.get("sem");
+        if (semSlug) {
+            const parts = semSlug.split("-");
+            if (parts.length === 2) {
+                const seasonRaw = parts[0]?.toLowerCase();
+                const yearNum = Number(parts[1]);
+                const validSeasons = ["spring", "summer", "fall"];
+                
+                if (seasonRaw && validSeasons.includes(seasonRaw) && Number.isInteger(yearNum) && !Number.isNaN(yearNum)) {
+                    setSelectedSemester({
+                        year: yearNum,
+                        season: seasonRaw as SemesterType["season"]
+                    });
+                }
+            }
+        }
     }, []);
 
     // Listen for and apply filtering/searching updates
     useEffect(() => {
+        const handleSemesterChange = (event: Event) => {
+            const detail = (event as CustomEvent<any>).detail;
+            // Support both string slug and SemesterType object
+            if (typeof detail === "string") {
+                const parts = detail.split("-");
+                if (parts.length === 2) {
+                    const seasonRaw = parts[0]?.toLowerCase();
+                    const yearNum = Number(parts[1]);
+                    const validSeasons = ["spring", "summer", "fall"];
+
+                    if (seasonRaw && validSeasons.includes(seasonRaw) && Number.isInteger(yearNum) && !Number.isNaN(yearNum)) {
+                        setSelectedSemester({ year: yearNum, season: seasonRaw as SemesterType["season"] });
+                        return;
+                    }
+                }
+                // Invalid string, clear selection
+                setSelectedSemester(null);
+                return;
+            }
+
+            setSelectedSemester(detail ?? null);
+        };
+
         const handleCategoryChange = (event: Event) => {
             setSelectedCategory((event as CustomEvent<string | null>).detail ?? "");
         };
@@ -66,13 +129,31 @@ export default function PastEvents({
             const params = new URLSearchParams(window.location.search);
             setSelectedCategory(params.get("cat") ?? "");
             setSearchQuery(params.get("query") ?? "");
+            // Update semester selection from URL as well
+            const semSlug = params.get("sem");
+            if (semSlug) {
+                const parts = semSlug.split("-");
+                if (parts.length === 2) {
+                    const seasonRaw = parts[0]?.toLowerCase();
+                    const yearNum = Number(parts[1]);
+                    const validSeasons = ["spring", "summer", "fall"];
+
+                    if (seasonRaw && validSeasons.includes(seasonRaw) && Number.isInteger(yearNum) && !Number.isNaN(yearNum)) {
+                        setSelectedSemester({ year: yearNum, season: seasonRaw as SemesterType["season"] });
+                        return;
+                    }
+                }
+            }
+            setSelectedSemester(null);
         };
 
+        window.addEventListener("semesterChange", handleSemesterChange as EventListener);
         window.addEventListener("categoryChange", handleCategoryChange as EventListener);
         window.addEventListener("searchQueryChange", handleSearchQueryChange as EventListener);
         window.addEventListener("popstate", handlePopState);
 
         return () => {
+            window.removeEventListener("semesterChange", handleSemesterChange as EventListener);
             window.removeEventListener("categoryChange", handleCategoryChange as EventListener);
             window.removeEventListener("searchQueryChange", handleSearchQueryChange as EventListener);
             window.removeEventListener("popstate", handlePopState);
@@ -85,7 +166,6 @@ export default function PastEvents({
             setIsLoading(true);
             const params = buildFetchParams(pageNum, category, query);
             const res = await fetch(`${baseUrl}?${params.toString()}`);
-
             if (!res.ok) {
                 setIsLoading(false);
                 return null;
@@ -106,9 +186,10 @@ export default function PastEvents({
         }
 
         fetchEvents(INITIAL_PAGE, selectedCategory || null, searchQuery || null);
-    }, [selectedCategory, searchQuery]);
+    }, [selectedCategory, searchQuery, selectedSemester]);
 
     const allSemesters = getSemestersNewestFirst();
+    const currentSemester = getSemesterFromDate(new Date());
     const isOtherCategory = selectedCategory === "other";
 
     const loadMore = async () => {
@@ -131,7 +212,7 @@ export default function PastEvents({
         let foundOther = false;
 
         while (true) {
-            const params = buildFetchParams(nextPage, selectedCategory, searchQuery);
+            const params = buildFetchParams(nextPage, selectedCategory || null, searchQuery);
             const url = `${baseUrl}?${params.toString()}`;
             console.log(url)
             const res = await fetch(url);
@@ -180,24 +261,29 @@ export default function PastEvents({
 
     // Group events by semester, filter out those with no events
     const semestersWithEvents = useMemo(() => {
+        if (selectedSemester) {
+            return [{
+                semester: selectedSemester,
+                events: getEventsInSemester(events, selectedSemester)
+            }];
+        }
+
         return allSemesters
             .map((semester) => ({
                 semester,
                 events: getEventsInSemester(events, semester),
             }))
             .filter((item) => item.events.length > 0);
-    }, [allSemesters, events]);
+    }, [allSemesters, events, selectedSemester]);
 
-    if (isLoading) return <SkeletonSemesterEvents numEvents={8} semester={{season: "fall", year: 2026}} />;
+    if (isLoading) return <SkeletonSemesterEvents numEvents={8} semester={currentSemester} />;
 
     return (
         <>
         {semestersWithEvents.length > 0 ? 
             semestersWithEvents.map(({ semester, events }, idx) => {
                 return (
-                    <section key={`${semester.season}-${semester.year}`}>
-                        <SemesterEvents events={events} semester={semester} idx={idx} />
-                    </section>
+                    <SemesterEvents key={idx} events={events} semester={semester} idx={idx} />
                 );
             })
         :

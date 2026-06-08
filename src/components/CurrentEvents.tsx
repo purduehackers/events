@@ -110,7 +110,6 @@ export default function CurrentEvents({ apiUrl }: CurrentEventsProps) {
             }))
             .filter((item) => (item.events.length > 0 || (item.semester.season === currentSemester.season && item.semester.year === currentSemester.year)));
     }, [allSemesters, events]);
-    console.log(semestersWithEvents)
 
     if (isLoading) return <SkeletonSemesterEvents numEvents={3} semester={currentSemester} />;
 
