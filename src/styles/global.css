@@ -139,6 +139,30 @@ html body[data-scroll-locked] {
     0% { transform: translateX(0); }
     100% { transform: translateX(calc(0px - 50%)); }
   }
+
+  /* Base styling for all skeleton blocks */
+  .skeleton {
+    background: var(--skeleton-bg, #e9e9e9);
+    background-image: linear-gradient(
+      90deg,
+      var(--skeleton-bg, #e9e9e9) 0px,
+      var(--skeleton-highlight, #efefef) 80px,
+      var(--skeleton-bg, #e9e9e9) 160px
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2.5s infinite linear;
+    display: inline-block;
+  }
+
+  /* Shimmer effect that moves the background gradient */
+  @keyframes shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
 }
 
 @theme {

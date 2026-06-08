@@ -1,3 +1,4 @@
+import { EVENT_CATEGORIES } from "@/types";
 import type { EventType, SemesterType, SemesterSeason } from "@/types";
 import { TZDate } from "@date-fns/tz";
 import { format } from "date-fns";
@@ -11,9 +12,9 @@ export function getSemesterDateRange(semester: SemesterType): { start: Date; end
   let start: Date, end: Date;
   if (season === "spring") {
     start = new Date(year, 0, 1); // Jan 1
-    end = new Date(year, 5, 30); // June 30
+    end = new Date(year, 4, 31); // May 31
   } else { // fall
-    start = new Date(year, 6, 1); // July 1
+    start = new Date(year, 5, 1); // June 1
     end = new Date(year, 11, 31); // Dec 31
   }
   return { start, end };
@@ -24,28 +25,23 @@ export function getSemesterFromDate(date: Date): SemesterType {
   const d = new Date(date);
   const year = d.getFullYear();
   const month = d.getMonth() + 1; // 1–12
-  if (month >= 7) return { year, season: "fall" };
+  if (month >= 6) return { year, season: "fall" };
   return { year, season: "spring" };
-}
-
-// Current semester based on today's date
-export function getCurrentSemester(): SemesterType {
-  return getSemesterFromDate(new Date());
 }
 
 // Sort by newest semester within a year
 const SEMESTERS_NEWEST_FIRST: SemesterSeason[] = ["fall", "spring"];
 
 // Get all semesters from current to earliest, newest first
-export function getSemestersNewestFirst(): SemesterType[] {
-  const current = getCurrentSemester();
+export function getSemestersNewestFirst(latest?: SemesterType ): SemesterType[] {
+  if (!latest) latest = getSemesterFromDate(new Date());
   const list: SemesterType[] = [];
 
   // Iterate thru semesters starting from current year
-  for (let y = current.year; y >= EARLIEST_SEMESTER.year; y--) {
+  for (let y = latest.year; y >= EARLIEST_SEMESTER.year; y--) {
     let semOrder = SEMESTERS_NEWEST_FIRST;
     for (const season of semOrder) {
-      if (y === current.year && semOrder.indexOf(season) < semOrder.indexOf(current.season)) {
+      if (y === latest.year && semOrder.indexOf(season) < semOrder.indexOf(latest.season)) {
         // Skip nonexistent future semesters this year
         continue;
       }
@@ -105,4 +101,8 @@ export function getLocalizedEventTimes(event: EventType): {
     localizedEnd,
     localizedEndTime,
   };
+}
+
+export function isKnownCategory(category: string | null) {
+  return Boolean(category && EVENT_CATEGORIES.map((c) => c.toLowerCase()).includes(category));
 }

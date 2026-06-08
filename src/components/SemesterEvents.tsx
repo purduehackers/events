@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { motion, useInView } from "framer-motion";
 import { format } from "date-fns";
 
 import { EVENT_CATEGORIES, type EventType } from "@/types";
@@ -7,9 +8,10 @@ import { getLocalizedEventTimes } from "@/utilities/helpers";
 import type { SemesterType } from "@/types";
 
 interface SemesterEventsProps {
-    initialEvents: EventType[];
+    events: EventType[];
     semester: SemesterType;
     currentSemester?: boolean; // whether this is the upcoming events display
+    idx: number;
 }
 
 // Get search query param from url
@@ -29,10 +31,16 @@ function isKnownCategory(category: string | null) {
     return Boolean(category && EVENT_CATEGORIES.map((c) => c.toLowerCase()).includes(category));
 }
 
-export default function SemesterEvents({ initialEvents, semester, currentSemester = false }: SemesterEventsProps) {
-    const [events] = useState<EventType[]>(initialEvents);
+export default function SemesterEvents({ events, semester, currentSemester = false, idx }: SemesterEventsProps) {
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
     const [searchQuery, setSearchQuery] = useState<string | null>(null);
+    const sectionRef = useRef<HTMLDivElement | null>(null);
+    const sectionTopInView = useInView(sectionRef, {
+        amount: 0,
+        margin: "-34px 0px 0px 0px",
+    });
+    //const dotBackground = sectionTopInView ? "#facc15" : "#9ca3af";
+    const dotBackground = sectionTopInView ? "#919191" : "#9ca3af";
 
     useEffect(() => {
         const category = getCategoryFromUrl();
@@ -50,14 +58,14 @@ export default function SemesterEvents({ initialEvents, semester, currentSemeste
         const searchHandler = (event: Event) => {
             const detail = (event as CustomEvent<string | null>).detail;
             setSearchQuery(detail);
-        }
+        };
 
         window.addEventListener("categoryChange", catHandler as EventListener);
         window.addEventListener("searchQueryChange", searchHandler as EventListener);
         return () => {
             window.removeEventListener("categoryChange", catHandler as EventListener);
             window.removeEventListener("searchQueryChange", searchHandler as EventListener);
-        }
+        };
     }, []);
 
     const isOther = selectedCategory === "other";
@@ -85,22 +93,27 @@ export default function SemesterEvents({ initialEvents, semester, currentSemeste
     }, [events, isKnown, isOther, selectedCategory, searchQuery]);
 
     return (
-        <div data-category-section="current-events"
+        <div 
+            ref={sectionRef}
+            data-category-section={currentSemester ? "current-events" : `${semester.season}-${semester.year}`}
             className="[--line-card-gap:25px] sm:[--line-card-gap:40px] [--sem-icon-size:14px] px-2 flex flex-col gap-y-4"
-            id={`current-events-sec`}
+            id={currentSemester ? "current-events-sec" : `sem-sec-${idx}`}
+            data-sem-key={currentSemester ? "current-events" : `${semester.season}-${semester.year}`}
         >
             {/* Semester label */}
             <div className="z-50 sticky top-34 sm:top-24 w-fit">
-                <div className="relative -left-2 p-2 rounded-full flex items-center bg-body-light dark:bg-body-dark "
+                <div className="relative -left-2 p-2 rounded-full flex items-center bg-body-light dark:bg-body-dark"
                     style={{gap: "calc(var(--line-card-gap) - var(--sem-icon-size))"}}
                 >
-                    <div
-                        data-sentinel={`#current-events-sec`}
-                        className="relative -top-[1px] w-(--sem-icon-size) h-(--sem-icon-size) bg-gray-300 dark:bg-zinc-600 data-[past-sentinel=true]:bg-yellow-400 flex items-center justify-center"
-                        style={{left: "calc(-1 * var(--sem-icon-size) / 2)"}}
+                    <motion.div
+                        className="relative -top-[1px] w-(--sem-icon-size) h-(--sem-icon-size) flex items-center justify-center"
+                        style={{
+                            left: "calc(-1 * var(--sem-icon-size) / 2)",
+                            backgroundColor: dotBackground,
+                        }}
                     >
                         <div className="w-1.5 h-1.5 bg-white dark:bg-zinc-900"></div>
-                    </div>
+                    </motion.div>
                     <h3 className="text-base sm:text-base font-normal leading-none p-0 m-0 uppercase font-pixel">
                         {semester.season} {semester.year}
                     </h3>
@@ -110,7 +123,7 @@ export default function SemesterEvents({ initialEvents, semester, currentSemeste
             {/* Event cards */}
             <div className="pl-(--line-card-gap) border-l-1 border-gray-300">
                 {(filteredEvents?.length > 0 || (currentSemester && !searchQuery && (!selectedCategory || selectedCategory === "hack-night"))) ?
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 sm:auto-cols-fr">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 sm:auto-cols-fr">
                         {(currentSemester && !searchQuery && (!selectedCategory || selectedCategory === "hack-night")) &&
                             <a className="w-full h-full" href="https://discord.com/invite/5paFjKzdPE" target="_blank" rel="noreferrer">
                                 <div className="w-full h-full md:w-fit bg-black dark:bg-yellow text-white dark:text-black p-4 flex flex-col justify-between gap-y-3">
@@ -150,23 +163,6 @@ export default function SemesterEvents({ initialEvents, semester, currentSemeste
                     </div>
                 }
             </div>
-
-            {(!selectedCategory || selectedCategory === "hack-night") &&
-                <div className="hidden w-full flex justify-start items-center">
-                    <a className="w-full" href="https://lu.ma/user/purduehackers" target="_blank" rel="noreferrer">
-                        <div className="w-full md:w-fit bg-yellow dark:text-black p-4 flex flex-col justify-center gap-y-3">
-                            <p className="font-pixel uppercase text-sm">--weekly--</p>
-                            <h2 className="font-mono text-left text-xl sm:text-2xl font-bold">
-                                Come to Hack Night!!
-                            </h2>
-                            <p className="font-subtext">Every Friday 8pm at the Bechtel Center.</p>
-                            <button className="cursor-pointer w-fit px-2 uppercase text-sm font-pixel font-normal text-white bg-black rounded-sm">
-                                Check it out {'>>'}
-                            </button>
-                        </div>
-                    </a>
-                </div>
-            }
         </div>
     );
 }

@@ -69,9 +69,6 @@ export default function CategoryFilter({ categories }: CategoryFilterProps) {
         detail: newValue || null,
       })
     );
-
-    // Call external filtering script for semester sections/non-react components
-    window.applyCategoryFilter?.();
   };
 
   return (

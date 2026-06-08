@@ -9,12 +9,8 @@ interface SemesterFilterProps {
 // Get semester query param from url
 function getSemFromUrl(): string | null {
   if (typeof window === "undefined") return null;
-  const url = new URL(window.location.href);
-  const pathSegments = url.pathname.split("/");
-  const raw = pathSegments[1]?.trim().toLowerCase();
-  if (!raw) return null;
-  const m = raw.match(/(spring|summer|fall)[\s_-]?(\d{4})/);
-  return m ? `${m[1]}-${m[2]}` : null;
+  const raw = new URLSearchParams(window.location.search).get("sem")?.trim().toLowerCase();
+  return raw || null;
 }
 
 declare global {
@@ -52,15 +48,18 @@ export default function SemesterFilter({ semesters }: SemesterFilterProps) {
     // Update url query params 
     const url = new URL(window.location.href);
     if (newValue) {
-      url.pathname = newValue;
+      url.searchParams.set("sem", newValue);
     } else {
-      url.pathname = "";
+      url.searchParams.delete("sem");
     }
-    window.location.href = url.toString();
-    //window.history.pushState(null, "", url.toString());
+    window.history.replaceState(null, "", url.toString());
 
-    // Call func defined in PastEvents page to update semesters view
-    window.applySemesterFilter?.();
+    // Notify past and current events components so it can re-fetch / re-filter
+    window.dispatchEvent(
+      new CustomEvent<string | null>("semesterChange", {
+        detail: newValue || null,
+      })
+    );
   };
 
   return (
