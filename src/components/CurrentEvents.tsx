@@ -16,8 +16,6 @@ export default function CurrentEvents({ apiUrl }: CurrentEventsProps) {
     const [selectedCategory, setSelectedCategory] = useState<string>("");
     const [searchQuery, setSearchQuery] = useState<string>("");
 
-    const currentSemester = getSemesterFromDate(new Date());
-
     // Helper for building fetch params
     const buildFetchParams = (pageNum: number, category: string | null, query: string | null) => {
         const params = new URLSearchParams();
@@ -98,7 +96,10 @@ export default function CurrentEvents({ apiUrl }: CurrentEventsProps) {
         fetchEvents(INITIAL_PAGE, selectedCategory || null, searchQuery || null);
     }, [selectedCategory, searchQuery]);
 
-    const allSemesters = getSemestersNewestFirst();
+    const latestDate = new Date();
+    latestDate.setFullYear(latestDate.getFullYear() + 1);
+    const allSemesters = getSemestersNewestFirst(getSemesterFromDate(latestDate));
+    const currentSemester = getSemesterFromDate(new Date());
 
     // Group events by semester, filter out those with no events
     const semestersWithEvents = useMemo(() => {
@@ -107,19 +108,25 @@ export default function CurrentEvents({ apiUrl }: CurrentEventsProps) {
                 semester,
                 events: getEventsInSemester(events, semester),
             }))
-            .filter((item) => item.events.length > 0);
+            .filter((item) => (item.events.length > 0 || (item.semester.season === currentSemester.season && item.semester.year === currentSemester.year)));
     }, [allSemesters, events]);
+    console.log(semestersWithEvents)
+
+    if (isLoading) return <SkeletonSemesterEvents numEvents={3} semester={currentSemester} />;
 
     return (
-        <div
-            className="lg:container mb-0 pt-6 sm:pt-14 px-4 sm:px-12 md:px-18 xl:px-28 text-left lg:max-w-screen-2xl mx-auto"
-        >
-            <h2 className="sm:mb-4 text-3xl sm:text-3xl font-mono font-black m-0">Upcoming</h2>
-            {isLoading ?
-                <SkeletonSemesterEvents numEvents={3} semester={currentSemester} />
-            :
-                <SemesterEvents events={events} semester={currentSemester} currentSemester={true} idx={0} />
-            }
-        </div>
+        (semestersWithEvents.length > 0) ? 
+            semestersWithEvents.map(({ semester, events }, idx) => {
+                const isCurrentSemester = semester.season === currentSemester.season && semester.year === currentSemester.year;
+                return (
+                    <section key={`${semester.season}-${semester.year}`}>
+                        <SemesterEvents events={events} semester={semester} currentSemester={isCurrentSemester} idx={idx} />
+                    </section>
+                );
+            })
+        :   
+            <div className="w-full text-base font-pixel text-gray-500">
+                No upcoming events found.
+            </div>
     );
 }

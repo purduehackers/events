@@ -122,7 +122,7 @@ export default function SemesterEvents({ events, semester, currentSemester = fal
             {/* Event cards */}
             <div className="pl-(--line-card-gap) border-l-1 border-gray-300">
                 {(filteredEvents?.length > 0 || (currentSemester && !searchQuery && (!selectedCategory || selectedCategory === "hack-night"))) ?
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 sm:auto-cols-fr">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 sm:auto-cols-fr">
                         {(currentSemester && !searchQuery && (!selectedCategory || selectedCategory === "hack-night")) &&
                             <a className="w-full h-full" href="https://discord.com/invite/5paFjKzdPE" target="_blank" rel="noreferrer">
                                 <div className="w-full h-full md:w-fit bg-black dark:bg-yellow text-white dark:text-black p-4 flex flex-col justify-between gap-y-3">
@@ -162,23 +162,6 @@ export default function SemesterEvents({ events, semester, currentSemester = fal
                     </div>
                 }
             </div>
-
-            {(!selectedCategory || selectedCategory === "hack-night") &&
-                <div className="hidden w-full flex justify-start items-center">
-                    <a className="w-full" href="https://lu.ma/user/purduehackers" target="_blank" rel="noreferrer">
-                        <div className="w-full md:w-fit bg-yellow dark:text-black p-4 flex flex-col justify-center gap-y-3">
-                            <p className="font-pixel uppercase text-sm">--weekly--</p>
-                            <h2 className="font-mono text-left text-xl sm:text-2xl font-bold">
-                                Come to Hack Night!!
-                            </h2>
-                            <p className="font-subtext">Every Friday 8pm at the Bechtel Center.</p>
-                            <button className="cursor-pointer w-fit px-2 uppercase text-sm font-pixel font-normal text-white bg-black rounded-sm">
-                                Check it out {'>>'}
-                            </button>
-                        </div>
-                    </a>
-                </div>
-            }
         </div>
     );
 }

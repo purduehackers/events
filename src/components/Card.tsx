@@ -21,7 +21,7 @@ export default function Card({ date, time, location, name, link, category }: Car
     <div data-category={category?.toLowerCase() ?? ""}>
       <span className="hidden dark:text-hack-night dark:text-workshop dark:text-show dark:text-other bg-hack-night bg-workshop bg-show bg-other dark:group-hover:text-hack-night group-hover:text-hack-night group-hover:text-workshop group-hover:text-show group-hover:text-other group-hover:text-black group-hover:border-hack-night group-hover:border-workshop group-hover:border-show group-hover:border-other"></span>
       <a
-        className={`group col-span-1 min-w-80 h-full flex flex-col items-start justify-between gap-2 text-left px-8 py-5 bg-(--gray-100) dark:bg-(--gray-900) border border-[1px] border-white dark:border-zinc-700 rounded-none`}
+        className={`group col-span-1  h-full flex flex-col items-start justify-between gap-2 text-left px-8 py-5 bg-(--gray-100) dark:bg-(--gray-900) border border-[1px] border-white dark:border-zinc-700 rounded-none`}
         href={link}
       >
         <div className="w-full flex justify-between items-center">
