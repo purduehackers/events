@@ -5,7 +5,7 @@ import CurrentEvents from "../components/CurrentEvents.tsx";
 import PastEvents from "../components/past-events/PastEvents.tsx";
 import Layout from "@/layouts/Layout.astro";
 import HomeLayout from "@/layouts/HomeLayout.astro";
-import Calendar from "@/components/Calendar.tsx";
+import ListSidebar from "@/components/ListSidebar.tsx";
 import Clock from "@components/Clock";
 
 const INITIAL_LIMIT = 30;
@@ -31,8 +31,8 @@ const apiUrl = new URL('/api/events', Astro.url).href;
             />
           </div>
 
-          <div class="z-50 sticky top-34 w-1/3 hidden sm:block">
-            <Calendar client:load apiUrl={apiUrl} />
+          <div class="z-50 sticky top-34 w-fit hidden sm:block">
+            <ListSidebar client:load apiUrl={apiUrl} />
           </div>
         </div>
       </div>
