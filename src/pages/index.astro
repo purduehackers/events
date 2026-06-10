@@ -31,8 +31,8 @@ const apiUrl = new URL('/api/events', Astro.url).href;
             />
           </div>
 
-          <div class="w-1/3">
-            <Calendar client:load />
+          <div class="z-50 sticky top-34 w-1/3 hidden sm:block">
+            <Calendar client:load apiUrl={apiUrl} />
           </div>
         </div>
       </div>

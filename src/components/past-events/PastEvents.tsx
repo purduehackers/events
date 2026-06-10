@@ -25,8 +25,6 @@ export default function PastEvents({
     const [selectedCategory, setSelectedCategory] = useState<string>("");
     const [searchQuery, setSearchQuery] = useState<string>("");
 
-    const baseUrl = apiUrl;
-
     // Helper for building fetch params
     const buildFetchParams = (pageNum: number, category: string | null, query: string | null) => {
         const params = new URLSearchParams();
@@ -165,7 +163,7 @@ export default function PastEvents({
         const fetchEvents = async (pageNum: number, category: string | null, query: string | null) => {
             setIsLoading(true);
             const params = buildFetchParams(pageNum, category, query);
-            const res = await fetch(`${baseUrl}?${params.toString()}`);
+            const res = await fetch(`${apiUrl}?${params.toString()}`);
             if (!res.ok) {
                 setIsLoading(false);
                 return null;
@@ -213,7 +211,7 @@ export default function PastEvents({
 
         while (true) {
             const params = buildFetchParams(nextPage, selectedCategory || null, searchQuery);
-            const url = `${baseUrl}?${params.toString()}`;
+            const url = `${apiUrl}?${params.toString()}`;
             console.log(url)
             const res = await fetch(url);
             console.log(res)
