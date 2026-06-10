@@ -3,7 +3,7 @@ import { motion, useInView } from "framer-motion";
 import { format } from "date-fns";
 
 import { EVENT_CATEGORIES, type EventType } from "@/types";
-import Card from "@/components/Card";
+import Card, { ListCard } from "@/components/Card";
 import { getLocalizedEventTimes } from "@/utilities/helpers";
 import type { SemesterType } from "@/types";
 
@@ -13,6 +13,8 @@ interface SemesterEventsProps {
     currentSemester?: boolean; // whether this is the upcoming events display
     idx: number;
 }
+
+type ViewMode = "list" | "grid";
 
 // Get search query param from url
 function getQueryFromUrl(): string | null {
@@ -27,6 +29,12 @@ function getCategoryFromUrl(): string | null {
     return raw || null;
 }
 
+function getViewModeFromUrl(): ViewMode {
+    if (typeof window === "undefined") return "list";
+    const raw = new URLSearchParams(window.location.search).get("viewMode")?.trim().toLowerCase();
+    return raw === "grid" ? "grid" : "list";
+}
+
 function isKnownCategory(category: string | null) {
     return Boolean(category && EVENT_CATEGORIES.map((c) => c.toLowerCase()).includes(category));
 }
@@ -34,6 +42,7 @@ function isKnownCategory(category: string | null) {
 export default function SemesterEvents({ events, semester, currentSemester = false, idx }: SemesterEventsProps) {
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
     const [searchQuery, setSearchQuery] = useState<string | null>(null);
+    const [viewMode, setViewMode] = useState<ViewMode>("list");
     const sectionRef = useRef<HTMLDivElement | null>(null);
     const sectionTopInView = useInView(sectionRef, {
         amount: 0,
@@ -47,6 +56,7 @@ export default function SemesterEvents({ events, semester, currentSemester = fal
         setSelectedCategory(category);
         const query = getQueryFromUrl();
         setSearchQuery(query);
+        setViewMode(getViewModeFromUrl());
     }, []);
 
     // Listen for and apply filtering/searching updates
@@ -59,12 +69,18 @@ export default function SemesterEvents({ events, semester, currentSemester = fal
             const detail = (event as CustomEvent<string | null>).detail;
             setSearchQuery(detail);
         };
+        const viewModeHandler = (event: Event) => {
+            const detail = (event as CustomEvent<string | null>).detail;
+            setViewMode(detail === "grid" ? "grid" : "list");
+        };
 
         window.addEventListener("categoryChange", catHandler as EventListener);
         window.addEventListener("searchQueryChange", searchHandler as EventListener);
+        window.addEventListener("viewModeChange", viewModeHandler as EventListener);
         return () => {
             window.removeEventListener("categoryChange", catHandler as EventListener);
             window.removeEventListener("searchQueryChange", searchHandler as EventListener);
+            window.removeEventListener("viewModeChange", viewModeHandler as EventListener);
         };
     }, []);
 
@@ -91,6 +107,10 @@ export default function SemesterEvents({ events, semester, currentSemester = fal
 
         return filtered;
     }, [events, isKnown, isOther, selectedCategory, searchQuery]);
+
+    const cardLayoutClassName = viewMode === "grid"
+        ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 sm:auto-cols-fr"
+        : "flex flex-col gap-4";
 
     return (
         <div 
@@ -123,9 +143,9 @@ export default function SemesterEvents({ events, semester, currentSemester = fal
             {/* Event cards */}
             <div className="pl-(--line-card-gap) border-l-1 border-gray-300">
                 {(filteredEvents?.length > 0 || (currentSemester && !searchQuery && (!selectedCategory || selectedCategory === "hack-night"))) ?
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 sm:auto-cols-fr">
+                    <div className={cardLayoutClassName}>
                         {(currentSemester && !searchQuery && (!selectedCategory || selectedCategory === "hack-night")) &&
-                            <a className="w-full h-full" href="https://discord.com/invite/5paFjKzdPE" target="_blank" rel="noreferrer">
+                            <a className={`w-full ${viewMode === "list" ? "h-auto" : "h-full"}`} href="https://discord.com/invite/5paFjKzdPE" target="_blank" rel="noreferrer">
                                 <div className="w-full h-full md:w-fit bg-black dark:bg-yellow text-white dark:text-black p-4 flex flex-col justify-between gap-y-3">
                                     <p className="w-fit font-pixel text-yellow dark:text-black uppercase text-sm">--weekly--</p>
                                     <h2 className="font-mono text-white dark:text-black text-left text-xl sm:text-[22px] font-bold">
@@ -140,8 +160,9 @@ export default function SemesterEvents({ events, semester, currentSemester = fal
                         }
                         {filteredEvents?.map((event) => {
                             const { localizedStart, localizedStartTime, localizedEndTime } = getLocalizedEventTimes(event);
+                            const image = event.images?.[0]?.image?.thumbnailURL ?? event.images?.[0]?.image?.url ?? undefined;
 
-                            return (
+                            return viewMode === "grid" ? (
                                 <Card key={event.id} 
                                     date={format(localizedStart, "MMM d")}
                                     time={`${localizedStartTime}${localizedEndTime ? ` - ${localizedEndTime}` : ""}`}     
@@ -149,6 +170,16 @@ export default function SemesterEvents({ events, semester, currentSemester = fal
                                     name={event.name}
                                     link={`/events/${event.eventType}/${event.slug}`}
                                     category={event.eventType}
+                                />
+                            ) : (
+                                <ListCard key={event.id} 
+                                    date={format(localizedStart, "MMM d")}
+                                    time={`${localizedStartTime}${localizedEndTime ? ` - ${localizedEndTime}` : ""}`}     
+                                    location={event.location_name}
+                                    name={event.name}
+                                    link={`/events/${event.eventType}/${event.slug}`}
+                                    category={event.eventType}
+                                    image={image ?? null}
                                 />
                             );
                         })}

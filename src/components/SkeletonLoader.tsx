@@ -45,7 +45,7 @@ export default function SkeletonSemesterEvents({ numEvents = 5, semester }: Skel
 
 export function SkeletonCard() {
     return (
-        <div className="skeleton dark:[--skeleton-bg:rgb(15,15,15)] dark:[--skeleton-highlight:rgb(22,22,22)] group col-span-1 w-full min-w-80 min-h-40 h-full flex flex-col items-start justify-between gap-2 text-left px-8 py-5 bg-(--gray-100) dark:bg-(--gray-900) border border-[1px] border-white dark:border-zinc-700 rounded-none">
+        <div className="skeleton dark:[--skeleton-bg:rgb(15,15,15)] dark:[--skeleton-highlight:rgb(22,22,22)] group col-span-1 w-full min-h-40 h-full flex flex-col items-start justify-between gap-2 text-left px-8 py-5 bg-(--gray-100) dark:bg-(--gray-900) border border-[1px] border-white dark:border-zinc-700 rounded-none">
             
         </div>
     )
