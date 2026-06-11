@@ -38,7 +38,12 @@ export default function Calendar({ apiUrl, selectedCategory = "all" }: CalendarP
         params.set("sort", "-start");
         params.set("limit", "100");
         params.set("where[published][equals]", "true");
-        params.set("where[eventType][equals]", cat);
+        if (cat != "other") {
+            params.set("where[eventType][equals]", cat);
+        } else {
+            // Fetch events that are not the three known categories
+            params.set("where[eventType][not_in]", "hack-night,workshop,show");
+        }
         const res = await fetch(`${apiUrl}?${params.toString()}`);
         if (!res.ok) {
             setIsLoading(false);
@@ -77,7 +82,7 @@ export default function Calendar({ apiUrl, selectedCategory = "all" }: CalendarP
         void fetchOtherDates();
     }, [apiUrl]);
 
-    const resolvedModifiers = useMemo(() => {
+    const modifiers = useMemo(() => {
         if (selectedCategory === "all") {
             return {
                 hackNight: hackNightDates,
@@ -92,7 +97,7 @@ export default function Calendar({ apiUrl, selectedCategory = "all" }: CalendarP
         };
     }, [hackNightDates, workshopDates, showDates, otherDates, selectedCategory, categoryDates]);
 
-    const resolvedModifierClassNames = useMemo(() => {
+    const modifierClassNames = useMemo(() => {
         if (selectedCategory === "all") {
             return {
                 hackNight: categoryClassNames["hack-night"],
@@ -116,11 +121,11 @@ export default function Calendar({ apiUrl, selectedCategory = "all" }: CalendarP
                 selected={selected}
                 onSelect={setSelected}
                 className="flex h-full w-full items-center justify-center text-gray-500 dark:text-gray-400"
-                modifiers={resolvedModifiers}
-                modifiersClassNames={resolvedModifierClassNames}
+                modifiers={modifiers}
+                modifiersClassNames={modifierClassNames}
                 classNames={{
                     root: `${defaultClassNames.root} w-40 min-w-fit max-w-40 m-0 p-0 font-pixel`,
-                    chevron: `m-0 fill-black dark:fill-white`,
+                    chevron: `m-0 w-4 h-4 fill-black dark:fill-white`,
                     today: `bg-white text-black`,
                     selected: `bg-black dark:bg-white text-white dark:text-black`,
                     day: `p-0 m-0`,
@@ -130,7 +135,6 @@ export default function Calendar({ apiUrl, selectedCategory = "all" }: CalendarP
                     months: `m-0`
                 }}
             />
-            {isLoading ? null : null}
             <div className="hidden">
                 root: string;
                 chevron: string;
