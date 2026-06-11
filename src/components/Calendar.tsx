@@ -108,7 +108,7 @@ export default function Calendar({ apiUrl, selectedCategory = "all" }: CalendarP
     }, [selectedCategory, categoryClassNames]);
 
     return (
-        <div>
+        <div className="w-fit">
             <div className="hidden bg-hack-night bg-workshop bg-show bg-other"></div>
             <DayPicker
                 animate
@@ -119,17 +119,47 @@ export default function Calendar({ apiUrl, selectedCategory = "all" }: CalendarP
                 modifiers={resolvedModifiers}
                 modifiersClassNames={resolvedModifierClassNames}
                 classNames={{
-                    root: `${defaultClassNames.root} m-0 p-0 font-pixel`,
-                    chevron: `fill-black dark:fill-white`,
+                    root: `${defaultClassNames.root} w-40 min-w-fit max-w-40 m-0 p-0 font-pixel`,
+                    chevron: `m-0 fill-black dark:fill-white`,
                     today: `bg-white text-black`,
                     selected: `bg-black dark:bg-white text-white dark:text-black`,
                     day: `p-0 m-0`,
-                    day_button: `m-0 w-8 h-8 border-1 border-solid border-zinc-400 rounded-none dark:border-zinc-300`,
-                    week: `p-0`,
-                    month: `p-0`
+                    day_button: ` p-2 m-0 w-full h-full border-1 border-solid border-zinc-400 rounded-none dark:border-zinc-900`,
+                    week: `${defaultClassNames.week} gap-2 m-0`,
+                    weeks: `${defaultClassNames.weeks} gap-2 m-0`,
+                    months: `m-0`
                 }}
             />
             {isLoading ? null : null}
+            <div className="hidden">
+                root: string;
+                chevron: string;
+                day: string;
+                day_button: string;
+                caption_label: string;
+                dropdowns: string;
+                dropdown: string;
+                dropdown_root: string;
+                footer: string;
+                month_grid: string;
+                month_caption: string;
+                months_dropdown: string;
+                month: string;
+                months: string;
+                nav: string;
+                button_next: string;
+                button_previous: string;
+                week: string;
+                weeks: string;
+                weekday: string;
+                weekdays: string;
+                week_number: string;
+                week_number_header: string;
+                years_dropdown: string;
+                range_end: string;
+                range_middle: string;
+                range_start: string;
+            </div>
         </div>
     );
 }
