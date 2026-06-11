@@ -109,8 +109,8 @@ export default function SemesterEvents({ events, semester, currentSemester = fal
     }, [events, isKnown, isOther, selectedCategory, searchQuery]);
 
     const cardLayoutClassName = viewMode === "grid"
-        ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 sm:auto-cols-fr"
-        : "flex flex-col gap-4";
+        ? "grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-2 sm:auto-cols-fr"
+        : "flex flex-col gap-2";
 
     return (
         <div 
@@ -146,12 +146,12 @@ export default function SemesterEvents({ events, semester, currentSemester = fal
                     <div className={cardLayoutClassName}>
                         {(currentSemester && !searchQuery && (!selectedCategory || selectedCategory === "hack-night")) &&
                             <a className={`w-full ${viewMode === "list" ? "h-auto" : "h-full"}`} href="https://discord.com/invite/5paFjKzdPE" target="_blank" rel="noreferrer">
-                                <div className="w-full h-full bg-black dark:bg-yellow text-white dark:text-black p-4 flex flex-col justify-between gap-y-3">
+                                <div className="w-full h-full bg-black dark:bg-yellow text-white dark:text-black px-6 2xl:px-8 py-5 flex flex-col justify-between gap-y-3">
                                     <p className="w-fit font-pixel text-yellow dark:text-black uppercase text-sm">--weekly--</p>
-                                    <h2 className="font-mono text-white dark:text-black text-left text-xl sm:text-[22px] font-bold">
+                                    <h2 className="font-mono text-white dark:text-black text-left text-lg 2xl:text-xl font-black">
                                         Come to Hack Night!!
                                     </h2>  
-                                    <p className="font-subtext">Every Friday 8pm at the Bechtel Center. Come check it out!</p>
+                                    <p className="font-subtext text-sm"><span className="font-semibold">Every Friday 8pm</span> at the <span className="font-semibold">Bechtel Center</span>. Come check it out!</p>
                                     <button className="hidden cursor-pointer w-fit px-2 uppercase text-sm font-pixel font-normal text-white bg-black rounded-sm">
                                         Check it out {'>>'}
                                     </button>
@@ -165,7 +165,7 @@ export default function SemesterEvents({ events, semester, currentSemester = fal
                             return viewMode === "grid" ? (
                                 <Card key={event.id} 
                                     date={format(localizedStart, "MMM d")}
-                                    time={`${localizedStartTime}${localizedEndTime ? ` - ${localizedEndTime}` : ""}`}     
+                                    time={`${localizedStartTime}`}     
                                     location={event.location_name}
                                     name={event.name}
                                     link={`/events/${event.eventType}/${event.slug}`}
