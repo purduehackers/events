@@ -8,7 +8,7 @@ interface CalendarProps {
     selectedCategory?: string;
 }
 
-export default function Calendar({ apiUrl, selectedCategory = "all" }: CalendarProps) {
+export default function Calendar({ apiUrl, selectedCategory = "" }: CalendarProps) {
     const [isLoading, setIsLoading] = useState(true);
     const [selected, setSelected] = useState<Date>();
     const [hackNightDates, setHackNightDates] = useState<Date[]>([]);
@@ -83,7 +83,7 @@ export default function Calendar({ apiUrl, selectedCategory = "all" }: CalendarP
     }, [apiUrl]);
 
     const modifiers = useMemo(() => {
-        if (selectedCategory === "all") {
+        if (!selectedCategory || selectedCategory === "all" || selectedCategory === "") {
             return {
                 hackNight: hackNightDates,
                 workshop: workshopDates,
@@ -98,7 +98,7 @@ export default function Calendar({ apiUrl, selectedCategory = "all" }: CalendarP
     }, [hackNightDates, workshopDates, showDates, otherDates, selectedCategory, categoryDates]);
 
     const modifierClassNames = useMemo(() => {
-        if (selectedCategory === "all") {
+        if (!selectedCategory || selectedCategory === "all" || selectedCategory === "") {
             return {
                 hackNight: categoryClassNames["hack-night"],
                 workshop: categoryClassNames.workshop,
@@ -120,7 +120,7 @@ export default function Calendar({ apiUrl, selectedCategory = "all" }: CalendarP
                 mode="single"
                 selected={selected}
                 onSelect={setSelected}
-                className="flex h-full w-full items-center justify-center text-gray-500 dark:text-gray-400"
+                className="text-gray-500 dark:text-gray-100"
                 modifiers={modifiers}
                 modifiersClassNames={modifierClassNames}
                 classNames={{
@@ -129,7 +129,7 @@ export default function Calendar({ apiUrl, selectedCategory = "all" }: CalendarP
                     today: `bg-white text-black`,
                     selected: `bg-black dark:bg-white text-white dark:text-black`,
                     day: `p-0 m-0`,
-                    day_button: ` p-2 m-0 w-full h-full border-1 border-solid border-zinc-400 rounded-none dark:border-zinc-900`,
+                    day_button: `p-1 md:p-[7px] m-0 w-full h-full border-1 md:border-[2px] border-solid border-zinc-400 dark:border-black`,
                     week: `${defaultClassNames.week} gap-2 m-0`,
                     weeks: `${defaultClassNames.weeks} gap-2 m-0`,
                     months: `m-0`

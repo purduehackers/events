@@ -74,7 +74,7 @@ export default function Card({ date, time, location, name, link, category }: Car
           }
           {category && (
             <div
-              className={`min-w-fit px-1 bg-${categoryColor == "hack-night" ? "black" : categoryColor} dark:bg-transparent text-white dark:text-${categoryColor} border-none dark:border-solid border-[1px] uppercase text-[12px] font-pixel`}
+              className={`min-w-fit rounded-xs px-1 bg-${categoryColor == "hack-night" ? "black" : categoryColor} dark:bg-transparent text-white dark:text-${categoryColor} border-none dark:border-solid border-[1px] uppercase text-[12px] font-pixel`}
             >
               {category.replaceAll(" ", "-")} 
             </div>
@@ -125,7 +125,7 @@ export function ListCard({ date, time, location, name, link, category, image = p
         <div className="flex flex-1 flex-col justify-between gap-2 p-4 sm:p-5">
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400">
+              <p className="text-[15px] font-subtext font-semibold uppercase text-gray-500 dark:text-gray-400">
                 {date} • {time}
               </p>
               <h3 className="mt-1 text-lg font-mono font-black leading-tight">{name}</h3>
@@ -135,7 +135,7 @@ export function ListCard({ date, time, location, name, link, category, image = p
 
           <div className="flex flex-wrap items-center justify-between gap-2">
             {location && (
-              <div className="flex items-center gap-2 text-sm font-subtext font-semibold text-gray-500 dark:text-gray-400">
+              <div className="flex items-center gap-2 text-[15px] font-subtext font-semibold text-gray-500 dark:text-gray-400">
                 <MapPinIcon className="w-3.5 shrink-0" />
                 <div className="line-clamp-1">{location}</div>
               </div>
