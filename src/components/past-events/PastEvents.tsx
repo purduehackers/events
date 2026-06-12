@@ -274,8 +274,6 @@ export default function PastEvents({
             .filter((item) => item.events.length > 0);
     }, [allSemesters, events, selectedSemester]);
 
-    if (isLoading) return <SkeletonSemesterEvents numEvents={8} semester={selectedSemester || currentSemester} />;
-
     return (
         <div
             id="past-events"
@@ -285,25 +283,31 @@ export default function PastEvents({
                 <h2 className="text-3xl sm:text-3xl font-mono font-black m-0">Past events</h2>
             </div>
 
-            {semestersWithEvents.length > 0 ? 
-                semestersWithEvents.map(({ semester, events }, idx) => {
-                    return (
-                        <SemesterEvents key={idx} events={events} semester={semester} idx={idx} />
-                    );
-                })
+            {isLoading ?
+                <SkeletonSemesterEvents numEvents={8} semester={selectedSemester || currentSemester} />
             :
-                <div className="w-full text-base font-pixel text-gray-500">
-                    No past events found.
+                <div>
+                    {semestersWithEvents.length > 0 ? 
+                        semestersWithEvents.map(({ semester, events }, idx) => {
+                            return (
+                                <SemesterEvents key={idx} events={events} semester={semester} idx={idx} />
+                            );
+                        })
+                    :
+                        <div className="w-full text-base font-pixel text-gray-500">
+                            No past events found.
+                        </div>
+                    }
+
+                    <button
+                        className="cursor-pointer w-fit m-auto my-4 sm:my-6 font-pixel text-base font-bold text-purple-700 dark:text-yellow"
+                        onClick={loadMore}
+                        disabled={!hasNextPage || isLoadingMore}
+                    >
+                        {isLoadingMore ? "Loading..." : hasNextPage ? "Load more ..." : ""}
+                    </button>
                 </div>
             }
-
-            <button
-                className="cursor-pointer w-fit m-auto my-4 sm:my-6 font-pixel text-base font-bold text-purple-700 dark:text-yellow"
-                onClick={loadMore}
-                disabled={!hasNextPage || isLoadingMore}
-            >
-                {isLoadingMore ? "Loading..." : hasNextPage ? "Load more ..." : ""}
-            </button>
         </div>
     );
 }
