@@ -3,6 +3,7 @@ import Calendar from "@/components/Calendar";
 import SemesterFilter from "./SemesterFilter";
 import CategoryFilter from "./CategoryFilter";
 import Clock from "@/components/Clock";
+import { StarIcon2 } from "@/components/icons/Icons"
 import { EVENT_CATEGORIES } from "@/types";
 import { getSemestersNewestFirst } from "@/utilities/helpers";
 
@@ -88,7 +89,8 @@ export default function ListSidebar({ apiUrl }: ListSidebarProps) {
         <aside className="[--sidebar-bg:black] dark:[--sidebar-bg:black] z-50 sticky top-34 w-fit min-w-60 md:min-w-75 hidden sm:block">
             <div className="w-74 bg-(--sidebar-bg) p-0 border border-zinc-800 dark:border-zinc-800 flex flex-col gap-0 items-center">
                 <div className="w-full h-full p-0 text-white font-mono flex items-center justify-between gap-0 border-b-1 border-zinc-300 dark:border-zinc-800">
-                    <div className="pl-3 text-[10px] uppercase tracking-[0.2em]">
+                    <div className="flex items-center gap-3 pl-3 text-[10px] uppercase tracking-[0.2em]">
+                        <StarIcon2 className="w-2 h-2" />
                         <Clock />
                     </div>
                     <button className="cursor-pointer w-fit min-w-6 h-6 px-2 bg-purple-700 text-white text-[10px] uppercase tracking-[0.2em] flex items-center justify-center">
