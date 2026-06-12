@@ -87,10 +87,16 @@ export default function ListSidebar({ apiUrl }: ListSidebarProps) {
     return (
         <aside className="[--sidebar-bg:black] dark:[--sidebar-bg:black] z-50 sticky top-34 w-fit min-w-60 md:min-w-75 hidden sm:block">
             <div className="bg-(--sidebar-bg) p-0 border border-zinc-800 dark:border-zinc-800 flex flex-col gap-0 items-center">
-                <div className="w-full px-8 py-3 flex items-center justify-between gap-2 border-b-1 border-zinc-300 dark:border-zinc-800">
-                    <p className="hidden font-pixel text-[10px] text-yellow uppercase tracking-[0.2em]">
-                        Calendar
-                    </p>
+                <div className="w-full h-full p-0 text-white font-mono flex items-center justify-between gap-0 border-b-1 border-zinc-300 dark:border-zinc-800">
+                    <div className="pl-3 text-[10px] uppercase tracking-[0.2em]">
+                        <Clock />
+                    </div>
+                    <button className="cursor-pointer w-fit min-w-6 h-6 px-2 bg-purple-700 text-white text-[10px] uppercase tracking-[0.2em] flex items-center justify-center">
+                        Add ICal
+                    </button>
+                </div>
+                
+                <div className="hidden w-full px-8 py-3 flex items-center justify-between gap-2 border-b-1 border-zinc-300 dark:border-zinc-800">
 
                     <button className="cursor-pointer px-2 bg-purple-700 text-white uppercase text-[11px] tracking-[0.2em] font-pixel font-bold rounded-none">
                         iCal
@@ -99,25 +105,28 @@ export default function ListSidebar({ apiUrl }: ListSidebarProps) {
                         semesters={allSemesters} 
                         triggerStyle="py-1 gap-1 tracking-wider font-pixel uppercase text-[14px] leading-none text-gray-900 dark:text-gray-100 data-[placeholder]:bg-transparent data-[placeholder]:text-gray-400"
                         portalStyle="-left-4 bg-body-light dark:bg-body-dark border border-zinc-200 dark:border-zinc-800 font-pixel uppercase"
-                        itemStyle="relative select-none flex items-center py-2 px-6 tracking-wider text-[14px] leading-none text-gray-900 dark:text-zinc-400 hover:text-white data-[highlighted]:bg-zinc-900 data-[highlighted]:text-white data-[highlighted]:outline-none data-[disabled]:pointer-events-none data-[disabled]:text-gray-500"
+                        itemStyle="relative select-none flex items-center py-2 px-6 tracking-wider text-[14px] leading-none text-gray-900 dark:text-zinc-400 hover:text-white bg-black data-[highlighted]:bg-zinc-900 data-[highlighted]:text-white data-[highlighted]:outline-none data-[disabled]:pointer-events-none data-[disabled]:text-gray-500"
                     />
                 </div>
 
                 {/* Filter */}
-                <div className="hidden w-full flex flex-row gap-2 justify-between px-3 py-2 border-y-1 border-zinc-300 dark:border-zinc-800">
-                    <CategoryFilter categories={categories} />
-                    <SemesterFilter semesters={allSemesters} />
+                <div className=" w-full flex flex-row gap-2 justify-between border-y-1 border-zinc-300 dark:border-zinc-800">
+                    <CategoryFilter 
+                        categories={categories}
+                        triggerStyle="grow px-3 py-2 gap-1 tracking-wider font-pixel uppercase text-[14px] leading-none text-gray-100 bg-zinc-800 data-[placeholder]:bg-black data-[placeholder]:text-gray-400"
+                        portalStyle="-left-4 bg-body-light dark:bg-body-dark border border-zinc-200 dark:border-zinc-800 font-pixel uppercase"
+                        itemStyle="relative select-none flex items-center py-2 px-6 tracking-wider text-[14px] leading-none text-zinc-400 hover:text-white bg-black data-[highlighted]:bg-zinc-900 data-[highlighted]:text-white data-[highlighted]:outline-none data-[disabled]:pointer-events-none data-[disabled]:text-gray-500"
+                    />
+                    <SemesterFilter 
+                        semesters={allSemesters} 
+                        triggerStyle="px-3 py-2 gap-1 tracking-wider font-pixel uppercase text-[14px] leading-none text-gray-100 bg-zinc-800 data-[placeholder]:bg-black data-[placeholder]:text-gray-400"
+                        portalStyle="-left-4 bg-body-light dark:bg-body-dark border border-zinc-200 dark:border-zinc-800 font-pixel uppercase"
+                        itemStyle="relative select-none flex items-center py-2 px-6 tracking-wider text-[14px] leading-none text-zinc-400 hover:text-white bg-black data-[highlighted]:bg-zinc-900 data-[highlighted]:text-white data-[highlighted]:outline-none data-[disabled]:pointer-events-none data-[disabled]:text-gray-500"
+                    />
                 </div>
 
                 <div className="py-2">
                     <Calendar apiUrl={apiUrl} selectedCategory={selectedCategory} semesterMonth={semester} />
-                </div>
-
-                <div className="w-full text-white font-mono px-4 py-2 flex items-center justify-between gap-2 border-t-1 border-zinc-300 dark:border-zinc-800">
-                    
-                    <div className="text-[10px] uppercase tracking-[0.2em]">
-                        <Clock />
-                    </div>
                 </div>
             </div>
         </aside>

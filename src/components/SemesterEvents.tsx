@@ -6,6 +6,7 @@ import { EVENT_CATEGORIES, type EventType } from "@/types";
 import Card, { ListCard } from "@/components/Card";
 import { getLocalizedEventTimes } from "@/utilities/helpers";
 import type { SemesterType } from "@/types";
+import type { ViewMode } from "@components/ViewModeToggle"
 
 interface SemesterEventsProps {
     events: EventType[];
@@ -13,8 +14,6 @@ interface SemesterEventsProps {
     currentSemester?: boolean; // whether this is the upcoming events display
     idx: number;
 }
-
-type ViewMode = "list" | "grid";
 
 // Get search query param from url
 function getQueryFromUrl(): string | null {

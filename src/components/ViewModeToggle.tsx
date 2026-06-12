@@ -1,21 +1,23 @@
 import { useEffect, useState } from "react";
 import { SquareIcon } from "./icons/Icons";
 
-function getViewModeFromUrl(): "list" | "grid" {
+export type ViewMode = "list" | "grid";
+
+function getViewModeFromUrl(): ViewMode {
     if (typeof window === "undefined") return "list";
     const raw = new URLSearchParams(window.location.search).get("viewMode")?.trim().toLowerCase();
     return raw === "grid" ? "grid" : "list";
 }
 
 export default function ViewModeToggle() {
-    const [viewMode, setViewMode] = useState<"list" | "grid">("list");
+    const [viewMode, setViewMode] = useState<ViewMode>("list");
 
     useEffect(() => {
         setViewMode(getViewModeFromUrl());
     }, []);
 
     const onValueChange = (newValue: string) => {
-        setViewMode(newValue as "list" | "grid");
+        setViewMode(newValue as ViewMode);
 
         const url = new URL(window.location.href);
         if (newValue) {

@@ -126,6 +126,7 @@ export default function Calendar({ apiUrl, selectedCategory = "", semesterMonth 
             <DayPicker
                 animate
                 mode="single"
+                timeZone="America/New_York" 
                 selected={selected}
                 onSelect={setSelected}
                 month={month} 
@@ -135,48 +136,20 @@ export default function Calendar({ apiUrl, selectedCategory = "", semesterMonth 
                 modifiersClassNames={modifierClassNames}
                 classNames={{
                     root: `${defaultClassNames.root} min-w-fit m-0 p-0 font-pixel`,
-                    month_caption: `${defaultClassNames.month_caption} flex items-center pl-2`,
+                    month_caption: `${defaultClassNames.month_caption} flex items-center pl-2 text-white`,
                     caption_label: `max-h-fit text-center text-base leading-none`,
-                    chevron: `m-0 w-4 h-4 fill-black dark:fill-white`,
-                    today: `bg-zinc-400 text-black`,
+                    chevron: `m-0 w-4 h-4 fill-white`,
+                    today: `bg-zinc-800 text-white font-bold`,
                     selected: `bg-zinc-800 text-white font-bold`,
                     day: `p-0 m-0`,
                     day_button: `text-sm md:text-[14px] p-1 md:p-[7px] m-0 w-full h-full border-1 md:border-[2px] border-solid border-(--sidebar-bg)`,
                     week: `${defaultClassNames.week} text-zinc-400 gap-2 m-0`,
                     weeks: `${defaultClassNames.weeks} gap-2 m-0`,
+                    weekdays: `${defaultClassNames.weekdays} text-zinc-300`,
                     months: `m-0`
                 }}
             />
             <button className="hidden" onClick={() => setMonth(new Date())}>Go to Today</button>
-            <div className="hidden">
-                root: string;
-                chevron: string;
-                day: string;
-                day_button: string;
-                caption_label: string;
-                dropdowns: string;
-                dropdown: string;
-                dropdown_root: string;
-                footer: string;
-                month_grid: string;
-                month_caption: string;
-                months_dropdown: string;
-                month: string;
-                months: string;
-                nav: string;
-                button_next: string;
-                button_previous: string;
-                week: string;
-                weeks: string;
-                weekday: string;
-                weekdays: string;
-                week_number: string;
-                week_number_header: string;
-                years_dropdown: string;
-                range_end: string;
-                range_middle: string;
-                range_start: string;
-            </div>
         </div>
     );
 }

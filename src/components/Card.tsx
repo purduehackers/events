@@ -128,7 +128,7 @@ export function ListCard({ date, time, location, name, link, category, image = p
               <p className="text-[15px] font-subtext font-semibold uppercase text-gray-500 dark:text-gray-400">
                 {date} • {time}
               </p>
-              <h3 className="mt-1 text-lg font-mono font-black leading-tight">{name}</h3>
+              <h3 className="mt-1 text-lg sm:text-xl font-mono font-black leading-tight">{name}</h3>
             </div>
             <StarIcon className={`w-3.5 h-3.5 shrink-0 text-zinc-500 transition-transform group-hover:animate-idle-icon group-hover:scale-115 group-hover:-rotate-90 dark:text-zinc-400 ${getCategoryIconClasses(categoryColor)}`} />
           </div>
