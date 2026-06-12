@@ -6,10 +6,19 @@ import "@daypicker/react/style.css";
 interface CalendarProps {
     apiUrl: string;
     selectedCategory?: string;
+    semesterMonth: Date;
 }
 
-export default function Calendar({ apiUrl, selectedCategory = "" }: CalendarProps) {
+export default function Calendar({ apiUrl, selectedCategory = "", semesterMonth = new Date() }: CalendarProps) {
     const [selected, setSelected] = useState<Date>();
+    const [month, setMonth] = useState(semesterMonth);
+    console.log("semesterMonth: ", semesterMonth)
+    console.log("month: ", month)
+
+    useEffect(() => {
+        setMonth(semesterMonth);
+    }, [semesterMonth]);
+
     const [hackNightDates, setHackNightDates] = useState<Date[]>([]);
     const [workshopDates, setWorkshopDates] = useState<Date[]>([]);
     const [showDates, setShowDates] = useState<Date[]>([]);
@@ -119,7 +128,9 @@ export default function Calendar({ apiUrl, selectedCategory = "" }: CalendarProp
                 mode="single"
                 selected={selected}
                 onSelect={setSelected}
-                className="text-gray-500 dark:text-gray-100"
+                month={month} 
+                onMonthChange={setMonth}
+                className="text-gray-500 dark:text-zinc-100"
                 modifiers={modifiers}
                 modifiersClassNames={modifierClassNames}
                 classNames={{
@@ -127,15 +138,16 @@ export default function Calendar({ apiUrl, selectedCategory = "" }: CalendarProp
                     month_caption: `${defaultClassNames.month_caption} flex items-center pl-2`,
                     caption_label: `max-h-fit text-center text-base leading-none`,
                     chevron: `m-0 w-4 h-4 fill-black dark:fill-white`,
-                    today: `bg-white text-black`,
-                    selected: `bg-black dark:bg-white text-white dark:text-black`,
+                    today: `bg-zinc-400 text-black`,
+                    selected: `bg-zinc-800 text-white font-bold`,
                     day: `p-0 m-0`,
-                    day_button: `p-1 md:p-[7px] m-0 w-full h-full border-1 md:border-[2px] border-solid border-(--sidebar-bg)`,
+                    day_button: `text-sm md:text-[14px] p-1 md:p-[7px] m-0 w-full h-full border-1 md:border-[2px] border-solid border-(--sidebar-bg)`,
                     week: `${defaultClassNames.week} text-zinc-400 gap-2 m-0`,
                     weeks: `${defaultClassNames.weeks} gap-2 m-0`,
                     months: `m-0`
                 }}
             />
+            <button className="hidden" onClick={() => setMonth(new Date())}>Go to Today</button>
             <div className="hidden">
                 root: string;
                 chevron: string;
