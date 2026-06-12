@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Calendar from "@/components/Calendar";
 import SemesterFilter from "./SemesterFilter";
 import CategoryFilter from "./CategoryFilter";
+import Clock from "@/components/Clock";
 import { EVENT_CATEGORIES } from "@/types";
 import { getSemestersNewestFirst } from "@/utilities/helpers";
 
@@ -58,34 +59,39 @@ export default function ListSidebar({ apiUrl }: ListSidebarProps) {
     }, []);
 
     return (
-        <aside className="z-50 sticky top-34 w-fit min-w-60 md:min-w-80 hidden sm:block">
-            <div className="border border-zinc-400 bg-black p-3 dark:border-zinc-700 dark:bg-black/80 flex flex-col gap-2 items-center">
-                <div className="hidden w-full mb-3 flex items-center justify-between gap-2">
-                    <p className="font-pixel text-[10px] uppercase tracking-[0.2em] text-zinc-400">
-                        Event calendar
+        <aside className="[--sidebar-bg:black] dark:[--sidebar-bg:black] z-50 sticky top-34 w-fit min-w-60 md:min-w-75 hidden sm:block">
+            <div className="bg-(--sidebar-bg) p-0 border border-zinc-400 dark:border-zinc-700 flex flex-col gap-0 items-center">
+                <div className="w-full px-4 py-2 flex items-center justify-between gap-2">
+                    <p className="hidden font-pixel text-[10px] text-yellow uppercase tracking-[0.2em]">
+                        Calendar
                     </p>
-                    <label className="hidden flex items-center gap-2 text-[10px] uppercase tracking-[0.15em] text-zinc-600 dark:text-zinc-300">
-                        <select
-                            value={selectedCategory}
-                            onChange={(event) => setSelectedCategory(event.target.value as (typeof CATEGORY_OPTIONS)[number]["value"])}
-                            className="border border-zinc-400 bg-transparent px-1 py-0.5 font-mono text-[10px] uppercase text-zinc-900 outline-none dark:text-zinc-100"
-                        >
-                            {CATEGORY_OPTIONS.map((option) => (
-                                <option key={option.value} value={option.value}>
-                                    {option.label}
-                                </option>
-                            ))}
-                        </select>
-                    </label>
+                    <SemesterFilter 
+                        semesters={allSemesters} 
+                        triggerStyle="gap-1 tracking-wider font-pixel uppercase text-[14px] leading-none text-gray-900 dark:text-gray-100 data-[placeholder]:bg-transparent data-[placeholder]:text-gray-400"
+                        portalStyle="-left-4 bg-body-light dark:bg-body-dark border border-zinc-200 dark:border-zinc-700 font-pixel uppercase"
+                        itemStyle="relative select-none flex items-center py-2 px-2 tracking-wider text-[14px] leading-none text-gray-900 dark:text-gray-100 data-[highlighted]:bg-purple-400 data-[highlighted]:text-white data-[highlighted]:outline-none data-[disabled]:pointer-events-none data-[disabled]:text-gray-500"
+                    />
+                    <button className="cursor-pointer px-2 bg-yellow text-black uppercase text-[11px] tracking-[0.2em] font-pixel font-bold rounded-xs">
+                        Subscribe
+                    </button>
                 </div>
 
                 {/* Filter */}
-                <div className="w-full flex flex-row gap-2 justify-between py-2 border-b-1 border-zinc-300 dark:border-zinc-600">
+                <div className="w-full flex flex-row gap-2 justify-between px-3 py-2 border-y-1 border-zinc-300 dark:border-zinc-600">
                     <CategoryFilter categories={categories} />
                     <SemesterFilter semesters={allSemesters} />
                 </div>
 
-                <Calendar apiUrl={apiUrl} selectedCategory={selectedCategory} />
+                <div className="py-2">
+                    <Calendar apiUrl={apiUrl} selectedCategory={selectedCategory} />
+                </div>
+
+                <div className="w-full text-white font-mono px-4 py-2 flex items-center justify-between gap-2 border-t-1 border-zinc-300 dark:border-zinc-600">
+                    
+                    <div className="text-[10px] uppercase tracking-[0.2em]">
+                        <Clock />
+                    </div>
+                </div>
             </div>
         </aside>
     );

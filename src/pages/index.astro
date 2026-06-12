@@ -18,7 +18,7 @@ const apiUrl = new URL('/api/events', Astro.url).href;
       <div class="w-full flex flex-col gap-6 sm:gap-14">
         <div class="w-full font-mono text-gray-500 dark:text-gray-400 text-xs sm:text-sm flex flex-col md:flex-row justify-between gap-2 mb-0 text-left mx-auto">
           <div>* All event times are listed in Eastern Time (America/Indianapolis).</div>
-          <div>Local - <Clock client:load /></div>
+          <div class="block sm:hidden">Local - <Clock client:load /></div>
         </div>
 
         <div class="flex justify-between items-start gap-6">

@@ -9,7 +9,6 @@ interface CalendarProps {
 }
 
 export default function Calendar({ apiUrl, selectedCategory = "" }: CalendarProps) {
-    const [isLoading, setIsLoading] = useState(true);
     const [selected, setSelected] = useState<Date>();
     const [hackNightDates, setHackNightDates] = useState<Date[]>([]);
     const [workshopDates, setWorkshopDates] = useState<Date[]>([]);
@@ -46,7 +45,7 @@ export default function Calendar({ apiUrl, selectedCategory = "" }: CalendarProp
         }
         const res = await fetch(`${apiUrl}?${params.toString()}`);
         if (!res.ok) {
-            setIsLoading(false);
+            return [];
         }
 
         const data = (await res.json()) as {
@@ -124,13 +123,15 @@ export default function Calendar({ apiUrl, selectedCategory = "" }: CalendarProp
                 modifiers={modifiers}
                 modifiersClassNames={modifierClassNames}
                 classNames={{
-                    root: `${defaultClassNames.root} w-40 min-w-fit max-w-40 m-0 p-0 font-pixel`,
+                    root: `${defaultClassNames.root} min-w-fit m-0 p-0 font-pixel`,
+                    month_caption: `${defaultClassNames.month_caption} flex items-center pl-2`,
+                    caption_label: `max-h-fit text-center text-base leading-none`,
                     chevron: `m-0 w-4 h-4 fill-black dark:fill-white`,
                     today: `bg-white text-black`,
                     selected: `bg-black dark:bg-white text-white dark:text-black`,
                     day: `p-0 m-0`,
-                    day_button: `p-1 md:p-[7px] m-0 w-full h-full border-1 md:border-[2px] border-solid border-zinc-400 dark:border-black`,
-                    week: `${defaultClassNames.week} gap-2 m-0`,
+                    day_button: `p-1 md:p-[7px] m-0 w-full h-full border-1 md:border-[2px] border-solid border-(--sidebar-bg)`,
+                    week: `${defaultClassNames.week} text-zinc-400 gap-2 m-0`,
                     weeks: `${defaultClassNames.weeks} gap-2 m-0`,
                     months: `m-0`
                 }}

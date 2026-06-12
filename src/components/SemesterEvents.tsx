@@ -109,7 +109,7 @@ export default function SemesterEvents({ events, semester, currentSemester = fal
     }, [events, isKnown, isOther, selectedCategory, searchQuery]);
 
     const cardLayoutClassName = viewMode === "grid"
-        ? "grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-2 sm:auto-cols-fr"
+        ? "grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-2 sm:auto-cols-fr"
         : "flex flex-col gap-2";
 
     return (
@@ -122,13 +122,15 @@ export default function SemesterEvents({ events, semester, currentSemester = fal
         >
             {/* Semester label */}
             <div className="z-50 sticky top-34 sm:top-24 w-fit">
-                <div className="relative -left-2 p-2 rounded-full flex items-center bg-body-light dark:bg-body-dark"
-                    style={{gap: "calc(var(--line-card-gap) - var(--sem-icon-size))"}}
+                <div className="relative -left-2 p-2 rounded-full flex items-center bg-body-light dark:bg-body-dark border-solid border-[0px] border-white dark:border-zinc-700"
+                    style={{
+                        gap: "calc(var(--line-card-gap) - var(--sem-icon-size))",
+                        left: "calc(-1 * var(--sem-icon-size))",
+                    }}
                 >
                     <motion.div
                         className="relative -top-[1px] w-(--sem-icon-size) h-(--sem-icon-size) flex items-center justify-center"
                         style={{
-                            left: "calc(-1 * var(--sem-icon-size) / 2)",
                             backgroundColor: dotBackground,
                         }}
                     >

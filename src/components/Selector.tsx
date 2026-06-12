@@ -74,7 +74,8 @@ const Selector = ({
                 <SelectContent
                     className={`${portalStyle} z-50 cursor-pointer overflow-hidden`}
                     position="popper"
-                    sideOffset={4}
+                    sideOffset={12}
+                    alignOffset={-10}
                 >
                     <SelectScrollUpButton className="flex h-6 cursor-default items-center justify-center bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400">
                         
