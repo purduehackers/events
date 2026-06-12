@@ -286,7 +286,7 @@ export default function PastEvents({
             {isLoading ?
                 <SkeletonSemesterEvents numEvents={8} semester={selectedSemester || currentSemester} />
             :
-                <div>
+                <div className="w-full flex flex-col items-center">
                     {semestersWithEvents.length > 0 ? 
                         semestersWithEvents.map(({ semester, events }, idx) => {
                             return (

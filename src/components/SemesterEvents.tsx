@@ -115,7 +115,7 @@ export default function SemesterEvents({ events, semester, currentSemester = fal
         <div 
             ref={sectionRef}
             data-category-section={currentSemester ? "current-events" : `${semester.season}-${semester.year}`}
-            className="[--line-card-gap:25px] sm:[--line-card-gap:40px] [--sem-icon-size:14px] px-2 flex flex-col gap-y-4"
+            className="[--line-card-gap:25px] sm:[--line-card-gap:40px] [--sem-icon-size:14px] w-full px-2 flex flex-col gap-y-4"
             id={currentSemester ? "current-events-sec" : `sem-sec-${idx}`}
             data-sem-key={currentSemester ? "current-events" : `${semester.season}-${semester.year}`}
         >
