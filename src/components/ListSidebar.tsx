@@ -131,6 +131,7 @@ export default function ListSidebar({ apiUrl }: ListSidebarProps) {
                         <StarIcon2 className="w-2 h-2" />
                         <Clock />
                     </div>
+                    
                     <button className="cursor-pointer w-fit min-w-6 h-6 px-2 bg-purple-700 text-white text-[10px] uppercase tracking-[0.2em] flex items-center justify-center">
                         Add ICal
                     </button>

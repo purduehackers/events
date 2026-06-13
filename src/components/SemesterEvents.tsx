@@ -162,6 +162,7 @@ export default function SemesterEvents({ events, semester, currentSemester = fal
                         {filteredEvents?.map((event) => {
                             const { localizedStart, localizedStartTime, localizedEndTime } = getLocalizedEventTimes(event);
                             const image = event.images?.[0]?.image?.thumbnailURL ?? event.images?.[0]?.image?.url ?? undefined;
+                            const category = event.eventType.replaceAll(" ", "-").toLowerCase();
 
                             return viewMode === "grid" ? (
                                 <Card key={event.id} 
@@ -169,7 +170,7 @@ export default function SemesterEvents({ events, semester, currentSemester = fal
                                     time={`${localizedStartTime}`}     
                                     location={event.location_name}
                                     name={event.name}
-                                    link={`/events/${event.eventType}/${event.slug}`}
+                                    link={`/events/${category}/${event.slug}`}
                                     category={event.eventType}
                                 />
                             ) : (

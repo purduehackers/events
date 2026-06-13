@@ -212,9 +212,7 @@ export default function PastEvents({
         while (true) {
             const params = buildFetchParams(nextPage, selectedCategory || null, searchQuery);
             const url = `${apiUrl}?${params.toString()}`;
-            console.log(url)
             const res = await fetch(url);
-            console.log(res)
             if (!res.ok) {
                 finalHasNextPage = false;
                 break;
