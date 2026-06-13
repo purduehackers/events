@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Dialog from "@/components/Dialog";
 import Calendar from "@/components/Calendar";
 import SemesterFilter from "./SemesterFilter";
 import CategoryFilter from "./CategoryFilter";
@@ -131,10 +132,28 @@ export default function ListSidebar({ apiUrl }: ListSidebarProps) {
                         <StarIcon2 className="w-2 h-2" />
                         <Clock />
                     </div>
-                    
-                    <button className="cursor-pointer w-fit min-w-6 h-6 px-2 bg-purple-700 text-white text-[10px] uppercase tracking-[0.2em] flex items-center justify-center">
-                        Add ICal
-                    </button>
+                    <Dialog 
+                        title="Subscribe to calendar"
+                        description="Use the link below to subscribe to the calendar in your preferred calendar app. It will automatically update with new events and changes to existing events."
+                        trigger={
+                            <button className="cursor-pointer w-fit min-w-6 h-6 px-2 bg-purple-700 text-white text-[10px] uppercase tracking-[0.2em] flex items-center justify-center">
+                                Add ICal
+                            </button>
+                        }
+                        closeNode={
+                            <div>
+                                <a href="webcal://://events.purduehackers.com">
+                                    Subscribe to Calendar
+                                </a>
+
+                                <a href="https://www.google.com/calendar/render?cid=https://://events.purduehackers.com/api/events.ics">
+                                    Add to Google Calendar
+                                    https://www.google.com/calendar/render?cid=
+                                    https://www.google.com/calendar/render?cid=https%3A%2F%2Fevents-git-lettuce-more-ui-stuff-purdue-hackers.vercel.app%2Fapi%2Fevents.ics
+                                </a>
+                            </div>
+                        }
+                    />
                 </div>
 
                 <div className="py-2">

@@ -21,6 +21,7 @@ export default function CurrentEvents({ apiUrl }: CurrentEventsProps) {
     const buildFetchParams = (pageNum: number, category: string | null, query: string | null) => {
         const params = new URLSearchParams();
         params.set("sort", "start");
+        params.set("limit", "30");
         const now = new Date();
 
         // If current semester selected, filter for it

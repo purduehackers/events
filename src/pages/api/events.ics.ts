@@ -1,6 +1,6 @@
 export const prerender = false;
 
-import ical, { ICalCalendar } from 'ical-generator';
+import ical from 'ical-generator';
 import { CMS_URL } from "@/utilities/constants";
 import type { EventType } from '@/types';
 
@@ -11,6 +11,8 @@ export async function GET() {
         // Filter for published only
         const params = new URLSearchParams();
         params.set("where[published][equals]", "true");
+        params.set("sort", "-start");
+        params.set("limit", "30");
         //params.set("where[start][greater_than]", new Date().toISOString());
 
         // Make authorized fetch request
@@ -45,12 +47,12 @@ export async function GET() {
         // Loop through CMS events and add them to calendar
         cmsEvents.forEach((event: EventType) => {
             const category = event.eventType.replaceAll(" ", "-").toLowerCase();
+            const endDate = event.end ?? new Date(new Date(event.start).getTime() + 60 * 60 * 1000).toISOString(); // default to 1 hour after start if no end time
             calendar.createEvent({
-                id: event.id,
                 summary: event.name,
-                description: event.description,
+                description: event.description ?? "",
                 start: new Date(event.start),
-                end: new Date(event.end),
+                end: new Date(endDate),
                 location: event.location_name,
                 url: `https://events.purduehackers.com/events/${category}/${event.slug}`,
             });
