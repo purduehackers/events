@@ -86,6 +86,15 @@ export default function ListSidebar({ apiUrl }: ListSidebarProps) {
         };
     }, []);
 
+    const handleCopy = async (url: string) => {
+        try {
+            // Use the native Clipboard API to copy text
+            await navigator.clipboard.writeText(url);
+        } catch (err) {
+            console.error('Failed to copy text: ', err);
+        }
+    };
+
     return (
         <aside className="[--sidebar-bg:black] dark:[--sidebar-bg:black] z-50 sticky top-34 w-fit min-w-60 md:min-w-75 hidden sm:block">
             <div className="w-74 bg-(--sidebar-bg) p-0 border border-zinc-800 dark:border-zinc-800 flex flex-col gap-0 items-center">
@@ -133,24 +142,38 @@ export default function ListSidebar({ apiUrl }: ListSidebarProps) {
                         <Clock />
                     </div>
                     <Dialog 
-                        title="Subscribe to calendar"
-                        description="Use the link below to subscribe to the calendar in your preferred calendar app. It will automatically update with new events and changes to existing events."
+                        title="Subscribe to feed"
+                        description="Add to your preferred calendar to stay up to date with upcoming events."
                         trigger={
                             <button className="cursor-pointer w-fit min-w-6 h-6 px-2 bg-purple-700 text-white text-[10px] uppercase tracking-[0.2em] flex items-center justify-center">
                                 Add ICal
                             </button>
                         }
                         closeNode={
-                            <div>
-                                <a href="webcal://://events.purduehackers.com">
-                                    Subscribe to Calendar
-                                </a>
+                            <div className="w-full flex flex-col gap-1">
+                                <div className="flex gap-1">
+                                    <button className="button-block w-full min-w-fit bg-[#EA4335] text-white text-sm">
+                                        <a href="https://www.google.com/calendar/render?cid=https://://events.purduehackers.com/api/events.ics">
+                                            Google 
+                                            <span className="hidden">
+                                                https://www.google.com/calendar/render?cid=
+                                            https://www.google.com/calendar/render?cid=https%3A%2F%2Fevents-git-lettuce-more-ui-stuff-purdue-hackers.vercel.app%2Fapi%2Fevents.ics
+                                            </span>
+                                        </a>
+                                    </button>
 
-                                <a href="https://www.google.com/calendar/render?cid=https://://events.purduehackers.com/api/events.ics">
-                                    Add to Google Calendar
-                                    https://www.google.com/calendar/render?cid=
-                                    https://www.google.com/calendar/render?cid=https%3A%2F%2Fevents-git-lettuce-more-ui-stuff-purdue-hackers.vercel.app%2Fapi%2Fevents.ics
-                                </a>
+                                    <button className="button-block w-full min-w-fit bg-[#249ee4] text-white text-sm">
+                                        <a href="webcal://://events.purduehackers.com">
+                                            Outlook
+                                        </a>
+                                    </button>
+                                </div>
+
+                                <button className="button-block w-full min-w-fit bg-zinc-700 text-white text-sm"
+                                    onClick={() => handleCopy("https://events.purduehackers.com/api/events.ics")}
+                                >
+                                    Copy URL
+                                </button>
                             </div>
                         }
                     />
