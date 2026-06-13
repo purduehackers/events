@@ -95,6 +95,8 @@ export default function ListSidebar({ apiUrl }: ListSidebarProps) {
         }
     };
 
+    const icalUrl = "webcal://events.purduehacker.com/api/events.ics";
+
     return (
         <aside className="[--sidebar-bg:black] dark:[--sidebar-bg:black] z-50 sticky top-34 w-fit min-w-60 md:min-w-75 hidden sm:block">
             <div className="w-74 bg-(--sidebar-bg) p-0 border border-zinc-800 dark:border-zinc-800 flex flex-col gap-0 items-center">
@@ -152,21 +154,33 @@ export default function ListSidebar({ apiUrl }: ListSidebarProps) {
                         closeNode={
                             <div className="w-full flex flex-col gap-1">
                                 <div className="flex gap-1">
-                                    <button className="button-block w-full min-w-fit bg-[#EA4335] text-white text-sm">
-                                        <a href="https://www.google.com/calendar/render?cid=https://://events.purduehackers.com/api/events.ics">
+                                    <a className="w-full"
+                                        href={`https://www.google.com/calendar/render?cid=${encodeURIComponent(icalUrl)}`}
+                                        target="_blank"
+                                    >
+                                        <button className="button-block w-full min-w-fit bg-[#EA4335] text-white text-sm">
                                             Google 
                                             <span className="hidden">
                                                 https://www.google.com/calendar/render?cid=
-                                            https://www.google.com/calendar/render?cid=https%3A%2F%2Fevents-git-lettuce-more-ui-stuff-purdue-hackers.vercel.app%2Fapi%2Fevents.ics
                                             </span>
-                                        </a>
-                                    </button>
-
-                                    <button className="button-block w-full min-w-fit bg-[#249ee4] text-white text-sm">
-                                        <a href="webcal://://events.purduehackers.com">
+                                        </button>
+                                    </a>
+                                    <a className="w-full"
+                                        href={icalUrl}
+                                        target="_blank"
+                                    >
+                                        <button className="button-block w-full min-w-fit bg-[#249ee4] text-white text-sm">
                                             Outlook
-                                        </a>
-                                    </button>
+                                        </button>
+                                    </a>
+                                    <a className="w-full"
+                                        href={icalUrl}
+                                        target="_blank"
+                                    >
+                                        <button className="button-block w-full min-w-fit bg-white text-black text-sm">
+                                            Apple
+                                        </button>
+                                    </a>
                                 </div>
 
                                 <button className="button-block w-full min-w-fit bg-zinc-700 text-white text-sm"

@@ -43,7 +43,7 @@ const DialogDemo = ({
 				</div>
 				<Dialog.Close asChild>
 					<button
-						className="absolute right-2.5 top-2.5 inline-flex size-[25px] appearance-none items-center justify-center text-white bg-zinc-700 focus:outline-none"
+						className="font-pixel absolute right-2.5 top-2.5 inline-flex size-[25px] appearance-none items-center justify-center text-white focus:outline-none"
 						aria-label="Close"
 					>
                         x
