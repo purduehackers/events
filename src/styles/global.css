@@ -34,7 +34,7 @@
 
   --pink: #EFB9FF;
   --hot-pink: #ff86ef;
-  --blue: #a5e8ff;
+  --blue: #74a7ff;
   --green: #86cc71;
 
   --highlight-bg: #FDD34A;
@@ -89,6 +89,7 @@ html body[data-scroll-locked] {
   }
   button, button:active, button:focus {
     outline: none;
+    cursor: pointer;
   }
   input, input:active, input:focus {
     outline: none;
@@ -105,6 +106,10 @@ html body[data-scroll-locked] {
   }
   .text-shadow-dark {
     text-shadow: 0 0 6px #f59e0b;
+  }
+
+  .button-block {
+    @apply px-4 py-1.5 font-subtext uppercase tracking-[0.2em] flex items-center justify-center;
   }
 }
 

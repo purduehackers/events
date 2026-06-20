@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 
 const formatter = new Intl.DateTimeFormat('en-US', {
     timeZone: "America/Indianapolis",
-    weekday: 'long',
     month: 'short',
     day: 'numeric',
     hour: "2-digit",

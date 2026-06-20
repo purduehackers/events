@@ -1,4 +1,12 @@
 import type { SemesterType } from "@/types";
+import type { ViewMode } from "@components/ViewModeToggle"
+import { useEffect, useState } from "react";
+
+function getViewModeFromUrl(): ViewMode {
+    if (typeof window === "undefined") return "list";
+    const raw = new URLSearchParams(window.location.search).get("viewMode")?.trim().toLowerCase();
+    return raw === "grid" ? "grid" : "list";
+}
 
 interface SkeletonLoaderProps {
     numEvents: number;
@@ -6,6 +14,28 @@ interface SkeletonLoaderProps {
 }
 
 export default function SkeletonSemesterEvents({ numEvents = 5, semester }: SkeletonLoaderProps) {
+    const [viewMode, setViewMode] = useState<ViewMode>("list");
+    useEffect(() => {
+        setViewMode(getViewModeFromUrl());
+    }, []);
+
+    // Listen for and apply filtering/searching updates
+    useEffect(() => {
+        const viewModeHandler = (event: Event) => {
+            const detail = (event as CustomEvent<string | null>).detail;
+            setViewMode(detail === "grid" ? "grid" : "list");
+        };
+
+        window.addEventListener("viewModeChange", viewModeHandler as EventListener);
+        return () => {
+            window.removeEventListener("viewModeChange", viewModeHandler as EventListener);
+        };
+    }, []);
+
+    const cardLayoutClassName = viewMode === "grid"
+        ? "grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-2 sm:auto-cols-fr"
+        : "flex flex-col gap-2";
+
     return (
         <div 
             className="[--line-card-gap:25px] sm:[--line-card-gap:40px] [--sem-icon-size:14px] px-2 flex flex-col gap-y-4"
@@ -31,7 +61,7 @@ export default function SkeletonSemesterEvents({ numEvents = 5, semester }: Skel
 
             {/* Event cards */}
             <div className="pl-(--line-card-gap) border-l-1 border-gray-300">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 sm:auto-cols-fr">
+                <div className={cardLayoutClassName}>
                     {Array(numEvents).fill(0).map((_, i) => {
                         return (
                             <SkeletonCard key={i} />
@@ -43,9 +73,9 @@ export default function SkeletonSemesterEvents({ numEvents = 5, semester }: Skel
     );
 }
 
-export function SkeletonCard() {
+export function SkeletonCard({ viewMode = "list" }: { viewMode?: ViewMode }) {
     return (
-        <div className="skeleton dark:[--skeleton-bg:rgb(15,15,15)] dark:[--skeleton-highlight:rgb(22,22,22)] group col-span-1 w-full min-w-80 min-h-40 h-full flex flex-col items-start justify-between gap-2 text-left px-8 py-5 bg-(--gray-100) dark:bg-(--gray-900) border border-[1px] border-white dark:border-zinc-700 rounded-none">
+        <div className={`${viewMode === "list" ? "min-h-32" : "min-h-40"} skeleton dark:[--skeleton-bg:rgb(15,15,15)] dark:[--skeleton-highlight:rgb(22,22,22)] group col-span-1 w-full h-full bg-(--gray-100) dark:bg-(--gray-900) border border-[1px] border-white dark:border-zinc-700 rounded-none`}>
             
         </div>
     )

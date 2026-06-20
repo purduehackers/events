@@ -3,12 +3,13 @@ import Hero from "@/components/Hero.astro";
 import Marquee from "@/components/Marquee.astro";
 import SemesterFilter from "@/components/SemesterFilter.tsx";
 import CategoryFilter from "@/components/CategoryFilter.tsx";
+import ViewModeToggle from "@/components/ViewModeToggle.tsx";
+import SearchBar from "@/components/SearchBar";
 
 import { EVENT_CATEGORIES } from "@/types";
 import {
   getSemestersNewestFirst,
 } from "@/utilities/helpers";
-import SearchBar from "@/components/SearchBar";
 
 const allSemesters = getSemestersNewestFirst();
 const categories = [...EVENT_CATEGORIES];
@@ -26,18 +27,44 @@ const categories = [...EVENT_CATEGORIES];
 />
 <div class="z-10 min-h-[50vh] bg-body-light dark:bg-body-dark">
     <div class="sticky-scroll-lock z-60 sticky top-8 p-0 sm:py-4 bg-zinc-200 dark:bg-zinc-700 text-[15px] font-pixel uppercase">
-        <div class="w-full xl:container mx-0 xl:m-auto flex flex-col sm:flex-row items-start sm:items-center justify-between sm:gap-2">
-            <div class="px-4 py-3 sm:py-0 w-full sm:w-fit flex items-center gap-2 border-b-1 sm:border-none border-zinc-300 dark:border-zinc-600">
-                <h4 class="block sm:block">Filter:</h4>
-                <SemesterFilter client:load semesters={allSemesters} />
-                <CategoryFilter client:load categories={categories} />
+        <div class="m-auto lg:max-w-screen-2xl px-4 sm:px-12 md:px-18 xl:px-20">
+            <div class="sm:hidden w-full mx-0 flex flex-col sm:flex-row items-start sm:items-center justify-between sm:gap-2">
+                {/* Filter */}
+                <div class="py-3 sm:py-0 w-full sm:w-fit flex items-center gap-2 border-b-1 sm:border-none border-zinc-300 dark:border-zinc-600">
+                    <h4 class="block sm:block">Filter:</h4>
+                    <SemesterFilter client:load semesters={allSemesters} />
+                    <CategoryFilter client:load categories={categories} />
+                </div>
+
+                {/* Search bar */}
+                <div class="py-3 sm:py-0 w-full lg:w-1/3 flex items-center gap-2 pr-4">
+                    <h4 class="block sm:block">Search:</h4>
+                    <SearchBar client:load />
+                </div>
             </div>
-            <div class="px-4 py-3 sm:py-0 w-full lg:w-1/3 flex items-center gap-2 pr-4">
-                <h4 class="block sm:block">Search:</h4>
-                <SearchBar client:load />
+
+            <div class="hidden w-full mx-0 sm:flex flex-col sm:flex-row-reverse items-start sm:items-center justify-between sm:gap-2">
+                {/* Filter */}
+                <div class="hidden px-4 py-3 sm:py-0 w-full sm:w-fit flex items-center gap-2 border-b-1 sm:border-none border-zinc-300 dark:border-zinc-600">
+                    <h4 class="block sm:block">Filter:</h4>
+                    <SemesterFilter client:load semesters={allSemesters} />
+                    <CategoryFilter client:load categories={categories} />
+                </div>
+
+                {/* List/Grid Buttons */}
+                <ViewModeToggle client:load />
+
+                {/* Search bar */}
+                <div class="py-3 sm:py-0 w-full sm:w-1/2 lg:w-1/3 flex items-center gap-2 pr-4">
+                    <h4 class="block sm:block">Search:</h4>
+                    <SearchBar client:load />
+                </div>
             </div>
         </div>
     </div>
 
-    <slot/>
+
+    <div class="w-full flex justify-center">
+        <slot/>
+    </div>
 </div>

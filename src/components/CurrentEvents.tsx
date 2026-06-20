@@ -21,6 +21,7 @@ export default function CurrentEvents({ apiUrl }: CurrentEventsProps) {
     const buildFetchParams = (pageNum: number, category: string | null, query: string | null) => {
         const params = new URLSearchParams();
         params.set("sort", "start");
+        params.set("limit", "30");
         const now = new Date();
 
         // If current semester selected, filter for it
@@ -206,26 +207,27 @@ export default function CurrentEvents({ apiUrl }: CurrentEventsProps) {
         return null;
     }
 
-    if (isLoading) return <SkeletonSemesterEvents numEvents={3} semester={currentSemester} />;
-
     return (
         <div
             className="w-full flex flex-col text-left gap-y-4 mx-auto"
         >
             <h2 className="sm:mb-4 text-3xl sm:text-3xl font-mono font-black m-0">Upcoming</h2>
-            {(semestersWithEvents.length > 0) ? 
-                semestersWithEvents.map(({ semester, events }, idx) => {
-                    const isCurrentSemester = semester.season === currentSemester.season && semester.year === currentSemester.year;
-                    return (
-                        <section key={`${semester.season}-${semester.year}`}>
-                            <SemesterEvents events={events} semester={semester} currentSemester={isCurrentSemester} idx={idx} />
-                        </section>
-                    );
-                })
-            :   
-                <div className="w-full text-base font-pixel text-gray-500">
-                    No upcoming events found.
-                </div>
+            {isLoading ?
+                <SkeletonSemesterEvents numEvents={3} semester={currentSemester} />
+            :
+                (semestersWithEvents.length > 0) ? 
+                    semestersWithEvents.map(({ semester, events }, idx) => {
+                        const isCurrentSemester = semester.season === currentSemester.season && semester.year === currentSemester.year;
+                        return (
+                            <section key={`${semester.season}-${semester.year}`}>
+                                <SemesterEvents events={events} semester={semester} currentSemester={isCurrentSemester} idx={idx} />
+                            </section>
+                        );
+                    })
+                :   
+                    <div className="w-full text-base font-pixel text-gray-500">
+                        No upcoming events found.
+                    </div>
             }
         </div>
     );
