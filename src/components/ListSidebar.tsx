@@ -95,7 +95,7 @@ export default function ListSidebar({ apiUrl }: ListSidebarProps) {
         }
     };
 
-    const icalUrl = "webcal://events.purduehacker.com/api/events.ics";
+    const icalUrl = "webcal://events.purduehackers.com/api/events.ics";
 
     return (
         <aside className="[--sidebar-bg:black] dark:[--sidebar-bg:black] z-50 sticky top-34 w-fit min-w-60 md:min-w-75 hidden sm:block">
