@@ -73,7 +73,7 @@ export default function SearchBar() {
         }}
       />
       <button 
-        className="absolute right-4 cursor-pointer disabled:hidden min-w-fit w-fit h-fit p-[1px] text-xs rounded-full text-zinc-200 dark:text-zinc-700 bg-zinc-400 dark:bg-zinc-400"
+        className="relative cursor-pointer disabled:hidden min-w-fit w-fit h-fit p-[1px] text-xs rounded-full text-zinc-200 dark:text-zinc-700 bg-zinc-400 dark:bg-zinc-400"
         onClick={() => handleChange("")}
         disabled={(value?.length === 0)}
       >

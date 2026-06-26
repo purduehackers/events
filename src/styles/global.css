@@ -184,8 +184,9 @@ html body[data-scroll-locked] {
   --color-purple-700: var(--purple-700);
   --color-discord: #807cfc;
   --color-discord-light: #9b98fa;
-  --color-body-light: white;
+  --color-body-light: #ffffff;
   --color-body-dark: #000000;
+  --color-card-light: var(--gray-100);
 
   --color-pink: var(--pink);
   --color-blue: var(--blue);
