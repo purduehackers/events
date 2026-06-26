@@ -98,24 +98,11 @@ export default function ListSidebar({ apiUrl }: ListSidebarProps) {
     const icalUrl = "webcal://events.purduehackers.com/api/events.ics";
 
     return (
-        <aside className="[--sidebar-bg:black] dark:[--sidebar-bg:black] z-50 sticky top-34 w-fit min-w-60 md:min-w-75 hidden sm:block">
-            <div className="w-74 bg-(--sidebar-bg) p-0 border border-zinc-800 dark:border-zinc-800 flex flex-col gap-0 items-center">
-                
-                
-                <div className="hidden w-full px-8 py-3 flex items-center justify-between gap-2 border-b-1 border-zinc-300 dark:border-zinc-800">
-
-                    <button className="cursor-pointer px-2 bg-purple-700 text-white uppercase text-[11px] tracking-[0.2em] font-pixel font-bold rounded-none">
-                        iCal
-                    </button>
-                    <SemesterFilter 
-                        semesters={allSemesters} 
-                        triggerStyle="py-1 gap-1 tracking-wider font-pixel uppercase text-[14px] leading-none text-gray-900 dark:text-gray-100 data-[placeholder]:bg-transparent data-[placeholder]:text-gray-400"
-                        portalStyle="-left-4 bg-body-light dark:bg-body-dark border border-zinc-200 dark:border-zinc-800 font-pixel uppercase"
-                        itemStyle="relative select-none flex items-center py-2 px-6 tracking-wider text-[14px] leading-none text-gray-900 dark:text-zinc-400 hover:text-white bg-black data-[highlighted]:bg-zinc-900 data-[highlighted]:text-white data-[highlighted]:outline-none data-[disabled]:pointer-events-none data-[disabled]:text-gray-500"
-                    />
-                </div>
-
-                <div className="w-full h-full py-1 text-white font-mono flex items-center justify-between gap-0 border-b-1 border-zinc-300 dark:border-zinc-800">
+        <aside className="z-50 sticky top-34 w-full"
+            style={{ "--sidebar-bg": "#121216" } as React.CSSProperties}
+        >
+            <div className="w-full bg-(--sidebar-bg) p-0 border border-zinc-800 dark:border-zinc-800 flex flex-col gap-0 items-center">
+                <div className="bg-black w-full h-full py-1 text-white font-mono flex items-center justify-between gap-0 border-b-1 border-zinc-300 dark:border-zinc-800">
                     <div className="flex items-center gap-3 pl-3 text-[10px] uppercase tracking-[0.2em]">
                         <StarIcon2 className="w-2 h-2" />
                         Filters
@@ -126,22 +113,22 @@ export default function ListSidebar({ apiUrl }: ListSidebarProps) {
                 <div className=" w-full flex flex-row gap-0 justify-between border-b-1 border-zinc-300 dark:border-zinc-800">
                     <CategoryFilter 
                         categories={categories}
-                        triggerStyle="w-36 min-w-30 px-3 py-4 gap-1 tracking-wider font-pixel uppercase text-[14px] leading-none text-gray-100 bg-zinc-800 data-[placeholder]:bg-black data-[placeholder]:text-gray-400 border-r-1 border-zinc-300 dark:border-zinc-600 data-[placeholder]:dark:border-zinc-800"
+                        triggerStyle="w-36 min-w-30 px-3 py-4 gap-1 tracking-wider font-pixel uppercase text-[14px] leading-none text-gray-100 bg-zinc-800 data-[placeholder]:bg-(--sidebar-bg) data-[placeholder]:text-gray-400 border-r-1 border-zinc-300 dark:border-zinc-600 data-[placeholder]:dark:border-zinc-800"
                         portalStyle="-left-4 bg-body-light dark:bg-body-dark border border-zinc-200 dark:border-zinc-800 font-pixel uppercase"
                         itemStyle="relative select-none flex items-center py-2 px-6 tracking-wider text-[14px] leading-none text-zinc-400 hover:text-white bg-black data-[highlighted]:bg-zinc-900 data-[highlighted]:text-white data-[highlighted]:outline-none data-[disabled]:pointer-events-none data-[disabled]:text-gray-500"
                     />
                     <SemesterFilter 
                         semesters={allSemesters} 
-                        triggerStyle="w-38 min-w-30 px-3 py-4 gap-1 tracking-wider font-pixel uppercase text-[14px] leading-none text-gray-100 bg-zinc-800 data-[placeholder]:bg-transparent data-[placeholder]:text-gray-400"
+                        triggerStyle="w-38 min-w-30 px-3 py-4 gap-1 tracking-wider font-pixel uppercase text-[14px] leading-none text-gray-100 bg-zinc-800 data-[placeholder]:bg-(--sidebar-bg) data-[placeholder]:text-gray-400"
                         portalStyle="-left-4 bg-body-light dark:bg-body-dark border border-zinc-200 dark:border-zinc-800 font-pixel uppercase"
                         itemStyle="relative select-none flex items-center py-2 px-6 tracking-wider text-[14px] leading-none text-zinc-400 hover:text-white bg-black data-[highlighted]:bg-zinc-900 data-[highlighted]:text-white data-[highlighted]:outline-none data-[disabled]:pointer-events-none data-[disabled]:text-gray-500"
                     />
                 </div>
 
-                <div className="w-full h-full p-0 text-white font-mono flex items-center justify-between gap-0 border-b-1 border-zinc-300 dark:border-zinc-800">
+                <div className="bg-black w-full h-full p-0 text-white font-mono flex items-center justify-between gap-0 border-b-1 border-zinc-300 dark:border-zinc-800">
                     <div className="flex items-center gap-3 pl-3 text-[10px] uppercase tracking-[0.2em]">
                         <StarIcon2 className="w-2 h-2" />
-                        <Clock />
+                        Calendar
                     </div>
                     <Dialog 
                         title="Subscribe to feed"
@@ -193,8 +180,15 @@ export default function ListSidebar({ apiUrl }: ListSidebarProps) {
                     />
                 </div>
 
-                <div className="py-2">
+                <div className="py-2 flex flex-col gap-2 items-center justify-center">
                     <Calendar apiUrl={apiUrl} selectedCategory={selectedCategory} semesterMonth={semester} />
+                </div>
+
+                <div className="bg-black w-full h-full py-1 text-white font-mono flex items-center justify-between gap-0 border-t-1 border-zinc-300 dark:border-zinc-800">
+                    <div className="flex items-center gap-3 pl-3 text-[10px] uppercase tracking-[0.2em]">
+                        <StarIcon2 className="w-2 h-2" />
+                        <div>Live - <Clock /></div>
+                    </div>
                 </div>
             </div>
         </aside>

@@ -14,14 +14,14 @@ const apiUrl = new URL('/api/events', Astro.url).href;
 
 <Layout>
   <HomeLayout>
-    <div class="w-full lg:max-w-screen-2xl pt-6 sm:pt-14 px-4 sm:px-12 md:px-12 lg:px-18 xl:px-20">
-      <div class="w-full flex flex-col gap-6 sm:gap-14">
-        <div class="w-full font-mono text-gray-500 dark:text-gray-400 text-xs sm:text-sm flex flex-col md:flex-row justify-between gap-2 mb-0 text-left mx-auto">
+    <div class="w-full lg:max-w-screen-2xl pt-6 sm:pt-12 px-4 sm:px-12 md:px-12 lg:px-18 xl:px-20">
+      <div class="w-full flex flex-col gap-6 sm:gap-6">
+        <div class="w-full font-mono text-gray-500 dark:text-gray-400 text-xs sm:text-xs flex sm:hidden flex-col md:flex-row justify-between gap-2 mb-0 text-left mx-auto">
           <div>* All events are listed in Eastern Time (America/Indianapolis).</div>
           <div class="block sm:hidden">Local - <Clock client:load /></div>
         </div>
 
-        <div class="flex justify-between items-start gap-6">
+        <div class="flex justify-between items-stretch gap-6">
           <div class="grow flex flex-col gap-6">
             <CurrentEvents client:load apiUrl={apiUrl} />
             <PastEvents
@@ -31,7 +31,14 @@ const apiUrl = new URL('/api/events', Astro.url).href;
             />
           </div>
 
-          <div class="z-50 sticky top-34 w-fit hidden sm:block">
+          <div class="z-50 w-fit flex flex-col items-end pt-6 pb-24 hidden sm:block min-w-60 md:w-74">
+            <div class="mb-16 px-2 py-1 bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-500 rounded-full font-mono text-gray-500 dark:text-gray-300 text-xs sm:text-xs text-left">
+              <div>
+                <span class="bold text-black dark:text-yellow">*</span>
+                Eastern Time (America/Indianapolis)
+              </div>
+              <div class="block sm:hidden">Local - <Clock client:load /></div>
+            </div>
             <ListSidebar client:load apiUrl={apiUrl} />
           </div>
         </div>
