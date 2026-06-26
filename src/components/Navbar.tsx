@@ -68,7 +68,7 @@ export default function Navbar() {
                         <button
                             type="button"
                             data-scrolled={scrolled ? "true" : "false"}
-                            className="cursor-pointer px-2 uppercase text-sm font-pixel font-normal text-black/80 dark:text-white/85 data-[scrolled=true]:text-white bg-transparent border-1 border-black/80 dark:border-white/85 data-[scrolled=true]:border-white rounded-sm"
+                            className="cursor-pointer px-2 uppercase text-sm font-pixel font-normal text-black/80 dark:text-white/85 data-[scrolled=true]:text-white bg-white dark:bg-(--gray-900) data-[scrolled=true]:bg-transparent border-1 border-black/80 dark:border-white/85 data-[scrolled=true]:border-white rounded-sm"
                         >
                             Learn more
                         </button>
