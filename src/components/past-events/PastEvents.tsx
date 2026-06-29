@@ -278,7 +278,7 @@ export default function PastEvents({
             className="w-full flex flex-col mb-14 text-left gap-y-4 mx-auto"
         >
             <div className="flex flex-wrap items-end justify-between gap-4">
-                <h2 className="text-3xl sm:text-2xl font-mono font-bold uppercase m-0">Past</h2>
+                <h2 className="text-3xl sm:text-3xl font-mono font-black m-0">Past</h2>
             </div>
 
             {isLoading ?

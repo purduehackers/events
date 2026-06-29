@@ -211,7 +211,7 @@ export default function CurrentEvents({ apiUrl }: CurrentEventsProps) {
         <div
             className="w-full flex flex-col text-left gap-y-4 mx-auto"
         >
-            <h2 className="text-3xl sm:text-2xl font-mono font-bold uppercase m-0">Upcoming</h2>
+            <h2 className="text-3xl sm:text-3xl font-mono font-black m-0">Upcoming</h2>
             {isLoading ?
                 <SkeletonSemesterEvents numEvents={3} semester={currentSemester} />
             :

@@ -49,7 +49,7 @@
   --fontSpaceGrotesk: 'Space Grotesk Variable', sans-serif;
   --fontSpaceMono: 'Space Mono', monospace;
 
-  background-color: white;
+  background-color: var(--gray-100);
   overflow-x: hidden;
 }
 :root.dark {
