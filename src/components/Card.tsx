@@ -90,8 +90,6 @@ export function ListCard({ date, time, location, name, link, category, image = p
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const resolvedImage = image?.trim() ? image : placeholderThumbnail.src;
 
-  const imgRef = useRef(null);
-
   useEffect(() => {
     setIsImageLoaded(true);
   }, [image]);
@@ -111,7 +109,6 @@ export function ListCard({ date, time, location, name, link, category, image = p
             </div>
           )}
           <img
-            ref={imgRef}
             alt={`${name} thumbnail`}
             className={`h-full w-full object-cover transition-opacity duration-200 ${isImageLoaded ? "opacity-100" : "opacity-0"}`}
             decoding="async"

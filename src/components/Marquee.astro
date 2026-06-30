@@ -4,17 +4,18 @@ interface Props {
   text: string;
   [key: string]: unknown;
 }
-const { class: className, text, ...rest } = Astro.props;
+const { class: className, text, reverse, ...rest } = Astro.props;
 ---
 
 <div
     class="group/marquee w-screen overflow-hidden select-none flex"
     {...rest}
 >
+    <div class="hidden animate-horizontal-scroll animate-horizontal-scroll-reverse"></div>
     {
         [...Array(2)].map((_, _i) => (
-            <div class={`${className} z-30 font-display font-bold flex flex items-center whitespace-nowrap animate-horizontal-scroll`} 
-                style="--marquee-duration: 50s"
+            <div class={`${className} z-30 font-display font-bold flex flex items-center whitespace-nowrap animate-horizontal-scroll${reverse ? '-reverse' : ''}`} 
+                style="--marquee-duration: 80s"
             >
                 {
                     [...Array(60)].map((_, _j) => (

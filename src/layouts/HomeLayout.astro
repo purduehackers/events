@@ -21,10 +21,17 @@ const categories = [...EVENT_CATEGORIES];
     class="hidden text-pink-500 bg-amber-300" 
     text="HACK."
 />
-<Marquee 
-    class="sticky top-0 text-sm text-white dark:text-white bg-neutral-800 dark:bg-purple-700 group-hover/marquee:bg-amber-400 py-1" 
-    text="HACK"
-/>
+<div class="group/marquee-box w-screen overflow-hidden select-none flex flex-col gap-0">
+    <Marquee 
+        class="group-hover/marquee-box:hidden top-0 text-sm text-white dark:text-white bg-neutral-800 dark:bg-purple-700 py-1" 
+        text="HACK"
+    />
+    <Marquee 
+        class="hidden group-hover/marquee-box:flex top-0 text-sm text-black bg-yellow py-1" 
+        text="quack"
+        reverse
+    />
+</div>
 <div class="z-10 min-h-[50vh] bg-body-light dark:bg-body-dark">
     <div class="sticky-scroll-lock z-60 sticky top-8 p-0 sm:py-2.5 bg-zinc-200 dark:bg-zinc-800 border-b-1 border-zinc-200 dark:border-zinc-600 text-[15px] font-pixel uppercase">
         <div class="m-auto lg:max-w-screen-2xl px-4 sm:px-12 md:px-18 xl:px-20">

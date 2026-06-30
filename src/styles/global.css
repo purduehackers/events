@@ -144,6 +144,9 @@ html body[data-scroll-locked] {
     0% { transform: translateX(0); }
     100% { transform: translateX(calc(0px - 50%)); }
   }
+  .animate-horizontal-scroll-reverse {
+    animation: horizontal-scroll var(--marquee-duration, 20s) linear infinite reverse;
+  }
 
   /* Base styling for all skeleton blocks */
   .skeleton {
