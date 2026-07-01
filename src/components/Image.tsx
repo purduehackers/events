@@ -20,9 +20,7 @@ export default function Image({ src = placeholderThumbnail.src, alt, className =
     if (!isImageLoaded) {
         return (
             <div className={`${className} flex items-center justify-center bg-zinc-200/80 dark:bg-zinc-800/80`}>
-                <svg className="h-8 w-8 animate-spin text-zinc-500" viewBox="0 0 24 24" aria-hidden="true">
-                    <SquareIcon className="w-6 h-6 text-gray-300" strokeWidth={2} />
-                </svg>
+                <SquareIcon className="w-6 h-6 m-auto animate-spin text-gray-300" strokeWidth={2} />
             </div>
         );
     }

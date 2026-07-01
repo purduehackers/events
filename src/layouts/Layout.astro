@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import Footer from "../components/Footer.astro";
 
 // Import fonts
 import "@fontsource-variable/inconsolata"; // Supports weights 200-900
@@ -8,9 +9,6 @@ import "@fontsource/silkscreen/400.css";
 import "@fontsource/silkscreen/700.css";
 import "@fontsource-variable/space-grotesk";
 import "@fontsource/space-mono";
-
-import Navbar from "../components/Navbar.tsx";
-import Footer from "../components/Footer.astro";
 
 import logoImg from "@/../public/glider.svg";
 import { getImage } from "astro:assets";
@@ -57,10 +55,7 @@ const appleTouchIcon = await getImage({
     <body>
         <main>
             <div class="min-h-screen flex flex-col font-title">
-                <Navbar client:load />
-
                 <slot />
-
                 <Footer />
             </div>
         </main>
