@@ -2,7 +2,7 @@
 export const prerender = false;
 
 import { format } from "date-fns";
-import { getLocalizedEventTimes, getCategoryColor } from "@/utilities/helpers";
+import { getLocalizedEventTimes, getSemesterFromDate, getCategoryColor } from "@/utilities/helpers";
 
 import Layout from "@/layouts/Layout.astro";
 import SlugLayout from "@/layouts/SlugLayout.astro";
@@ -65,20 +65,27 @@ googleCalendarUrl.searchParams.set("details", `${event.name}\n\n${event.location
 <Layout>
   <SlugLayout>
     <div
-      class="w-full h-full min-h-screen overflow-clip flex flex-col md:flex-row items-stretch justify-center font-name border-b-2 bg-body-light dark:bg-body-dark bg-grid [--grid-size:100px] [--grid-color:rgba(0,0,0,0.5)] dark:[--grid-color:rgba(255,255,255,0.5)]"
+      class="w-full h-full min-h-screen overflow-clip flex flex-col md:flex-row items-stretch justify-center font-name border-b-2 bg-card-light dark:bg-zinc-900 bg-grid [--grid-size:100px] [--grid-color:rgba(0,0,0,0.5)] dark:[--grid-color:rgba(255,255,255,0.5)]"
     >
       {/* Event header */}
       <div
-        class="w-full md:w-1/2 flex-1 bg-body-light dark:bg-body-dark border-r-1 border-black dark:border-white px-5 md:px-10 lg:px-20 pt-8 md:pt-0 pb-6 md:pb-0 text-center border-b-2 md:border-b-0"
+        class="w-full md:w-1/2 flex-1 bg-card-light dark:bg-zinc-900 border-r-1 border-black dark:border-white px-5 md:px-10 lg:px-20 pt-8 md:pt-0 pb-6 md:pb-0 text-center border-b-2 md:border-b-0"
       >
         <div class="sticky top-6 mt-6 md:h-screen flex flex-row md:flex-col gap-6 2xl:gap-8 items-start justify-center">
-          {event.eventType && (
+          <div class="flex gap-2">
             <div
-              class={`min-w-fit rounded-xs px-1 bg-${getCategoryColor(event.eventType) == "hack-night" ? "black" : getCategoryColor(event.eventType)} dark:bg-transparent text-white dark:text-${getCategoryColor(event.eventType)} border-none dark:border-solid border-[1px] uppercase text-[12px] font-pixel`}
+              class={`min-w-fit rounded-xs px-1 bg-white dark:bg-black border-black dark:border-white border-1 uppercase text-[12px] font-pixel`}
             >
-              {event.eventType.replaceAll(" ", "-")} 
+              {getSemesterFromDate(new Date(event.start)).season} {getSemesterFromDate(new Date(event.start)).year}
             </div>
-          )}
+            {event.eventType && (
+              <div
+                class={`min-w-fit rounded-xs px-1 bg-${getCategoryColor(event.eventType) == "hack-night" ? "black" : getCategoryColor(event.eventType)} dark:bg-transparent text-white dark:text-${getCategoryColor(event.eventType)} border-none dark:border-solid border-[1px] uppercase text-[12px] font-pixel flex items-center justify-center`}
+              >
+                {event.eventType.replaceAll(" ", "-")} 
+              </div>
+            )}
+          </div>
           <Image client:load
             src={image}
             alt={`${event.name} thumbnail`}
