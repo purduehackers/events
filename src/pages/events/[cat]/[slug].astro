@@ -56,30 +56,32 @@ const {
     >
       {/* Event header */}
       <div
-        class="w-full md:w-1/2 flex-1 bg-body-light dark:bg-body-dark border-r-1 border-black dark:border-white px-5 md:px-10 lg:px-20 pt-8 md:pt-0 pb-8 md:pb-0 text-center border-b-2 md:border-b-0"
+        class="w-full md:w-1/2 flex-1 bg-body-light dark:bg-body-dark border-r-1 border-black dark:border-white px-5 md:px-10 lg:px-20 pt-8 md:pt-0 pb-6 md:pb-0 text-center border-b-2 md:border-b-0"
       >
-        <div class="sticky top-8 mt-8 md:h-screen flex flex-row md:flex-col gap-8 items-start justify-center">
+        <div class="sticky top-6 mt-6 md:h-screen flex flex-row md:flex-col gap-6 2xl:gap-8 items-start justify-center">
           <Image client:load
             src={image}
             alt={`${event.name} thumbnail`}
-            className="hidden md:flex w-32 h-32 rounded-lg"
+            className="hidden md:flex w-32 2xl:w-46 h-32 2xl:h-46 rounded-lg"
           />
-          <div class="flex flex-col gap-2 md:gap-4">
-            <h1 class="text-black dark:text-white font-pixel uppercase text-left text-4xl md:text-[2.75rem] lg:text-5xl font-normal">
+          <div class="flex flex-col gap-2 md:gap-4 2xl:gap-6">
+            <h1 class="text-black dark:text-white font-pixel uppercase text-left text-4xl md:text-[2.75rem] lg:text-5xl 2xl:text-7xl font-normal">
               {event.name}
             </h1>
             <div class="text-base md:text-lg 2xl:text-2xl font-subtext font-normal">
-              <div class="flex flex-col gap-1 md:gap-2 items-start justify-center">
+              <div class="flex flex-col gap-1 md:gap-2 2xl:gap-4 items-start justify-center">
                 <div class="flex gap-4 items-center justify-center">
-                  <div class="w-10 h-10 border-2 border-black font-pixel uppercase text-black dark:text-white dark:border-white flex flex-col items-center justify-center">
-                    <div class="w-full py-0.5 text-xs leading-none bg-black dark:bg-white text-white dark:text-black">{format(localizedStart, "MMM")}</div>
-                    <div class="grow text-xl leading-none flex items-center justify-center">{format(localizedStart, "d")}</div>
+                  {/* Calendar icon */}
+                  <div class="w-8 md:w-10 2xl:w-12 h-8 md:h-10 2xl:h-12 border-2 border-black font-pixel uppercase text-black dark:text-white dark:border-white flex flex-col items-center justify-center">
+                    <div class="w-full py-0.5 text-[0.6rem] 2xl:text-sm leading-none bg-black dark:bg-white text-white dark:text-black">{format(localizedStart, "MMM")}</div>
+                    <div class="grow text-base md:text-xl 2xl:text-2xl leading-none flex items-center justify-center">{format(localizedStart, "d")}</div>
                   </div>
-                  <div class="flex flex-col gap-0 items-start justify-center dark:text-gray-200">
-                    <div class="font-semibold min-w-fit text-left">
+                  {/* Full date time */}
+                  <div class="flex flex-col gap-1 items-start justify-center dark:text-gray-200">
+                    <div class="font-semibold min-w-fit text-left leading-none">
                       {format(localizedStart, "EEEE, MMMM do, yyyy")} 
                     </div>
-                    <div class="text-base">
+                    <div class="text-base 2xl:text-lg leading-none">
                       {localizedStartTime} — {localizedEndTime} ET
                     </div>
                   </div>
@@ -87,8 +89,8 @@ const {
                 {
                   event.location_name && (
                     <div class="flex gap-4 items-center justify-center font-bold dark:text-gray-200">
-                      <div class="w-10 h-10 border-2 border-black font-pixel uppercase text-black dark:text-white dark:border-white flex flex-col items-center justify-center">
-                        <MapPin class="w-5" />
+                      <div class="w-8 md:w-10 2xl:w-12 h-8 md:h-10 2xl:h-12 border-2 border-black font-pixel uppercase text-black dark:text-white dark:border-white flex flex-col items-center justify-center">
+                        <MapPin class="w-5 2xl:w-6" />
                       </div>
                       <div>
                         {event.location_url ? (
@@ -113,7 +115,7 @@ const {
       </div>
 
       {/* Event description body */}
-      <div class="w-full md:w-1/2 flex flex-col items-center justify-center md:mt-10 py-8 md:py-12 px-4 md:px-10 lg:px-20 mb-auto">
+      <div class="w-full md:w-1/2 flex flex-col items-center justify-center md:mt-10 py-6 md:py-12 px-4 md:px-10 lg:px-20 mb-auto">
         <div class="flex flex-col md:items-start gap-2 md:gap-4 items-center">
           {
               event.stats && event.stats.length > 0 && (
