@@ -20,7 +20,10 @@ const DialogDemo = ({
 	trigger,
 	children,
 }: DialogProps) => (
-	<Dialog.Root>
+	<Dialog.Root
+		{...(open !== undefined ? { open } : {})}
+		{...(onOpenChange ? { onOpenChange } : {})}
+	>
         {trigger != null && open == null && (
             <Dialog.Trigger asChild>{trigger}</Dialog.Trigger>
         )}

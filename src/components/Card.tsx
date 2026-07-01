@@ -1,37 +1,7 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
+import { getCategoryColor, getCategoryBadgeClasses, getCategoryIconClasses } from "@/utilities/helpers";
 import { MapPinIcon, SquareIcon, StarIcon } from "@/components/icons/Icons";
-import { EVENT_CATEGORIES } from "@/types";
 import placeholderThumbnail from "@/assets/placeholder-thumbnail.avif";
-
-function getCategoryColor(category?: string | null): string {
-  return EVENT_CATEGORIES.includes(category?.toLowerCase() ?? "") ? (category?.toLowerCase() ?? "other") : "other";
-}
-
-function getCategoryBadgeClasses(categoryColor: string) {
-  switch (categoryColor) {
-    case "hack-night":
-      return "bg-black text-white dark:bg-transparent dark:text-hack-night";
-    case "workshop":
-      return "bg-workshop text-white dark:bg-transparent dark:text-workshop";
-    case "show":
-      return "bg-show text-white dark:bg-transparent dark:text-show";
-    default:
-      return "bg-other text-white dark:bg-transparent dark:text-other";
-  }
-}
-
-function getCategoryIconClasses(categoryColor: string) {
-  switch (categoryColor) {
-    case "hack-night":
-      return "group-hover:text-black dark:group-hover:text-hack-night";
-    case "workshop":
-      return "group-hover:text-workshop";
-    case "show":
-      return "group-hover:text-show";
-    default:
-      return "group-hover:text-other";
-  }
-}
 
 interface CardProps {
   date: string;

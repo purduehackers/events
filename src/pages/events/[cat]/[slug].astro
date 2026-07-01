@@ -2,7 +2,7 @@
 export const prerender = false;
 
 import { format } from "date-fns";
-import { getLocalizedEventTimes } from "@/utilities/helpers";
+import { getLocalizedEventTimes, getCategoryColor } from "@/utilities/helpers";
 
 import Layout from "@/layouts/Layout.astro";
 import SlugLayout from "@/layouts/SlugLayout.astro";
@@ -48,6 +48,19 @@ const {
     localizedStartTime,
     localizedEndTime,
 } = getLocalizedEventTimes(event);
+
+// Generate calendar links
+const eventCategorySlug = event.eventType.replaceAll(" ", "-").toLowerCase();
+const eventPageUrl = new URL(`/events/${eventCategorySlug}/${event.slug}`, Astro.url.origin).toString();
+const icsUrl = new URL(`/api/events.ics`, Astro.url.origin);
+icsUrl.searchParams.set("slug", event.slug);
+
+const googleCalendarUrl = new URL("https://calendar.google.com/calendar/render");
+googleCalendarUrl.searchParams.set("action", "TEMPLATE");
+googleCalendarUrl.searchParams.set("text", event.name);
+googleCalendarUrl.searchParams.set("dates", `${new Date(event.start).toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z")}/${new Date(event.end ?? new Date(event.start).getTime() + 60 * 60 * 1000).toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z")}`);
+googleCalendarUrl.searchParams.set("location", event.location_name || "");
+googleCalendarUrl.searchParams.set("details", `${event.name}\n\n${event.location_name ? `Location: ${event.location_name}\n` : ""}${eventPageUrl}`);
 ---
 <Layout>
   <SlugLayout>
@@ -59,37 +72,52 @@ const {
         class="w-full md:w-1/2 flex-1 bg-body-light dark:bg-body-dark border-r-1 border-black dark:border-white px-5 md:px-10 lg:px-20 pt-8 md:pt-0 pb-6 md:pb-0 text-center border-b-2 md:border-b-0"
       >
         <div class="sticky top-6 mt-6 md:h-screen flex flex-row md:flex-col gap-6 2xl:gap-8 items-start justify-center">
+          {event.eventType && (
+            <div
+              class={`min-w-fit rounded-xs px-1 bg-${getCategoryColor(event.eventType) == "hack-night" ? "black" : getCategoryColor(event.eventType)} dark:bg-transparent text-white dark:text-${getCategoryColor(event.eventType)} border-none dark:border-solid border-[1px] uppercase text-[12px] font-pixel`}
+            >
+              {event.eventType.replaceAll(" ", "-")} 
+            </div>
+          )}
           <Image client:load
             src={image}
             alt={`${event.name} thumbnail`}
             className="hidden md:flex w-32 2xl:w-46 h-32 2xl:h-46 rounded-lg"
           />
           <div class="flex flex-col gap-2 md:gap-4 2xl:gap-6">
-            <h1 class="text-black dark:text-white font-pixel uppercase text-left text-4xl md:text-[2.75rem] lg:text-5xl 2xl:text-7xl font-normal">
+            <h1 class="text-black dark:text-yellow font-pixel uppercase text-left text-4xl md:text-[2.75rem] lg:text-5xl 2xl:text-7xl font-normal">
               {event.name}
             </h1>
             <div class="text-base md:text-lg 2xl:text-2xl font-subtext font-normal">
               <div class="flex flex-col gap-1 md:gap-2 2xl:gap-4 items-start justify-center">
-                <div class="flex gap-4 items-center justify-center">
-                  {/* Calendar icon */}
-                  <div class="w-8 md:w-10 2xl:w-12 h-8 md:h-10 2xl:h-12 border-2 border-black font-pixel uppercase text-black dark:text-white dark:border-white flex flex-col items-center justify-center">
-                    <div class="w-full py-0.5 text-[0.6rem] 2xl:text-sm leading-none bg-black dark:bg-white text-white dark:text-black">{format(localizedStart, "MMM")}</div>
-                    <div class="grow text-base md:text-xl 2xl:text-2xl leading-none flex items-center justify-center">{format(localizedStart, "d")}</div>
-                  </div>
-                  {/* Full date time */}
-                  <div class="flex flex-col gap-1 items-start justify-center dark:text-gray-200">
-                    <div class="font-semibold min-w-fit text-left leading-none">
-                      {format(localizedStart, "EEEE, MMMM do, yyyy")} 
+                <a class="group/date text-black dark:text-gray-200 hover:text-purple-700 dark:hover:text-yellow"
+                  href={icsUrl.toString()}
+                  target="_blank"
+                  rel="noreferrer"
+                  download={`${event.slug}.ics`}
+                >              
+                  <div class="flex gap-4 items-center justify-center">
+                    {/* Calendar icon */}
+                    <div class="w-8 md:w-10 2xl:w-12 h-8 md:h-10 2xl:h-12 border-2 border-black font-pixel uppercase text-black dark:text-white dark:border-white flex flex-col items-center justify-center">
+                      <div class="w-full py-0.5 text-[0.6rem] 2xl:text-sm leading-none bg-black dark:bg-white text-white dark:text-black">{format(localizedStart, "MMM")}</div>
+                      <div class="grow text-base md:text-xl 2xl:text-2xl leading-none flex items-center justify-center">{format(localizedStart, "d")}</div>
                     </div>
-                    <div class="text-base 2xl:text-lg leading-none">
-                      {localizedStartTime} — {localizedEndTime} ET
+                    {/* Full date time */}
+                    <div class="flex flex-col gap-1 items-start justify-center">
+                      <div class="font-semibold min-w-fit text-left leading-none flex items-center gap-3">
+                        {format(localizedStart, "EEEE, MMMM do, yyyy")} 
+                        <div class="w-3 h-3 bg-black dark:bg-white group-hover/date:bg-purple-700 dark:group-hover/date:bg-yellow text-white dark:text-black leading-none flex items-center justify-center text-sm">+</div>
+                      </div>
+                      <div class="text-base 2xl:text-lg leading-none">
+                        {localizedStartTime} — {localizedEndTime} ET
+                      </div>
                     </div>
                   </div>
-                </div>
+                </a>
                 {
                   event.location_name && (
-                    <div class="flex gap-4 items-center justify-center font-bold dark:text-gray-200">
-                      <div class="w-8 md:w-10 2xl:w-12 h-8 md:h-10 2xl:h-12 border-2 border-black font-pixel uppercase text-black dark:text-white dark:border-white flex flex-col items-center justify-center">
+                    <div class={`${event.location_name && "group/loc cursor-pointer hover:text-purple-700 dark:hover:text-yellow"} flex gap-4 items-center justify-center font-bold dark:text-gray-200`}>
+                      <div class="w-8 md:w-10 2xl:w-12 h-8 md:h-10 2xl:h-12 border-2 border-black dark:border-white group-hover/loc:border-purple-700 dark:group-hover/loc:border-yellow font-pixel uppercase flex flex-col items-center justify-center">
                         <MapPin class="w-5 2xl:w-6" />
                       </div>
                       <div>
@@ -97,9 +125,10 @@ const {
                           <a
                             href={event.location_url}
                             target="_blank"
-                            class="font-semibold hover:text-purple-500 dark:hover:text-yellow"
+                            class="font-semibold"
                           >
                             {event.location_name}
+                            <span class="px-0.5 font-pixel">↗</span>
                           </a>
                         ) : (
                           <>{event.location_name}</>
