@@ -135,7 +135,7 @@ export function NavbarSolid() {
 
     return (
         <nav
-            className="fixed top-0 z-100 w-full h-8 flex justify-between items-center border-b-1 border-black dark:border-white transition-[background-color] duration-500 bg-body-light dark:bg-body-dark data-[scrolled=true]:border-none data-[scrolled=true]:bg-purple-700 data-[scrolled=true]:dark:bg-purple-700 text-black dark:text-white data-[scrolled=true]:text-white"
+            className="fixed top-0 z-100 w-full h-8 flex justify-between items-center border-b-1 border-black dark:border-white transition-[background-color] duration-500 bg-card-light dark:bg-body-dark data-[scrolled=true]:border-none data-[scrolled=true]:bg-purple-700 data-[scrolled=true]:dark:bg-purple-700 text-black dark:text-white data-[scrolled=true]:text-white"
             data-scrolled={scrolled ? "true" : "false"}
         >
             <div className="w-full px-2 md:px-3 mx-auto flex justify-between items-center sm:grid sm:grid-cols-3">
@@ -158,7 +158,7 @@ export function NavbarSolid() {
                         <button
                             type="button"
                             data-scrolled={scrolled ? "true" : "false"}
-                            className="cursor-pointer px-2 uppercase text-sm font-pixel font-normal text-black/80 dark:text-white/85 data-[scrolled=true]:text-white bg-white dark:bg-(--gray-900) data-[scrolled=true]:bg-transparent border-1 border-black/80 dark:border-white/85 data-[scrolled=true]:border-white rounded-sm"
+                            className="cursor-pointer px-2 uppercase text-sm font-pixel font-normal text-black/80 dark:text-white/85 data-[scrolled=true]:text-white bg-card-light dark:bg-(--gray-900) data-[scrolled=true]:bg-transparent border-1 border-black/80 dark:border-white/85 data-[scrolled=true]:border-white rounded-sm"
                         >
                             Learn more
                         </button>

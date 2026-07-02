@@ -74,7 +74,7 @@ googleCalendarUrl.searchParams.set("details", `${event.name}\n\n${event.location
         <div class="sticky top-6 mt-6 md:h-screen flex flex-row md:flex-col gap-6 2xl:gap-8 items-start justify-center">
           <div class="flex gap-2">
             <div
-              class={`min-w-fit rounded-xs px-1 bg-white dark:bg-black border-black dark:border-white border-1 uppercase text-[12px] font-pixel`}
+              class={`min-w-fit rounded-xs px-1 text-white bg-black dark:bg-black border-none dark:border-solid dark:border-white border-1 uppercase text-[12px] font-pixel`}
             >
               {getSemesterFromDate(new Date(event.start)).season} {getSemesterFromDate(new Date(event.start)).year}
             </div>
@@ -105,9 +105,13 @@ googleCalendarUrl.searchParams.set("details", `${event.name}\n\n${event.location
                 >              
                   <div class="flex gap-4 items-center justify-center">
                     {/* Calendar icon */}
-                    <div class="w-8 md:w-10 2xl:w-12 h-8 md:h-10 2xl:h-12 border-2 border-black font-pixel uppercase text-black dark:text-white dark:border-white flex flex-col items-center justify-center">
-                      <div class="w-full py-0.5 text-[0.6rem] 2xl:text-sm leading-none bg-black dark:bg-white text-white dark:text-black">{format(localizedStart, "MMM")}</div>
-                      <div class="grow text-base md:text-xl 2xl:text-2xl leading-none flex items-center justify-center">{format(localizedStart, "d")}</div>
+                    <div class="w-8 md:w-10 2xl:w-12 h-8 md:h-10 2xl:h-12 border-2 border-black dark:border-white group-hover/date:border-purple-700 dark:group-hover/date:border-yellow font-pixel uppercase text-black dark:text-white group-hover/date:bg-purple-700 dark:group-hover/date:bg-yellow flex flex-col items-center justify-center">
+                      <div class="w-full py-0.5 text-[0.6rem] 2xl:text-sm leading-none bg-black dark:bg-white group-hover/date:bg-white dark:group-hover/date:bg-zinc-900 text-white dark:text-black group-hover/date:text-purple-700 dark:group-hover/date:text-yellow">
+                        {format(localizedStart, "MMM")}
+                      </div>
+                      <div class="grow text-base md:text-xl 2xl:text-2xl leading-none flex items-center justify-center text-black dark:text-white group-hover/date:text-white dark:group-hover/date:text-black">
+                        {format(localizedStart, "d")}
+                      </div>
                     </div>
                     {/* Full date time */}
                     <div class="flex flex-col gap-1 items-start justify-center">
@@ -155,7 +159,7 @@ googleCalendarUrl.searchParams.set("details", `${event.name}\n\n${event.location
         <div class="flex flex-col md:items-start gap-2 md:gap-4 items-center">
           {
               event.stats && event.stats.length > 0 && (
-                  <div class="w-full max-h-fit flex flex-row flex-1 items-start justify-center gap-4 md:gap-8 p-6 md:px-8 md:py-4 bg-white dark:bg-black text-black dark:text-white border-2 border-black dark:border-amber-400 text-center">
+                  <div class="w-full max-h-fit flex flex-row flex-1 items-start justify-center gap-4 md:gap-8 p-6 md:px-8 md:py-4 bg-card-light dark:bg-black text-black dark:text-white border-2 border-black dark:border-amber-400 text-center">
                     {event.stats.map((stat) => (
                         <Stat data={stat.data} label={stat.label} />
                     ))}
