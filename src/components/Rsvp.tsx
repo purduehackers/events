@@ -54,7 +54,7 @@ export default function Rsvp({ eventId }: RsvpProps) {
   };
 
   return (
-    <div className="w-full md:w-auto m-auto bg-black dark:bg-black text-white dark:text-white border-1 border-white dark:border-zinc-200 p-8 sm:p-10 sm:px-12 mx-4 mt-4 sm:mx-0 sm:mt-0 mb-4">
+    <div className="w-full md:w-auto m-auto bg-black dark:bg-purple-700 text-white dark:text-white border-1 border-white dark:border-black p-8 sm:p-10 sm:px-12 mx-4 mt-4 sm:mx-0 sm:mt-0 mb-4">
       <p className="hidden text-yellow dark:text-purple-700 font-display uppercase text-sm mb-4">
         --rsvp--
       </p>
@@ -75,7 +75,7 @@ export default function Rsvp({ eventId }: RsvpProps) {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="bg-zinc-900 dark:bg-zinc-900 text-white dark:text-white border-1 border-zinc-700 dark:border-zinc-700 p-2"
+              className="bg-zinc-900 dark:bg-transparent text-white dark:text-white border-1 border-zinc-700 dark:border-white dark:border-2 p-2"
             />
           </div>
           <div className="w-full grow flex flex-col gap-1">
@@ -87,14 +87,14 @@ export default function Rsvp({ eventId }: RsvpProps) {
               placeholder="Lord Wamuu"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="bg-zinc-900 dark:bg-zinc-900 text-white dark:text-white border-1 border-zinc-700 dark:border-zinc-700 p-2"
+              className="bg-zinc-900 dark:bg-transparent text-white dark:text-white border-1 border-zinc-700 dark:border-white dark:border-2 p-2"
             />
           </div>
         </div>
         <button
           type="submit"
           disabled={isSubmitting}
-          className="cursor-pointer bg-yellow text-black font-mono font-bold mt-2 py-2 px-4 disabled:opacity-85"
+          className="cursor-pointer text-white bg-purple-700 dark:bg-black font-mono font-bold mt-2 py-2 px-4 disabled:opacity-85"
         >
           {isSubmitting ? "Submitting..." : "RSVP"}
         </button>

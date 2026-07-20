@@ -72,7 +72,7 @@ googleCalendarUrl.searchParams.set("details", `${event.name}\n\n${event.location
         class="w-full md:w-1/2 flex-1 bg-card-light dark:bg-zinc-900 md:bg-transparent md:dark:bg-transparent border-black dark:border-white px-5 md:px-10 lg:pl-18 lg:pr-0 pt-8 md:pt-0 pb-6 md:pb-0 text-center border-b-2 md:border-b-0"
       >
         <div class="sticky top-6 mt-6 md:h-screen flex flex-col items-start justify-center">
-          <div class="bg-card-light dark:bg-black p-6 md:p-10 border-2 border-black dark:border-white flex flex-col-reverse md:flex-col gap-6 2xl:gap-8 items-start justify-center">
+          <div class="bg-transparent md:bg-card-light md:dark:bg-black px-4 md:p-10 border-none md:border-solid border-2 dark:border-1 border-black dark:border-white flex flex-col-reverse md:flex-col gap-6 2xl:gap-8 items-start justify-center">
             <div class="flex gap-2">
               <div
                 class={`min-w-fit rounded-xs px-1 text-white dark:text-black bg-black dark:bg-white border-none dark:border-solid dark:border-white border-1 uppercase text-[12px] font-pixel`}
@@ -173,11 +173,11 @@ googleCalendarUrl.searchParams.set("details", `${event.name}\n\n${event.location
       </div>
 
       {/* Event description body */}
-      <div class="w-full md:w-1/2 flex flex-col items-center justify-center md:mt-10 py-6 md:py-12 px-4 md:px-10 lg:px-20 mb-auto">
+      <div class="m-auto w-full md:min-h-screen md:w-1/2 flex-1 flex flex-col items-center justify-center md:mt-10 py-6 md:py-20 px-4 md:px-10 lg:pr-20 mb-auto">
         <div class="flex flex-col md:items-start gap-2 md:gap-4 items-center">
           {
               event.stats && event.stats.length > 0 && (
-                  <div class="w-full max-h-fit flex flex-row flex-1 items-start justify-center gap-4 md:gap-8 p-6 md:px-8 md:py-4 bg-card-light dark:bg-black text-black dark:text-white border-2 border-black dark:border-yellow text-center">
+                  <div class="w-full max-h-fit flex flex-row flex-1 items-start justify-center gap-4 md:gap-8 p-6 md:px-8 md:py-4 bg-card-light dark:bg-black text-black dark:text-white border-2 border-black dark:bg-purple-700 text-center">
                     {event.stats.map((stat) => (
                         <Stat data={stat.data} label={stat.label} />
                     ))}
@@ -186,7 +186,7 @@ googleCalendarUrl.searchParams.set("details", `${event.name}\n\n${event.location
           }
 
           <div class="bg-zinc-900 dark:bg-(--gray-900) dark:border-1 dark:border-zinc-700 text-white border-2 p-4 sm:p-6 sm:mt-0">
-            <p class="text-yellow dark:text-purple-700 font-display uppercase text-sm mb-4">--details--</p>
+            <p class="text-yellow font-display uppercase text-sm mb-4">--details--</p>
             <Description>
               <div set:html={descriptionHTML} />
             </Description>
