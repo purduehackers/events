@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
-import { getCategoryColor, getCategoryBadgeClasses, getCategoryIconClasses } from "@/utilities/helpers";
+import {
+  getCategoryColor,
+  getCategoryBadgeClasses,
+  getCategoryIconClasses,
+} from "@/utilities/helpers";
 import { MapPinIcon, SquareIcon, StarIcon } from "@/components/icons/Icons";
 import placeholderThumbnail from "@/assets/placeholder-thumbnail.avif";
 
 interface CardProps {
   date: string;
-  time: string;
+  time?: string;
   location: string;
   name: string;
   link: string;
@@ -14,9 +18,18 @@ interface CardProps {
 
 interface ListCardProps extends CardProps {
   image?: string | null;
+  startTime: string;
+  endTime?: string;
 }
 
-export default function Card({ date, time, location, name, link, category }: CardProps) {
+export default function Card({
+  date,
+  time,
+  location,
+  name,
+  link,
+  category,
+}: CardProps) {
   const categoryColor = getCategoryColor(category);
 
   return (
@@ -30,23 +43,27 @@ export default function Card({ date, time, location, name, link, category }: Car
           <div className="uppercase text-gray-500 dark:text-gray-400 text-base sm:text-[15px] font-subtext font-semibold leading-none">
             {date} • {time}
           </div>
-          <StarIcon className={`block sm:block w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400 group-hover:animate-idle-icon dark:group-hover:text-${categoryColor} group-hover:text-${categoryColor == "hack-night" ? "black" : categoryColor} group-hover:scale-115 group-hover:-rotate-90 transition-transform`} />
+          <StarIcon
+            className={`block sm:block w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400 group-hover:animate-idle-icon dark:group-hover:text-${categoryColor} group-hover:text-${categoryColor == "hack-night" ? "black" : categoryColor} group-hover:scale-115 group-hover:-rotate-90 transition-transform`}
+          />
         </div>
 
-        <h3 className="text-lg 2xl:text-xl font-mono font-black leading-tight">{name}</h3>
+        <h3 className="text-lg 2xl:text-xl font-mono font-black leading-tight">
+          {name}
+        </h3>
 
         <div className="w-full flex justify-between items-center gap-1">
-          {location &&
+          {location && (
             <div className="flex gap-2 text-gray-500 dark:text-gray-400 text-[15px] font-subtext font-semibold leading-none">
               <MapPinIcon className="w-3" />
               <div className="line-clamp-1">{location}</div>
             </div>
-          }
+          )}
           {category && (
             <div
               className={`min-w-fit rounded-xs px-1 bg-${categoryColor == "hack-night" ? "black" : categoryColor} dark:bg-transparent text-white dark:text-${categoryColor} border-none dark:border-solid border-[1px] uppercase text-[12px] font-pixel`}
             >
-              {category.replaceAll(" ", "-")} 
+              {category.replaceAll(" ", "-")}
             </div>
           )}
         </div>
@@ -55,7 +72,16 @@ export default function Card({ date, time, location, name, link, category }: Car
   );
 }
 
-export function ListCard({ date, time, location, name, link, category, image = placeholderThumbnail.src }: ListCardProps) {
+export function ListCard({
+  date,
+  startTime,
+  endTime,
+  location,
+  name,
+  link,
+  category,
+  image = placeholderThumbnail.src,
+}: ListCardProps) {
   const categoryColor = getCategoryColor(category);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const resolvedImage = image?.trim() ? image : placeholderThumbnail.src;
@@ -67,13 +93,17 @@ export function ListCard({ date, time, location, name, link, category, image = p
   return (
     <div data-category={category?.toLowerCase() ?? ""}>
       <a
-        className="group flex h-35 w-full flex-row items-stretch overflow-hidden border border-[1px] border-white bg-card-light text-left dark:border-zinc-700 dark:bg-(--gray-900)"
+        className="group flex min-h-fit sm:h-35 w-full flex-row items-stretch overflow-hidden border border-[1px] border-white bg-card-light text-left dark:border-zinc-700 dark:bg-(--gray-900)"
         href={link}
       >
         <div className="relative aspect-square w-28 shrink-0 sm:w-fit p-4 sm:p-5">
           {!isImageLoaded && (
             <div className="absolute inset-0 flex items-center justify-center bg-zinc-200/80 dark:bg-zinc-800/80">
-              <svg className="h-8 w-8 animate-spin text-zinc-500" viewBox="0 0 24 24" aria-hidden="true">
+              <svg
+                className="h-8 w-8 animate-spin text-zinc-500"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
                 <SquareIcon className="w-6 h-6 text-gray-300" strokeWidth={2} />
               </svg>
             </div>
@@ -93,11 +123,18 @@ export function ListCard({ date, time, location, name, link, category, image = p
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
               <p className="text-[15px] font-subtext font-semibold uppercase text-gray-500 dark:text-gray-400">
-                {date} • {time}
+                {date} • {startTime}
+                <span className="hidden sm:inline">
+                  {endTime ? ` - ${endTime}` : ""}
+                </span>
               </p>
-              <h3 className="mt-1 text-lg sm:text-xl font-mono font-black leading-tight">{name}</h3>
+              <h3 className="mt-1 text-lg sm:text-xl font-mono font-black leading-tight">
+                {name}
+              </h3>
             </div>
-            <StarIcon className={`w-3.5 h-3.5 shrink-0 text-zinc-500 transition-transform group-hover:animate-idle-icon group-hover:scale-115 group-hover:-rotate-90 dark:text-zinc-400 ${getCategoryIconClasses(categoryColor)}`} />
+            <StarIcon
+              className={`w-3.5 h-3.5 shrink-0 text-zinc-500 transition-transform group-hover:animate-idle-icon group-hover:scale-115 group-hover:-rotate-90 dark:text-zinc-400 ${getCategoryIconClasses(categoryColor)}`}
+            />
           </div>
 
           <div className="flex flex-wrap items-center justify-between gap-2">
@@ -108,7 +145,9 @@ export function ListCard({ date, time, location, name, link, category, image = p
               </div>
             )}
             {category && (
-              <div className={`min-w-fit rounded-sm px-1 py-0.5 text-[12px] font-pixel uppercase ${getCategoryBadgeClasses(categoryColor)}`}>
+              <div
+                className={`min-w-fit rounded-xs px-1 bg-${categoryColor == "hack-night" ? "black" : categoryColor} dark:bg-transparent text-white dark:text-${categoryColor} border-none dark:border-solid border-[1px] uppercase text-[12px] font-pixel`}
+              >
                 {category.replaceAll(" ", "-")}
               </div>
             )}
@@ -119,7 +158,14 @@ export function ListCard({ date, time, location, name, link, category, image = p
   );
 }
 
-export function CardOld({ date, time, location, name, link, category }: CardProps) {
+export function CardOld({
+  date,
+  time,
+  location,
+  name,
+  link,
+  category,
+}: CardProps) {
   const categoryColor = getCategoryColor(category);
 
   return (
@@ -133,23 +179,25 @@ export function CardOld({ date, time, location, name, link, category }: CardProp
           <p className="uppercase text-gray-500 dark:text-gray-400 text-base font-subtext font-semibold">
             {date} • {time}
           </p>
-          <StarIcon className={`w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400 group-hover:animate-idle-icon group-hover:text-${categoryColor} dark:group-hover:text-${categoryColor} group-hover:scale-115 group-hover:-rotate-90 transition-transform`} />
+          <StarIcon
+            className={`w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400 group-hover:animate-idle-icon group-hover:text-${categoryColor} dark:group-hover:text-${categoryColor} group-hover:scale-115 group-hover:-rotate-90 transition-transform`}
+          />
         </div>
 
         <h3 className="text-xl font-mono font-black">{name}</h3>
 
         <div className="w-full flex justify-between items-center gap-1">
-          {location &&
+          {location && (
             <div className="flex gap-2 text-gray-500 dark:text-gray-400 text-base font-subtext font-semibold">
               <MapPinIcon className="w-4" />
               <div className="line-clamp-1">{location}</div>
             </div>
-          }
+          )}
           {category && (
             <div
               className={`min-w-fit px-1 bg-${categoryColor} border border-[0px] uppercase text-white dark:text-black text-[11px] font-mono`}
             >
-              {category.replaceAll(" ", "-")} 
+              {category.replaceAll(" ", "-")}
             </div>
           )}
         </div>
