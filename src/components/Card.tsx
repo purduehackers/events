@@ -93,10 +93,11 @@ export function ListCard({
   return (
     <div data-category={category?.toLowerCase() ?? ""}>
       <a
-        className="group flex min-h-fit sm:h-35 w-full flex-row items-stretch overflow-hidden border border-[1px] border-white bg-card-light text-left dark:border-zinc-700 dark:bg-(--gray-900)"
+        className="group flex min-h-fit sm:h-35 w-full p-3 sm:p-5 flex-row items-stretch gap-4 sm:gap-8 overflow-hidden border border-[1px] border-white bg-card-light text-left dark:border-zinc-700 dark:bg-(--gray-900)"
         href={link}
       >
-        <div className="relative aspect-square w-28 shrink-0 sm:w-fit p-4 sm:p-5">
+        {/* Left: Image container */}
+        <div className="relative aspect-square shrink-0 w-24 min-h-24 sm:w-fit sm:min-h-20">
           {!isImageLoaded && (
             <div className="absolute inset-0 flex items-center justify-center bg-zinc-200/80 dark:bg-zinc-800/80">
               <svg
@@ -119,7 +120,8 @@ export function ListCard({
           />
         </div>
 
-        <div className="flex flex-1 flex-col justify-between gap-2 p-4 sm:p-5">
+        {/* Right: Event details */}
+        <div className="flex flex-1 flex-col justify-between gap-1 sm:gap-2">
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
               <p className="text-[15px] font-subtext font-semibold uppercase text-gray-500 dark:text-gray-400">
@@ -137,7 +139,7 @@ export function ListCard({
             />
           </div>
 
-          <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="flex flex-wrap items-center justify-between gap-1 sm:gap-2">
             {location && (
               <div className="flex items-center gap-2 text-[15px] font-subtext font-semibold text-gray-500 dark:text-gray-400">
                 <MapPinIcon className="w-3.5 shrink-0" />
