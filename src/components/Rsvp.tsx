@@ -54,18 +54,21 @@ export default function Rsvp({ eventId }: RsvpProps) {
   };
 
   return (
-    <div className="w-full md:w-auto m-auto bg-black dark:bg-purple-700 text-white dark:text-white border-1 border-white dark:border-black p-8 sm:p-10 sm:px-12 mx-4 mt-4 sm:mx-0 sm:mt-0 mb-4">
+    <div className="w-full md:w-full m-auto bg-black dark:bg-purple-700 text-white dark:text-white border-1 border-white dark:border-black p-8 sm:p-10 sm:px-12 mx-4 mt-4 sm:mx-0 sm:mt-0 mb-4">
       <p className="hidden text-yellow dark:text-purple-700 font-display uppercase text-sm mb-4">
         --rsvp--
       </p>
       <div className="font-pixel flex items-center justify-center gap-4 text-white font-mono text-xl text-center mt-2 sm:mt-0 mb-4 sm:mb-6">
         <StarIcon2 className="w-4 h-4 animate-idle-icon text-purple-400" />
-        Want to come? RSVP below!
+        <span className="text-balance">Want to come? RSVP below!</span>
         <StarIcon2 className="w-4 h-4 animate-idle-icon text-purple-400" />
       </div>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-1">
-        <div className="flex flex-col sm:flex-row gap-1">
-          <div className="w-full grow flex flex-col gap-1">
+      <form
+        onSubmit={handleSubmit}
+        className="w-full max-w-full flex flex-col gap-3"
+      >
+        <div className="w-full max-w-full flex flex-col gap-2 md:flex-row md:gap-4">
+          <div className="w-full min-w-0 flex flex-col gap-1 md:flex-1">
             <label className="font-subtext text-sm uppercase tracking-widest">
               Email *
             </label>
@@ -75,10 +78,10 @@ export default function Rsvp({ eventId }: RsvpProps) {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="bg-zinc-900 dark:bg-transparent text-white dark:text-white border-1 border-zinc-700 dark:border-white dark:border-2 p-2"
+              className="w-full min-w-0 bg-zinc-900 dark:bg-transparent text-white dark:text-white border-1 border-zinc-700 dark:border-white dark:border-2 p-2"
             />
           </div>
-          <div className="w-full grow flex flex-col gap-1">
+          <div className="w-full min-w-0 flex flex-col gap-1 md:flex-1">
             <label className="font-subtext text-sm uppercase tracking-widest">
               Name / Title
             </label>
@@ -87,14 +90,14 @@ export default function Rsvp({ eventId }: RsvpProps) {
               placeholder="Lord Wamuu"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="bg-zinc-900 dark:bg-transparent text-white dark:text-white border-1 border-zinc-700 dark:border-white dark:border-2 p-2"
+              className="w-full min-w-0 bg-zinc-900 dark:bg-transparent text-white dark:text-white border-1 border-zinc-700 dark:border-white dark:border-2 p-2"
             />
           </div>
         </div>
         <button
           type="submit"
           disabled={isSubmitting}
-          className="cursor-pointer text-white bg-purple-700 dark:bg-black font-mono font-bold mt-2 py-2 px-4 disabled:opacity-85"
+          className="cursor-pointer text-white bg-purple-700 dark:bg-black font-pixel font-bold mt-2 py-2 px-4 disabled:opacity-85"
         >
           {isSubmitting ? "Submitting..." : "RSVP"}
         </button>
