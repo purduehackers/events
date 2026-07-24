@@ -103,6 +103,38 @@ export function getLocalizedEventTimes(event: EventType): {
   };
 }
 
+/* Event Category Helpers */
+
 export function isKnownCategory(category: string | null) {
   return Boolean(category && EVENT_CATEGORIES.map((c) => c.toLowerCase()).includes(category));
+}
+
+export function getCategoryColor(category?: string | null): string {
+  return EVENT_CATEGORIES.includes(category?.toLowerCase() ?? "") ? (category?.toLowerCase() ?? "other") : "other";
+}
+
+export function getCategoryBadgeClasses(categoryColor: string) {
+  switch (categoryColor) {
+    case "hack-night":
+      return "bg-black text-white dark:bg-transparent dark:text-hack-night";
+    case "workshop":
+      return "bg-workshop text-white dark:bg-transparent dark:text-workshop";
+    case "show":
+      return "bg-show text-white dark:bg-transparent dark:text-show";
+    default:
+      return "bg-other text-white dark:bg-transparent dark:text-other";
+  }
+}
+
+export function getCategoryIconClasses(categoryColor: string) {
+  switch (categoryColor) {
+    case "hack-night":
+      return "group-hover:text-black dark:group-hover:text-hack-night";
+    case "workshop":
+      return "group-hover:text-workshop";
+    case "show":
+      return "group-hover:text-show";
+    default:
+      return "group-hover:text-other";
+  }
 }

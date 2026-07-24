@@ -2,9 +2,10 @@
 export const prerender = false;
 
 import { format } from "date-fns";
-import { getLocalizedEventTimes } from "@/utilities/helpers";
+import { getLocalizedEventTimes, getSemesterFromDate, getCategoryColor } from "@/utilities/helpers";
 
 import Layout from "@/layouts/Layout.astro";
+import SlugLayout from "@/layouts/SlugLayout.astro";
 import Stat from "@/components/past-events/Stat.astro";
 import Image from "@/components/Image";
 import MapPin from "@/assets/map-pin.svg";
@@ -47,102 +48,162 @@ const {
     localizedStartTime,
     localizedEndTime,
 } = getLocalizedEventTimes(event);
+
+// Generate calendar links
+const eventCategorySlug = event.eventType.replaceAll(" ", "-").toLowerCase();
+const eventPageUrl = new URL(`/events/${eventCategorySlug}/${event.slug}`, Astro.url.origin).toString();
+const icsUrl = new URL(`/api/events.ics`, Astro.url.origin);
+icsUrl.searchParams.set("slug", event.slug);
+
+const googleCalendarUrl = new URL("https://calendar.google.com/calendar/render");
+googleCalendarUrl.searchParams.set("action", "TEMPLATE");
+googleCalendarUrl.searchParams.set("text", event.name);
+googleCalendarUrl.searchParams.set("dates", `${new Date(event.start).toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z")}/${new Date(event.end ?? new Date(event.start).getTime() + 60 * 60 * 1000).toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z")}`);
+googleCalendarUrl.searchParams.set("location", event.location_name || "");
+googleCalendarUrl.searchParams.set("details", `${event.name}\n\n${event.location_name ? `Location: ${event.location_name}\n` : ""}${eventPageUrl}`);
 ---
 <Layout>
-  <div
-    class="min-h-screen overflow-hidden flex flex-col font-name"
-  >
-    {/* Event header */}
+  <SlugLayout>
     <div
-      class="flex flex-row gap-8 grow-0 items-center justify-center w-full flex-1 px-5 pt-20 sm:pt-28 pb-8 sm:pb-16 text-center sm:px-20"
+      class="w-full h-full min-h-screen overflow-clip flex flex-col md:flex-row items-stretch justify-center font-name border-b-2 bg-card-light dark:bg-zinc-900 md:dark:bg-black bg-grid [--grid-size:100px] [--grid-color:rgba(0,0,0,0.5)] dark:[--grid-color:rgba(255,255,255,0.5)]"
     >
-      <Image client:load
-        src={image}
-        alt={`${event.name} thumbnail`}
-        className="w-40 h-40 rounded-lg"
-      />
-      <div class="flex flex-col gap-4">
-        <h1 class="text-black dark:text-yellow font-pixel uppercase text-4xl sm:text-5xl lg:text-5xl font-normal">
-          {event.name}
-        </h1>
-        <div class="text-base md:text-lg 2xl:text-2xl font-subtext font-normal">
-          <div class="flex flex-col gap-2 items-start justify-center">
-            <div class="flex gap-4 items-center justify-center">
-              <div class="w-10 h-10 border-2 border-black font-pixel uppercase text-black dark:text-yellow dark:border-yellow flex flex-col items-center justify-center">
-                <div class="w-full py-0.5 text-xs leading-none bg-black dark:bg-yellow text-white dark:text-black">{format(localizedStart, "MMM")}</div>
-                <div class="grow text-xl leading-none flex items-center justify-center">{format(localizedStart, "d")}</div>
+      {/* Event header */}
+      <div
+        class="w-full md:w-1/2 flex-1 bg-card-light dark:bg-zinc-900 md:bg-transparent md:dark:bg-transparent border-black dark:border-white px-5 md:px-10 lg:pl-18 lg:pr-0 pt-8 md:pt-0 pb-6 md:pb-0 text-center border-b-2 md:border-b-0"
+      >
+        <div class="sticky top-6 mt-6 md:h-screen flex flex-col items-start justify-center">
+          <div class="w-full px-4 md:p-10 bg-transparent md:bg-card-light md:dark:bg-black border-none md:border-solid border-2 dark:border-1 border-black dark:border-white flex flex-col-reverse md:flex-col gap-6 2xl:gap-8 items-start justify-center">
+            <div class="flex gap-2">
+              <div
+                class={`min-w-fit rounded-xs px-1 text-white dark:text-black bg-black dark:bg-white border-none dark:border-solid dark:border-white border-1 uppercase text-[12px] font-pixel`}
+              >
+                {getSemesterFromDate(new Date(event.start)).season} {getSemesterFromDate(new Date(event.start)).year}
               </div>
-              <div class="flex flex-col gap-0 items-start justify-center dark:text-gray-200">
-                <div class="font-semibold">
-                  {format(localizedStart, "EEEE, MMMM do, yyyy")} 
+              {event.eventType && (
+                <div
+                  class={`min-w-fit rounded-xs px-1 bg-${getCategoryColor(event.eventType) == "hack-night" ? "black" : getCategoryColor(event.eventType)} dark:bg-transparent text-white dark:text-${getCategoryColor(event.eventType)} border-none dark:border-solid border-[1px] uppercase text-[12px] font-pixel flex items-center justify-center`}
+                >
+                  {event.eventType.replaceAll(" ", "-")} 
                 </div>
-                <div class="text-base">
-                  {localizedStartTime} — {localizedEndTime} ET
+              )}
+            </div>
+
+            <Image client:load
+              src={image}
+              alt={`${event.name} thumbnail`}
+              className="hidden md:flex w-32 2xl:w-46 h-32 2xl:h-46 rounded-lg"
+            />
+            <div class="flex flex-col gap-2 md:gap-4 2xl:gap-6">
+              <h1 class="text-black dark:text-white font-pixel uppercase text-left text-4xl md:text-[2.75rem] lg:text-5xl 2xl:text-7xl font-normal">
+                {event.name}
+              </h1>
+              <div class="text-base md:text-lg 2xl:text-2xl font-subtext font-normal">
+                <div class="flex flex-col gap-1 md:gap-2 2xl:gap-4 items-start justify-center">
+                  <a class="group/date text-black dark:text-gray-200 hover:text-purple-700 dark:hover:text-yellow"
+                    href={icsUrl.toString()}
+                    target="_blank"
+                    rel="noreferrer"
+                    download={`${event.slug}.ics`}
+                  >              
+                    <div class="flex gap-4 items-center justify-center">
+                      {/* Calendar icon */}
+                      <div class="w-8 md:w-10 2xl:w-12 h-8 md:h-10 2xl:h-12 border-2 border-black dark:border-white group-hover/date:border-purple-700 dark:group-hover/date:border-yellow font-pixel uppercase text-black dark:text-white group-hover/date:bg-purple-700 dark:group-hover/date:bg-yellow flex flex-col items-center justify-center">
+                        <div class="w-full py-0.5 text-[0.6rem] 2xl:text-sm leading-none bg-black dark:bg-white group-hover/date:bg-white dark:group-hover/date:bg-zinc-900 text-white dark:text-black group-hover/date:text-purple-700 dark:group-hover/date:text-yellow">
+                          {format(localizedStart, "MMM")}
+                        </div>
+                        <div class="grow text-base md:text-xl 2xl:text-2xl leading-none flex items-center justify-center text-black dark:text-white group-hover/date:text-white dark:group-hover/date:text-black">
+                          {format(localizedStart, "d")}
+                        </div>
+                      </div>
+                      {/* Full date time */}
+                      <div class="flex flex-col gap-1 items-start justify-center">
+                        <div class="font-semibold min-w-fit text-left leading-none flex items-center gap-3">
+                          {format(localizedStart, "EEEE, MMMM do, yyyy")} 
+                          <div class="w-3 h-3 bg-black dark:bg-white group-hover/date:bg-purple-700 dark:group-hover/date:bg-yellow text-white dark:text-black leading-none flex items-center justify-center text-sm">+</div>
+                        </div>
+                        <div class="text-base 2xl:text-lg leading-none">
+                          {localizedStartTime} — {localizedEndTime} ET
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                  {
+                    event.location_name && (
+                      <div class={`${event.location_name && "group/loc cursor-pointer hover:text-purple-700 dark:hover:text-yellow"} flex gap-4 items-center justify-center font-bold dark:text-gray-200`}>
+                        <div class="w-8 md:w-10 2xl:w-12 h-8 md:h-10 2xl:h-12 border-2 border-black dark:border-white group-hover/loc:border-purple-700 dark:group-hover/loc:border-yellow font-pixel uppercase flex flex-col items-center justify-center">
+                          <MapPin class="w-5 2xl:w-6" />
+                        </div>
+                        <div>
+                          {event.location_url ? (
+                            <a
+                              href={event.location_url}
+                              target="_blank"
+                              class="font-semibold"
+                            >
+                              {event.location_name}
+                              <span class="px-0.5 font-pixel">↗</span>
+                            </a>
+                          ) : (
+                            <>{event.location_name}</>
+                          )}
+                        </div>
+                      </div>
+                    )
+                  }
                 </div>
               </div>
             </div>
-            {
-              event.location_name && (
-                <div class="flex gap-4 items-center justify-center font-bold dark:text-gray-200">
-                  <div class="w-10 h-10 border-2 border-black font-pixel uppercase text-black dark:text-yellow dark:border-yellow flex flex-col items-center justify-center">
-                    <MapPin class="w-5" />
-                  </div>
-                  <div>
-                    {event.location_url ? (
-                      <a
-                        href={event.location_url}
-                        target="_blank"
-                        class="font-semibold hover:text-purple-500 dark:hover:text-yellow"
-                      >
-                        {event.location_name}
-                      </a>
-                    ) : (
-                      <>{event.location_name}</>
-                    )}
-                  </div>
+
+            <div class="hidden flex gap-2">
+              <div
+                class={`min-w-fit rounded-xs px-1 text-white bg-black dark:bg-black border-none dark:border-solid dark:border-white border-1 uppercase text-[12px] font-pixel`}
+              >
+                {getSemesterFromDate(new Date(event.start)).season} {getSemesterFromDate(new Date(event.start)).year}
+              </div>
+              {event.eventType && (
+                <div
+                  class={`min-w-fit rounded-xs px-1 bg-${getCategoryColor(event.eventType) == "hack-night" ? "black" : getCategoryColor(event.eventType)} dark:bg-transparent text-white dark:text-${getCategoryColor(event.eventType)} border-none dark:border-solid border-[1px] uppercase text-[12px] font-pixel flex items-center justify-center`}
+                >
+                  {event.eventType.replaceAll(" ", "-")} 
                 </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Event description body */}
+      <div class="m-auto w-full md:min-h-screen md:w-1/2 flex-1 flex flex-col items-center justify-center md:mt-10 py-6 md:py-20 px-4 md:px-10 lg:pr-20 mb-auto">
+        <div class="flex flex-col md:items-start gap-2 md:gap-4 items-center">
+          {
+              event.stats && event.stats.length > 0 && (
+                  <div class="w-full max-h-fit flex flex-row flex-1 items-start justify-center gap-4 md:gap-8 p-6 md:px-8 md:py-4 bg-card-light dark:bg-black text-black dark:text-white border-2 border-black dark:bg-purple-700 text-center">
+                    {event.stats.map((stat) => (
+                        <Stat data={stat.data} label={stat.label} />
+                    ))}
+                  </div>
               )
-            }
+          }
+
+          <div class="p-4 sm:p-6 sm:mt-0 bg-zinc-900 dark:bg-(--gray-900) dark:border-1 dark:border-zinc-700 text-white border-2">
+            <p class="text-yellow font-display uppercase text-sm mb-4">--details--</p>
+            <Description>
+              <div set:html={descriptionHTML} />
+            </Description>
           </div>
+
+          {isUpcoming && <Rsvp client:load eventId={event.id} />}
+
+          {event.images && event.images.length > 0 && (
+            <Gallery
+              images={event.images.map((img) => ({
+                url: img.image.url,
+                alt: img.image?.alt ?? event.name,
+              }))}
+            />
+          )}
         </div>
       </div>
     </div>
-
-    {/* Event description body */}
-    <div class="flex flex-col items-center justify-center py-12 sm:px-20 mb-auto border-t-2 border-b-2 bg-body-light dark:bg-body-dark bg-grid [--grid-size:100px] [--grid-color:rgba(0,0,0,0.5)] dark:[--grid-color:rgba(255,255,255,0.5)]">
-      <div class="flex flex-col sm:flex-row-reverse sm:items-start sm:gap-x-4 items-center">
-        {
-            event.stats && event.stats.length > 0 && (
-                <div class="bg-white dark:bg-black text-black dark:text-white border-2 border-black dark:border-amber-400 flex flex-row flex-1 items-center justify-center gap-4 sm:gap-8 mx-4 sm:mx-0 max-w-fit sm:max-w-min max-h-fit p-6 sm:p-8 text-center sm:flex-col">
-                {event.stats.map((stat) => (
-                    <Stat data={stat.data} label={stat.label} />
-                ))}
-                </div>
-            )
-        }
-
-        <div class="w-full sm:min-w-100 sm:max-w-lg md:max-w-xl">
-          <div class="flex flex-col justify-items-center sm:justify-items-end">
-            <div class="bg-zinc-900 dark:bg-(--gray-900) dark:border-1 dark:border-zinc-700 text-white border-2 p-4 sm:p-6 mx-4 mt-4 sm:mx-0 sm:mt-0 mb-4">
-              <p class="text-yellow dark:text-purple-700 font-display uppercase text-sm mb-4">--details--</p>
-              <Description>
-                <div set:html={descriptionHTML} />
-              </Description>
-            </div>
-
-            {isUpcoming && <Rsvp client:load eventId={event.id} />}
-
-            {event.images && event.images.length > 0 && (
-              <Gallery
-                images={event.images.map((img) => ({
-                  url: img.image.url,
-                  alt: img.image?.alt ?? event.name,
-                }))}
-              />
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  </SlugLayout>
 </Layout>
