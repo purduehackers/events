@@ -20,6 +20,8 @@ const appleTouchIcon = await getImage({
     height: 180,
     format: "png",
 });
+
+const title = "Events - Purdue Hackers";
 ---
 
 <!doctype html>
@@ -30,9 +32,11 @@ const appleTouchIcon = await getImage({
         <link rel="icon" type="image/svg" href="/glider.svg" />
         <link rel="apple-touch-icon" href={appleTouchIcon.src} />
         <meta name="generator" content={Astro.generator} />
-        <SocialMetaTags title={""} />
-        <title>Events - Purdue Hackers</title>
-        
+        <slot name="social">
+          <SocialMetaTags title={title} description="Check out all the events we host!" />
+        </slot>
+        <title>{title}</title>
+
         <script is:inline>
             // Apply theme synchronously before React hydration to prevent flash
             function getTheme() {
@@ -40,7 +44,7 @@ const appleTouchIcon = await getImage({
                 if (saved) return saved;
                 return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
             }
-            
+
             function setTheme() {
                 if (getTheme() === "light") {
                     document.documentElement.classList.remove("dark");
@@ -48,7 +52,7 @@ const appleTouchIcon = await getImage({
                     document.documentElement.classList.add("dark");
                 }
             }
-            
+
             setTheme();
         </script>
     </head>
