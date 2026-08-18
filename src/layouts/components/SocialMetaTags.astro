@@ -1,14 +1,14 @@
 ---
-import openGraphSvg from "@/assets/ph-flag.svg";
+import ogImageRaw from "@/assets/og.png";
 import { getImage } from "astro:assets";
 
-const openGraphImage = await getImage({
-  src: openGraphSvg,
+const ogImageOptions = {
+  src: ogImageRaw,
   width: 1200,
   height: 630,
   format: "png",
-});
-
+};
+const openGraphImage = await getImage(ogImageOptions);
 
 interface Props {
   title: string;
@@ -16,23 +16,24 @@ interface Props {
 
 const { title } = Astro.props;
 const description = "Check out all the events we host!"
-const openGraphImageUrl = new URL(openGraphImage.src, Astro.site).href;
-
-const siteHostname = Astro.site?.hostname;
-const siteURL = Astro.site;
+const openGraphImageUrl = new URL(openGraphImage.src, Astro.url);
 ---
 
-<!-- Open Graph tags -->
-<meta property="og:url" content={siteURL} />
+{/* OpenGraph tags (https://ogp.me) */}
+<meta property="og:url" content={Astro.url} />
 <meta property="og:type" content="website" />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<meta property="og:image" content={openGraphImageUrl} />
+<meta property="og:image:url" content={openGraphImageUrl} />
+<meta property="og:image:type" content={`image/${ogImageOptions.format}`} />
+<meta property="og:image:width" content={ogImageOptions.width.toString()} />
+<meta property="og:image:height" content={ogImageOptions.height.toString()} />
 
-<!-- Twitter tags -->
+{/* Twitter tags */}
 <meta name="twitter:card" content="summary_large_image" />
-<meta property="twitter:domain" content={siteHostname} />
-<meta property="twitter:url" content={siteURL} />
+<meta name="twitter:site" content="@purduehackers" />
+<meta name="twitter:creator" content="@purduehackers" />
+<meta name="twitter:url" content={Astro.url} />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={openGraphImageUrl} />
