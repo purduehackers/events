@@ -1,12 +1,6 @@
 import type { SemesterType } from "@/types";
-import type { ViewMode } from "@components/ViewModeToggle"
-import { useEffect, useState } from "react";
-
-function getViewModeFromUrl(): ViewMode {
-    if (typeof window === "undefined") return "list";
-    const raw = new URLSearchParams(window.location.search).get("viewMode")?.trim().toLowerCase();
-    return raw === "grid" ? "grid" : "list";
-}
+import { getCardLayoutClass } from "@/utilities/helpers";
+import { useUrlFilters } from "@/utilities/useUrlFilters";
 
 interface SkeletonLoaderProps {
     numEvents: number;
@@ -14,27 +8,8 @@ interface SkeletonLoaderProps {
 }
 
 export default function SkeletonSemesterEvents({ numEvents = 5, semester }: SkeletonLoaderProps) {
-    const [viewMode, setViewMode] = useState<ViewMode>("list");
-    useEffect(() => {
-        setViewMode(getViewModeFromUrl());
-    }, []);
-
-    // Listen for and apply filtering/searching updates
-    useEffect(() => {
-        const viewModeHandler = (event: Event) => {
-            const detail = (event as CustomEvent<string | null>).detail;
-            setViewMode(detail === "grid" ? "grid" : "list");
-        };
-
-        window.addEventListener("viewModeChange", viewModeHandler as EventListener);
-        return () => {
-            window.removeEventListener("viewModeChange", viewModeHandler as EventListener);
-        };
-    }, []);
-
-    const cardLayoutClassName = viewMode === "grid"
-        ? "grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-2 sm:auto-cols-fr"
-        : "flex flex-col gap-2";
+    const { viewMode } = useUrlFilters();
+    const cardLayoutClassName = getCardLayoutClass(viewMode);
 
     return (
         <div 
