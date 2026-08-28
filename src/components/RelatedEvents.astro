@@ -1,0 +1,83 @@
+---
+import { format } from "date-fns";
+import { fetchEventsFromCMS } from "@/utilities/cms";
+import {
+    getLocalizedEventTimes,
+    getCategorySlug,
+    getEventThumbnail,
+    getOptimizedImageUrl,
+    getCategoryColor,
+    getCategoryBadgeClasses,
+    setCardSelectParams,
+} from "@/utilities/helpers";
+import MapPin from "@/assets/map-pin.svg";
+
+interface Props {
+    eventType: string;
+    excludeSlug: string;
+}
+
+const { eventType, excludeSlug } = Astro.props;
+
+const params = new URLSearchParams();
+params.set("where[eventType][equals]", eventType);
+params.set("where[slug][not_equals]", excludeSlug);
+params.set("sort", "-start");
+params.set("limit", "3");
+params.set("depth", "1"); // populate first-level media only, not Payload's default 2
+setCardSelectParams(params);
+
+// Related events are a bonus — the helper returns null on failure
+const related = (await fetchEventsFromCMS(params))?.docs ?? [];
+---
+
+{related.length > 0 && (
+    <div class="w-full flex flex-col gap-2 mt-2">
+        <p class="font-pixel uppercase text-sm text-black dark:text-yellow">
+            More like this {">>"}
+        </p>
+        {related.map((event) => {
+            const { localizedStart, localizedStartTime } = getLocalizedEventTimes(event);
+            const category = getCategorySlug(event.eventType);
+            const categoryColor = getCategoryColor(event.eventType);
+            const image = getOptimizedImageUrl(getEventThumbnail(event), 128);
+            return (
+                <a
+                    class="group flex w-full p-3 flex-row items-center gap-4 border border-[1px] border-white bg-card-light text-left dark:border-zinc-700 dark:bg-(--gray-900)"
+                    href={`/events/${category}/${event.slug}`}
+                >
+                    {image && (
+                        <img
+                            src={image}
+                            alt={`${event.name} thumbnail`}
+                            width={64}
+                            height={64}
+                            loading="lazy"
+                            decoding="async"
+                            class="w-16 h-16 shrink-0 object-cover"
+                        />
+                    )}
+                    <div class="flex min-w-0 flex-1 flex-col gap-1">
+                        <p class="text-[13px] font-subtext font-semibold uppercase text-gray-500 dark:text-gray-400 leading-none">
+                            {format(localizedStart, "MMM d, yyyy")} • {localizedStartTime}
+                        </p>
+                        <h4 class="text-base font-mono font-black leading-tight line-clamp-1 text-black dark:text-white">
+                            {event.name}
+                        </h4>
+                        {event.location_name && (
+                            <div class="flex items-center gap-1.5 text-[13px] font-subtext font-semibold text-gray-500 dark:text-gray-400 leading-none">
+                                <MapPin class="w-3 shrink-0" />
+                                <span class="line-clamp-1">{event.location_name}</span>
+                            </div>
+                        )}
+                    </div>
+                    <div
+                        class={`min-w-fit rounded-xs px-1 border-none dark:border-solid border-[1px] uppercase text-[11px] font-pixel ${getCategoryBadgeClasses(categoryColor)}`}
+                    >
+                        {getCategorySlug(event.eventType)}
+                    </div>
+                </a>
+            );
+        })}
+    </div>
+)}

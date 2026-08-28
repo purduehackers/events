@@ -16,6 +16,9 @@ const { index, displayUrl, displaySrcset, alt, width, height, eager = false } = 
 <div
     class="w-full break-inside-avoid hover:scale-[1.03] transform cursor-pointer mb-2"
     data-gallery-index={index}
+    role="button"
+    tabindex="0"
+    aria-label={`View photo ${index + 1}`}
 >
     <img
         src={displayUrl}
