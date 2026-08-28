@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import Dialog from "@/components/Dialog";
 import Calendar from "@/components/Calendar";
 import SemesterFilter from "./SemesterFilter";
@@ -6,10 +6,20 @@ import CategoryFilter from "./CategoryFilter";
 import { StarIcon2 } from "@/components/icons/Icons"
 import { EVENT_CATEGORIES } from "@/types";
 import { getSemestersNewestFirst } from "@/utilities/helpers";
+import { SITE_URL } from "@/utilities/constants";
 import { semesterToMonth, useUrlFilters } from "@/utilities/useUrlFilters";
 
 const ALL_SEMESTERS = getSemestersNewestFirst();
 const CATEGORIES = [...EVENT_CATEGORIES];
+
+const FEED_OPTIONS = [
+    { value: "all", label: "All events" },
+    { value: "hack-night", label: "Hack nights" },
+    { value: "workshop", label: "Workshops" },
+    { value: "show", label: "Shows" },
+    { value: "other", label: "Other" },
+] as const;
+type FeedOption = (typeof FEED_OPTIONS)[number]["value"];
 
 interface ListSidebarProps {
     apiUrl: string;
@@ -21,6 +31,7 @@ export default function ListSidebar({ apiUrl }: ListSidebarProps) {
         () => (semester ? semesterToMonth(semester) : new Date()),
         [semester],
     );
+    const [feedCategory, setFeedCategory] = useState<FeedOption>("all");
 
     const handleCopy = async (url: string) => {
         try {
@@ -31,7 +42,11 @@ export default function ListSidebar({ apiUrl }: ListSidebarProps) {
         }
     };
 
-    const icalUrl = "webcal://events.purduehackers.com/api/events.ics";
+    const feedPath = feedCategory === "all"
+        ? "/api/events.ics"
+        : `/api/events.ics?cat=${feedCategory}`;
+    const icalUrl = `${SITE_URL.replace("https://", "webcal://")}${feedPath}`;
+    const feedHttpsUrl = `${SITE_URL}${feedPath}`;
 
     return (
         <aside className="z-50 sticky top-34 w-full"
@@ -66,13 +81,31 @@ export default function ListSidebar({ apiUrl }: ListSidebarProps) {
                         <StarIcon2 className="w-2 h-2" />
                         Calendar
                     </div>
-                    <Dialog 
+                    <Dialog
                         title="Subscribe to feed"
                         description="Add to your preferred calendar to stay up to date with upcoming events."
                         trigger={
                             <button className="cursor-pointer w-fit min-w-6 h-6 px-2 bg-purple-700 text-white text-[10px] uppercase tracking-[0.2em] flex items-center justify-center">
                                 Add ICal
                             </button>
+                        }
+                        children={
+                            <div className="flex flex-wrap gap-1">
+                                {FEED_OPTIONS.map((option) => (
+                                    <button
+                                        key={option.value}
+                                        type="button"
+                                        onClick={() => setFeedCategory(option.value)}
+                                        className={`cursor-pointer px-2 py-1 font-pixel uppercase text-[11px] tracking-wider border-1 ${
+                                            feedCategory === option.value
+                                                ? "bg-yellow text-black border-yellow"
+                                                : "bg-transparent text-zinc-400 border-zinc-700 hover:text-white hover:border-zinc-500"
+                                        }`}
+                                    >
+                                        {option.label}
+                                    </button>
+                                ))}
+                            </div>
                         }
                         closeNode={
                             <div className="w-full flex flex-col gap-1">
@@ -82,10 +115,7 @@ export default function ListSidebar({ apiUrl }: ListSidebarProps) {
                                         target="_blank"
                                     >
                                         <button className="button-block w-full min-w-fit bg-[#EA4335] text-white text-sm">
-                                            Google 
-                                            <span className="hidden">
-                                                https://www.google.com/calendar/render?cid=
-                                            </span>
+                                            Google
                                         </button>
                                     </a>
                                     <a className="w-full"
@@ -107,7 +137,7 @@ export default function ListSidebar({ apiUrl }: ListSidebarProps) {
                                 </div>
 
                                 <button className="button-block w-full min-w-fit bg-zinc-700 text-white text-sm"
-                                    onClick={() => handleCopy("https://events.purduehackers.com/api/events.ics")}
+                                    onClick={() => handleCopy(feedHttpsUrl)}
                                 >
                                     Copy URL
                                 </button>
