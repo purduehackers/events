@@ -14,12 +14,25 @@ import logoImg from "@/../public/glider.svg";
 import { getImage } from "astro:assets";
 import SocialMetaTags from "./components/SocialMetaTags.astro";
 
+interface Props {
+    canonicalPath?: string;
+}
+
+const { canonicalPath } = Astro.props;
+
 const appleTouchIcon = await getImage({
     src: logoImg,
     width: 180,
     height: 180,
     format: "png",
 });
+
+// Filter/search params are views of the same page, not distinct pages —
+// canonicalize to the bare path unless the caller supplies one.
+const canonicalUrl = new URL(
+    canonicalPath ?? Astro.url.pathname,
+    Astro.site ?? Astro.url.origin,
+).toString();
 
 const title = "Events - Purdue Hackers";
 ---
@@ -32,6 +45,8 @@ const title = "Events - Purdue Hackers";
         <link rel="icon" type="image/svg" href="/glider.svg" />
         <link rel="apple-touch-icon" href={appleTouchIcon.src} />
         <link rel="preload" as="font" type="font/woff2" crossorigin href={departureMonoWoff2} />
+        <link rel="canonical" href={canonicalUrl} />
+        <link rel="alternate" type="application/rss+xml" title="Purdue Hackers Events" href="/rss.xml" />
         <meta name="generator" content={Astro.generator} />
         <slot name="social">
           <SocialMetaTags title={title} description="Check out all the events we host!" />

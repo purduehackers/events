@@ -24,8 +24,8 @@ export function setCardSelectParams(params: URLSearchParams) {
 }
 
 // Canonical URL segment for an event's category — the one slugification every
-// surface (cards, links, feeds) must agree on. Also used as the badge label
-// (badges render uppercase, so case is irrelevant there).
+// surface (cards, links, sitemap, feeds) must agree on. Also used as the
+// badge label (badges render uppercase, so case is irrelevant there).
 export function getCategorySlug(eventType: string): string {
   return eventType.replaceAll(" ", "-").toLowerCase();
 }
@@ -157,6 +157,10 @@ export function groupEventsBySemester(
       b.semester.year - a.semester.year ||
       SEASON_ORDER[b.semester.season] - SEASON_ORDER[a.semester.season],
   );
+}
+
+export function truncate(text: string, max: number): string {
+  return text.length > max ? `${text.slice(0, max).trimEnd()}…` : text;
 }
 
 export function getCardLayoutClass(viewMode: string) {
