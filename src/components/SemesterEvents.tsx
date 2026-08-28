@@ -1,10 +1,9 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import { useEffect, useMemo, useState } from "react";
 import { format } from "date-fns";
 
 import { EVENT_CATEGORIES, type EventType } from "@/types";
 import Card, { ListCard } from "@/components/Card";
-import { getLocalizedEventTimes } from "@/utilities/helpers";
+import { getCategorySlug, getEventThumbnail, getLocalizedEventTimes, getOptimizedImageUrl } from "@/utilities/helpers";
 import type { SemesterType } from "@/types";
 import type { ViewMode } from "@components/ViewModeToggle";
 
@@ -58,13 +57,6 @@ export default function SemesterEvents({
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<ViewMode>("list");
-  const sectionRef = useRef<HTMLDivElement | null>(null);
-  const sectionTopInView = useInView(sectionRef, {
-    amount: 0,
-    margin: "-34px 0px 0px 0px",
-  });
-  //const dotBackground = sectionTopInView ? "#facc15" : "#9ca3af";
-  const dotBackground = sectionTopInView ? "#919191" : "#9ca3af";
 
   useEffect(() => {
     const category = getCategoryFromUrl();
@@ -145,7 +137,6 @@ export default function SemesterEvents({
 
   return (
     <div
-      ref={sectionRef}
       data-category-section={
         currentSemester
           ? "current-events"
@@ -168,14 +159,9 @@ export default function SemesterEvents({
             left: "calc(-1 * var(--sem-icon-size))",
           }}
         >
-          <motion.div
-            className="relative -top-[1px] w-(--sem-icon-size) h-(--sem-icon-size) flex items-center justify-center"
-            style={{
-              backgroundColor: dotBackground,
-            }}
-          >
+          <div className="relative -top-[1px] w-(--sem-icon-size) h-(--sem-icon-size) flex items-center justify-center bg-[#9ca3af]">
             <div className="w-1.5 h-1.5 bg-white dark:bg-zinc-900"></div>
-          </motion.div>
+          </div>
           <h3 className="text-base sm:text-base font-normal leading-none p-0 m-0 uppercase font-pixel">
             {semester.season} {semester.year}
           </h3>
@@ -210,22 +196,14 @@ export default function SemesterEvents({
                       the <span className="font-semibold">Bechtel Center</span>.
                       Come check it out!
                     </p>
-                    <button className="hidden cursor-pointer w-fit px-2 uppercase text-sm font-pixel font-normal text-white bg-black rounded-sm">
-                      Check it out {">>"}
-                    </button>
                   </div>
                 </a>
               )}
             {filteredEvents?.map((event) => {
               const { localizedStart, localizedStartTime, localizedEndTime } =
                 getLocalizedEventTimes(event);
-              const image =
-                event.images?.[0]?.image?.thumbnailURL ??
-                event.images?.[0]?.image?.url ??
-                undefined;
-              const category = event.eventType
-                .replaceAll(" ", "-")
-                .toLowerCase();
+              const image = getOptimizedImageUrl(getEventThumbnail(event), 192);
+              const category = getCategorySlug(event.eventType);
 
               return viewMode === "grid" ? (
                 <Card
@@ -245,7 +223,7 @@ export default function SemesterEvents({
                   endTime={localizedEndTime ? localizedEndTime : "???"}
                   location={event.location_name}
                   name={event.name}
-                  link={`/events/${event.eventType}/${event.slug}`}
+                  link={`/events/${category}/${event.slug}`}
                   category={event.eventType}
                   image={image ?? null}
                 />

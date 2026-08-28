@@ -1,0 +1,137 @@
+---
+import GliderIcon from "@/components/icons/Glider.astro";
+import SunIcon from "@/components/icons/Sun.astro";
+import MoonIcon from "@/components/icons/Moon.astro";
+
+interface Props {
+    variant?: "transparent" | "solid";
+}
+
+const { variant = "transparent" } = Astro.props;
+
+const isSubPage = Astro.url.pathname.length > 1;
+
+const navClass =
+    variant === "solid"
+        ? "fixed top-0 z-100 w-full h-8 flex justify-between items-center border-b-1 border-black dark:border-white transition-[background-color] duration-500 bg-card-light dark:bg-body-dark data-[scrolled=true]:border-none data-[scrolled=true]:bg-purple-700 data-[scrolled=true]:dark:bg-purple-700 text-black dark:text-white data-[scrolled=true]:text-white"
+        : "fixed top-0 z-100 w-full h-8 flex justify-between items-center transition-[background-color] duration-500 bg-transparent data-[scrolled=true]:bg-purple-700 data-[scrolled=true]:dark:bg-purple-700 text-black dark:text-white data-[scrolled=true]:text-white";
+
+const learnMoreBg = variant === "solid" ? "bg-card-light" : "bg-white";
+---
+
+<nav id="site-navbar" class={navClass} data-scrolled="false">
+    <div class="w-full px-2 md:px-3 mx-auto flex justify-between items-center sm:grid sm:grid-cols-3">
+        {
+            isSubPage ? (
+                <button
+                    type="button"
+                    id="navbar-back"
+                    class="cursor-pointer justify-self-start flex items-center gap-x-2 uppercase text-sm font-pixel"
+                >
+                    {"<<"}{" "}
+                    <span>All Events</span>
+                </button>
+            ) : (
+                <a
+                    class="h-fit self-center justify-self-start"
+                    href="https://purduehackers.com"
+                    target="_blank"
+                    rel="noreferrer"
+                >
+                    <GliderIcon class="w-4 h-4" aria-hidden="true" />
+                </a>
+            )
+        }
+
+        <div class="flex gap-2 justify-center">
+            <a href="https://purduehackers.com" target="_blank" rel="noreferrer">
+                <button
+                    type="button"
+                    class={`nav-scroll-btn cursor-pointer px-2 uppercase text-sm font-pixel font-normal text-black/80 dark:text-white/85 data-[scrolled=true]:text-white ${learnMoreBg} dark:bg-(--gray-900) data-[scrolled=true]:bg-transparent border-1 border-black/80 dark:border-white/85 data-[scrolled=true]:border-white rounded-sm`}
+                    data-scrolled="false"
+                >
+                    Learn more
+                </button>
+            </a>
+            <a href="https://discord.com/invite/5paFjKzdPE" target="_blank" rel="noreferrer">
+                <button
+                    type="button"
+                    class="nav-scroll-btn cursor-pointer px-2 uppercase text-sm font-pixel font-normal text-white dark:text-black data-[scrolled=true]:text-purple-700 bg-black/80 dark:bg-white/85 data-[scrolled=true]:bg-white rounded-sm"
+                    data-scrolled="false"
+                >
+                    Join us
+                </button>
+            </a>
+        </div>
+
+        <div class="h-fit self-center justify-self-end">
+            <div class="hover:animate-idle-icon">
+                <button type="button" id="theme-selector" class="p-0 cursor-pointer" aria-label="Toggle theme">
+                    <span class="sr-only">
+                        Enable <span class="dark:hidden">dark</span>
+                        <span class="hidden dark:inline">light</span> mode
+                    </span>
+                    <SunIcon class="inline dark:hidden w-4.5 h-4.5 text-inherit" />
+                    <MoonIcon class="hidden dark:inline w-4 h-4 text-inherit -rotate-5" />
+                </button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<script>
+    const SCROLL_THRESHOLD = 1;
+
+    const nav = document.getElementById("site-navbar");
+    const scrollButtons = document.querySelectorAll<HTMLElement>(".nav-scroll-btn");
+    let rafId: number | null = null;
+
+    const applyScrolled = () => {
+        const scrolled = window.scrollY > SCROLL_THRESHOLD ? "true" : "false";
+        nav?.setAttribute("data-scrolled", scrolled);
+        scrollButtons.forEach((btn) => btn.setAttribute("data-scrolled", scrolled));
+        rafId = null;
+    };
+
+    window.addEventListener(
+        "scroll",
+        () => {
+            if (rafId === null) rafId = window.requestAnimationFrame(applyScrolled);
+        },
+        { passive: true },
+    );
+    applyScrolled();
+
+    // Back button (sub-pages only)
+    document.getElementById("navbar-back")?.addEventListener("click", () => {
+        if (window.history.length > 1) {
+            window.history.back();
+        } else {
+            window.location.href = "/";
+        }
+    });
+
+    // Theme toggle: click toggles, aux-click resets to system preference
+    const getTheme = () => {
+        const saved = localStorage.getItem("theme");
+        if (saved) return saved;
+        return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    };
+    const applyTheme = (theme: string) => {
+        document.documentElement.classList.toggle("dark", theme !== "light");
+    };
+
+    const themeButton = document.getElementById("theme-selector");
+    themeButton?.addEventListener("click", () => {
+        const nextTheme = getTheme() === "dark" ? "light" : "dark";
+        localStorage.setItem("theme", nextTheme);
+        applyTheme(nextTheme);
+    });
+    themeButton?.addEventListener("auxclick", () => {
+        localStorage.removeItem("theme");
+        applyTheme(getTheme());
+    });
+    window
+        .matchMedia("(prefers-color-scheme: dark)")
+        .addEventListener("change", () => applyTheme(getTheme()));
+</script>

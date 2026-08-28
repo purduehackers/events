@@ -1,5 +1,5 @@
 ---
-import Navbar from "../components/Navbar.tsx";
+import Navbar from "../components/Navbar.astro";
 import Hero from "@/components/Hero.astro";
 import Marquee from "@/components/Marquee.astro";
 import SemesterFilter from "@/components/SemesterFilter.tsx";
@@ -16,10 +16,9 @@ const allSemesters = getSemestersNewestFirst();
 const categories = [...EVENT_CATEGORIES];
 ---
 
-<Navbar client:load />
+<Navbar />
 <Hero />
-<div id="hero-sentinel" class="relative -top-16 h-0 w-full pointer-events-none" aria-hidden="true" />
-<Marquee 
+<Marquee
     class="hidden text-pink-500 bg-amber-300" 
     text="HACK."
 />
@@ -53,13 +52,6 @@ const categories = [...EVENT_CATEGORIES];
             </div>
 
             <div class="hidden w-full mx-0 sm:flex flex-col sm:flex-row-reverse items-start sm:items-center justify-between sm:gap-2">
-                {/* Filter */}
-                <div class="hidden px-4 py-3 sm:py-0 w-full sm:w-fit flex items-center gap-2 border-b-1 sm:border-none border-zinc-300 dark:border-zinc-600">
-                    <h4 class="block sm:block">Filter:</h4>
-                    <SemesterFilter client:load semesters={allSemesters} />
-                    <CategoryFilter client:load categories={categories} />
-                </div>
-
                 {/* List/Grid Buttons */}
                 <ViewModeToggle client:load />
 

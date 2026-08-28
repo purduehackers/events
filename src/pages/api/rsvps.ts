@@ -20,7 +20,6 @@ export const POST: APIRoute = async ({ request }) => {
         });
 
         const text = await cmsRes.text();
-        console.log("text: ", text)
 
         return new Response(text, {
             status: cmsRes.status,
@@ -29,9 +28,8 @@ export const POST: APIRoute = async ({ request }) => {
             },
         });
     } catch (err) {
-        console.log("Failed to create rsvp: ", err)
         return new Response(
-            JSON.stringify({ error: `Failed to create rsvp: ${err}` }),
+            JSON.stringify({ error: 'Failed to create rsvp' }),
             { status: 500 }
         );
     }

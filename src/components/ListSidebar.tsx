@@ -3,7 +3,6 @@ import Dialog from "@/components/Dialog";
 import Calendar from "@/components/Calendar";
 import SemesterFilter from "./SemesterFilter";
 import CategoryFilter from "./CategoryFilter";
-import Clock from "@/components/Clock";
 import { StarIcon2 } from "@/components/icons/Icons"
 import { EVENT_CATEGORIES } from "@/types";
 import { getSemestersNewestFirst } from "@/utilities/helpers";
@@ -48,7 +47,6 @@ export default function ListSidebar({ apiUrl }: ListSidebarProps) {
         };
         const syncSemester = () => {
             const raw = new URLSearchParams(window.location.search).get("sem")?.trim().toLowerCase();
-            console.log("raw: ", raw)
             setSemester((prev) => {
                 // Default to current
                 if (raw == null) {
@@ -57,7 +55,6 @@ export default function ListSidebar({ apiUrl }: ListSidebarProps) {
 
                 // Convert slug to semester
                 const [season, yearStr] = raw.split("-");
-                console.log(yearStr, season)
                 const year = yearStr ? parseInt(yearStr) : null;
                 if (!year || isNaN(year) || !season || !["spring", "summer", "fall"].includes(season)) {
                     return prev;
@@ -65,7 +62,6 @@ export default function ListSidebar({ apiUrl }: ListSidebarProps) {
 
                 // Get first date of semester
                 const month = season === "spring" ? 0 : season === "summer" ? 5 : 7;
-                console.log("date: ", new Date(year, month, 1));
                 return new Date(year, month, 1);
             });
         }
@@ -187,7 +183,8 @@ export default function ListSidebar({ apiUrl }: ListSidebarProps) {
                 <div className="bg-black w-full h-full py-1 text-white font-mono flex items-center justify-between gap-0 border-t-1 border-zinc-300 dark:border-zinc-800">
                     <div className="flex items-center gap-3 pl-3 text-[10px] uppercase tracking-[0.2em]">
                         <StarIcon2 className="w-2 h-2" />
-                        <div>Live - <Clock /></div>
+                        {/* Updated by Clock.astro's global 30s ticker */}
+                        <div>Live - <span data-local-clock /></div>
                     </div>
                 </div>
             </div>

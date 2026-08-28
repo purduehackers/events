@@ -2,12 +2,11 @@
 export const prerender = false;
 
 import { format } from "date-fns";
-import { getLocalizedEventTimes, getSemesterFromDate, getCategoryColor } from "@/utilities/helpers";
+import { getCategorySlug, getLocalizedEventTimes, getSemesterFromDate, getCategoryColor, getCategoryBadgeClasses, getOptimizedImageUrl } from "@/utilities/helpers";
 
 import Layout from "@/layouts/Layout.astro";
 import SlugLayout from "@/layouts/SlugLayout.astro";
 import Stat from "@/components/past-events/Stat.astro";
-import Image from "@/components/Image";
 import MapPin from "@/assets/map-pin.svg";
 import Gallery from "@/components/past-events/Gallery.astro";
 import Description from "@/components/past-events/Description.astro";
@@ -33,8 +32,9 @@ let res = await fetch(`${CMS_URL}/api/events?where[eventType][contains]=${cat?.t
 const data: PayloadResponse<EventType> = await res.json();
 const event = data.docs[0];
 if (!event) {
-  // No matching event found
-  return Astro.redirect('/404');
+  // No matching event found: render the 404 page with a real 404 status
+  // instead of a redirect (redirects get ISR-cached and index as 200s)
+  return Astro.rewrite('/404');
 }
 
 // Convert rich text once during build
@@ -44,8 +44,7 @@ const descriptionHTML = await convertLexicalToHTMLAsync({
 const descriptionPlaintext = convertLexicalToPlaintext({ data: event.description });
 
 const isUpcoming = new Date(event.start) > new Date();
-const image = event.images?.[0]?.image;
-const imageThumbnail = image?.thumbnailURL ?? image?.url;
+const imageThumbnail = event.images?.[0]?.image?.url;
 
 const {
     localizedStart,
@@ -54,7 +53,7 @@ const {
 } = getLocalizedEventTimes(event);
 
 // Generate calendar links
-const eventCategorySlug = event.eventType.replaceAll(" ", "-").toLowerCase();
+const eventCategorySlug = getCategorySlug(event.eventType);
 const eventPageUrl = new URL(`/events/${eventCategorySlug}/${event.slug}`, Astro.url.origin).toString();
 const icsUrl = new URL(`/api/events.ics`, Astro.url.origin);
 icsUrl.searchParams.set("slug", event.slug);
@@ -75,7 +74,7 @@ googleCalendarUrl.searchParams.set("details", `${event.name}\n\n${event.location
   />
   <SlugLayout>
     <div
-      class="w-full h-full min-h-screen overflow-clip flex flex-col md:flex-row items-stretch justify-center font-name border-b-2 bg-card-light dark:bg-zinc-900 md:dark:bg-black bg-grid [--grid-size:100px] [--grid-color:rgba(0,0,0,0.5)] dark:[--grid-color:rgba(255,255,255,0.5)]"
+      class="w-full h-full min-h-screen overflow-clip flex flex-col md:flex-row items-stretch justify-center border-b-2 bg-card-light dark:bg-zinc-900 md:dark:bg-black bg-grid [--grid-size:100px] [--grid-color:rgba(0,0,0,0.5)] dark:[--grid-color:rgba(255,255,255,0.5)]"
     >
       {/* Event header */}
       <div
@@ -91,18 +90,23 @@ googleCalendarUrl.searchParams.set("details", `${event.name}\n\n${event.location
               </div>
               {event.eventType && (
                 <div
-                  class={`min-w-fit rounded-xs px-1 bg-${getCategoryColor(event.eventType) == "hack-night" ? "black" : getCategoryColor(event.eventType)} dark:bg-transparent text-white dark:text-${getCategoryColor(event.eventType)} border-none dark:border-solid border-[1px] uppercase text-[12px] font-pixel flex items-center justify-center`}
+                  class={`min-w-fit rounded-xs px-1 border-none dark:border-solid border-[1px] uppercase text-[12px] font-pixel flex items-center justify-center ${getCategoryBadgeClasses(getCategoryColor(event.eventType))}`}
                 >
                   {event.eventType.replaceAll(" ", "-")}
                 </div>
               )}
             </div>
 
-            <Image client:load
-              src={imageThumbnail ?? null}
-              alt={`${event.name} thumbnail`}
-              className="hidden md:flex w-32 2xl:w-46 h-32 2xl:h-46 rounded-lg"
-            />
+            {imageThumbnail && (
+              <img
+                src={getOptimizedImageUrl(imageThumbnail, 368)}
+                alt={`${event.name} thumbnail`}
+                width={184}
+                height={184}
+                decoding="async"
+                class="hidden md:block w-32 2xl:w-46 h-32 2xl:h-46 rounded-lg object-cover"
+              />
+            )}
             <div class="flex flex-col gap-2 md:gap-4 2xl:gap-6">
               <h1 class="text-black dark:text-white font-pixel uppercase text-left text-4xl md:text-[2.75rem] lg:text-5xl 2xl:text-7xl font-normal">
                 {event.name}
@@ -164,20 +168,6 @@ googleCalendarUrl.searchParams.set("details", `${event.name}\n\n${event.location
               </div>
             </div>
 
-            <div class="hidden flex gap-2">
-              <div
-                class={`min-w-fit rounded-xs px-1 text-white bg-black dark:bg-black border-none dark:border-solid dark:border-white border-1 uppercase text-[12px] font-pixel`}
-              >
-                {getSemesterFromDate(new Date(event.start)).season} {getSemesterFromDate(new Date(event.start)).year}
-              </div>
-              {event.eventType && (
-                <div
-                  class={`min-w-fit rounded-xs px-1 bg-${getCategoryColor(event.eventType) == "hack-night" ? "black" : getCategoryColor(event.eventType)} dark:bg-transparent text-white dark:text-${getCategoryColor(event.eventType)} border-none dark:border-solid border-[1px] uppercase text-[12px] font-pixel flex items-center justify-center`}
-                >
-                  {event.eventType.replaceAll(" ", "-")}
-                </div>
-              )}
-            </div>
           </div>
         </div>
       </div>
@@ -209,6 +199,8 @@ googleCalendarUrl.searchParams.set("details", `${event.name}\n\n${event.location
               images={event.images.map((img) => ({
                 url: img.image.url,
                 alt: img.image?.alt ?? event.name,
+                width: img.image.width,
+                height: img.image.height,
               }))}
             />
           )}

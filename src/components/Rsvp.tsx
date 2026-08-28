@@ -43,8 +43,6 @@ export default function Rsvp({ eventId }: RsvpProps) {
       } else {
         const errorData = await response.json();
         setMessage(errorData.error || "An error occurred. Please try again.");
-        console.log(response);
-        console.log(errorData);
       }
     } catch (error) {
       setMessage("An error occurred. Please try again.");

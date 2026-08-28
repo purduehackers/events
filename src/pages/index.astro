@@ -6,10 +6,44 @@ import PastEvents from "../components/past-events/PastEvents.tsx";
 import Layout from "@/layouts/Layout.astro";
 import HomeLayout from "@/layouts/HomeLayout.astro";
 import ListSidebar from "@/components/ListSidebar.tsx";
-import Clock from "@components/Clock";
+import Clock from "@components/Clock.astro";
+import { fetchEventsFromCMS, slimEventsForCards } from "@/utilities/cms";
+import { setCardSelectParams } from "@/utilities/helpers";
 
 const INITIAL_LIMIT = 30;
 const apiUrl = new URL('/api/events', Astro.url).href;
+
+// Server-render the first page of both lists so visitors see content instead
+// of skeletons; the islands only refetch when a filter actually changes.
+const now = new Date().toISOString();
+
+const upcomingParams = new URLSearchParams({
+  sort: "start",
+  limit: "30",
+  page: "1",
+  "where[start][greater_than]": now,
+});
+const pastParams = new URLSearchParams({
+  sort: "-start",
+  limit: String(INITIAL_LIMIT),
+  page: "1",
+  "where[start][less_than]": now,
+});
+setCardSelectParams(upcomingParams);
+setCardSelectParams(pastParams);
+
+const [upcomingData, pastData] = await Promise.all([
+  fetchEventsFromCMS(upcomingParams),
+  fetchEventsFromCMS(pastParams),
+]);
+
+const initialUpcoming = upcomingData
+  ? slimEventsForCards(upcomingData.docs)
+  : null;
+const initialPast = pastData
+  ? slimEventsForCards(pastData.docs)
+  : null;
+const initialPastHasNextPage = Boolean(pastData?.hasNextPage);
 ---
 
 <Layout>
@@ -18,16 +52,18 @@ const apiUrl = new URL('/api/events', Astro.url).href;
       <div class="w-full flex flex-col gap-6 sm:gap-6">
         <div class="w-full font-mono text-gray-500 dark:text-gray-400 text-xs sm:text-xs flex sm:hidden flex-col md:flex-row justify-between gap-2 mb-0 text-left mx-auto">
           <div>* All events are listed in Eastern Time (America/Indianapolis).</div>
-          <div class="block sm:hidden">Local - <Clock client:load /></div>
+          <div class="block sm:hidden">Local - <Clock /></div>
         </div>
 
         <div class="flex justify-between items-stretch gap-6">
           <div class="grow flex flex-col gap-6">
-            <CurrentEvents client:load apiUrl={apiUrl} />
+            <CurrentEvents client:load apiUrl={apiUrl} initialEvents={initialUpcoming} />
             <PastEvents
-              client:load
+              client:visible
               limit={INITIAL_LIMIT}
               apiUrl={apiUrl}
+              initialEvents={initialPast}
+              initialHasNextPage={initialPastHasNextPage}
             />
           </div>
 
@@ -37,9 +73,8 @@ const apiUrl = new URL('/api/events', Astro.url).href;
                 <span class="bold text-black dark:text-yellow">*</span>
                 Eastern Time (America/Indianapolis)
               </div>
-              <div class="block sm:hidden">Local - <Clock client:load /></div>
             </div>
-            <ListSidebar client:load apiUrl={apiUrl} />
+            <ListSidebar client:media="(min-width: 768px)" apiUrl={apiUrl} />
           </div>
         </div>
       </div>

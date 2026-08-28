@@ -2,6 +2,80 @@ import { EVENT_CATEGORIES } from "@/types";
 import type { EventType, SemesterType, SemesterSeason } from "@/types";
 import { TZDate } from "@date-fns/tz";
 import { format } from "date-fns";
+import { CMS_URL } from "@/utilities/constants";
+
+// The card lists only render these fields; fetching just them keeps list
+// responses (and serialized island props) small.
+const CARD_SELECT_FIELDS = [
+  "name",
+  "slug",
+  "eventType",
+  "start",
+  "end",
+  "location_name",
+  "published",
+  "images",
+] as const;
+
+export function setCardSelectParams(params: URLSearchParams) {
+  for (const field of CARD_SELECT_FIELDS) {
+    params.set(`select[${field}]`, "true");
+  }
+}
+
+// Canonical URL segment for an event's category — the one slugification every
+// surface (cards, links, feeds) must agree on. Also used as the badge label
+// (badges render uppercase, so case is irrelevant there).
+export function getCategorySlug(eventType: string): string {
+  return eventType.replaceAll(" ", "-").toLowerCase();
+}
+
+export function getEventThumbnail(event: EventType): string | undefined {
+  return event.images?.[0]?.image?.url ?? undefined;
+}
+
+// Route CMS-hosted images through Vercel's edge image optimizer so full-res
+// originals are resized/re-encoded at the CDN instead of shipped to the
+// client (or transformed in our own function). Callers crop with CSS
+// object-cover; the optimizer only resizes by width.
+// Must match imagesConfig.sizes in astro.config.mjs.
+const OPTIMIZED_WIDTHS = [192, 368, 400, 640, 800, 1200, 1600];
+
+function isOptimizableHost(hostname: string): boolean {
+  return (
+    hostname === new URL(CMS_URL).hostname ||
+    hostname.endsWith(".public.blob.vercel-storage.com")
+  );
+}
+
+export function getOptimizedImageUrl(
+  src: string | null | undefined,
+  width: number,
+): string | undefined {
+  if (!src) return undefined;
+  try {
+    if (!isOptimizableHost(new URL(src).hostname)) return src;
+  } catch {
+    return src;
+  }
+  // /_vercel/image only exists on deployments
+  if (import.meta.env.DEV) return src;
+  const w = OPTIMIZED_WIDTHS.find((allowed) => allowed >= width) ?? OPTIMIZED_WIDTHS.at(-1);
+  return `/_vercel/image?url=${encodeURIComponent(src)}&w=${w}&q=75`;
+}
+
+export function getOptimizedSrcset(
+  src: string | null | undefined,
+  widths: number[],
+): string | undefined {
+  const entries = widths
+    .map((w) => {
+      const url = getOptimizedImageUrl(src, w);
+      return url && url !== src ? `${url} ${w}w` : null;
+    })
+    .filter(Boolean);
+  return entries.length > 0 ? entries.join(", ") : undefined;
+}
 
 // Earliest semester constant
 export const EARLIEST_SEMESTER: SemesterType = { year: 2022, season: "spring" };

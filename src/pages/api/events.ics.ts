@@ -30,7 +30,6 @@ export async function GET({ request }: { request: Request }) {
             headers: {
                 Authorization: `service-accounts API-Key ${apiKey}`,
             },
-            cache: 'no-store',
         });
 
         const data = await cmsRes.json();
@@ -78,7 +77,8 @@ export async function GET({ request }: { request: Request }) {
             status: 200,
             headers: {
                 'Content-Type': 'text/calendar; charset=utf-8',
-                'Content-Disposition': `attachment; filename="${slug ? `${cmsEvents?.[0]?.name}.ics` : 'ph-events.ics'}"`
+                'Content-Disposition': `attachment; filename="${slug ? `${cmsEvents?.[0]?.name}.ics` : 'ph-events.ics'}"`,
+                'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
             }
         });
     } catch(e) {

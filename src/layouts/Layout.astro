@@ -8,7 +8,7 @@ import "@fontsource-variable/jetbrains-mono"; // Supports weights 100-800
 import "@fontsource/silkscreen/400.css";
 import "@fontsource/silkscreen/700.css";
 import "@fontsource-variable/space-grotesk";
-import "@fontsource/space-mono";
+import departureMonoWoff2 from "@/assets/fonts/DepartureMono-Regular.woff2?url";
 
 import logoImg from "@/../public/glider.svg";
 import { getImage } from "astro:assets";
@@ -31,6 +31,7 @@ const title = "Events - Purdue Hackers";
         <meta name="viewport" content="width=device-width" />
         <link rel="icon" type="image/svg" href="/glider.svg" />
         <link rel="apple-touch-icon" href={appleTouchIcon.src} />
+        <link rel="preload" as="font" type="font/woff2" crossorigin href={departureMonoWoff2} />
         <meta name="generator" content={Astro.generator} />
         <slot name="social">
           <SocialMetaTags title={title} description="Check out all the events we host!" />
@@ -58,7 +59,7 @@ const title = "Events - Purdue Hackers";
     </head>
     <body>
         <main>
-            <div class="min-h-screen flex flex-col font-title">
+            <div class="min-h-screen flex flex-col">
                 <slot />
                 <Footer />
             </div>
