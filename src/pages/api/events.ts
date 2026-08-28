@@ -16,7 +16,6 @@ const WHERE_PARAMS: Record<string, (value: string) => boolean> = {
     "where[start][less_than]": isValidDate,
     "where[eventType][equals]": isShortString,
     "where[eventType][not_in]": isShortString,
-    "where[name][like]": isShortString,
 };
 
 function isValidDate(value: string) {
@@ -28,6 +27,7 @@ function isShortString(value: string) {
 }
 
 function validateParam(key: string, value: string): boolean {
+    if (key === "q") return isShortString(value);
     if (key === "sort") return value === "start" || value === "-start";
     if (key === "limit") return /^\d+$/.test(value) && Number(value) >= 1 && Number(value) <= 100;
     if (key === "page") return /^\d+$/.test(value) && Number(value) >= 1;
@@ -52,6 +52,15 @@ export const GET: APIRoute = async ({ url }) => {
         // Full-doc dumps must stay bounded; allow pagination=false only with select
         if (params.get("pagination") === "false" && ![...params.keys()].some((k) => k.startsWith("select["))) {
             return jsonResponse({ error: "pagination=false requires select[...] fields" }, 400);
+        }
+
+        // Search orchestration lives server-side: one client param expands to
+        // the or-clauses, so clients never carry Payload query shapes
+        const q = params.get("q");
+        if (q) {
+            params.delete("q");
+            params.set("where[or][0][name][like]", q);
+            params.set("where[or][1][location_name][like]", q);
         }
 
         // Filter for published only

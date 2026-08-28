@@ -1,11 +1,17 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { format } from "date-fns";
 
-import { EVENT_CATEGORIES, type EventType } from "@/types";
+import { EVENT_CATEGORIES, type EventType, type SemesterType } from "@/types";
 import Card, { ListCard } from "@/components/Card";
-import { getCategorySlug, getEventThumbnail, getLocalizedEventTimes, getOptimizedImageUrl } from "@/utilities/helpers";
-import type { SemesterType } from "@/types";
-import type { ViewMode } from "@components/ViewModeToggle";
+import {
+  getCardLayoutClass,
+  getCategorySlug,
+  getEventThumbnail,
+  getLocalizedEventTimes,
+  getOptimizedImageUrl,
+  isKnownCategory,
+} from "@/utilities/helpers";
+import { useUrlFilters } from "@/utilities/useUrlFilters";
 
 interface SemesterEventsProps {
   events: EventType[];
@@ -14,140 +20,75 @@ interface SemesterEventsProps {
   idx: number;
 }
 
-// Get search query param from url
-function getQueryFromUrl(): string | null {
-  if (typeof window === "undefined") return null;
-  const raw = new URLSearchParams(window.location.search)
-    .get("query")
-    ?.trim()
-    .toLowerCase();
-  return raw || null;
-}
-
-function getCategoryFromUrl(): string | null {
-  if (typeof window === "undefined") return null;
-  const raw = new URLSearchParams(window.location.search)
-    .get("cat")
-    ?.trim()
-    .toLowerCase();
-  return raw || null;
-}
-
-function getViewModeFromUrl(): ViewMode {
-  if (typeof window === "undefined") return "list";
-  const raw = new URLSearchParams(window.location.search)
-    .get("viewMode")
-    ?.trim()
-    .toLowerCase();
-  return raw === "grid" ? "grid" : "list";
-}
-
-function isKnownCategory(category: string | null) {
-  return Boolean(
-    category && EVENT_CATEGORIES.map((c) => c.toLowerCase()).includes(category),
-  );
-}
-
 export default function SemesterEvents({
   events,
   semester,
   currentSemester = false,
   idx,
 }: SemesterEventsProps) {
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState<string | null>(null);
-  const [viewMode, setViewMode] = useState<ViewMode>("list");
+  const { category, viewMode } = useUrlFilters();
 
-  useEffect(() => {
-    const category = getCategoryFromUrl();
-    setSelectedCategory(category);
-    const query = getQueryFromUrl();
-    setSearchQuery(query);
-    setViewMode(getViewModeFromUrl());
-  }, []);
-
-  // Listen for and apply filtering/searching updates
-  useEffect(() => {
-    const catHandler = (event: Event) => {
-      const detail = (event as CustomEvent<string | null>).detail;
-      setSelectedCategory(detail);
-    };
-    const searchHandler = (event: Event) => {
-      const detail = (event as CustomEvent<string | null>).detail;
-      setSearchQuery(detail);
-    };
-    const viewModeHandler = (event: Event) => {
-      const detail = (event as CustomEvent<string | null>).detail;
-      setViewMode(detail === "grid" ? "grid" : "list");
-    };
-
-    window.addEventListener("categoryChange", catHandler as EventListener);
-    window.addEventListener(
-      "searchQueryChange",
-      searchHandler as EventListener,
-    );
-    window.addEventListener("viewModeChange", viewModeHandler as EventListener);
-    return () => {
-      window.removeEventListener("categoryChange", catHandler as EventListener);
-      window.removeEventListener(
-        "searchQueryChange",
-        searchHandler as EventListener,
-      );
-      window.removeEventListener(
-        "viewModeChange",
-        viewModeHandler as EventListener,
-      );
-    };
-  }, []);
-
-  const isOther = selectedCategory === "other";
-  const isKnown = isKnownCategory(selectedCategory);
-
+  // Category bucketing only: it bridges the gap between server-rendered
+  // initial data (unfiltered) and the first filtered refetch on shared
+  // links. Search results are the server's verdict and are not re-filtered.
   const filteredEvents = useMemo(() => {
-    if (!selectedCategory && !searchQuery) return events;
-
-    let filtered = events;
-
-    // Appy cat filters
-    if (isOther) {
+    if (!category) return events;
+    if (category === "other") {
       const knownLower = new Set(EVENT_CATEGORIES.map((c) => c.toLowerCase()));
-      filtered = events.filter(
-        (e) => !knownLower.has(e.eventType?.toLowerCase?.() ?? ""),
-      );
-    } else if (isKnown) {
-      filtered = events.filter(
-        (e) => e.eventType?.toLowerCase?.() === selectedCategory,
-      );
+      return events.filter((e) => !knownLower.has(e.eventType?.toLowerCase?.() ?? ""));
     }
-
-    // Apply search query
-    if (searchQuery && searchQuery.length > 0) {
-      filtered = filtered.filter((e) =>
-        e.name.toLowerCase().includes(searchQuery.toLowerCase()),
-      );
+    if (isKnownCategory(category)) {
+      return events.filter((e) => e.eventType?.toLowerCase?.() === category);
     }
+    return events;
+  }, [events, category]);
 
-    return filtered;
-  }, [events, isKnown, isOther, selectedCategory, searchQuery]);
+  // Card dates/URLs only recompute when the data or layout changes, not on
+  // every keystroke of the shared query state
+  const cards = useMemo(
+    () =>
+      filteredEvents.map((event) => {
+        const { localizedStart, localizedStartTime, localizedEndTime } =
+          getLocalizedEventTimes(event);
+        const image = getOptimizedImageUrl(getEventThumbnail(event), 192);
+        const link = `/events/${getCategorySlug(event.eventType)}/${event.slug}`;
 
-  const cardLayoutClassName =
-    viewMode === "grid"
-      ? "grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-2 sm:auto-cols-fr"
-      : "flex flex-col gap-2";
+        return viewMode === "grid" ? (
+          <Card
+            key={event.id}
+            date={format(localizedStart, "MMM d")}
+            time={`${localizedStartTime}`}
+            location={event.location_name}
+            name={event.name}
+            link={link}
+            category={event.eventType}
+          />
+        ) : (
+          <ListCard
+            key={event.id}
+            date={format(localizedStart, "MMM d")}
+            startTime={localizedStartTime}
+            endTime={localizedEndTime ? localizedEndTime : "???"}
+            location={event.location_name}
+            name={event.name}
+            link={link}
+            category={event.eventType}
+            image={image ?? null}
+          />
+        );
+      }),
+    [filteredEvents, viewMode],
+  );
 
   return (
     <div
       data-category-section={
-        currentSemester
-          ? "current-events"
-          : `${semester.season}-${semester.year}`
+        currentSemester ? "current-events" : `${semester.season}-${semester.year}`
       }
       className="[--line-card-gap:18px] sm:[--line-card-gap:40px] [--sem-icon-size:14px] w-full px-2 flex flex-col gap-y-4"
       id={currentSemester ? "current-events-sec" : `sem-sec-${idx}`}
       data-sem-key={
-        currentSemester
-          ? "current-events"
-          : `${semester.season}-${semester.year}`
+        currentSemester ? "current-events" : `${semester.season}-${semester.year}`
       }
     >
       {/* Semester label */}
@@ -170,66 +111,8 @@ export default function SemesterEvents({
 
       {/* Event cards */}
       <div className="pl-(--line-card-gap) border-l-1 border-gray-300">
-        {filteredEvents?.length > 0 ||
-        (currentSemester &&
-          !searchQuery &&
-          (!selectedCategory || selectedCategory === "hack-night")) ? (
-          <div className={cardLayoutClassName}>
-            {currentSemester &&
-              !searchQuery &&
-              (!selectedCategory || selectedCategory === "hack-night") && (
-                <a
-                  className={`w-full ${viewMode === "list" ? "h-auto" : "h-full"}`}
-                  href="https://discord.com/invite/5paFjKzdPE"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <div className="w-full h-full bg-black dark:bg-yellow text-white dark:text-black px-6 2xl:px-8 py-5 flex flex-col justify-between gap-y-3">
-                    <p className="w-fit font-pixel text-yellow dark:text-black uppercase text-sm">
-                      --weekly--
-                    </p>
-                    <h2 className="font-mono text-white dark:text-black text-left text-lg 2xl:text-xl font-black">
-                      Come to Hack Night!!
-                    </h2>
-                    <p className="font-subtext text-sm">
-                      <span className="font-semibold">Every Friday 8pm</span> at
-                      the <span className="font-semibold">Bechtel Center</span>.
-                      Come check it out!
-                    </p>
-                  </div>
-                </a>
-              )}
-            {filteredEvents?.map((event) => {
-              const { localizedStart, localizedStartTime, localizedEndTime } =
-                getLocalizedEventTimes(event);
-              const image = getOptimizedImageUrl(getEventThumbnail(event), 192);
-              const category = getCategorySlug(event.eventType);
-
-              return viewMode === "grid" ? (
-                <Card
-                  key={event.id}
-                  date={format(localizedStart, "MMM d")}
-                  time={`${localizedStartTime}`}
-                  location={event.location_name}
-                  name={event.name}
-                  link={`/events/${category}/${event.slug}`}
-                  category={event.eventType}
-                />
-              ) : (
-                <ListCard
-                  key={event.id}
-                  date={format(localizedStart, "MMM d")}
-                  startTime={localizedStartTime}
-                  endTime={localizedEndTime ? localizedEndTime : "???"}
-                  location={event.location_name}
-                  name={event.name}
-                  link={`/events/${category}/${event.slug}`}
-                  category={event.eventType}
-                  image={image ?? null}
-                />
-              );
-            })}
-          </div>
+        {cards.length > 0 ? (
+          <div className={getCardLayoutClass(viewMode)}>{cards}</div>
         ) : (
           <div className="w-full text-base font-pixel text-gray-500">
             {currentSemester

@@ -1,25 +1,12 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import Selector, { type SelectorOption } from "@/components/Selector";
+import { setUrlFilter, useUrlFilters } from "@/utilities/useUrlFilters";
 
 interface CategoryFilterProps {
   categories: string[];
   triggerStyle?: string;
   portalStyle?: string;
   itemStyle?: string;
-}
-
-// Get category query param from url
-function getCategoryFromUrl(): string | null {
-  if (typeof window === "undefined") return null;
-  const raw = new URLSearchParams(window.location.search).get("cat")?.trim().toLowerCase();
-  return raw || null;
-}
-
-declare global {
-  interface Window {
-    knownEventCategories?: string[];
-    applyCategoryFilter?: () => void;
-  }
 }
 
 export default function CategoryFilter({ categories, triggerStyle, portalStyle, itemStyle }: CategoryFilterProps) {
@@ -43,35 +30,11 @@ export default function CategoryFilter({ categories, triggerStyle, portalStyle, 
     return optionList;
   }, [categories]);
 
-  const [value, setValue] = useState<string>("");
-
-  useEffect(() => {
-    // Expose known categories to filtering script (for "other" logic)
-    window.knownEventCategories = options.map((o) => o.value).filter((v) => v !== "other");
-
-    const cat = getCategoryFromUrl();
-    if (cat && options.some((o) => o.value === cat)) {
-      setValue(cat);
-    }
-  }, [options]);
+  const { category } = useUrlFilters();
+  const value = options.some((o) => o.value === category) ? category : "";
 
   const onValueChange = (newValue: string) => {
-    setValue(newValue);
-
-    const url = new URL(window.location.href);
-    if (newValue) {
-      url.searchParams.set("cat", newValue);
-    } else {
-      url.searchParams.delete("cat");
-    }
-    window.history.replaceState(null, "", url.toString());
-
-    // Notify past and current events components so it can re-fetch / re-filter
-    window.dispatchEvent(
-      new CustomEvent<string | null>("categoryChange", {
-        detail: newValue || null,
-      })
-    );
+    setUrlFilter("cat", newValue);
   };
 
   return (

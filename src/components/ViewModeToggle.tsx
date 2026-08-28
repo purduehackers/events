@@ -1,38 +1,13 @@
-import { useEffect, useState } from "react";
 import { SquareIcon } from "./icons/Icons";
+import { setUrlFilter, useUrlFilters } from "@/utilities/useUrlFilters";
 
 export type ViewMode = "list" | "grid";
 
-function getViewModeFromUrl(): ViewMode {
-    if (typeof window === "undefined") return "list";
-    const raw = new URLSearchParams(window.location.search).get("viewMode")?.trim().toLowerCase();
-    return raw === "grid" ? "grid" : "list";
-}
-
 export default function ViewModeToggle() {
-    const [viewMode, setViewMode] = useState<ViewMode>("list");
+    const { viewMode } = useUrlFilters();
 
-    useEffect(() => {
-        setViewMode(getViewModeFromUrl());
-    }, []);
-
-    const onValueChange = (newValue: string) => {
-        setViewMode(newValue as ViewMode);
-
-        const url = new URL(window.location.href);
-        if (newValue) {
-            url.searchParams.set("viewMode", newValue);
-        } else {
-            url.searchParams.delete("viewMode");
-        }
-        window.history.replaceState(null, "", url.toString());
-
-        // Notify events components so it can re-fetch / re-filter
-        window.dispatchEvent(
-            new CustomEvent<string | null>("viewModeChange", {
-                detail: newValue || null,
-            })
-        );
+    const onValueChange = (newValue: ViewMode) => {
+        setUrlFilter("viewMode", newValue);
     };
 
     return (
