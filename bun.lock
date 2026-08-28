@@ -18,6 +18,7 @@
         "@radix-ui/react-dialog": "^1.1.16",
         "@radix-ui/react-select": "^2.2.6",
         "@tailwindcss/vite": "^4.1.17",
+        "@touch4it/ical-timezones": "^1.9.0",
         "@types/react": "^19.2.14",
         "@types/react-dom": "^19.2.3",
         "astro": "^6.0.8",
@@ -527,6 +528,8 @@
     "@tailwindcss/vite": ["@tailwindcss/vite@4.2.2", "", { "dependencies": { "@tailwindcss/node": "4.2.2", "@tailwindcss/oxide": "4.2.2", "tailwindcss": "4.2.2" }, "peerDependencies": { "vite": "^5.2.0 || ^6 || ^7 || ^8" } }, "sha512-mEiF5HO1QqCLXoNEfXVA1Tzo+cYsrqV7w9Juj2wdUFyW07JRenqMG225MvPwr3ZD9N1bFQj46X7r33iHxLUW0w=="],
 
     "@tokenizer/token": ["@tokenizer/token@0.3.0", "", {}, "sha512-OvjF+z51L3ov0OyAU0duzsYuvO01PH7x4t6DJx+guahgTnBHkhJdG7soQeTSFLWN3efnHyibZ4Z8l2EuWwJN3A=="],
+
+    "@touch4it/ical-timezones": ["@touch4it/ical-timezones@1.9.0", "", {}, "sha512-UAiZMrFlgMdOIaJDPsKu5S7OecyMLr3GGALJTYkRgHmsHAA/8Ixm1qD09ELP2X7U1lqgrctEgvKj9GzMbczC+g=="],
 
     "@types/acorn": ["@types/acorn@4.0.6", "", { "dependencies": { "@types/estree": "*" } }, "sha512-veQTnWP+1D/xbxVrPC3zHnCZRjSrKfhbMUlEA43iMZLu7EsnTtkJklIuwrCPbOi8YkvDQAiW05VQQFvvz9oieQ=="],
 
