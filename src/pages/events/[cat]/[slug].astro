@@ -13,6 +13,8 @@ import Description from "@/components/past-events/Description.astro";
 import EventMap from "@/components/EventMap.astro";
 import RelatedEvents from "@/components/RelatedEvents.astro";
 import Rsvp from "@/components/Rsvp";
+import Attendees from "@/components/Attendees";
+import { isWalletConfigured } from "@/utilities/wallet-config";
 import SocialMetaTags from "@/layouts/components/SocialMetaTags.astro";
 import EventJsonLd from "@/layouts/components/EventJsonLd.astro";
 
@@ -186,27 +188,8 @@ outlookCalendarUrl.searchParams.set("body", eventPageUrl);
                       </div>
                     )
                   }
-                  {/* Add to calendar */}
-                  <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm 2xl:text-base font-pixel uppercase text-black dark:text-gray-200">
-                    <span class="text-[12px] 2xl:text-sm text-gray-500 dark:text-gray-400 normal-case font-subtext font-semibold">Add to calendar:</span>
-                    <a
-                      href={googleCalendarUrl.toString()}
-                      target="_blank"
-                      rel="noreferrer"
-                      class="transition-colors duration-150 hover:text-purple-700 dark:hover:text-yellow"
-                    >[ Google ]</a>
-                    <a
-                      href={icsUrl.toString()}
-                      download={`${event.slug}.ics`}
-                      class="transition-colors duration-150 hover:text-purple-700 dark:hover:text-yellow"
-                    >[ .ics ]</a>
-                    <a
-                      href={outlookCalendarUrl.toString()}
-                      target="_blank"
-                      rel="noreferrer"
-                      class="transition-colors duration-150 hover:text-purple-700 dark:hover:text-yellow"
-                    >[ Outlook ]</a>
-                  </div>
+                  {/* Who's going — calendar actions live in the RSVP hub's popup */}
+                  {isUpcoming && <Attendees client:load eventId={event.id} />}
                 </div>
               </div>
             </div>
@@ -227,8 +210,10 @@ outlookCalendarUrl.searchParams.set("body", eventPageUrl);
               eventName={event.name}
               start={event.start}
               gcalUrl={googleCalendarUrl.toString()}
+              outlookUrl={outlookCalendarUrl.toString()}
               icsUrl={`${icsUrl.pathname}${icsUrl.search}`}
               icsName={`${event.slug}.ics`}
+              walletUrl={isWalletConfigured() ? `/api/wallet/${event.slug}` : undefined}
             />
           )}
 

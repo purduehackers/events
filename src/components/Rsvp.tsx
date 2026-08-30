@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Dialog from "./Dialog";
 import { StarIcon2 } from "./icons/Icons";
 
 interface RsvpProps {
@@ -6,8 +7,10 @@ interface RsvpProps {
   eventName: string;
   start: string;
   gcalUrl: string;
+  outlookUrl: string;
   icsUrl: string;
   icsName: string;
+  walletUrl?: string;
 }
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -58,6 +61,13 @@ function writeStoredRsvp(eventId: string, value: StoredRsvp | null) {
   writeJson(RSVPS_KEY, all);
 }
 
+// Lets the Attendees facepile track this island's optimistic count changes
+function announceCountChange(delta: number) {
+  window.dispatchEvent(
+    new CustomEvent("ph:rsvps-changed", { detail: { delta } }),
+  );
+}
+
 function startsInLabel(startIso: string): string | null {
   const ms = new Date(startIso).getTime() - Date.now();
   if (Number.isNaN(ms)) return null;
@@ -74,7 +84,19 @@ function startsInLabel(startIso: string): string | null {
 const GHOST_BUTTON =
   "inline-flex items-center gap-1.5 font-pixel uppercase text-sm border-1 border-white/30 hover:border-white px-3 py-2 transition-[border-color,transform] duration-150 ease-snappy active:scale-[0.97] focus-visible:outline-yellow";
 
-export default function Rsvp({ eventId, eventName, start, gcalUrl, icsUrl, icsName }: RsvpProps) {
+const CAL_OPTION =
+  "w-full inline-flex items-center justify-center gap-2 font-pixel uppercase text-sm text-white border-1 border-zinc-700 hover:border-zinc-400 py-2.5 px-4 transition-[border-color,transform] duration-150 ease-snappy active:scale-[0.97] focus-visible:outline-yellow";
+
+export default function Rsvp({
+  eventId,
+  eventName,
+  start,
+  gcalUrl,
+  outlookUrl,
+  icsUrl,
+  icsName,
+  walletUrl,
+}: RsvpProps) {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -82,7 +104,6 @@ export default function Rsvp({ eventId, eventName, start, gcalUrl, icsUrl, icsNa
   const [showForm, setShowForm] = useState(false);
   const [isBusy, setIsBusy] = useState(false);
   const [message, setMessage] = useState("");
-  const [count, setCount] = useState<number | null>(null);
   // Branch swaps animate only when the user caused them. The hydration swap
   // (SSR form → remembered state) happens on every visit and stays instant.
   const [animateSwap, setAnimateSwap] = useState(false);
@@ -95,21 +116,6 @@ export default function Rsvp({ eventId, eventName, start, gcalUrl, icsUrl, icsNa
       setName(savedProfile.name ?? "");
     }
     setGoing(readStoredRsvp(eventId));
-  }, [eventId]);
-
-  useEffect(() => {
-    let cancelled = false;
-    fetch(`/api/rsvps/count?event=${encodeURIComponent(eventId)}`)
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data) => {
-        if (!cancelled && data && typeof data.count === "number") {
-          setCount(data.count);
-        }
-      })
-      .catch(() => {});
-    return () => {
-      cancelled = true;
-    };
   }, [eventId]);
 
   const submitRsvp = async (submitEmail: string, submitName: string) => {
@@ -149,8 +155,8 @@ export default function Rsvp({ eventId, eventName, start, gcalUrl, icsUrl, icsNa
         setGoing(record);
         setShowForm(false);
         setMessage("");
-        setCount((prev) => (prev ?? 0) + 1);
         setAnimateSwap(true);
+        announceCountChange(1);
       } else {
         // The CMS throws user-ready messages (e.g. the duplicate-RSVP error)
         let errorText = "";
@@ -196,9 +202,9 @@ export default function Rsvp({ eventId, eventName, start, gcalUrl, icsUrl, icsNa
       if (!res.ok) throw new Error();
       writeStoredRsvp(eventId, null);
       setGoing(null);
-      setCount((prev) => (prev !== null && prev > 0 ? prev - 1 : prev));
       setMessage("You're off the list. Change of plans again? RSVP below.");
       setAnimateSwap(true);
+      announceCountChange(-1);
     } catch {
       setMessage("Couldn't cancel — try again in a minute.");
     } finally {
@@ -230,13 +236,6 @@ export default function Rsvp({ eventId, eventName, start, gcalUrl, icsUrl, icsNa
         {message}
       </p>
     ) : null;
-
-  // Height is reserved before the count arrives so nothing below jumps
-  const countLine = (
-    <p className="font-pixel uppercase text-sm text-center text-yellow mb-4 sm:mb-6 min-h-5">
-      {count === null ? " " : count > 0 ? `▸ ${count} going` : "▸ Be the first to RSVP"}
-    </p>
-  );
 
   const askHeading = (
     <div className="font-pixel flex items-center justify-center gap-4 text-white text-xl text-center mt-2 sm:mt-0 mb-4 sm:mb-6">
@@ -272,15 +271,43 @@ export default function Rsvp({ eventId, eventName, start, gcalUrl, icsUrl, icsNa
           style={reveal(1)}
         >
           {profile?.email ? `RSVP'd as ${profile.email}` : "You're on the list"}
-          {count !== null ? ` · ${count} going` : ""}
         </p>
         <div className={`mt-5 flex flex-wrap gap-2 ${swapClass}`} style={reveal(2)}>
-          <a href={gcalUrl} target="_blank" rel="noreferrer" className={GHOST_BUTTON}>
-            + Google Calendar
-          </a>
-          <a href={icsUrl} download={icsName} className={GHOST_BUTTON}>
-            ↓ .ics
-          </a>
+          <Dialog
+            title="Add to Calendar"
+            description="Your RSVP confirmation email includes a calendar invite (.ics). You can also add the event to your calendar manually below."
+            trigger={
+              <button type="button" className={GHOST_BUTTON}>
+                + Add to Calendar
+              </button>
+            }
+            children={
+              <div className="flex flex-col gap-2">
+                <a href={gcalUrl} target="_blank" rel="noreferrer" className={CAL_OPTION}>
+                  Google Calendar
+                </a>
+                <a href={outlookUrl} target="_blank" rel="noreferrer" className={CAL_OPTION}>
+                  Outlook.com
+                </a>
+                <a href={icsUrl} download={icsName} className={CAL_OPTION}>
+                  iCal (Apple / Outlook)
+                </a>
+              </div>
+            }
+            closeNode={
+              <button
+                type="button"
+                className="font-pixel uppercase text-xs text-zinc-400 hover:text-white transition-colors duration-150"
+              >
+                Done
+              </button>
+            }
+          />
+          {walletUrl && (
+            <a href={walletUrl} className={GHOST_BUTTON}>
+              ⌾ Apple Wallet
+            </a>
+          )}
           <button type="button" onClick={inviteFriend} className={GHOST_BUTTON}>
             ↗ Invite a friend
           </button>
@@ -314,7 +341,6 @@ export default function Rsvp({ eventId, eventName, start, gcalUrl, icsUrl, icsNa
     content = (
       <div className={swapClass}>
         {askHeading}
-        {countLine}
         <div className="flex flex-col gap-2">
           <button
             type="button"
@@ -342,7 +368,6 @@ export default function Rsvp({ eventId, eventName, start, gcalUrl, icsUrl, icsNa
     content = (
       <div className={swapClass}>
         {askHeading}
-        {countLine}
         <form
           onSubmit={(e) => {
             e.preventDefault();
