@@ -24,14 +24,21 @@ export function setCardSelectParams(params: URLSearchParams) {
 }
 
 // Canonical URL segment for an event's category — the one slugification every
-// surface (cards, links, feeds) must agree on. Also used as the badge label
-// (badges render uppercase, so case is irrelevant there).
+// surface (cards, links, sitemap, feeds) must agree on. Also used as the
+// badge label (badges render uppercase, so case is irrelevant there).
 export function getCategorySlug(eventType: string): string {
   return eventType.replaceAll(" ", "-").toLowerCase();
 }
 
 export function getEventThumbnail(event: EventType): string | undefined {
   return event.images?.[0]?.image?.url ?? undefined;
+}
+
+// Events without an explicit end default to one hour
+export function getEventEnd(event: Pick<EventType, "start" | "end">): Date {
+  return event.end
+    ? new Date(event.end)
+    : new Date(new Date(event.start).getTime() + 60 * 60 * 1000);
 }
 
 // Route CMS-hosted images through Vercel's edge image optimizer so full-res
@@ -130,17 +137,43 @@ export function getSemestersNewestFirst(latest?: SemesterType ): SemesterType[] 
   return list;
 }
 
-// Get all events of a given semester
-export function getEventsInSemester(events: EventType[], semester: SemesterType) {
-  return events
-    .filter((event) => {
-      const s = getSemesterFromDate(new Date(event.start));
-      return s.year === semester.year && s.season === semester.season;
-    })
-    .sort((a, b) =>
-      // Sort by newest 
-      new Date(b.start).getTime() - new Date(a.start).getTime()
-    );
+const SEASON_ORDER: Record<SemesterSeason, number> = { spring: 0, summer: 1, fall: 2 };
+
+// Bucket events into semesters in one pass, newest semester first and newest
+// event first within each semester.
+export function groupEventsBySemester(
+  events: EventType[],
+): { semester: SemesterType; events: EventType[] }[] {
+  const buckets = new Map<string, { semester: SemesterType; events: EventType[] }>();
+  for (const event of events) {
+    const semester = getSemesterFromDate(new Date(event.start));
+    const key = `${semester.season}-${semester.year}`;
+    let bucket = buckets.get(key);
+    if (!bucket) {
+      bucket = { semester, events: [] };
+      buckets.set(key, bucket);
+    }
+    bucket.events.push(event);
+  }
+  const groups = [...buckets.values()];
+  for (const group of groups) {
+    group.events.sort((a, b) => new Date(b.start).getTime() - new Date(a.start).getTime());
+  }
+  return groups.sort(
+    (a, b) =>
+      b.semester.year - a.semester.year ||
+      SEASON_ORDER[b.semester.season] - SEASON_ORDER[a.semester.season],
+  );
+}
+
+export function truncate(text: string, max: number): string {
+  return text.length > max ? `${text.slice(0, max).trimEnd()}…` : text;
+}
+
+export function getCardLayoutClass(viewMode: string) {
+  return viewMode === "grid"
+    ? "grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-2 sm:auto-cols-fr"
+    : "flex flex-col gap-2";
 }
 
 export function getEventSlug(path: string) {

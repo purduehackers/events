@@ -45,7 +45,7 @@ export default function Card({
   return (
     <div data-category={category?.toLowerCase() ?? ""}>
       <a
-        className="group col-span-1 h-full flex flex-col items-start justify-between gap-2 text-left px-6 2xl:px-8 py-5 bg-card-light dark:bg-(--gray-900) border border-[1px] border-white dark:border-zinc-700 rounded-none"
+        className="group col-span-1 h-full flex flex-col items-start justify-between gap-2 text-left px-6 2xl:px-8 py-5 bg-card-light dark:bg-(--gray-900) border border-[1px] border-white dark:border-zinc-700 rounded-none transition-[border-color,transform] duration-150 ease-snappy hover:border-zinc-300 dark:hover:border-zinc-500 active:scale-[0.99]"
         href={link}
       >
         <div className="w-full flex justify-between items-start">
@@ -91,7 +91,7 @@ export function ListCard({
   return (
     <div data-category={category?.toLowerCase() ?? ""}>
       <a
-        className="group flex min-h-fit sm:h-35 w-full p-3 sm:p-5 flex-row items-stretch gap-4 sm:gap-8 overflow-hidden border border-[1px] border-white bg-card-light text-left dark:border-zinc-700 dark:bg-(--gray-900)"
+        className="group flex min-h-fit sm:h-35 w-full p-3 sm:p-5 flex-row items-stretch gap-4 sm:gap-8 overflow-hidden border border-[1px] border-white bg-card-light text-left dark:border-zinc-700 dark:bg-(--gray-900) transition-[border-color,transform] duration-150 ease-snappy hover:border-zinc-300 dark:hover:border-zinc-500 active:scale-[0.99]"
         href={link}
       >
         {/* The wrapper background shows through while the image loads */}

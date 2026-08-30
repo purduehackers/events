@@ -1,244 +1,82 @@
-import { useState, useEffect, useMemo, useRef } from "react";
-import type { EventType, SemesterType } from "@/types";
+import { useMemo } from "react";
+import type { EventType } from "@/types";
 import SemesterEvents from "@/components/SemesterEvents";
-import { getSemestersNewestFirst, getEventsInSemester, getSemesterFromDate, isKnownCategory, getSemesterDateRange, setCardSelectParams } from "@/utilities/helpers";
+import LoadMoreButton from "@/components/LoadMoreButton";
 import SkeletonSemesterEvents from "./SkeletonLoader";
+import { getSemesterFromDate, getSemesterDateRange, groupEventsBySemester } from "@/utilities/helpers";
+import { useEventFeed } from "@/utilities/useEventFeed";
 
 interface CurrentEventsProps {
     apiUrl: string;
     initialEvents?: EventType[] | null;
+    initialHasNextPage?: boolean;
 }
 
-const INITIAL_PAGE = 1;
-
-const LATEST_DATE = new Date();
-LATEST_DATE.setFullYear(LATEST_DATE.getFullYear() + 1);
-const ALL_SEMESTERS = getSemestersNewestFirst(getSemesterFromDate(LATEST_DATE));
 const CURRENT_SEMESTER = getSemesterFromDate(new Date());
 
-export default function CurrentEvents({ apiUrl, initialEvents = null }: CurrentEventsProps) {
-    const [events, setEvents] = useState<EventType[]>(initialEvents ?? []);
-    const [isLoading, setIsLoading] = useState(!initialEvents);
-    const skippedInitialFetch = useRef(false);
-    const [selectedCategory, setSelectedCategory] = useState<string>("");
-    const [searchQuery, setSearchQuery] = useState<string>("");
-    const [selectedSemester, setSelectedSemester] = useState<SemesterType | null>(null);
+const isCurrentSemester = (s: { season: string; year: number }) =>
+    s.season === CURRENT_SEMESTER.season && s.year === CURRENT_SEMESTER.year;
 
-    // Helper for building fetch params
-    const buildFetchParams = (pageNum: number, category: string | null, query: string | null) => {
-        const params = new URLSearchParams();
-        params.set("sort", "start");
-        params.set("limit", "30");
-        const now = new Date();
-
-        // If current semester selected, filter for it
-        if (selectedSemester) {
-            const currentSemester = getSemesterFromDate(new Date());
-            const isCurrent = selectedSemester.season === currentSemester.season && selectedSemester.year === currentSemester.year;
-
-            if (isCurrent) {
-                // Future events starting after now
-                params.set("where[start][greater_than]", now.toISOString());
-                // Cap to the semester end if known
-                const { end } = getSemesterDateRange(selectedSemester);
-                if (isFinite(end.getTime())) {
-                    params.set("where[start][less_than]", new Date(Math.max(now.getTime(), Math.min(end.getTime(), end.getTime()))).toISOString());
-                }
-            } else {
-                // Selected semester is not the current semester: force no results by setting a far-future lower bound
-                params.set("where[start][greater_than]", new Date(3000, 0, 1).toISOString());
-            }
-        } else {
-            // Default to all future events.
+export default function CurrentEvents({ apiUrl, initialEvents = null, initialHasNextPage = false }: CurrentEventsProps) {
+    const { events, isLoading, hasNextPage, isLoadingMore, loadMore, semester } = useEventFeed({
+        apiUrl,
+        limit: 30,
+        sort: "start",
+        initialEvents,
+        initialHasNextPage,
+        setWindowParams: (params, sem) => {
+            const now = new Date();
+            // A non-current semester never has upcoming events
+            if (sem && !isCurrentSemester(sem)) return false;
             params.set("where[start][greater_than]", now.toISOString());
-        }
-
-        params.set("page", String(pageNum));
-
-        // Add filter/search query params
-        if (isKnownCategory(category)) {
-            params.set("where[eventType][equals]", category as string);
-        }
-        if (query && query.length > 0) {
-            params.set("where[name][like]", query);
-        }
-        setCardSelectParams(params);
-        return params;
-    };
-
-    useEffect(() => {
-        if (typeof window === "undefined") return;
-        const params = new URLSearchParams(window.location.search);
-        setSelectedCategory(params.get("cat") ?? "");
-        setSearchQuery(params.get("query") ?? "");
-
-        // Parse semester from string (e.g. sem=fall-2024)
-        const semSlug = params.get("sem");
-        if (semSlug) {
-            const parts = semSlug.split("-");
-            if (parts.length === 2) {
-                const seasonRaw = parts[0]?.toLowerCase();
-                const yearNum = Number(parts[1]);
-                const validSeasons = ["spring", "summer", "fall"];
-
-                if (seasonRaw && validSeasons.includes(seasonRaw) && Number.isInteger(yearNum) && !Number.isNaN(yearNum)) {
-                    setSelectedSemester({
-                        year: yearNum,
-                        season: seasonRaw as SemesterType["season"]
-                    });
-                }
+            if (sem) {
+                const { end } = getSemesterDateRange(sem);
+                params.set(
+                    "where[start][less_than]",
+                    new Date(Math.max(now.getTime(), end.getTime())).toISOString(),
+                );
             }
+            return true;
+        },
+    });
+
+    // Group by semester; the current semester always renders so an empty
+    // upcoming list still shows its "check back soon" state
+    const semesterGroups = useMemo(() => {
+        const groups = groupEventsBySemester(events);
+        if (!groups.some((g) => isCurrentSemester(g.semester))) {
+            groups.push({ semester: CURRENT_SEMESTER, events: [] });
         }
-    }, []);
-
-    // Listen for and apply filtering/searching updates
-    useEffect(() => {
-        const handleCategoryChange = (event: Event) => {
-            setSelectedCategory((event as CustomEvent<string | null>).detail ?? "");
-        };
-
-        const handleSearchQueryChange = (event: Event) => {
-            setSearchQuery((event as CustomEvent<string>).detail ?? "");
-        };
-
-        const handleSemesterChange = (event: Event) => {
-            const detail = (event as CustomEvent<any>).detail;
-            if (typeof detail === "string") {
-                const parts = detail.split("-");
-                if (parts.length === 2) {
-                    const seasonRaw = parts[0]?.toLowerCase();
-                    const yearNum = Number(parts[1]);
-                    const validSeasons = ["spring", "summer", "fall"];
-
-                    if (seasonRaw && validSeasons.includes(seasonRaw) && Number.isInteger(yearNum) && !Number.isNaN(yearNum)) {
-                        setSelectedSemester({ year: yearNum, season: seasonRaw as SemesterType["season"] });
-                        return;
-                    }
-                }
-                setSelectedSemester(null);
-                return;
-            }
-
-            setSelectedSemester(detail ?? null);
-        };
-
-        const handlePopState = () => {
-            const params = new URLSearchParams(window.location.search);
-            setSelectedCategory(params.get("cat") ?? "");
-            setSearchQuery(params.get("query") ?? "");
-            const semSlug = params.get("sem");
-            if (semSlug) {
-                const parts = semSlug.split("-");
-                if (parts.length === 2) {
-                    const seasonRaw = parts[0]?.toLowerCase();
-                    const yearNum = Number(parts[1]);
-                    const validSeasons = ["spring", "summer", "fall"];
-
-                    if (seasonRaw && validSeasons.includes(seasonRaw) && Number.isInteger(yearNum) && !Number.isNaN(yearNum)) {
-                        setSelectedSemester({ year: yearNum, season: seasonRaw as SemesterType["season"] });
-                        return;
-                    }
-                }
-            }
-            setSelectedSemester(null);
-        };
-
-        window.addEventListener("categoryChange", handleCategoryChange as EventListener);
-        window.addEventListener("searchQueryChange", handleSearchQueryChange as EventListener);
-        window.addEventListener("semesterChange", handleSemesterChange as EventListener);
-        window.addEventListener("popstate", handlePopState);
-
-        return () => {
-            window.removeEventListener("categoryChange", handleCategoryChange as EventListener);
-            window.removeEventListener("searchQueryChange", handleSearchQueryChange as EventListener);
-            window.removeEventListener("semesterChange", handleSemesterChange as EventListener);
-            window.removeEventListener("popstate", handlePopState);
-        };
-    }, []);
-
-    // Fetch events data
-    useEffect(() => {
-        // The first run happens with default filter state; when the server
-        // already rendered that data (initialEvents), skip the duplicate fetch.
-        if (!skippedInitialFetch.current) {
-            skippedInitialFetch.current = true;
-            if (initialEvents) return;
-        }
-
-        const fetchEvents = async (pageNum: number, category: string | null, query: string | null) => {
-            setIsLoading(true);
-
-            // If a semester is selected but it's not the current semester, return nothing
-            if (selectedSemester) {
-                const isCurrent = selectedSemester.season === CURRENT_SEMESTER.season && selectedSemester.year === CURRENT_SEMESTER.year;
-                if (!isCurrent) {
-                    setEvents([]);
-                    setIsLoading(false);
-                    return null;
-                }
-            }
-
-            const params = buildFetchParams(pageNum, category, query);
-
-            const res = await fetch(`${apiUrl}?${params.toString()}`);
-            if (!res.ok) {
-                setIsLoading(false);
-                return null;
-            }
-
-            const data = (await res.json()) as {
-                docs: EventType[];
-                hasNextPage: boolean;
-            };
-
-            setEvents(data.docs);
-            setIsLoading(false);
-
-            return data;
-        }
-
-        fetchEvents(INITIAL_PAGE, selectedCategory || null, searchQuery || null);
-    }, [selectedCategory, searchQuery, selectedSemester]);
-
-    const currentSemester = CURRENT_SEMESTER;
-
-    // Group events by semester, filter out those with no events
-    const semestersWithEvents = useMemo(() => {
-        return ALL_SEMESTERS
-            .map((semester) => ({
-                semester,
-                events: getEventsInSemester(events, semester),
-            }))
-            .filter((item) => (item.events.length > 0 || (item.semester.season === currentSemester.season && item.semester.year === currentSemester.year)));
+        return groups;
     }, [events]);
 
-    // If non-current semester selected render nothing 
-    if (selectedSemester && !(selectedSemester.season === currentSemester.season && selectedSemester.year === currentSemester.year)) {
+    // If a non-current semester is selected there is nothing upcoming to show
+    if (semester && !isCurrentSemester(semester)) {
         return null;
     }
 
     return (
-        <div
-            className="w-full flex flex-col text-left gap-y-4 mx-auto"
-        >
+        <div className="w-full flex flex-col text-left gap-y-4 mx-auto">
             <h2 className="text-3xl sm:text-3xl font-mono font-black m-0">Upcoming</h2>
-            {isLoading ?
-                <SkeletonSemesterEvents numEvents={3} semester={currentSemester} />
-            :
-                (semestersWithEvents.length > 0) ? 
-                    semestersWithEvents.map(({ semester, events }, idx) => {
-                        const isCurrentSemester = semester.season === currentSemester.season && semester.year === currentSemester.year;
-                        return (
-                            <section key={`${semester.season}-${semester.year}`}>
-                                <SemesterEvents events={events} semester={semester} currentSemester={isCurrentSemester} idx={idx} />
-                            </section>
-                        );
-                    })
-                :   
-                    <div className="w-full text-base font-pixel text-gray-500">
-                        No upcoming events found.
-                    </div>
-            }
+            {isLoading && events.length === 0 ? (
+                <SkeletonSemesterEvents numEvents={3} semester={CURRENT_SEMESTER} />
+            ) : (
+                <div
+                    className={`w-full flex flex-col gap-y-4 transition-opacity duration-200 ${isLoading ? "opacity-60" : ""}`}
+                >
+                    {semesterGroups.map(({ semester: sem, events: semEvents }, idx) => (
+                        <section key={`${sem.season}-${sem.year}`}>
+                            <SemesterEvents
+                                events={semEvents}
+                                semester={sem}
+                                currentSemester={isCurrentSemester(sem)}
+                                idx={idx}
+                            />
+                        </section>
+                    ))}
+                    {hasNextPage && <LoadMoreButton isLoadingMore={isLoadingMore} onClick={loadMore} />}
+                </div>
+            )}
         </div>
     );
 }

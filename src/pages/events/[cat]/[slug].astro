@@ -2,7 +2,7 @@
 export const prerender = false;
 
 import { format } from "date-fns";
-import { getCategorySlug, getLocalizedEventTimes, getSemesterFromDate, getCategoryColor, getCategoryBadgeClasses, getOptimizedImageUrl } from "@/utilities/helpers";
+import { getCategorySlug, getEventEnd, getLocalizedEventTimes, getSemesterFromDate, getCategoryColor, getCategoryBadgeClasses, getOptimizedImageUrl } from "@/utilities/helpers";
 
 import Layout from "@/layouts/Layout.astro";
 import SlugLayout from "@/layouts/SlugLayout.astro";
@@ -10,8 +10,13 @@ import Stat from "@/components/past-events/Stat.astro";
 import MapPin from "@/assets/map-pin.svg";
 import Gallery from "@/components/past-events/Gallery.astro";
 import Description from "@/components/past-events/Description.astro";
+import EventMap from "@/components/EventMap.astro";
+import RelatedEvents from "@/components/RelatedEvents.astro";
 import Rsvp from "@/components/Rsvp";
+import Attendees from "@/components/Attendees";
+import { isWalletConfigured } from "@/utilities/wallet-config";
 import SocialMetaTags from "@/layouts/components/SocialMetaTags.astro";
+import EventJsonLd from "@/layouts/components/EventJsonLd.astro";
 
 import type { EventType, PayloadResponse } from "@/types";
 import { CMS_URL } from "@/utilities/constants";
@@ -58,20 +63,34 @@ const eventPageUrl = new URL(`/events/${eventCategorySlug}/${event.slug}`, Astro
 const icsUrl = new URL(`/api/events.ics`, Astro.url.origin);
 icsUrl.searchParams.set("slug", event.slug);
 
+// Google's dates param wants compact UTC stamps (YYYYMMDDTHHMMSSZ)
+const toCalDate = (d: Date) => d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z");
+const eventEnd = getEventEnd(event);
+
 const googleCalendarUrl = new URL("https://calendar.google.com/calendar/render");
 googleCalendarUrl.searchParams.set("action", "TEMPLATE");
 googleCalendarUrl.searchParams.set("text", event.name);
-googleCalendarUrl.searchParams.set("dates", `${new Date(event.start).toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z")}/${new Date(event.end ?? new Date(event.start).getTime() + 60 * 60 * 1000).toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z")}`);
+googleCalendarUrl.searchParams.set("dates", `${toCalDate(new Date(event.start))}/${toCalDate(eventEnd)}`);
 googleCalendarUrl.searchParams.set("location", event.location_name || "");
 googleCalendarUrl.searchParams.set("details", `${event.name}\n\n${event.location_name ? `Location: ${event.location_name}\n` : ""}${eventPageUrl}`);
+googleCalendarUrl.searchParams.set("ctz", "America/Indiana/Indianapolis");
+
+const outlookCalendarUrl = new URL("https://outlook.live.com/calendar/0/action/compose");
+outlookCalendarUrl.searchParams.set("rru", "addevent");
+outlookCalendarUrl.searchParams.set("subject", event.name);
+outlookCalendarUrl.searchParams.set("startdt", new Date(event.start).toISOString());
+outlookCalendarUrl.searchParams.set("enddt", eventEnd.toISOString());
+if (event.location_name) outlookCalendarUrl.searchParams.set("location", event.location_name);
+outlookCalendarUrl.searchParams.set("body", eventPageUrl);
 ---
-<Layout>
+<Layout canonicalPath={`/events/${eventCategorySlug}/${event.slug}`}>
   <SocialMetaTags
     slot="social"
     title={`${event.name} - Events - Purdue Hackers`}
     description={`${localizedStartTime} – ${localizedEndTime} ET on ${format(localizedStart, "EEEE, MMMM do, yyyy")}${event.location_name ? ` @ ${event.location_name}` : ""}\n\n${descriptionPlaintext}`}
     imageUrl={imageThumbnail}
   />
+  <EventJsonLd slot="social" name={event.name} startDate={event.start} endDate={event.end ?? null} locationName={event.location_name} imageUrl={imageThumbnail} description={descriptionPlaintext} url={eventPageUrl} />
   <SlugLayout>
     <div
       class="w-full h-full min-h-screen overflow-clip flex flex-col md:flex-row items-stretch justify-center border-b-2 bg-card-light dark:bg-zinc-900 md:dark:bg-black bg-grid [--grid-size:100px] [--grid-color:rgba(0,0,0,0.5)] dark:[--grid-color:rgba(255,255,255,0.5)]"
@@ -108,7 +127,7 @@ googleCalendarUrl.searchParams.set("details", `${event.name}\n\n${event.location
               />
             )}
             <div class="flex flex-col gap-2 md:gap-4 2xl:gap-6">
-              <h1 class="text-black dark:text-white font-pixel uppercase text-left text-4xl md:text-[2.75rem] lg:text-5xl 2xl:text-7xl font-normal">
+              <h1 class="text-black dark:text-white font-pixel uppercase text-left text-balance text-4xl md:text-[2.75rem] lg:text-5xl 2xl:text-7xl font-normal">
                 {event.name}
               </h1>
               <div class="text-base md:text-lg 2xl:text-2xl font-subtext font-normal">
@@ -135,7 +154,12 @@ googleCalendarUrl.searchParams.set("details", `${event.name}\n\n${event.location
                           {format(localizedStart, "EEEE, MMMM do, yyyy")}
                           <div class="w-3 h-3 bg-black dark:bg-white group-hover/date:bg-purple-700 dark:group-hover/date:bg-yellow text-white dark:text-black leading-none flex items-center justify-center text-sm">+</div>
                         </div>
-                        <div class="text-base 2xl:text-lg leading-none">
+                        <div
+                          class="text-base 2xl:text-lg leading-none"
+                          data-event-times
+                          data-start-iso={event.start}
+                          data-end-iso={event.end ?? ""}
+                        >
                           {localizedStartTime} – {localizedEndTime} ET
                         </div>
                       </div>
@@ -164,6 +188,8 @@ googleCalendarUrl.searchParams.set("details", `${event.name}\n\n${event.location
                       </div>
                     )
                   }
+                  {/* Who's going — calendar actions live in the RSVP hub's popup */}
+                  {isUpcoming && <Attendees client:load eventId={event.id} />}
                 </div>
               </div>
             </div>
@@ -174,27 +200,47 @@ googleCalendarUrl.searchParams.set("details", `${event.name}\n\n${event.location
 
       {/* Event description body */}
       <div class="m-auto w-full md:min-h-screen md:w-1/2 flex-1 flex flex-col items-center justify-center md:mt-10 py-6 md:py-20 px-4 md:px-10 lg:pr-20 mb-auto">
-        <div class="flex flex-col md:items-start gap-2 md:gap-4 items-center">
-          {
-              event.stats && event.stats.length > 0 && (
-                  <div class="w-full max-h-fit flex flex-row flex-1 items-start justify-center gap-4 md:gap-8 p-6 md:px-8 md:py-4 bg-card-light dark:bg-black text-black dark:text-white border-2 border-black dark:bg-purple-700 text-center">
-                    {event.stats.map((stat) => (
-                        <Stat data={stat.data} label={stat.label} />
-                    ))}
-                  </div>
-              )
-          }
+        <div class="flex flex-col md:items-start gap-3 md:gap-5 items-center">
+          {/* Upcoming: the ask comes first — facts live in the left panel,
+              so the first thing in the content column is the action */}
+          {isUpcoming && (
+            <Rsvp
+              client:load
+              eventId={event.id}
+              eventName={event.name}
+              start={event.start}
+              gcalUrl={googleCalendarUrl.toString()}
+              outlookUrl={outlookCalendarUrl.toString()}
+              icsUrl={`${icsUrl.pathname}${icsUrl.search}`}
+              icsName={`${event.slug}.ics`}
+              walletUrl={isWalletConfigured() ? `/api/wallet/${event.slug}` : undefined}
+            />
+          )}
 
-          <div class="p-4 sm:p-6 sm:mt-0 bg-zinc-900 dark:bg-(--gray-900) dark:border-1 dark:border-zinc-700 text-white border-2">
+          {/* Past: lead with the numbers — they're the headline of the archive */}
+          {!isUpcoming && event.stats && event.stats.length > 0 && (
+            <div class="w-full max-h-fit flex flex-row flex-1 items-start justify-center gap-4 md:gap-8 p-6 md:px-8 md:py-4 bg-card-light dark:bg-purple-700 text-black dark:text-white border-2 border-black text-center">
+              {event.stats.map((stat) => (
+                <Stat data={stat.data} label={stat.label} />
+              ))}
+            </div>
+          )}
+
+          <div class="w-full p-4 sm:p-6 sm:mt-0 bg-zinc-900 dark:bg-(--gray-900) dark:border-1 dark:border-zinc-700 text-white border-2">
             <p class="text-yellow font-display uppercase text-sm mb-4">--details--</p>
             <Description>
               <div set:html={descriptionHTML} />
             </Description>
           </div>
 
-          {isUpcoming && <Rsvp client:load eventId={event.id} />}
+          {/* Where to go matters before the event, not after it */}
+          {isUpcoming && event.location_name && (
+            <EventMap locationName={event.location_name} locationUrl={event.location_url} />
+          )}
 
-          {event.images && event.images.length > 0 && (
+          {/* An upcoming event's image is its cover art (the hero at left) —
+              the photo gallery is an archive feature for past events */}
+          {!isUpcoming && event.images && event.images.length > 0 && (
             <Gallery
               images={event.images.map((img) => ({
                 url: img.image.url,
@@ -204,8 +250,43 @@ googleCalendarUrl.searchParams.set("details", `${event.name}\n\n${event.location
               }))}
             />
           )}
+
+          <RelatedEvents eventType={event.eventType} excludeSlug={event.slug} />
         </div>
       </div>
     </div>
   </SlugLayout>
 </Layout>
+
+<script>
+  // Viewer-local time hint: only rendered when the viewer's clock differs
+  // from Eastern at the event's instant (progressive enhancement — without
+  // JS the ET display stands alone).
+  const timesEl = document.querySelector<HTMLElement>("[data-event-times]");
+  if (timesEl?.dataset.startIso) {
+    const start = new Date(timesEl.dataset.startIso);
+    const end = timesEl.dataset.endIso ? new Date(timesEl.dataset.endIso) : null;
+    const timeOpts: Intl.DateTimeFormatOptions = { hour: "numeric", minute: "2-digit" };
+    const localFmt = new Intl.DateTimeFormat("en-US", timeOpts);
+    const etFmt = new Intl.DateTimeFormat("en-US", {
+      ...timeOpts,
+      timeZone: "America/Indiana/Indianapolis",
+    });
+
+    if (localFmt.format(start) !== etFmt.format(start)) {
+      const tzName =
+        new Intl.DateTimeFormat("en-US", { ...timeOpts, timeZoneName: "short" })
+          .formatToParts(start)
+          .find((part) => part.type === "timeZoneName")?.value ?? "";
+      const suffix = `your time${tzName ? ` (${tzName})` : ""}`;
+      const hint = document.createElement("div");
+      hint.className =
+        "ml-12 md:ml-14 2xl:ml-16 text-sm 2xl:text-base leading-none text-left font-subtext text-gray-500 dark:text-gray-400";
+      hint.textContent = end
+        ? `≈ ${localFmt.format(start)} – ${localFmt.format(end)} ${suffix}`
+        : `≈ ${localFmt.format(start)} ${suffix}`;
+      const anchor = timesEl.closest("a");
+      (anchor ?? timesEl).insertAdjacentElement("afterend", hint);
+    }
+  }
+</script>

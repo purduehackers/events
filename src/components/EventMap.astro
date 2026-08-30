@@ -1,0 +1,54 @@
+---
+import MapPin from "@/assets/map-pin.svg";
+
+interface Props {
+    locationName: string;
+    locationUrl?: string;
+}
+
+const { locationName, locationUrl } = Astro.props;
+
+// Prefer a query extracted from a Google Maps location_url; fall back to the
+// venue name itself.
+let query = locationName;
+if (locationUrl) {
+    try {
+        const parsed = new URL(locationUrl);
+        const q = parsed.searchParams.get("q") ?? parsed.searchParams.get("query");
+        if (q) query = q;
+    } catch {
+        // location_url isn't a valid URL; keep the venue-name query
+    }
+}
+
+const embedUrl = `https://maps.google.com/maps?q=${encodeURIComponent(query)}&z=16&output=embed`;
+const mapsLink =
+    locationUrl ?? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+---
+
+{/* The map is just there — a card with the embed on top and the venue below.
+    loading="lazy" keeps the iframe off the critical path without asking the
+    reader to press a button first. */}
+<div class="w-full border-2 border-black dark:border-1 dark:border-zinc-700 bg-card-light dark:bg-(--gray-900)">
+    <iframe
+        src={embedUrl}
+        title={`Map of ${locationName}`}
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        class="block w-full h-56 md:h-64 border-0 dark:grayscale dark:contrast-125"
+    ></iframe>
+    <div class="flex items-center justify-between gap-3 px-4 py-3 border-t-2 border-black dark:border-t-1 dark:border-zinc-700">
+        <div class="flex items-center gap-2 min-w-0 font-subtext font-semibold text-black dark:text-gray-200">
+            <MapPin class="w-4 shrink-0" />
+            <span class="truncate">{locationName}</span>
+        </div>
+        <a
+            href={mapsLink}
+            target="_blank"
+            rel="noreferrer"
+            class="shrink-0 font-pixel uppercase text-sm text-gray-500 dark:text-gray-400 transition-colors duration-150 hover:text-purple-700 dark:hover:text-yellow"
+        >
+            Open in Maps ↗
+        </a>
+    </div>
+</div>

@@ -1,86 +1,30 @@
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import Dialog from "@/components/Dialog";
 import Calendar from "@/components/Calendar";
-import SemesterFilter from "./SemesterFilter";
-import CategoryFilter from "./CategoryFilter";
 import { StarIcon2 } from "@/components/icons/Icons"
-import { EVENT_CATEGORIES } from "@/types";
-import { getSemestersNewestFirst } from "@/utilities/helpers";
+import { SITE_URL } from "@/utilities/constants";
+import { semesterToMonth, useUrlFilters } from "@/utilities/useUrlFilters";
 
-const CATEGORY_OPTIONS = [
-    { value: "all", label: "All event types" },
+const FEED_OPTIONS = [
+    { value: "all", label: "All events" },
     { value: "hack-night", label: "Hack nights" },
     { value: "workshop", label: "Workshops" },
     { value: "show", label: "Shows" },
     { value: "other", label: "Other" },
 ] as const;
+type FeedOption = (typeof FEED_OPTIONS)[number]["value"];
 
 interface ListSidebarProps {
     apiUrl: string;
 }
 
 export default function ListSidebar({ apiUrl }: ListSidebarProps) {
-    const [isListView, setIsListView] = useState(true);
-    const [selectedCategory, setSelectedCategory] = useState<(typeof CATEGORY_OPTIONS)[number]["value"]>("all");
-    const [semester, setSemester] = useState(new Date());
-
-    const allSemesters = getSemestersNewestFirst();
-    const categories = [...EVENT_CATEGORIES];
-
-    useEffect(() => {
-        const syncViewMode = () => {
-            const raw = new URLSearchParams(window.location.search).get("viewMode")?.trim().toLowerCase();
-            setIsListView(raw !== "grid");
-        };
-        const syncCategory = () => {
-            const raw = new URLSearchParams(window.location.search).get("cat")?.trim().toLowerCase();
-            setSelectedCategory((prev) => {
-                if (raw === prev) return prev;
-                if (raw == null) {
-                    return "all";
-                }
-                if (raw === "all" || raw === "other" || categories.map((c) => c.toLowerCase()).includes(raw ?? "")) {
-                    return raw as (typeof CATEGORY_OPTIONS)[number]["value"];
-                }
-                return prev;
-            });
-        };
-        const syncSemester = () => {
-            const raw = new URLSearchParams(window.location.search).get("sem")?.trim().toLowerCase();
-            setSemester((prev) => {
-                // Default to current
-                if (raw == null) {
-                    return new Date();
-                }
-
-                // Convert slug to semester
-                const [season, yearStr] = raw.split("-");
-                const year = yearStr ? parseInt(yearStr) : null;
-                if (!year || isNaN(year) || !season || !["spring", "summer", "fall"].includes(season)) {
-                    return prev;
-                }
-
-                // Get first date of semester
-                const month = season === "spring" ? 0 : season === "summer" ? 5 : 7;
-                return new Date(year, month, 1);
-            });
-        }
-
-        syncViewMode();
-        syncCategory();
-        syncSemester();
-        window.addEventListener("viewModeChange", syncViewMode as EventListener);
-        window.addEventListener("categoryChange", syncCategory as EventListener);
-        window.addEventListener("semesterChange", syncSemester as EventListener);
-        window.addEventListener("popstate", syncViewMode);
-
-        return () => {
-            window.removeEventListener("viewModeChange", syncViewMode as EventListener);
-            window.removeEventListener("categoryChange", syncCategory as EventListener);
-            window.removeEventListener("semesterChange", syncSemester as EventListener);
-            window.removeEventListener("popstate", syncViewMode);
-        };
-    }, []);
+    const { category, semester } = useUrlFilters();
+    const semesterMonth = useMemo(
+        () => (semester ? semesterToMonth(semester) : new Date()),
+        [semester],
+    );
+    const [feedCategory, setFeedCategory] = useState<FeedOption>("all");
 
     const handleCopy = async (url: string) => {
         try {
@@ -91,48 +35,47 @@ export default function ListSidebar({ apiUrl }: ListSidebarProps) {
         }
     };
 
-    const icalUrl = "webcal://events.purduehackers.com/api/events.ics";
+    const feedPath = feedCategory === "all"
+        ? "/api/events.ics"
+        : `/api/events.ics?cat=${feedCategory}`;
+    const icalUrl = `${SITE_URL.replace("https://", "webcal://")}${feedPath}`;
+    const feedHttpsUrl = `${SITE_URL}${feedPath}`;
 
     return (
         <aside className="z-50 sticky top-34 w-full"
             style={{ "--sidebar-bg": "#121216" } as React.CSSProperties}
         >
             <div className="w-full bg-(--sidebar-bg) p-0 border border-zinc-800 dark:border-zinc-800 flex flex-col gap-0 items-center">
-                <div className="bg-black w-full h-full py-1 text-white font-mono flex items-center justify-between gap-0 border-b-1 border-zinc-300 dark:border-zinc-800">
-                    <div className="flex items-center gap-3 pl-3 text-[10px] uppercase tracking-[0.2em]">
-                        <StarIcon2 className="w-2 h-2" />
-                        Filters
-                    </div>
-                </div>
-
-                {/* Filter */}
-                <div className=" w-full flex flex-row gap-0 justify-between border-b-1 border-zinc-300 dark:border-zinc-800">
-                    <CategoryFilter 
-                        categories={categories}
-                        triggerStyle="w-36 min-w-30 px-3 py-4 gap-1 tracking-wider font-pixel uppercase text-[14px] leading-none text-gray-100 bg-zinc-800 data-[placeholder]:bg-(--sidebar-bg) data-[placeholder]:text-gray-400 border-r-1 border-zinc-300 dark:border-zinc-600 data-[placeholder]:dark:border-zinc-800"
-                        portalStyle="-left-4 bg-body-light dark:bg-body-dark border border-zinc-200 dark:border-zinc-800 font-pixel uppercase"
-                        itemStyle="relative select-none flex items-center py-2 px-6 tracking-wider text-[14px] leading-none text-zinc-400 hover:text-white bg-black data-[highlighted]:bg-zinc-900 data-[highlighted]:text-white data-[highlighted]:outline-none data-[disabled]:pointer-events-none data-[disabled]:text-gray-500"
-                    />
-                    <SemesterFilter 
-                        semesters={allSemesters} 
-                        triggerStyle="w-38 min-w-30 px-3 py-4 gap-1 tracking-wider font-pixel uppercase text-[14px] leading-none text-gray-100 bg-zinc-800 data-[placeholder]:bg-(--sidebar-bg) data-[placeholder]:text-gray-400"
-                        portalStyle="-left-4 bg-body-light dark:bg-body-dark border border-zinc-200 dark:border-zinc-800 font-pixel uppercase"
-                        itemStyle="relative select-none flex items-center py-2 px-6 tracking-wider text-[14px] leading-none text-zinc-400 hover:text-white bg-black data-[highlighted]:bg-zinc-900 data-[highlighted]:text-white data-[highlighted]:outline-none data-[disabled]:pointer-events-none data-[disabled]:text-gray-500"
-                    />
-                </div>
-
                 <div className="bg-black w-full h-full p-0 text-white font-mono flex items-center justify-between gap-0 border-b-1 border-zinc-300 dark:border-zinc-800">
                     <div className="flex items-center gap-3 pl-3 text-[10px] uppercase tracking-[0.2em]">
                         <StarIcon2 className="w-2 h-2" />
                         Calendar
                     </div>
-                    <Dialog 
+                    <Dialog
                         title="Subscribe to feed"
                         description="Add to your preferred calendar to stay up to date with upcoming events."
                         trigger={
                             <button className="cursor-pointer w-fit min-w-6 h-6 px-2 bg-purple-700 text-white text-[10px] uppercase tracking-[0.2em] flex items-center justify-center">
                                 Add ICal
                             </button>
+                        }
+                        children={
+                            <div className="flex flex-wrap gap-1">
+                                {FEED_OPTIONS.map((option) => (
+                                    <button
+                                        key={option.value}
+                                        type="button"
+                                        onClick={() => setFeedCategory(option.value)}
+                                        className={`cursor-pointer px-2 py-1 font-pixel uppercase text-[11px] tracking-wider border-1 ${
+                                            feedCategory === option.value
+                                                ? "bg-yellow text-black border-yellow"
+                                                : "bg-transparent text-zinc-400 border-zinc-700 hover:text-white hover:border-zinc-500"
+                                        }`}
+                                    >
+                                        {option.label}
+                                    </button>
+                                ))}
+                            </div>
                         }
                         closeNode={
                             <div className="w-full flex flex-col gap-1">
@@ -142,10 +85,7 @@ export default function ListSidebar({ apiUrl }: ListSidebarProps) {
                                         target="_blank"
                                     >
                                         <button className="button-block w-full min-w-fit bg-[#EA4335] text-white text-sm">
-                                            Google 
-                                            <span className="hidden">
-                                                https://www.google.com/calendar/render?cid=
-                                            </span>
+                                            Google
                                         </button>
                                     </a>
                                     <a className="w-full"
@@ -167,7 +107,7 @@ export default function ListSidebar({ apiUrl }: ListSidebarProps) {
                                 </div>
 
                                 <button className="button-block w-full min-w-fit bg-zinc-700 text-white text-sm"
-                                    onClick={() => handleCopy("https://events.purduehackers.com/api/events.ics")}
+                                    onClick={() => handleCopy(feedHttpsUrl)}
                                 >
                                     Copy URL
                                 </button>
@@ -177,7 +117,7 @@ export default function ListSidebar({ apiUrl }: ListSidebarProps) {
                 </div>
 
                 <div className="py-2 flex flex-col gap-2 items-center justify-center">
-                    <Calendar apiUrl={apiUrl} selectedCategory={selectedCategory} semesterMonth={semester} />
+                    <Calendar apiUrl={apiUrl} selectedCategory={category} semesterMonth={semesterMonth} />
                 </div>
 
                 <div className="bg-black w-full h-full py-1 text-white font-mono flex items-center justify-between gap-0 border-t-1 border-zinc-300 dark:border-zinc-800">

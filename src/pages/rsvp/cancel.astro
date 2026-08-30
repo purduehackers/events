@@ -1,0 +1,101 @@
+---
+export const prerender = false;
+
+import Layout from "@/layouts/Layout.astro";
+import SlugLayout from "@/layouts/SlugLayout.astro";
+import SocialMetaTags from "@/layouts/components/SocialMetaTags.astro";
+
+const token = Astro.url.searchParams.get("token")?.trim() ?? "";
+---
+
+<Layout>
+  <SocialMetaTags
+    slot="social"
+    title="Cancel RSVP - Events - Purdue Hackers"
+    description="Cancel your RSVP to a Purdue Hackers event."
+  />
+  <SlugLayout>
+    <div
+      class="w-full min-h-screen flex flex-col items-center justify-center px-5 py-24 bg-card-light dark:bg-black bg-grid [--grid-size:100px] [--grid-color:rgba(0,0,0,0.5)] dark:[--grid-color:rgba(255,255,255,0.5)]"
+    >
+      <div
+        class="w-full max-w-md bg-zinc-900 dark:bg-(--gray-900) text-white border-2 border-black dark:border-1 dark:border-zinc-700 p-6 sm:p-8"
+      >
+        <p class="text-yellow font-display uppercase text-sm mb-4">--rsvp--</p>
+
+        {
+          token ? (
+            <div>
+              <div id="cancel-confirm">
+                <h1 class="font-pixel uppercase text-2xl mb-3">
+                  Can't make it?
+                </h1>
+                <p class="font-subtext text-base mb-6">
+                  This takes you off the list for the event. You can always
+                  RSVP again from the event page.
+                </p>
+                <button
+                  id="cancel-button"
+                  data-token={token}
+                  class="cursor-pointer w-full py-2 px-4 font-pixel font-bold uppercase text-white bg-purple-700 hover:bg-purple-500 transition-colors duration-150 disabled:opacity-70"
+                >
+                  Cancel my RSVP
+                </button>
+              </div>
+
+              <div id="cancel-success" class="hidden fade-in-up">
+                <h1 class="font-pixel uppercase text-2xl mb-3">
+                  You're off the list
+                </h1>
+                <p class="font-subtext text-base">
+                  Change of plans again? Just RSVP on the{" "}
+                  <a href="/" class="text-yellow underline">
+                    event page
+                  </a>
+                  .
+                </p>
+              </div>
+            </div>
+          ) : (
+            <div>
+              <h1 class="font-pixel uppercase text-2xl mb-3">
+                Missing cancellation link
+              </h1>
+              <p class="font-subtext text-base">
+                This page needs the personal link from your RSVP confirmation
+                email. Open that email and use the cancel link inside — or head
+                back to{" "}
+                <a href="/" class="text-yellow underline">
+                  all events
+                </a>
+                .
+              </p>
+            </div>
+          )
+        }
+      </div>
+    </div>
+  </SlugLayout>
+</Layout>
+
+<script>
+  const button = document.getElementById("cancel-button") as HTMLButtonElement | null;
+
+  button?.addEventListener("click", async () => {
+    button.disabled = true;
+    button.textContent = "Cancelling...";
+    try {
+      const res = await fetch("/api/rsvps/cancel", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: button.dataset.token }),
+      });
+      if (!res.ok) throw new Error();
+      document.getElementById("cancel-confirm")?.classList.add("hidden");
+      document.getElementById("cancel-success")?.classList.remove("hidden");
+    } catch {
+      button.disabled = false;
+      button.textContent = "Couldn't cancel — try again";
+    }
+  });
+</script>

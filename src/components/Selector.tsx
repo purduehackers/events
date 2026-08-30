@@ -66,13 +66,13 @@ const Selector = ({
                 aria-label={ariaLabel}
             >
                 <SelectValue placeholder={placeholder} />
-                <SelectIcon className="ml-2 h-2 flex items-center justify-center leading-none text-sm transition-transform -rotate-0 group-data-[state=open]:rotate-90">
+                <SelectIcon className="ml-2 h-2 flex items-center justify-center leading-none text-sm transition-transform duration-150 ease-snappy group-data-[state=open]:rotate-90">
                     {'>'}
                 </SelectIcon>
             </SelectTrigger>
             <SelectPortal container={typeof document !== "undefined" ? document.body : undefined}>
                 <SelectContent
-                    className={`${portalStyle} z-50 cursor-pointer overflow-hidden`}
+                    className={`${portalStyle} z-50 cursor-pointer overflow-hidden [transform-origin:var(--radix-select-content-transform-origin)] data-[state=open]:animate-[select-in_150ms_var(--ease-snappy)]`}
                     position="popper"
                     sideOffset={12}
                     alignOffset={-6}
