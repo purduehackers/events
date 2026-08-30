@@ -250,6 +250,10 @@ export default function Rsvp({
     // After the yes, the panel's job flips from asking to anticipation:
     // countdown, next actions, and cancelling demoted to quiet prose.
     const countdown = startsInLabel(start);
+    const walletHref = walletUrl
+      ? walletUrl +
+        (profile?.name ? `?guest=${encodeURIComponent(profile.name)}` : "")
+      : undefined;
     content = (
       <div>
         <div
@@ -303,8 +307,8 @@ export default function Rsvp({
               </button>
             }
           />
-          {walletUrl && (
-            <a href={walletUrl} className={GHOST_BUTTON}>
+          {walletHref && (
+            <a href={walletHref} className={GHOST_BUTTON}>
               ⌾ Apple Wallet
             </a>
           )}

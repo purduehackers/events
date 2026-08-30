@@ -30,13 +30,16 @@
     "astro": "^6.0.8",
     "date-fns": "^4.1.0",
     "ical-generator": "^11.0.0",
+    "jpeg-js": "^0.4.4",
     "passkit-generator": "^3.5.8",
+    "pngjs": "^7.0.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "sharp": "^0.34.5",
     "tailwindcss": "^4.1.17"
   },
   "devDependencies": {
-    "@tailwindcss/typography": "^0.5.19"
+    "@tailwindcss/typography": "^0.5.19",
+    "@types/pngjs": "^6.0.5"
   }
 }
