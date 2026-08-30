@@ -130,17 +130,39 @@ export function getSemestersNewestFirst(latest?: SemesterType ): SemesterType[] 
   return list;
 }
 
-// Get all events of a given semester
-export function getEventsInSemester(events: EventType[], semester: SemesterType) {
-  return events
-    .filter((event) => {
-      const s = getSemesterFromDate(new Date(event.start));
-      return s.year === semester.year && s.season === semester.season;
-    })
-    .sort((a, b) =>
-      // Sort by newest 
-      new Date(b.start).getTime() - new Date(a.start).getTime()
-    );
+const SEASON_ORDER: Record<SemesterSeason, number> = { spring: 0, summer: 1, fall: 2 };
+
+// Bucket events into semesters in one pass, newest semester first and newest
+// event first within each semester.
+export function groupEventsBySemester(
+  events: EventType[],
+): { semester: SemesterType; events: EventType[] }[] {
+  const buckets = new Map<string, { semester: SemesterType; events: EventType[] }>();
+  for (const event of events) {
+    const semester = getSemesterFromDate(new Date(event.start));
+    const key = `${semester.season}-${semester.year}`;
+    let bucket = buckets.get(key);
+    if (!bucket) {
+      bucket = { semester, events: [] };
+      buckets.set(key, bucket);
+    }
+    bucket.events.push(event);
+  }
+  const groups = [...buckets.values()];
+  for (const group of groups) {
+    group.events.sort((a, b) => new Date(b.start).getTime() - new Date(a.start).getTime());
+  }
+  return groups.sort(
+    (a, b) =>
+      b.semester.year - a.semester.year ||
+      SEASON_ORDER[b.semester.season] - SEASON_ORDER[a.semester.season],
+  );
+}
+
+export function getCardLayoutClass(viewMode: string) {
+  return viewMode === "grid"
+    ? "grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-2 sm:auto-cols-fr"
+    : "flex flex-col gap-2";
 }
 
 export function getEventSlug(path: string) {
