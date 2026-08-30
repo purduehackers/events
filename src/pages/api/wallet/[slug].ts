@@ -85,7 +85,7 @@ export const GET: APIRoute = async ({ params, url }) => {
                         label: "WHEN",
                         value: new Date(event.start).toISOString(),
                         dateStyle: "PKDateStyleMedium",
-                        timeStyle: "PKTimeStyleShort",
+                        timeStyle: "PKDateStyleShort",
                     },
                     ...(event.location_name
                         ? [{ key: "where", label: "WHERE", value: event.location_name }]
