@@ -91,11 +91,11 @@ export function ListCard({
   return (
     <div data-category={category?.toLowerCase() ?? ""}>
       <a
-        className="group flex min-h-fit sm:h-35 w-full p-3 sm:p-5 flex-row items-stretch gap-4 sm:gap-8 overflow-hidden border border-[1px] border-white bg-card-light text-left dark:border-zinc-700 dark:bg-(--gray-900) transition-[border-color,transform] duration-150 ease-snappy hover:border-zinc-300 dark:hover:border-zinc-500 active:scale-[0.99]"
+        className="group flex min-h-fit w-full p-3 sm:p-5 flex-row items-stretch gap-4 sm:gap-8 overflow-hidden border border-[1px] border-white bg-card-light text-left dark:border-zinc-700 dark:bg-(--gray-900) transition-[border-color,transform] duration-150 ease-snappy hover:border-zinc-300 dark:hover:border-zinc-500 active:scale-[0.99]"
         href={link}
       >
         {/* The wrapper background shows through while the image loads */}
-        <div className="relative aspect-square shrink-0 w-24 min-h-24 sm:w-fit sm:min-h-20 bg-zinc-200/80 dark:bg-zinc-800/80">
+        <div className="size-24 bg-zinc-200/80 dark:bg-zinc-800/80">
           <img
             alt={`${name} thumbnail`}
             className="h-full w-full object-cover"
