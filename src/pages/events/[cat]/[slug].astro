@@ -2,7 +2,7 @@
 export const prerender = false;
 
 import { format } from "date-fns";
-import { getCategorySlug, getLocalizedEventTimes, getSemesterFromDate, getCategoryColor, getCategoryBadgeClasses, getOptimizedImageUrl } from "@/utilities/helpers";
+import { getCategorySlug, getEventEnd, getLocalizedEventTimes, getSemesterFromDate, getCategoryColor, getCategoryBadgeClasses, getOptimizedImageUrl } from "@/utilities/helpers";
 
 import Layout from "@/layouts/Layout.astro";
 import SlugLayout from "@/layouts/SlugLayout.astro";
@@ -61,12 +61,25 @@ const eventPageUrl = new URL(`/events/${eventCategorySlug}/${event.slug}`, Astro
 const icsUrl = new URL(`/api/events.ics`, Astro.url.origin);
 icsUrl.searchParams.set("slug", event.slug);
 
+// Google's dates param wants compact UTC stamps (YYYYMMDDTHHMMSSZ)
+const toCalDate = (d: Date) => d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z");
+const eventEnd = getEventEnd(event);
+
 const googleCalendarUrl = new URL("https://calendar.google.com/calendar/render");
 googleCalendarUrl.searchParams.set("action", "TEMPLATE");
 googleCalendarUrl.searchParams.set("text", event.name);
-googleCalendarUrl.searchParams.set("dates", `${new Date(event.start).toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z")}/${new Date(event.end ?? new Date(event.start).getTime() + 60 * 60 * 1000).toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z")}`);
+googleCalendarUrl.searchParams.set("dates", `${toCalDate(new Date(event.start))}/${toCalDate(eventEnd)}`);
 googleCalendarUrl.searchParams.set("location", event.location_name || "");
 googleCalendarUrl.searchParams.set("details", `${event.name}\n\n${event.location_name ? `Location: ${event.location_name}\n` : ""}${eventPageUrl}`);
+googleCalendarUrl.searchParams.set("ctz", "America/Indiana/Indianapolis");
+
+const outlookCalendarUrl = new URL("https://outlook.live.com/calendar/0/action/compose");
+outlookCalendarUrl.searchParams.set("rru", "addevent");
+outlookCalendarUrl.searchParams.set("subject", event.name);
+outlookCalendarUrl.searchParams.set("startdt", new Date(event.start).toISOString());
+outlookCalendarUrl.searchParams.set("enddt", eventEnd.toISOString());
+if (event.location_name) outlookCalendarUrl.searchParams.set("location", event.location_name);
+outlookCalendarUrl.searchParams.set("body", eventPageUrl);
 ---
 <Layout canonicalPath={`/events/${eventCategorySlug}/${event.slug}`}>
   <SocialMetaTags
@@ -173,6 +186,27 @@ googleCalendarUrl.searchParams.set("details", `${event.name}\n\n${event.location
                       </div>
                     )
                   }
+                  {/* Add to calendar */}
+                  <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm 2xl:text-base font-pixel uppercase text-black dark:text-gray-200">
+                    <span class="text-[12px] 2xl:text-sm text-gray-500 dark:text-gray-400 normal-case font-subtext font-semibold">Add to calendar:</span>
+                    <a
+                      href={googleCalendarUrl.toString()}
+                      target="_blank"
+                      rel="noreferrer"
+                      class="hover:text-purple-700 dark:hover:text-yellow"
+                    >[ Google ]</a>
+                    <a
+                      href={icsUrl.toString()}
+                      download={`${event.slug}.ics`}
+                      class="hover:text-purple-700 dark:hover:text-yellow"
+                    >[ .ics ]</a>
+                    <a
+                      href={outlookCalendarUrl.toString()}
+                      target="_blank"
+                      rel="noreferrer"
+                      class="hover:text-purple-700 dark:hover:text-yellow"
+                    >[ Outlook ]</a>
+                  </div>
                 </div>
               </div>
             </div>
