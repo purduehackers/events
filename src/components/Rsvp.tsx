@@ -1,19 +1,37 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StarIcon2 } from "./icons/Icons";
 
 interface RsvpProps {
   eventId: string;
 }
 
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 export default function Rsvp({ eventId }: RsvpProps) {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState("");
+  const [count, setCount] = useState<number | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch(`/api/rsvps/count?event=${encodeURIComponent(eventId)}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (!cancelled && data && typeof data.count === "number") {
+          setCount(data.count);
+        }
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [eventId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email.trim()) {
+    if (!EMAIL_PATTERN.test(email.trim())) {
       setMessage("Please input a valid email.");
       return;
     }
@@ -40,9 +58,19 @@ export default function Rsvp({ eventId }: RsvpProps) {
         );
         setEmail("");
         setName("");
+        setCount((prev) => (prev ?? 0) + 1);
       } else {
-        const errorData = await response.json();
-        setMessage(errorData.error || "An error occurred. Please try again.");
+        // The CMS throws user-ready messages (e.g. the duplicate-RSVP error)
+        let errorText = "";
+        try {
+          const errorData = await response.json();
+          // Payload REST errors: { errors: [{ message }] }; proxies: { error }
+          const message = errorData.error ?? errorData.errors?.[0]?.message;
+          if (typeof message === "string") errorText = message;
+        } catch {
+          // non-JSON error body
+        }
+        setMessage(errorText || "An error occurred. Please try again.");
       }
     } catch (error) {
       setMessage("An error occurred. Please try again.");
@@ -61,6 +89,13 @@ export default function Rsvp({ eventId }: RsvpProps) {
         <span className="text-balance">Want to come? RSVP below!</span>
         <StarIcon2 className="w-4 h-4 animate-idle-icon text-purple-400" />
       </div>
+      {count !== null && (
+        <p className="font-pixel uppercase text-sm text-center text-yellow mb-4 sm:mb-6">
+          {count > 0
+            ? `▸ ${count} going`
+            : "▸ Be the first to RSVP"}
+        </p>
+      )}
       <form
         onSubmit={handleSubmit}
         className="w-full max-w-full flex flex-col gap-3"
