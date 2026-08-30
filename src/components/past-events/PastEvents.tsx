@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { EVENT_CATEGORIES, type EventType, type SemesterType } from "@/types";
 import SemesterEvents from "../SemesterEvents";
@@ -9,20 +9,34 @@ import {
   getSemestersNewestFirst,
   getSemesterDateRange,
   isKnownCategory,
+  setCardSelectParams,
 } from "@/utilities/helpers";
 
 interface PastEventsProps {
   limit: number;
   apiUrl: string;
+  initialEvents?: EventType[] | null;
+  initialHasNextPage?: boolean;
 }
 
 const INITIAL_PAGE = 1;
 
-export default function PastEvents({ limit, apiUrl }: PastEventsProps) {
-  const [events, setEvents] = useState<EventType[]>([]);
+const ALL_SEMESTERS = getSemestersNewestFirst();
+const CURRENT_SEMESTER = getSemesterFromDate(new Date());
+
+export default function PastEvents({
+  limit,
+  apiUrl,
+  initialEvents = null,
+  initialHasNextPage = false,
+}: PastEventsProps) {
+  const [events, setEvents] = useState<EventType[]>(initialEvents ?? []);
   const [page, setPage] = useState(INITIAL_PAGE);
-  const [hasNextPage, setHasNextPage] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [hasNextPage, setHasNextPage] = useState<boolean>(
+    initialEvents ? initialHasNextPage : false,
+  );
+  const [isLoading, setIsLoading] = useState(!initialEvents);
+  const skippedInitialFetch = useRef(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [selectedSemester, setSelectedSemester] = useState<SemesterType | null>(
     null,
@@ -38,7 +52,6 @@ export default function PastEvents({ limit, apiUrl }: PastEventsProps) {
   ) => {
     const params = new URLSearchParams();
     params.set("sort", "-start");
-    params.set("where[published][equals]", "true");
     params.set("limit", String(limit));
     params.set("page", String(pageNum));
 
@@ -66,10 +79,18 @@ export default function PastEvents({ limit, apiUrl }: PastEventsProps) {
     // Add filter/search query params
     if (isKnownCategory(category)) {
       params.set("where[eventType][equals]", category as string);
+    } else if (category === "other") {
+      // Filter "other" on the server instead of pulling every category and
+      // discarding most of it client-side
+      params.set(
+        "where[eventType][not_in]",
+        EVENT_CATEGORIES.join(","),
+      );
     }
     if (query && query.length > 0) {
       params.set("where[name][like]", query);
     }
+    setCardSelectParams(params);
     return params;
   };
 
@@ -208,6 +229,13 @@ export default function PastEvents({ limit, apiUrl }: PastEventsProps) {
 
   // Fetch events data
   useEffect(() => {
+    // The first run happens with default filter state; when the server
+    // already rendered that data (initialEvents), skip the duplicate fetch.
+    if (!skippedInitialFetch.current) {
+      skippedInitialFetch.current = true;
+      if (initialEvents) return;
+    }
+
     const fetchEvents = async (
       pageNum: number,
       category: string | null,
@@ -226,8 +254,7 @@ export default function PastEvents({ limit, apiUrl }: PastEventsProps) {
         hasNextPage: boolean;
       };
 
-      const docs = data.docs.filter((e) => e.published);
-      setEvents(docs);
+      setEvents(data.docs);
       setPage(pageNum);
       setHasNextPage(Boolean(data.hasNextPage));
       setIsLoading(false);
@@ -238,80 +265,42 @@ export default function PastEvents({ limit, apiUrl }: PastEventsProps) {
     fetchEvents(INITIAL_PAGE, selectedCategory || null, searchQuery || null);
   }, [selectedCategory, searchQuery, selectedSemester]);
 
-  const allSemesters = getSemestersNewestFirst();
-  const currentSemester = getSemesterFromDate(new Date());
-  const isOtherCategory = selectedCategory === "other";
+  const currentSemester = CURRENT_SEMESTER;
 
   const loadMore = async () => {
     if (!hasNextPage || isLoadingMore) return;
 
     setIsLoadingMore(true);
-    let nextPage = page + 1;
+    const nextPage = page + 1;
 
-    const accumulatedEvents: EventType[] = [];
-    let finalHasNextPage: boolean = hasNextPage;
-
-    const shouldFetchTightly = isOtherCategory;
-    const knownLower = new Set(EVENT_CATEGORIES.map((c) => c.toLowerCase()));
-
-    const shouldCountAsOther = (event: EventType) => {
-      const cat = event.eventType?.toLowerCase?.() ?? "";
-      return cat !== "" && !knownLower.has(cat);
-    };
-
-    let foundOther = false;
-
-    while (true) {
-      const params = buildFetchParams(
-        nextPage,
-        selectedCategory || null,
-        searchQuery,
-      );
-      const url = `${apiUrl}?${params.toString()}`;
-      const res = await fetch(url);
-      if (!res.ok) {
-        finalHasNextPage = false;
-        break;
-      }
-
-      const data = (await res.json()) as {
-        docs: EventType[];
-        hasNextPage: boolean;
-      };
-      console.log(data);
-
-      const pageResults = shouldFetchTightly
-        ? data.docs.filter(shouldCountAsOther)
-        : data.docs;
-      accumulatedEvents.push(...pageResults);
-
-      if (shouldFetchTightly) {
-        if (pageResults.length > 0) {
-          foundOther = true;
-        }
-      }
-
-      finalHasNextPage = Boolean(data.hasNextPage);
-
-      nextPage += 1;
-
-      // If not doing the tight "other" loop, just fetch a single page
-      if (!shouldFetchTightly) break;
-
-      // For "other", keep fetching until at least one other event found or run out of pages
-      if (foundOther || !finalHasNextPage) break;
+    // "other" is filtered server-side (not_in) so a single page fetch suffices
+    const params = buildFetchParams(
+      nextPage,
+      selectedCategory || null,
+      searchQuery,
+    );
+    const res = await fetch(`${apiUrl}?${params.toString()}`);
+    if (!res.ok) {
+      setHasNextPage(false);
+      setIsLoadingMore(false);
+      return;
     }
+
+    const data = (await res.json()) as {
+      docs: EventType[];
+      hasNextPage: boolean;
+    };
 
     setEvents((prev) => {
       const existingIds = new Set(prev.map((e) => e.id));
-      const newEvents = accumulatedEvents.filter(
-        (e) => e.published && !existingIds.has(e.id),
+      const newEvents = data.docs.filter(
+        (e) => !existingIds.has(e.id),
       );
       return [...prev, ...newEvents];
     });
 
-    setPage(nextPage - 1);
-    setHasNextPage(finalHasNextPage);
+    setPage(nextPage);
+    setHasNextPage(Boolean(data.hasNextPage));
     setIsLoadingMore(false);
   };
 
@@ -326,13 +315,13 @@ export default function PastEvents({ limit, apiUrl }: PastEventsProps) {
       ];
     }
 
-    return allSemesters
+    return ALL_SEMESTERS
       .map((semester) => ({
         semester,
         events: getEventsInSemester(events, semester),
       }))
       .filter((item) => item.events.length > 0);
-  }, [allSemesters, events, selectedSemester]);
+  }, [events, selectedSemester]);
 
   return (
     <div

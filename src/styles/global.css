@@ -9,14 +9,6 @@
   font-display: swap;
 }
 
-@font-face {
-  font-family: "Silver";
-  src: url("../assets/fonts/Silver.ttf") format("ttf");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
 /* Use CSS dark selector instead of media queries */
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -44,10 +36,8 @@
   --fontJetBrainsMono: "JetBrains Mono Variable", monospace;
   --fontInconsolata: "Inconsolata Variable", monospace;
   --fontSilkscreen: "Silkscreen", system-ui;
-  --fontSilver: "Silver", monospace;
   --fontDepartureMono: "DepartureMono", monospace;
   --fontSpaceGrotesk: "Space Grotesk Variable", sans-serif;
-  --fontSpaceMono: "Space Mono", monospace;
 
   background-color: var(--gray-100);
   overflow-x: hidden;
@@ -131,7 +121,20 @@ html body[data-scroll-locked] {
     background-position: 50% -50%;
     background-repeat: repeat;
   }
+  /* The moving grid lives on a pseudo-element animated with transform so it
+     stays on the compositor (animating background-position re-rasters the
+     whole element every frame). isolation keeps the negative z-index pseudo
+     above the element's own background but under its content. */
   .bg-grid-animated {
+    position: relative;
+    isolation: isolate;
+    overflow: clip;
+  }
+  .bg-grid-animated::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: calc(-1 * var(--grid-size, 30px)) 0 0 calc(-1 * var(--grid-size, 30px));
     background-image:
       linear-gradient(
         var(--grid-color, rgba(0, 0, 0, 0.05)) 1px,
@@ -143,16 +146,23 @@ html body[data-scroll-locked] {
         transparent 1px
       );
     background-size: var(--grid-size, 30px) var(--grid-size, 30px);
-    background-position: 50% -50%;
     background-repeat: repeat;
+    will-change: transform;
     animation: gridMove 4s linear infinite;
   }
   @keyframes gridMove {
     0% {
-      background-position: 0 0;
+      transform: translate3d(0, 0, 0);
     }
     100% {
-      background-position: var(--grid-size, 30px) var(--grid-size, 30px);
+      transform: translate3d(var(--grid-size, 30px), var(--grid-size, 30px), 0);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bg-grid-animated::before,
+    .animate-horizontal-scroll,
+    .animate-horizontal-scroll-reverse {
+      animation: none;
     }
   }
 
@@ -202,7 +212,6 @@ html body[data-scroll-locked] {
   --font-sans: var(--fontSpaceGrotesk);
   --font-mono: var(--fontJetBrainsMono);
   --font-pixel: var(--fontDepartureMono);
-  --font-silver: var(--fontSilver);
   --font-display: var(--fontSilkscreen);
   --font-subtext: var(--fontInconsolata);
 

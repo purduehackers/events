@@ -1,11 +1,13 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import SocialMetaTags from "@/layouts/components/SocialMetaTags.astro";
+
+Astro.response.status = 404;
 ---
 <Layout>
   <SocialMetaTags slot="social" title="404 - Page not found" description="" />
   <div
-    class="min-h-screen overflow-hidden flex flex-col font-name"
+    class="min-h-screen overflow-hidden flex flex-col"
   >
     {/* Event header */}
     <div

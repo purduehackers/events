@@ -1,18 +1,25 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import type { EventType, SemesterType } from "@/types";
 import SemesterEvents from "@/components/SemesterEvents";
-import { getSemestersNewestFirst, getEventsInSemester, getSemesterFromDate, isKnownCategory, getSemesterDateRange } from "@/utilities/helpers";
+import { getSemestersNewestFirst, getEventsInSemester, getSemesterFromDate, isKnownCategory, getSemesterDateRange, setCardSelectParams } from "@/utilities/helpers";
 import SkeletonSemesterEvents from "./SkeletonLoader";
 
 interface CurrentEventsProps {
-    apiUrl: string
+    apiUrl: string;
+    initialEvents?: EventType[] | null;
 }
 
 const INITIAL_PAGE = 1;
 
-export default function CurrentEvents({ apiUrl }: CurrentEventsProps) {
-    const [events, setEvents] = useState<EventType[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+const LATEST_DATE = new Date();
+LATEST_DATE.setFullYear(LATEST_DATE.getFullYear() + 1);
+const ALL_SEMESTERS = getSemestersNewestFirst(getSemesterFromDate(LATEST_DATE));
+const CURRENT_SEMESTER = getSemesterFromDate(new Date());
+
+export default function CurrentEvents({ apiUrl, initialEvents = null }: CurrentEventsProps) {
+    const [events, setEvents] = useState<EventType[]>(initialEvents ?? []);
+    const [isLoading, setIsLoading] = useState(!initialEvents);
+    const skippedInitialFetch = useRef(false);
     const [selectedCategory, setSelectedCategory] = useState<string>("");
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [selectedSemester, setSelectedSemester] = useState<SemesterType | null>(null);
@@ -46,7 +53,6 @@ export default function CurrentEvents({ apiUrl }: CurrentEventsProps) {
             params.set("where[start][greater_than]", now.toISOString());
         }
 
-        params.set("where[published][equals]", "true");
         params.set("page", String(pageNum));
 
         // Add filter/search query params
@@ -56,6 +62,7 @@ export default function CurrentEvents({ apiUrl }: CurrentEventsProps) {
         if (query && query.length > 0) {
             params.set("where[name][like]", query);
         }
+        setCardSelectParams(params);
         return params;
     };
 
@@ -151,12 +158,19 @@ export default function CurrentEvents({ apiUrl }: CurrentEventsProps) {
 
     // Fetch events data
     useEffect(() => {
+        // The first run happens with default filter state; when the server
+        // already rendered that data (initialEvents), skip the duplicate fetch.
+        if (!skippedInitialFetch.current) {
+            skippedInitialFetch.current = true;
+            if (initialEvents) return;
+        }
+
         const fetchEvents = async (pageNum: number, category: string | null, query: string | null) => {
             setIsLoading(true);
 
             // If a semester is selected but it's not the current semester, return nothing
             if (selectedSemester) {
-                const isCurrent = selectedSemester.season === currentSemester.season && selectedSemester.year === currentSemester.year;
+                const isCurrent = selectedSemester.season === CURRENT_SEMESTER.season && selectedSemester.year === CURRENT_SEMESTER.year;
                 if (!isCurrent) {
                     setEvents([]);
                     setIsLoading(false);
@@ -177,8 +191,7 @@ export default function CurrentEvents({ apiUrl }: CurrentEventsProps) {
                 hasNextPage: boolean;
             };
 
-            const docs = data.docs.filter((e) => e.published);
-            setEvents(docs);
+            setEvents(data.docs);
             setIsLoading(false);
 
             return data;
@@ -187,20 +200,17 @@ export default function CurrentEvents({ apiUrl }: CurrentEventsProps) {
         fetchEvents(INITIAL_PAGE, selectedCategory || null, searchQuery || null);
     }, [selectedCategory, searchQuery, selectedSemester]);
 
-    const latestDate = new Date();
-    latestDate.setFullYear(latestDate.getFullYear() + 1);
-    const allSemesters = getSemestersNewestFirst(getSemesterFromDate(latestDate));
-    const currentSemester = getSemesterFromDate(new Date());
+    const currentSemester = CURRENT_SEMESTER;
 
     // Group events by semester, filter out those with no events
     const semestersWithEvents = useMemo(() => {
-        return allSemesters
+        return ALL_SEMESTERS
             .map((semester) => ({
                 semester,
                 events: getEventsInSemester(events, semester),
             }))
             .filter((item) => (item.events.length > 0 || (item.semester.season === currentSemester.season && item.semester.year === currentSemester.year)));
-    }, [allSemesters, events]);
+    }, [events]);
 
     // If non-current semester selected render nothing 
     if (selectedSemester && !(selectedSemester.season === currentSemester.season && selectedSemester.year === currentSemester.year)) {

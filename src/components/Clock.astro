@@ -1,0 +1,35 @@
+---
+// Live Eastern-time clock without a React island. Displays minute precision,
+// so a 30s tick is plenty.
+const initialTime = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/Indianapolis",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZoneName: "short",
+}).format(new Date());
+---
+
+<span data-local-clock>{initialTime}</span>
+
+<script>
+    const formatter = new Intl.DateTimeFormat("en-US", {
+        timeZone: "America/Indianapolis",
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        timeZoneName: "short",
+    });
+
+    const tick = () => {
+        const text = formatter.format(new Date());
+        document
+            .querySelectorAll("[data-local-clock]")
+            .forEach((el) => (el.textContent = text));
+    };
+
+    tick();
+    setInterval(tick, 30 * 1000);
+</script>

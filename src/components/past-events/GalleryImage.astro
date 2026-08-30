@@ -1,0 +1,31 @@
+---
+interface Props {
+    index: number;
+    displayUrl: string | undefined;
+    displaySrcset?: string | undefined;
+    alt: string;
+    width?: number;
+    height?: number;
+    /** The first (above-the-fold) tiles load eagerly for LCP */
+    eager?: boolean;
+}
+
+const { index, displayUrl, displaySrcset, alt, width, height, eager = false } = Astro.props;
+---
+
+<div
+    class="w-full break-inside-avoid hover:scale-[1.03] transform cursor-pointer mb-2"
+    data-gallery-index={index}
+>
+    <img
+        src={displayUrl}
+        srcset={displaySrcset}
+        sizes="(min-width: 768px) 200px, 45vw"
+        alt={alt}
+        width={width}
+        height={height}
+        loading={eager ? "eager" : "lazy"}
+        decoding="async"
+        class="rounded-xs w-full h-auto"
+    />
+</div>
