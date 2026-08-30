@@ -1,7 +1,6 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Selector, { type SelectorOption } from "@/components/Selector";
 import type { SemesterType } from "@/types";
-import { setUrlFilter, useUrlFilters } from "@/utilities/useUrlFilters";
 
 interface SemesterFilterProps {
   semesters: SemesterType[];
@@ -10,22 +9,60 @@ interface SemesterFilterProps {
   itemStyle?: string;
 }
 
+// Get semester query param from url
+function getSemFromUrl(): string | null {
+  if (typeof window === "undefined") return null;
+  const raw = new URLSearchParams(window.location.search).get("sem")?.trim().toLowerCase();
+  return raw || null;
+}
+
+declare global {
+  interface Window {
+    applySemesterFilter?: () => void;
+  }
+}
+
 export default function SemesterFilter({ semesters, triggerStyle, portalStyle, itemStyle }: SemesterFilterProps) {
   // Get semester options (formatted w value and label)
-  const options: SelectorOption[] = useMemo(
-    () =>
-      semesters.map((s) => ({
+  const options: SelectorOption[] = useMemo(() => {
+    const list: SelectorOption[] = [];
+    for (const s of semesters) {
+      list.push({
         value: `${s.season}-${s.year}`,
         label: `${s.season} ${s.year}`,
-      })),
-    [semesters],
-  );
+      });
+    }
+    return list;
+  }, [semesters]);
 
-  const { semester } = useUrlFilters();
-  const value = semester ? `${semester.season}-${semester.year}` : "";
+  const [value, setValue] = useState<string>("");
+
+  useEffect(() => {
+    // Set semester value if valid
+    const sem = getSemFromUrl();
+    if (sem && options.some((o) => o.value === sem)) {
+      setValue(sem);
+    }
+  }, [options]);
 
   const onValueChange = (newValue: string) => {
-    setUrlFilter("sem", newValue);
+    setValue(newValue);
+
+    // Update url query params 
+    const url = new URL(window.location.href);
+    if (newValue) {
+      url.searchParams.set("sem", newValue);
+    } else {
+      url.searchParams.delete("sem");
+    }
+    window.history.replaceState(null, "", url.toString());
+
+    // Notify past and current events components so it can re-fetch / re-filter
+    window.dispatchEvent(
+      new CustomEvent<string | null>("semesterChange", {
+        detail: newValue || null,
+      })
+    );
   };
 
   return (

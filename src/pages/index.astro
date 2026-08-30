@@ -40,7 +40,6 @@ const [upcomingData, pastData] = await Promise.all([
 const initialUpcoming = upcomingData
   ? slimEventsForCards(upcomingData.docs)
   : null;
-const initialUpcomingHasNextPage = Boolean(upcomingData?.hasNextPage);
 const initialPast = pastData
   ? slimEventsForCards(pastData.docs)
   : null;
@@ -58,12 +57,7 @@ const initialPastHasNextPage = Boolean(pastData?.hasNextPage);
 
         <div class="flex justify-between items-stretch gap-6">
           <div class="grow flex flex-col gap-6">
-            <CurrentEvents
-              client:load
-              apiUrl={apiUrl}
-              initialEvents={initialUpcoming}
-              initialHasNextPage={initialUpcomingHasNextPage}
-            />
+            <CurrentEvents client:load apiUrl={apiUrl} initialEvents={initialUpcoming} />
             <PastEvents
               client:visible
               limit={INITIAL_LIMIT}
