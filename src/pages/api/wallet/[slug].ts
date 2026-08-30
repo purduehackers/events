@@ -18,7 +18,7 @@ function pem(value: string) {
 // of stacking duplicates.
 export const GET: APIRoute = async ({ params, url }) => {
     const slug = params.slug ?? "";
-    if (!/^[a-zA-Z0-9-]{1,120}$/.test(slug)) {
+    if (!/^[a-zA-Z0-9.-]{1,120}$/.test(slug)) {
         return jsonResponse({ error: "Invalid slug" }, 400);
     }
     if (!isWalletConfigured()) {
