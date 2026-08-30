@@ -12,6 +12,7 @@ import Gallery from "@/components/past-events/Gallery.astro";
 import Description from "@/components/past-events/Description.astro";
 import Rsvp from "@/components/Rsvp";
 import SocialMetaTags from "@/layouts/components/SocialMetaTags.astro";
+import EventJsonLd from "@/layouts/components/EventJsonLd.astro";
 
 import type { EventType, PayloadResponse } from "@/types";
 import { CMS_URL } from "@/utilities/constants";
@@ -65,13 +66,14 @@ googleCalendarUrl.searchParams.set("dates", `${new Date(event.start).toISOString
 googleCalendarUrl.searchParams.set("location", event.location_name || "");
 googleCalendarUrl.searchParams.set("details", `${event.name}\n\n${event.location_name ? `Location: ${event.location_name}\n` : ""}${eventPageUrl}`);
 ---
-<Layout>
+<Layout canonicalPath={`/events/${eventCategorySlug}/${event.slug}`}>
   <SocialMetaTags
     slot="social"
     title={`${event.name} - Events - Purdue Hackers`}
     description={`${localizedStartTime} – ${localizedEndTime} ET on ${format(localizedStart, "EEEE, MMMM do, yyyy")}${event.location_name ? ` @ ${event.location_name}` : ""}\n\n${descriptionPlaintext}`}
     imageUrl={imageThumbnail}
   />
+  <EventJsonLd slot="social" name={event.name} startDate={event.start} endDate={event.end ?? null} locationName={event.location_name} imageUrl={imageThumbnail} description={descriptionPlaintext} url={eventPageUrl} />
   <SlugLayout>
     <div
       class="w-full h-full min-h-screen overflow-clip flex flex-col md:flex-row items-stretch justify-center border-b-2 bg-card-light dark:bg-zinc-900 md:dark:bg-black bg-grid [--grid-size:100px] [--grid-color:rgba(0,0,0,0.5)] dark:[--grid-color:rgba(255,255,255,0.5)]"
