@@ -38,37 +38,6 @@ function validateParam(key: string, value: string): boolean {
     return WHERE_PARAMS[key]?.(value) ?? false;
 }
 
-// Slugs of events whose indexed content (title/excerpt — i.e. description and
-// location text) matches the query, from the CMS search-plugin collection.
-// Best-effort: until the CMS deploys its search beforeSync and reindexes, the
-// index rejects these clauses and the plain or-search stands alone.
-async function fetchSearchIndexSlugs(q: string): Promise<string[]> {
-    try {
-        const params = new URLSearchParams({
-            "where[or][0][title][like]": q,
-            "where[or][1][excerpt][like]": q,
-            "where[published][equals]": "true",
-            "where[eventSlug][exists]": "true",
-            "select[eventSlug]": "true",
-            limit: "50",
-            depth: "0",
-        });
-        const res = await fetch(`${CMS_URL}/api/search?${params.toString()}`, {
-            headers: {
-                Authorization: `service-accounts API-Key ${import.meta.env.PAYLOAD_API_KEY}`,
-            },
-        });
-        if (!res.ok) return [];
-        const data = (await res.json()) as { docs?: { eventSlug?: string | null }[] };
-        const slugs = (data.docs ?? [])
-            .map((doc) => doc.eventSlug)
-            .filter((slug): slug is string => typeof slug === "string" && slug.length > 0);
-        return [...new Set(slugs)];
-    } catch {
-        return [];
-    }
-}
-
 // Get events
 export const GET: APIRoute = async ({ url }) => {
     try {
@@ -92,10 +61,6 @@ export const GET: APIRoute = async ({ url }) => {
             params.delete("q");
             params.set("where[or][0][name][like]", q);
             params.set("where[or][1][location_name][like]", q);
-            const indexSlugs = await fetchSearchIndexSlugs(q);
-            if (indexSlugs.length > 0) {
-                params.set("where[or][2][slug][in]", indexSlugs.join(","));
-            }
         }
 
         // Filter for published only
