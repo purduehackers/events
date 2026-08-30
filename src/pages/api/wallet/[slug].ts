@@ -23,7 +23,7 @@ const PASS_STYLES: Record<
     string,
     { bg: string; fg: string; label: string; logo: "yellow" | "black" }
 > = {
-    "hack-night": { bg: "rgb(253, 250, 74)", fg: "rgb(0, 0, 0)", label: "rgb(0, 0, 0)", logo: "black" },
+    "hack-night": { bg: "rgb(253, 211, 74)", fg: "rgb(0, 0, 0)", label: "rgb(0, 0, 0)", logo: "black" },
     workshop: { bg: "rgb(239, 185, 255)", fg: "rgb(0, 0, 0)", label: "rgb(0, 0, 0)", logo: "black" },
     show: { bg: "rgb(255, 166, 0)", fg: "rgb(0, 0, 0)", label: "rgb(0, 0, 0)", logo: "black" },
     default: { bg: "rgb(125, 59, 255)", fg: "rgb(255, 255, 255)", label: "rgb(253, 250, 74)", logo: "yellow" },
