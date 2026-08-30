@@ -10,8 +10,6 @@ import Stat from "@/components/past-events/Stat.astro";
 import MapPin from "@/assets/map-pin.svg";
 import Gallery from "@/components/past-events/Gallery.astro";
 import Description from "@/components/past-events/Description.astro";
-import MapFacade from "@/components/MapFacade.astro";
-import RelatedEvents from "@/components/RelatedEvents.astro";
 import Rsvp from "@/components/Rsvp";
 import SocialMetaTags from "@/layouts/components/SocialMetaTags.astro";
 import EventJsonLd from "@/layouts/components/EventJsonLd.astro";
@@ -139,12 +137,7 @@ googleCalendarUrl.searchParams.set("details", `${event.name}\n\n${event.location
                           {format(localizedStart, "EEEE, MMMM do, yyyy")}
                           <div class="w-3 h-3 bg-black dark:bg-white group-hover/date:bg-purple-700 dark:group-hover/date:bg-yellow text-white dark:text-black leading-none flex items-center justify-center text-sm">+</div>
                         </div>
-                        <div
-                          class="text-base 2xl:text-lg leading-none"
-                          data-event-times
-                          data-start-iso={event.start}
-                          data-end-iso={event.end ?? ""}
-                        >
+                        <div class="text-base 2xl:text-lg leading-none">
                           {localizedStartTime} – {localizedEndTime} ET
                         </div>
                       </div>
@@ -213,47 +206,8 @@ googleCalendarUrl.searchParams.set("details", `${event.name}\n\n${event.location
               }))}
             />
           )}
-
-          {event.location_name && (
-            <MapFacade locationName={event.location_name} locationUrl={event.location_url} />
-          )}
-
-          <RelatedEvents eventType={event.eventType} excludeSlug={event.slug} />
         </div>
       </div>
     </div>
   </SlugLayout>
 </Layout>
-
-<script>
-  // Viewer-local time hint: only rendered when the viewer's clock differs
-  // from Eastern at the event's instant (progressive enhancement — without
-  // JS the ET display stands alone).
-  const timesEl = document.querySelector<HTMLElement>("[data-event-times]");
-  if (timesEl?.dataset.startIso) {
-    const start = new Date(timesEl.dataset.startIso);
-    const end = timesEl.dataset.endIso ? new Date(timesEl.dataset.endIso) : null;
-    const timeOpts: Intl.DateTimeFormatOptions = { hour: "numeric", minute: "2-digit" };
-    const localFmt = new Intl.DateTimeFormat("en-US", timeOpts);
-    const etFmt = new Intl.DateTimeFormat("en-US", {
-      ...timeOpts,
-      timeZone: "America/Indiana/Indianapolis",
-    });
-
-    if (localFmt.format(start) !== etFmt.format(start)) {
-      const tzName =
-        new Intl.DateTimeFormat("en-US", { ...timeOpts, timeZoneName: "short" })
-          .formatToParts(start)
-          .find((part) => part.type === "timeZoneName")?.value ?? "";
-      const suffix = `your time${tzName ? ` (${tzName})` : ""}`;
-      const hint = document.createElement("div");
-      hint.className =
-        "ml-12 md:ml-14 2xl:ml-16 text-sm 2xl:text-base leading-none text-left font-subtext text-gray-500 dark:text-gray-400";
-      hint.textContent = end
-        ? `≈ ${localFmt.format(start)} – ${localFmt.format(end)} ${suffix}`
-        : `≈ ${localFmt.format(start)} ${suffix}`;
-      const anchor = timesEl.closest("a");
-      (anchor ?? timesEl).insertAdjacentElement("afterend", hint);
-    }
-  }
-</script>
