@@ -7,7 +7,7 @@ import { CMS_URL } from "@/utilities/constants";
 import { jsonResponse } from "@/utilities/cms";
 import { getCategorySlug, getEventEnd } from "@/utilities/helpers";
 import { isWalletConfigured } from "@/utilities/wallet-config";
-import { WALLET_IMAGES } from "@/utilities/wallet-images";
+import { WALLET_ICONS, WALLET_LOGOS } from "@/utilities/wallet-images";
 import { buildThumbnails } from "@/utilities/wallet-thumbnail";
 
 // Vercel env vars store multiline PEMs with literal \n sequences
@@ -16,6 +16,18 @@ function pem(value: string) {
 }
 
 const EVENT_TZ = "America/Indiana/Indianapolis";
+
+// Passes wear the site's category colors — a yellow Hack Night ticket is
+// unmistakably a Hack Night ticket from across the room.
+const PASS_STYLES: Record<
+    string,
+    { bg: string; fg: string; label: string; logo: "yellow" | "black" }
+> = {
+    "hack-night": { bg: "rgb(253, 250, 74)", fg: "rgb(0, 0, 0)", label: "rgb(0, 0, 0)", logo: "black" },
+    workshop: { bg: "rgb(239, 185, 255)", fg: "rgb(0, 0, 0)", label: "rgb(0, 0, 0)", logo: "black" },
+    show: { bg: "rgb(255, 166, 0)", fg: "rgb(0, 0, 0)", label: "rgb(0, 0, 0)", logo: "black" },
+    default: { bg: "rgb(125, 59, 255)", fg: "rgb(255, 255, 255)", label: "rgb(253, 250, 74)", logo: "yellow" },
+};
 
 function inEventTz(iso: string, options: Intl.DateTimeFormatOptions) {
     return new Intl.DateTimeFormat("en-US", { timeZone: EVENT_TZ, ...options }).format(
@@ -85,6 +97,8 @@ export const GET: APIRoute = async ({ params, url }) => {
 
         const env = import.meta.env as Record<string, string>;
         const eventEnd = getEventEnd(event);
+        const style =
+            PASS_STYLES[getCategorySlug(event.eventType ?? "")] ?? PASS_STYLES.default;
         const eventUrl = new URL(
             `/events/${getCategorySlug(event.eventType)}/${event.slug}`,
             url.origin,
@@ -108,9 +122,9 @@ export const GET: APIRoute = async ({ params, url }) => {
             description: `${event.name} ticket`,
             logoText: "Purdue Hackers",
             sharingProhibited: false,
-            backgroundColor: "rgb(16, 16, 19)",
-            foregroundColor: "rgb(255, 255, 255)",
-            labelColor: "rgb(253, 250, 74)",
+            backgroundColor: style.bg,
+            foregroundColor: style.fg,
+            labelColor: style.label,
             relevantDate: new Date(event.start).toISOString(),
             expirationDate: new Date(
                 eventEnd.getTime() + 24 * 60 * 60 * 1000,
@@ -188,10 +202,10 @@ export const GET: APIRoute = async ({ params, url }) => {
             {
                 "pass.json": Buffer.from(JSON.stringify(passJson)),
                 ...Object.fromEntries(
-                    Object.entries(WALLET_IMAGES).map(([name, b64]) => [
-                        name,
-                        Buffer.from(b64, "base64"),
-                    ]),
+                    [
+                        ...Object.entries(WALLET_ICONS),
+                        ...Object.entries(WALLET_LOGOS[style.logo]),
+                    ].map(([name, b64]) => [name, Buffer.from(b64, "base64")]),
                 ),
                 ...(thumbnails ?? {}),
             },
@@ -206,7 +220,6 @@ export const GET: APIRoute = async ({ params, url }) => {
             message: eventUrl,
             format: "PKBarcodeFormatQR",
             messageEncoding: "utf-8",
-            altText: event.slug,
         });
 
         return new Response(new Uint8Array(pass.getAsBuffer()), {
