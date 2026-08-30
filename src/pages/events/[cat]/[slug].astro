@@ -220,7 +220,17 @@ outlookCalendarUrl.searchParams.set("body", eventPageUrl);
         <div class="flex flex-col md:items-start gap-3 md:gap-5 items-center">
           {/* Upcoming: the ask comes first — facts live in the left panel,
               so the first thing in the content column is the action */}
-          {isUpcoming && <Rsvp client:load eventId={event.id} />}
+          {isUpcoming && (
+            <Rsvp
+              client:load
+              eventId={event.id}
+              eventName={event.name}
+              start={event.start}
+              gcalUrl={googleCalendarUrl.toString()}
+              icsUrl={`${icsUrl.pathname}${icsUrl.search}`}
+              icsName={`${event.slug}.ics`}
+            />
+          )}
 
           {/* Past: lead with the numbers — they're the headline of the archive */}
           {!isUpcoming && event.stats && event.stats.length > 0 && (
