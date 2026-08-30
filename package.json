@@ -24,7 +24,6 @@
     "@radix-ui/react-dialog": "^1.1.16",
     "@radix-ui/react-select": "^2.2.6",
     "@tailwindcss/vite": "^4.1.17",
-    "@touch4it/ical-timezones": "^1.9.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "astro": "^6.0.8",

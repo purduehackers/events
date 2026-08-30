@@ -34,13 +34,6 @@ export function getEventThumbnail(event: EventType): string | undefined {
   return event.images?.[0]?.image?.url ?? undefined;
 }
 
-// Events without an explicit end default to one hour
-export function getEventEnd(event: Pick<EventType, "start" | "end">): Date {
-  return event.end
-    ? new Date(event.end)
-    : new Date(new Date(event.start).getTime() + 60 * 60 * 1000);
-}
-
 // Route CMS-hosted images through Vercel's edge image optimizer so full-res
 // originals are resized/re-encoded at the CDN instead of shipped to the
 // client (or transformed in our own function). Callers crop with CSS
