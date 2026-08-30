@@ -120,7 +120,6 @@ export const GET: APIRoute = async ({ params, url }) => {
             groupingIdentifier: "purdue-hackers-events",
             organizationName: "Purdue Hackers",
             description: `${event.name} ticket`,
-            logoText: "Purdue Hackers",
             sharingProhibited: false,
             backgroundColor: style.bg,
             foregroundColor: style.fg,
