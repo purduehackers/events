@@ -13,8 +13,8 @@ const isSubPage = Astro.url.pathname.length > 1;
 
 const navClass =
     variant === "solid"
-        ? "fixed top-0 z-100 w-full h-8 flex justify-between items-center border-b-1 border-black dark:border-white transition-[background-color] duration-500 bg-card-light dark:bg-body-dark data-[scrolled=true]:border-none data-[scrolled=true]:bg-purple-700 data-[scrolled=true]:dark:bg-purple-700 text-black dark:text-white data-[scrolled=true]:text-white"
-        : "fixed top-0 z-100 w-full h-8 flex justify-between items-center transition-[background-color] duration-500 bg-transparent data-[scrolled=true]:bg-purple-700 data-[scrolled=true]:dark:bg-purple-700 text-black dark:text-white data-[scrolled=true]:text-white";
+        ? "fixed top-0 z-100 w-full h-8 flex justify-between items-center border-b-1 border-black dark:border-white transition-[background-color] duration-200 bg-card-light dark:bg-body-dark data-[scrolled=true]:border-none data-[scrolled=true]:bg-purple-700 data-[scrolled=true]:dark:bg-purple-700 text-black dark:text-white data-[scrolled=true]:text-white"
+        : "fixed top-0 z-100 w-full h-8 flex justify-between items-center transition-[background-color] duration-200 bg-transparent data-[scrolled=true]:bg-purple-700 data-[scrolled=true]:dark:bg-purple-700 text-black dark:text-white data-[scrolled=true]:text-white";
 
 const learnMoreBg = variant === "solid" ? "bg-card-light" : "bg-white";
 ---

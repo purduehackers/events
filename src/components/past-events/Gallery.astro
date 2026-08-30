@@ -40,7 +40,7 @@ const lightboxItems = imageItems.map(({ lightboxUrl, lightboxSrcset, alt }) => (
 ---
 
 <div
-    class="flex flex-col gap-y-4 sm:mx-0 items-center w-full sm:max-w-lg md:max-w-xl"
+    class="flex flex-col gap-y-4 sm:mx-0 items-center w-full"
 >
     <div id="gallery-container" class="w-full">
         <div id="image-area" class="columns-2 md:columns-3 gap-2 space-y-2">
@@ -51,7 +51,11 @@ const lightboxItems = imageItems.map(({ lightboxUrl, lightboxSrcset, alt }) => (
         {hiddenCount > 0 && (
             <template id="gallery-hidden-items">
                 {imageItems.slice(VISIBLE_COUNT).map((img, i) => (
-                    <GalleryImage index={i + VISIBLE_COUNT} {...img} />
+                    <GalleryImage
+                        index={i + VISIBLE_COUNT}
+                        revealDelay={Math.min(i * 30, 240)}
+                        {...img}
+                    />
                 ))}
             </template>
         )}
@@ -71,7 +75,7 @@ const lightboxItems = imageItems.map(({ lightboxUrl, lightboxSrcset, alt }) => (
 <dialog
     id="lightbox"
     aria-label="Photo gallery"
-    class="fixed inset-0 w-screen h-screen max-w-none max-h-none p-4 bg-transparent backdrop:bg-black/95 items-center justify-center"
+    class="lightbox-dialog fixed inset-0 w-screen h-screen max-w-none max-h-none p-4 bg-transparent"
 >
     <svg class="hidden" aria-hidden="true">
         <symbol id="lightbox-chevron" viewBox="0 0 24 24">

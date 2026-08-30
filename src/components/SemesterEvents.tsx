@@ -26,7 +26,7 @@ export default function SemesterEvents({
   currentSemester = false,
   idx,
 }: SemesterEventsProps) {
-  const { category, viewMode } = useUrlFilters();
+  const { query, category, viewMode } = useUrlFilters();
 
   // Category bucketing only: it bridges the gap between server-rendered
   // initial data (unfiltered) and the first filtered refetch on shared
@@ -115,9 +115,11 @@ export default function SemesterEvents({
           <div className={getCardLayoutClass(viewMode)}>{cards}</div>
         ) : (
           <div className="w-full text-base font-pixel text-gray-500">
-            {currentSemester
-              ? "No upcoming events found. Check back again soon!"
-              : "No events found for this semester. Try a different filter!"}
+            {query
+              ? "Nothing matches that search."
+              : currentSemester
+                ? "No upcoming events found. Check back again soon!"
+                : "No events found for this semester. Try a different filter!"}
           </div>
         )}
       </div>

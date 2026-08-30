@@ -58,10 +58,12 @@ export default function CurrentEvents({ apiUrl, initialEvents = null, initialHas
     return (
         <div className="w-full flex flex-col text-left gap-y-4 mx-auto">
             <h2 className="text-3xl sm:text-3xl font-mono font-black m-0">Upcoming</h2>
-            {isLoading ? (
+            {isLoading && events.length === 0 ? (
                 <SkeletonSemesterEvents numEvents={3} semester={CURRENT_SEMESTER} />
             ) : (
-                <div className="w-full flex flex-col gap-y-4">
+                <div
+                    className={`w-full flex flex-col gap-y-4 transition-opacity duration-200 ${isLoading ? "opacity-60" : ""}`}
+                >
                     {semesterGroups.map(({ semester: sem, events: semEvents }, idx) => (
                         <section key={`${sem.season}-${sem.year}`}>
                             <SemesterEvents

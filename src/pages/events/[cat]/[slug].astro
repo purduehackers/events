@@ -125,7 +125,7 @@ outlookCalendarUrl.searchParams.set("body", eventPageUrl);
               />
             )}
             <div class="flex flex-col gap-2 md:gap-4 2xl:gap-6">
-              <h1 class="text-black dark:text-white font-pixel uppercase text-left text-4xl md:text-[2.75rem] lg:text-5xl 2xl:text-7xl font-normal">
+              <h1 class="text-black dark:text-white font-pixel uppercase text-left text-balance text-4xl md:text-[2.75rem] lg:text-5xl 2xl:text-7xl font-normal">
                 {event.name}
               </h1>
               <div class="text-base md:text-lg 2xl:text-2xl font-subtext font-normal">
@@ -193,18 +193,18 @@ outlookCalendarUrl.searchParams.set("body", eventPageUrl);
                       href={googleCalendarUrl.toString()}
                       target="_blank"
                       rel="noreferrer"
-                      class="hover:text-purple-700 dark:hover:text-yellow"
+                      class="transition-colors duration-150 hover:text-purple-700 dark:hover:text-yellow"
                     >[ Google ]</a>
                     <a
                       href={icsUrl.toString()}
                       download={`${event.slug}.ics`}
-                      class="hover:text-purple-700 dark:hover:text-yellow"
+                      class="transition-colors duration-150 hover:text-purple-700 dark:hover:text-yellow"
                     >[ .ics ]</a>
                     <a
                       href={outlookCalendarUrl.toString()}
                       target="_blank"
                       rel="noreferrer"
-                      class="hover:text-purple-700 dark:hover:text-yellow"
+                      class="transition-colors duration-150 hover:text-purple-700 dark:hover:text-yellow"
                     >[ Outlook ]</a>
                   </div>
                 </div>
@@ -217,25 +217,31 @@ outlookCalendarUrl.searchParams.set("body", eventPageUrl);
 
       {/* Event description body */}
       <div class="m-auto w-full md:min-h-screen md:w-1/2 flex-1 flex flex-col items-center justify-center md:mt-10 py-6 md:py-20 px-4 md:px-10 lg:pr-20 mb-auto">
-        <div class="flex flex-col md:items-start gap-2 md:gap-4 items-center">
-          {
-              event.stats && event.stats.length > 0 && (
-                  <div class="w-full max-h-fit flex flex-row flex-1 items-start justify-center gap-4 md:gap-8 p-6 md:px-8 md:py-4 bg-card-light dark:bg-black text-black dark:text-white border-2 border-black dark:bg-purple-700 text-center">
-                    {event.stats.map((stat) => (
-                        <Stat data={stat.data} label={stat.label} />
-                    ))}
-                  </div>
-              )
-          }
+        <div class="flex flex-col md:items-start gap-3 md:gap-5 items-center">
+          {/* Upcoming: the ask comes first — facts live in the left panel,
+              so the first thing in the content column is the action */}
+          {isUpcoming && <Rsvp client:load eventId={event.id} />}
 
-          <div class="p-4 sm:p-6 sm:mt-0 bg-zinc-900 dark:bg-(--gray-900) dark:border-1 dark:border-zinc-700 text-white border-2">
+          {/* Past: lead with the numbers — they're the headline of the archive */}
+          {!isUpcoming && event.stats && event.stats.length > 0 && (
+            <div class="w-full max-h-fit flex flex-row flex-1 items-start justify-center gap-4 md:gap-8 p-6 md:px-8 md:py-4 bg-card-light dark:bg-purple-700 text-black dark:text-white border-2 border-black text-center">
+              {event.stats.map((stat) => (
+                <Stat data={stat.data} label={stat.label} />
+              ))}
+            </div>
+          )}
+
+          <div class="w-full p-4 sm:p-6 sm:mt-0 bg-zinc-900 dark:bg-(--gray-900) dark:border-1 dark:border-zinc-700 text-white border-2">
             <p class="text-yellow font-display uppercase text-sm mb-4">--details--</p>
             <Description>
               <div set:html={descriptionHTML} />
             </Description>
           </div>
 
-          {isUpcoming && <Rsvp client:load eventId={event.id} />}
+          {/* Where to go matters before the event, not after it */}
+          {isUpcoming && event.location_name && (
+            <MapFacade locationName={event.location_name} locationUrl={event.location_url} />
+          )}
 
           {event.images && event.images.length > 0 && (
             <Gallery
@@ -246,10 +252,6 @@ outlookCalendarUrl.searchParams.set("body", eventPageUrl);
                 height: img.image.height,
               }))}
             />
-          )}
-
-          {event.location_name && (
-            <MapFacade locationName={event.location_name} locationUrl={event.location_url} />
           )}
 
           <RelatedEvents eventType={event.eventType} excludeSlug={event.slug} />

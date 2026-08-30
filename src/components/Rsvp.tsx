@@ -80,7 +80,7 @@ export default function Rsvp({ eventId }: RsvpProps) {
   };
 
   return (
-    <div className="w-full md:w-full m-auto bg-black dark:bg-purple-700 text-white dark:text-white border-1 border-white dark:border-black p-8 sm:p-10 sm:px-12 mx-4 mt-4 sm:mx-0 sm:mt-0 mb-4">
+    <div className="w-full bg-black dark:bg-purple-700 text-white border-1 border-white dark:border-black p-6 sm:p-10 sm:px-12">
       <p className="hidden text-yellow dark:text-purple-700 font-display uppercase text-sm mb-4">
         --rsvp--
       </p>
@@ -135,7 +135,9 @@ export default function Rsvp({ eventId }: RsvpProps) {
           {isSubmitting ? "Submitting..." : "RSVP"}
         </button>
         {message && (
-          <p className="font-sans text-sm text-center mt-2">{message}</p>
+          <p key={message} className="fade-in-up font-sans text-sm text-center mt-2">
+            {message}
+          </p>
         )}
       </form>
     </div>

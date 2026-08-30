@@ -58,10 +58,12 @@ export default function PastEvents({
     >
       <h2 className="text-3xl sm:text-3xl font-mono font-black m-0">Past</h2>
 
-      {isLoading ? (
+      {isLoading && events.length === 0 ? (
         <SkeletonSemesterEvents numEvents={8} semester={semester || CURRENT_SEMESTER} />
       ) : (
-        <div className="w-full flex flex-col items-center gap-4">
+        <div
+          className={`w-full flex flex-col items-center gap-4 transition-opacity duration-200 ${isLoading ? "opacity-60" : ""}`}
+        >
           {semesterGroups.length > 0 ? (
             semesterGroups.map(({ semester: sem, events: semEvents }, idx) => (
               <SemesterEvents key={`${sem.season}-${sem.year}`} events={semEvents} semester={sem} idx={idx} />

@@ -79,7 +79,7 @@ const embedUrl = `https://maps.google.com/maps?q=${encodeURIComponent(query)}&ou
         if (!facade || !slot) return;
         const wrapper = document.createElement("div");
         // grayscale keeps the light-themed Google tiles from glowing in dark mode
-        wrapper.className = "w-full border-2 border-white dark:grayscale dark:contrast-125";
+        wrapper.className = "fade-in w-full border-2 border-white dark:grayscale dark:contrast-125";
         const iframe = document.createElement("iframe");
         iframe.src = facade.dataset.embedUrl ?? "";
         iframe.title = `Map of ${facade.dataset.locationName ?? "the venue"}`;

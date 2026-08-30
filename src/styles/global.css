@@ -75,20 +75,75 @@ html body[data-scroll-locked] {
   ul {
     @apply list-disc pl-6 marker:text-amber-400 dark:marker:text-amber-500;
   }
-  button,
-  button:active,
-  button:focus {
-    outline: none;
+  button {
     cursor: pointer;
   }
-  input,
-  input:active,
-  input:focus {
+  /* Mouse focus stays quiet; keyboard focus gets a visible pixel ring */
+  button:focus:not(:focus-visible),
+  input:focus:not(:focus-visible),
+  a:focus:not(:focus-visible),
+  [role="button"]:focus:not(:focus-visible) {
     outline: none;
+  }
+  :focus-visible {
+    outline: 2px solid var(--purple-700);
+    outline-offset: 2px;
+  }
+  .dark :focus-visible {
+    outline-color: var(--yellow);
+  }
+
+  /* Every pressable acknowledges the press — instantly, subtly */
+  button,
+  [role="button"] {
+    transition-property: transform;
+    transition-duration: 120ms;
+    transition-timing-function: var(--ease-snappy);
+  }
+  button:not(:disabled):active,
+  [role="button"]:active {
+    transform: scale(0.97);
   }
 }
 
 @layer components {
+  /* Native <dialog> lightbox: fade+settle in, mirrored fast exit.
+     Modal, so it scales from center — that's the one correct case. */
+  .lightbox-dialog {
+    opacity: 1;
+    transform: scale(1);
+    transition:
+      opacity 180ms var(--ease-snappy),
+      transform 180ms var(--ease-snappy),
+      display 180ms allow-discrete,
+      overlay 180ms allow-discrete;
+  }
+  .lightbox-dialog:not([open]) {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  @starting-style {
+    .lightbox-dialog[open] {
+      opacity: 0;
+      transform: scale(0.97);
+    }
+  }
+  .lightbox-dialog::backdrop {
+    background: rgb(0 0 0 / 0.95);
+    transition:
+      background 180ms var(--ease-snappy),
+      display 180ms allow-discrete,
+      overlay 180ms allow-discrete;
+  }
+  .lightbox-dialog:not([open])::backdrop {
+    background: rgb(0 0 0 / 0);
+  }
+  @starting-style {
+    .lightbox-dialog[open]::backdrop {
+      background: rgb(0 0 0 / 0);
+    }
+  }
+
   .desc {
     @apply text-amber-500 hover:text-amber-400 transition;
     word-break: break-word;
@@ -159,10 +214,10 @@ html body[data-scroll-locked] {
     }
   }
   @media (prefers-reduced-motion: reduce) {
-    .bg-grid-animated::before,
-    .animate-horizontal-scroll,
-    .animate-horizontal-scroll-reverse {
-      animation: none;
+    *,
+    *::before,
+    *::after {
+      animation: none !important;
     }
   }
 
@@ -181,6 +236,48 @@ html body[data-scroll-locked] {
   .animate-horizontal-scroll-reverse {
     animation: horizontal-scroll var(--marquee-duration, 20s) linear infinite
       reverse;
+  }
+
+  /* Entrances: nothing appears from nothing — small offset + fade, fast out */
+  .fade-in-up {
+    animation: fade-in-up 200ms var(--ease-snappy) both;
+  }
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+  }
+  .fade-in {
+    animation: fade-in 240ms var(--ease-snappy) both;
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+  /* Radix portals mount on open: enter animations only, exits stay instant
+     (exit slower than enter is the one unforgivable ordering) */
+  @keyframes overlay-in {
+    from {
+      opacity: 0;
+    }
+  }
+  @keyframes modal-in {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -48%) scale(0.97);
+    }
+    to {
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+  @keyframes select-in {
+    from {
+      opacity: 0;
+      transform: scale(0.97);
+    }
   }
 
   /* Base styling for all skeleton blocks */
@@ -209,6 +306,10 @@ html body[data-scroll-locked] {
 }
 
 @theme {
+  /* Motion tokens: this interface is pixel-crisp — fast, decisive, never bouncy */
+  --ease-snappy: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-move: cubic-bezier(0.77, 0, 0.175, 1);
+
   --font-sans: var(--fontSpaceGrotesk);
   --font-mono: var(--fontJetBrainsMono);
   --font-pixel: var(--fontDepartureMono);
