@@ -10,7 +10,7 @@ import Stat from "@/components/past-events/Stat.astro";
 import MapPin from "@/assets/map-pin.svg";
 import Gallery from "@/components/past-events/Gallery.astro";
 import Description from "@/components/past-events/Description.astro";
-import MapFacade from "@/components/MapFacade.astro";
+import EventMap from "@/components/EventMap.astro";
 import RelatedEvents from "@/components/RelatedEvents.astro";
 import Rsvp from "@/components/Rsvp";
 import SocialMetaTags from "@/layouts/components/SocialMetaTags.astro";
@@ -240,10 +240,12 @@ outlookCalendarUrl.searchParams.set("body", eventPageUrl);
 
           {/* Where to go matters before the event, not after it */}
           {isUpcoming && event.location_name && (
-            <MapFacade locationName={event.location_name} locationUrl={event.location_url} />
+            <EventMap locationName={event.location_name} locationUrl={event.location_url} />
           )}
 
-          {event.images && event.images.length > 0 && (
+          {/* An upcoming event's image is its cover art (the hero at left) —
+              the photo gallery is an archive feature for past events */}
+          {!isUpcoming && event.images && event.images.length > 0 && (
             <Gallery
               images={event.images.map((img) => ({
                 url: img.image.url,
