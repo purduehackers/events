@@ -70,6 +70,7 @@ const lightboxItems = imageItems.map(({ lightboxUrl, lightboxSrcset, alt }) => (
 {/* Native dialog: focus containment, Escape, and focus restore come free */}
 <dialog
     id="lightbox"
+    aria-label="Photo gallery"
     class="fixed inset-0 w-screen h-screen max-w-none max-h-none p-4 bg-transparent backdrop:bg-black/95 items-center justify-center"
 >
     <svg class="hidden" aria-hidden="true">
@@ -190,6 +191,13 @@ const lightboxItems = imageItems.map(({ lightboxUrl, lightboxSrcset, alt }) => (
     imageArea.addEventListener("click", (e) => {
         const wrapper = e.target.closest("[data-gallery-index]");
         if (wrapper) openLightbox(Number(wrapper.dataset.galleryIndex));
+    });
+    imageArea.addEventListener("keydown", (e) => {
+        if (e.key !== "Enter" && e.key !== " ") return;
+        const wrapper = e.target.closest("[data-gallery-index]");
+        if (!wrapper) return;
+        e.preventDefault();
+        openLightbox(Number(wrapper.dataset.galleryIndex));
     });
 
     // Reveal the rest of the gallery (they only enter the DOM — and start
