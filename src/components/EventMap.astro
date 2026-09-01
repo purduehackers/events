@@ -1,29 +1,26 @@
 ---
 import MapPin from "@/assets/map-pin.svg";
+import { resolveMapTarget } from "@/utilities/maps";
 
 interface Props {
     locationName: string;
-    locationUrl?: string;
+    locationUrl?: string | null;
 }
 
 const { locationName, locationUrl } = Astro.props;
 
-// Prefer a query extracted from a Google Maps location_url; fall back to the
-// venue name itself.
-let query = locationName;
-if (locationUrl) {
-    try {
-        const parsed = new URL(locationUrl);
-        const q = parsed.searchParams.get("q") ?? parsed.searchParams.get("query");
-        if (q) query = q;
-    } catch {
-        // location_url isn't a valid URL; keep the venue-name query
-    }
-}
+// Prefer coordinates pulled from location_url (resolving Google short links
+// server-side); fall back to searching the venue name, which only works for
+// venues Google knows by that name.
+const target = await resolveMapTarget(locationUrl);
+const query = target?.query ?? locationName;
+// Building-level when we know exactly where the pin goes; a touch wider for a
+// name search so the reader still gets some context if it lands imprecisely.
+const zoom = target?.coords ? 17 : 16;
 
-const embedUrl = `https://maps.google.com/maps?q=${encodeURIComponent(query)}&z=16&output=embed`;
+const embedUrl = `https://maps.google.com/maps?q=${encodeURIComponent(query)}&z=${zoom}&output=embed`;
 const mapsLink =
-    locationUrl ?? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+    locationUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 ---
 
 {/* The map is just there — a card with the embed on top and the venue below.
