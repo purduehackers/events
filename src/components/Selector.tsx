@@ -53,7 +53,7 @@ const Selector = ({
     };
 
     return (
-        <div className="relative">
+        <div className="relative min-w-0">
         <Select
             {...(value !== undefined && { value })}
             {...(defaultValue !== undefined && { defaultValue })}
@@ -62,11 +62,13 @@ const Selector = ({
             onOpenChange={setOpen}
         >
             <SelectTrigger
-                className={`group ${triggerStyle} items-center justify-between cursor-pointer select-none inline-flex`}
+                className={`group ${triggerStyle} max-w-full items-center justify-between cursor-pointer select-none inline-flex`}
                 aria-label={ariaLabel}
             >
-                <SelectValue placeholder={placeholder} />
-                <SelectIcon className="ml-2 h-2 flex items-center justify-center leading-none text-sm transition-transform duration-150 ease-snappy group-data-[state=open]:rotate-90">
+                <SelectValue placeholder={placeholder} className="truncate" />
+                {/* Phones: chevron only while the placeholder shows, so a chosen
+                    value doesn't crowd the search input out of the row */}
+                <SelectIcon className="ml-2 h-2 hidden group-data-[placeholder]:flex sm:flex items-center justify-center leading-none text-sm transition-transform duration-150 ease-snappy group-data-[state=open]:rotate-90">
                     {'>'}
                 </SelectIcon>
             </SelectTrigger>

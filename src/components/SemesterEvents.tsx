@@ -92,7 +92,7 @@ export default function SemesterEvents({
       }
     >
       {/* Semester label */}
-      <div className="z-50 sticky top-34 sm:top-24 w-fit">
+      <div className="z-50 sticky top-19 sm:top-24 w-fit">
         <div
           className="relative -left-2 p-2 rounded-full flex items-center bg-body-light dark:bg-body-dark border-solid border-[0px] border-white dark:border-zinc-700"
           style={{

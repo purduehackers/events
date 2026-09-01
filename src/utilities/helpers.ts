@@ -195,6 +195,20 @@ export function getLocalizedDate(date: string): TZDate {
   return new TZDate(date, "America/Indiana/Indianapolis");
 }
 
+// "Sep 1, 02:58 PM EDT" — the sidebar's live Eastern clock
+const EASTERN_CLOCK_FORMAT = new Intl.DateTimeFormat("en-US", {
+  timeZone: "America/Indiana/Indianapolis",
+  month: "short",
+  day: "numeric",
+  hour: "2-digit",
+  minute: "2-digit",
+  timeZoneName: "short",
+});
+
+export function formatEasternClock(date: Date = new Date()): string {
+  return EASTERN_CLOCK_FORMAT.format(date);
+}
+
 export function getLocalizedEventTimes(event: EventType): {
   localizedStart: TZDate;
   localizedStartTime: string;

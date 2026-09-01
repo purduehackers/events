@@ -1,8 +1,9 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Dialog from "@/components/Dialog";
 import Calendar from "@/components/Calendar";
 import { StarIcon2 } from "@/components/icons/Icons"
 import { SITE_URL } from "@/utilities/constants";
+import { formatEasternClock } from "@/utilities/helpers";
 import { semesterToMonth, useUrlFilters } from "@/utilities/useUrlFilters";
 
 const FEED_OPTIONS = [
@@ -16,10 +17,21 @@ type FeedOption = (typeof FEED_OPTIONS)[number]["value"];
 
 interface ListSidebarProps {
     apiUrl: string;
+    /** Server-formatted Eastern time, so SSR and hydration render the same text */
+    initialClock: string;
 }
 
-export default function ListSidebar({ apiUrl }: ListSidebarProps) {
+export default function ListSidebar({ apiUrl, initialClock }: ListSidebarProps) {
     const { category, semester } = useUrlFilters();
+
+    // Minute precision, so a 30s tick is plenty
+    const [clock, setClock] = useState(initialClock);
+    useEffect(() => {
+        const tick = () => setClock(formatEasternClock());
+        tick();
+        const id = setInterval(tick, 30 * 1000);
+        return () => clearInterval(id);
+    }, []);
     const semesterMonth = useMemo(
         () => (semester ? semesterToMonth(semester) : new Date()),
         [semester],
@@ -123,8 +135,7 @@ export default function ListSidebar({ apiUrl }: ListSidebarProps) {
                 <div className="bg-black w-full h-full py-1 text-white font-mono flex items-center justify-between gap-0 border-t-1 border-zinc-300 dark:border-zinc-800">
                     <div className="flex items-center gap-3 pl-3 text-[10px] uppercase tracking-[0.2em]">
                         <StarIcon2 className="w-2 h-2" />
-                        {/* Updated by Clock.astro's global 30s ticker */}
-                        <div>Live - <span data-local-clock /></div>
+                        <div>Live - {clock}</div>
                     </div>
                 </div>
             </div>

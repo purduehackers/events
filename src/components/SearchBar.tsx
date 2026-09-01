@@ -19,20 +19,30 @@ export default function SearchBar() {
   };
 
   return (
-    <div className="w-full flex gap-2 items-center">
+    <div className="w-full min-w-0 flex gap-2 items-center">
+      {/* min-w-0 lets the input give up width to the filters on narrow
+          screens; truncate keeps the placeholder from spilling when it does */}
       <input
-        className="grow border-b-none sm:border-b-1 border-dashed border-zinc-400 dark:border-zinc-500"
+        className="grow min-w-0 py-1.5 sm:py-0 truncate bg-transparent border-b-1 border-dashed border-zinc-400 dark:border-zinc-500"
         type="text"
+        aria-label="Search events"
         placeholder="wackhacker world domination..."
+        enterKeyHint="search"
+        autoComplete="off"
+        autoCorrect="off"
+        autoCapitalize="none"
+        spellCheck={false}
         value={value}
         onChange={(e) => handleChange(e.target.value)}
       />
+      {/* The ::before extends the hit area to ~30px without growing the dot */}
       <button
-        className="relative cursor-pointer disabled:hidden min-w-fit w-fit h-fit p-[1px] text-xs rounded-full text-zinc-200 dark:text-zinc-700 bg-zinc-400 dark:bg-zinc-400"
+        className="relative cursor-pointer disabled:hidden min-w-fit w-fit h-fit p-[1px] text-xs rounded-full text-zinc-200 dark:text-zinc-700 bg-zinc-400 dark:bg-zinc-400 before:absolute before:-inset-2 before:content-['']"
         onClick={() => handleChange("")}
         disabled={(value?.length === 0)}
+        aria-label="Clear search"
       >
-        <XIcon className="w-3 w-3" />
+        <XIcon className="w-3 h-3" />
       </button>
     </div>
   );
