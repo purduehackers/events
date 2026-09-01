@@ -139,10 +139,12 @@ export function getSemestersNewestFirst(latest?: SemesterType ): SemesterType[] 
 
 const SEASON_ORDER: Record<SemesterSeason, number> = { spring: 0, summer: 1, fall: 2 };
 
-// Bucket events into semesters in one pass, newest semester first and newest
-// event first within each semester.
+// Bucket events into semesters in one pass, newest semester first. Within a
+// semester the caller picks the direction: an archive reads newest-first, while
+// a list of what is coming up wants the soonest at the top.
 export function groupEventsBySemester(
   events: EventType[],
+  order: "latest-first" | "soonest-first" = "latest-first",
 ): { semester: SemesterType; events: EventType[] }[] {
   const buckets = new Map<string, { semester: SemesterType; events: EventType[] }>();
   for (const event of events) {
@@ -156,8 +158,13 @@ export function groupEventsBySemester(
     bucket.events.push(event);
   }
   const groups = [...buckets.values()];
+  // Past events read newest-first, but "Upcoming" wants the next one at the top
+  // rather than the furthest away, so the direction is the caller's to choose.
+  const direction = order === "soonest-first" ? 1 : -1;
   for (const group of groups) {
-    group.events.sort((a, b) => new Date(b.start).getTime() - new Date(a.start).getTime());
+    group.events.sort(
+      (a, b) => direction * (new Date(a.start).getTime() - new Date(b.start).getTime()),
+    );
   }
   return groups.sort(
     (a, b) =>

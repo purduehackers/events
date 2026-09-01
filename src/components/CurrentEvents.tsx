@@ -43,7 +43,7 @@ export default function CurrentEvents({ apiUrl, initialEvents = null, initialHas
     // Group by semester; the current semester always renders so an empty
     // upcoming list still shows its "check back soon" state
     const semesterGroups = useMemo(() => {
-        const groups = groupEventsBySemester(events);
+        const groups = groupEventsBySemester(events, "soonest-first");
         if (!groups.some((g) => isCurrentSemester(g.semester))) {
             groups.push({ semester: CURRENT_SEMESTER, events: [] });
         }
