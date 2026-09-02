@@ -12,6 +12,7 @@ import Gallery from "@/components/past-events/Gallery.astro";
 import Description from "@/components/past-events/Description.astro";
 import EventMap from "@/components/EventMap.astro";
 import RelatedEvents from "@/components/RelatedEvents.astro";
+import LumaRsvp from "@/components/LumaRsvp.astro";
 import Rsvp from "@/components/Rsvp";
 import Attendees from "@/components/Attendees";
 import { isWalletConfigured } from "@/utilities/wallet-config";
@@ -189,7 +190,7 @@ outlookCalendarUrl.searchParams.set("body", eventPageUrl);
                     )
                   }
                   {/* Who's going — calendar actions live in the RSVP hub's popup */}
-                  {isUpcoming && <Attendees client:load eventId={event.id} />}
+                  {isUpcoming && !event.luma_url && <Attendees client:load eventId={event.id} />}
                 </div>
               </div>
             </div>
@@ -204,17 +205,21 @@ outlookCalendarUrl.searchParams.set("body", eventPageUrl);
           {/* Upcoming: the ask comes first — facts live in the left panel,
               so the first thing in the content column is the action */}
           {isUpcoming && (
-            <Rsvp
-              client:load
-              eventId={event.id}
-              eventName={event.name}
-              start={event.start}
-              gcalUrl={googleCalendarUrl.toString()}
-              outlookUrl={outlookCalendarUrl.toString()}
-              icsUrl={`${icsUrl.pathname}${icsUrl.search}`}
-              icsName={`${event.slug}.ics`}
-              walletUrl={isWalletConfigured() ? `/api/wallet/${event.slug}` : undefined}
-            />
+            event.luma_url ? (
+              <LumaRsvp url={event.luma_url} />
+            ) : (
+              <Rsvp
+                client:load
+                eventId={event.id}
+                eventName={event.name}
+                start={event.start}
+                gcalUrl={googleCalendarUrl.toString()}
+                outlookUrl={outlookCalendarUrl.toString()}
+                icsUrl={`${icsUrl.pathname}${icsUrl.search}`}
+                icsName={`${event.slug}.ics`}
+                walletUrl={isWalletConfigured() ? `/api/wallet/${event.slug}` : undefined}
+              />
+            )
           )}
 
           {/* Past: lead with the numbers — they're the headline of the archive */}

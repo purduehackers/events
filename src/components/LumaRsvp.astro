@@ -1,0 +1,25 @@
+---
+interface Props {
+  url: string;
+}
+
+const { url } = Astro.props;
+---
+
+<div class="w-full bg-black dark:bg-purple-700 text-white border-1 border-white dark:border-black p-6 sm:p-10 sm:px-12">
+  <p class="text-yellow font-display uppercase text-sm mb-4">--registration--</p>
+  <h2 class="font-pixel uppercase text-xl sm:text-2xl text-balance">
+    Want to come?
+  </h2>
+  <p class="font-subtext mt-3 mb-6 text-white/85 text-balance">
+    Registration and approval for this event are handled through Luma.
+  </p>
+  <a
+    href={url}
+    target="_blank"
+    rel="noreferrer"
+    class="inline-flex w-full sm:w-auto items-center justify-center gap-2 bg-purple-700 dark:bg-black font-pixel font-bold uppercase py-3 px-6 transition-transform duration-150 ease-snappy active:scale-[0.97] focus-visible:outline-yellow"
+  >
+    RSVP on Luma <span aria-hidden="true">↗</span>
+  </a>
+</div>

@@ -44,6 +44,7 @@ export interface EventType {
     end: string;
     location_name: string;
     location_url: string;
+    luma_url?: string | null;
     stats: StatType[];
     description: SerializedEditorState;
     images: ImageType[];
