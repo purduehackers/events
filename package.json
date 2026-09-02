@@ -29,6 +29,7 @@
     "@types/react-dom": "^19.2.3",
     "astro": "^6.0.8",
     "date-fns": "^4.1.0",
+    "date-fns-tz": "^3.2.0",
     "ical-generator": "^11.0.0",
     "jpeg-js": "^0.4.4",
     "passkit-generator": "^3.5.8",

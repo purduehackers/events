@@ -1,6 +1,7 @@
 export const prerender = false;
 
 import ical from 'ical-generator';
+import { toZonedTime } from 'date-fns-tz';
 import { getVtimezoneComponent } from '@touch4it/ical-timezones';
 import { CMS_URL, SITE_URL } from "@/utilities/constants";
 import { getCategorySlug, getEventEnd, setCardSelectParams } from "@/utilities/helpers";
@@ -101,8 +102,8 @@ export async function GET({ request }: { request: Request }) {
                 id: `${event.id}@events.purduehackers.com`,
                 summary: event.name,
                 description: event.name,
-                start: new Date(event.start),
-                end: getEventEnd(event),
+                start: toZonedTime(new Date(event.start), FEED_TIMEZONE),
+                end: toZonedTime(getEventEnd(event), FEED_TIMEZONE),
                 timezone: FEED_TIMEZONE,
                 location: event.location_name,
                 url: `${SITE_URL}/events/${getCategorySlug(event.eventType)}/${event.slug}`,
