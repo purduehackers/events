@@ -131,12 +131,14 @@ export function ListCard({
           </div>
 
           <div className="flex flex-wrap items-center justify-between gap-1 sm:gap-2">
-            {location && (
-              <div className="flex items-center gap-2 text-[15px] font-subtext font-semibold text-gray-500 dark:text-gray-400">
-                <MapPinIcon className="w-3.5 shrink-0" />
-                <div className="line-clamp-1">{location}</div>
-              </div>
-            )}
+            <div className="flex items-center gap-2 text-[15px] font-subtext font-semibold text-gray-500 dark:text-gray-400">
+              {location && (
+                <>
+                  <MapPinIcon className="w-3.5 shrink-0" />
+                  <div className="line-clamp-1">{location}</div>
+                </>
+              )}
+            </div>
             {category && <CategoryBadge category={category} />}
           </div>
         </div>
