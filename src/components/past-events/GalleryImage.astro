@@ -1,6 +1,7 @@
 ---
 interface Props {
     index: number;
+    hash: string;
     displayUrl: string | undefined;
     displaySrcset?: string | undefined;
     alt: string;
@@ -12,19 +13,19 @@ interface Props {
     revealDelay?: number;
 }
 
-const { index, displayUrl, displaySrcset, alt, width, height, eager = false, revealDelay } =
+const { index, hash, displayUrl, displaySrcset, alt, width, height, eager = false, revealDelay } =
     Astro.props;
 ---
 
-<div
+<a
+    href={hash}
     class:list={[
-        "w-full break-inside-avoid cursor-pointer mb-2 transition-transform duration-150 ease-snappy hover:scale-[1.02]",
+        "block w-full break-inside-avoid cursor-pointer mb-2 transition-transform duration-150 ease-snappy hover:scale-[1.02]",
         revealDelay !== undefined && "fade-in-up",
     ]}
     style={revealDelay !== undefined ? `animation-delay: ${revealDelay}ms` : undefined}
     data-gallery-index={index}
-    role="button"
-    tabindex="0"
+    aria-haspopup="dialog"
     aria-label={`View photo ${index + 1}`}
 >
     <img
@@ -38,4 +39,4 @@ const { index, displayUrl, displaySrcset, alt, width, height, eager = false, rev
         decoding="async"
         class="rounded-xs w-full h-auto"
     />
-</div>
+</a>

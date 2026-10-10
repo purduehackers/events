@@ -3,6 +3,7 @@ import { getOptimizedImageUrl, getOptimizedSrcset } from "@/utilities/helpers";
 import GalleryImage from "./GalleryImage.astro";
 
 interface ImageItem {
+  id?: string | number;
   url: string;
   alt?: string;
   width?: number;
@@ -22,6 +23,8 @@ const LIGHTBOX_WIDTHS = [800, 1200, 1600];
 const imageItems = images
   .map((img) => (typeof img === "string" ? { url: img, alt: "Event photo" } : img))
   .map((img) => ({
+    // CMS IDs keep shared links attached to the photo when the gallery is reordered.
+    hash: `#photo-${encodeURIComponent(String(img.id ?? img.url))}`,
     alt: img.alt ?? "Event photo",
     width: img.width,
     height: img.height,
@@ -32,7 +35,8 @@ const imageItems = images
   }));
 
 const hiddenCount = Math.max(0, imageItems.length - VISIBLE_COUNT);
-const lightboxItems = imageItems.map(({ lightboxUrl, lightboxSrcset, alt }) => ({
+const lightboxItems = imageItems.map(({ hash, lightboxUrl, lightboxSrcset, alt }) => ({
+  hash,
   url: lightboxUrl,
   srcset: lightboxSrcset ?? "",
   alt,
@@ -88,6 +92,17 @@ const lightboxItems = imageItems.map(({ lightboxUrl, lightboxSrcset, alt }) => (
                 d="M15 19l-7-7 7-7"></path>
         </symbol>
     </svg>
+
+    <button
+        id="lightbox-copy-link"
+        class="absolute top-4 left-4 max-w-[calc(100%-6rem)] min-h-11 flex items-center gap-2 text-white/80 hover:text-white z-110 px-3 py-2 rounded-sm bg-black/50 hover:bg-white/10 transition-colors cursor-pointer font-pixel text-sm"
+        aria-label="Copy link to this photo"
+    >
+        <svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M10 13a5 5 0 0 0 7.1 0l3-3a5 5 0 0 0-7.1-7.1l-1.7 1.7M14 11a5 5 0 0 0-7.1 0l-3 3a5 5 0 0 0 7.1 7.1l1.7-1.7" />
+        </svg>
+        <span id="lightbox-copy-label" aria-live="polite">Copy link</span>
+    </button>
 
     <button
         id="lightbox-close"
@@ -164,14 +179,33 @@ const lightboxItems = imageItems.map(({ lightboxUrl, lightboxSrcset, alt }) => (
 
     const lightbox = document.getElementById("lightbox");
     const lightboxImg = document.getElementById("lightbox-img");
+    const copyLinkBtn = document.getElementById("lightbox-copy-link");
+    const copyLinkLabel = document.getElementById("lightbox-copy-label");
 
     const allImageItems = Array.isArray(lightboxItems) ? lightboxItems : [];
     let currentImageIndex = 0;
+    let previousOverflow = "";
+    let copyFeedbackTimeout;
+
+    const resetCopyFeedback = () => {
+        clearTimeout(copyFeedbackTimeout);
+        copyLinkLabel.textContent = "Copy link";
+    };
+
+    const indexFromUrl = () => allImageItems.findIndex((item) => item.hash === window.location.hash);
+
+    const photoUrl = (index) => {
+        const url = new URL(window.location.href);
+        url.hash = allImageItems[index].hash;
+        return url;
+    };
 
     const showImage = (index) => {
+        if (allImageItems.length === 0) return;
         currentImageIndex = (index + allImageItems.length) % allImageItems.length;
         const item = allImageItems[currentImageIndex];
         if (!item) return;
+        resetCopyFeedback();
         lightboxImg.srcset = item.srcset;
         lightboxImg.sizes = "90vw";
         lightboxImg.src = item.url;
@@ -180,24 +214,74 @@ const lightboxItems = imageItems.map(({ lightboxUrl, lightboxSrcset, alt }) => (
         new Image().src = allImageItems[(currentImageIndex + 1) % allImageItems.length].url;
     };
 
+    const syncLightboxFromUrl = () => {
+        const index = indexFromUrl();
+        if (index < 0) {
+            if (lightbox.open) lightbox.close();
+            return;
+        }
+        if (!lightbox.open || index !== currentImageIndex) showImage(index);
+        if (!lightbox.open) {
+            previousOverflow = document.body.style.overflow;
+            lightbox.showModal();
+            document.body.style.overflow = "hidden";
+        }
+    };
+
     const openLightbox = (index) => {
-        showImage(index);
-        lightbox.showModal();
-        document.body.style.overflow = "hidden";
+        if (!allImageItems[index]) return;
+        // One history entry per visit to the gallery; browsing photos replaces it.
+        window.history.pushState({
+            ...window.history.state,
+            eventGalleryReturnUrl: window.location.href,
+        }, "", photoUrl(index));
+        syncLightboxFromUrl();
+    };
+
+    const navigateImage = (offset) => {
+        if (allImageItems.length === 0) return;
+        showImage(currentImageIndex + offset);
+        window.history.replaceState(window.history.state, "", photoUrl(currentImageIndex));
+    };
+
+    const closeLightbox = () => {
+        if (!lightbox.open) return;
+        lightbox.close();
+        if (indexFromUrl() < 0) return;
+        if (window.history.state?.eventGalleryReturnUrl) {
+            window.history.back();
+        } else {
+            // A shared link may be the tab's first entry. Keep its event page open.
+            const url = new URL(window.location.href);
+            url.hash = "";
+            window.history.replaceState(window.history.state, "", url);
+        }
     };
 
     // Fires for the close button, Escape, and backdrop clicks alike
     lightbox.addEventListener("close", () => {
-        document.body.style.overflow = "";
+        if (!lightbox.open) {
+            document.body.style.overflow = previousOverflow;
+            resetCopyFeedback();
+        }
+    });
+    lightbox.addEventListener("cancel", (e) => {
+        e.preventDefault();
+        closeLightbox();
     });
 
     // Open lightbox from any grid image (delegated so revealed images work too)
     imageArea.addEventListener("click", (e) => {
+        // Preserve native link actions, including Cmd/Ctrl-click and new tabs.
+        if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
         const wrapper = e.target.closest("[data-gallery-index]");
-        if (wrapper) openLightbox(Number(wrapper.dataset.galleryIndex));
+        if (!wrapper) return;
+        e.preventDefault();
+        openLightbox(Number(wrapper.dataset.galleryIndex));
     });
     imageArea.addEventListener("keydown", (e) => {
-        if (e.key !== "Enter" && e.key !== " ") return;
+        // Enter already activates the link; retain Space as a gallery shortcut.
+        if (e.key !== " ") return;
         const wrapper = e.target.closest("[data-gallery-index]");
         if (!wrapper) return;
         e.preventDefault();
@@ -211,20 +295,40 @@ const lightboxItems = imageItems.map(({ lightboxUrl, lightboxSrcset, alt }) => (
         viewMoreBtn.style.display = "none";
     });
 
-    document.getElementById("lightbox-close").addEventListener("click", () => lightbox.close());
+    copyLinkBtn.addEventListener("click", async () => {
+        const url = photoUrl(currentImageIndex).href;
+        try {
+            await navigator.clipboard.writeText(url);
+            if (!lightbox.open || photoUrl(currentImageIndex).href !== url) return;
+            copyLinkLabel.textContent = "Link copied!";
+        } catch {
+            if (!lightbox.open || photoUrl(currentImageIndex).href !== url) return;
+            copyLinkLabel.textContent = "Copy the address bar URL";
+        }
+        clearTimeout(copyFeedbackTimeout);
+        copyFeedbackTimeout = setTimeout(resetCopyFeedback, 3000);
+    });
+
+    document.getElementById("lightbox-close").addEventListener("click", closeLightbox);
     for (const id of ["lightbox-prev", "lightbox-prev-mobile"]) {
-        document.getElementById(id).addEventListener("click", () => showImage(currentImageIndex - 1));
+        document.getElementById(id).addEventListener("click", () => navigateImage(-1));
     }
     for (const id of ["lightbox-next", "lightbox-next-mobile"]) {
-        document.getElementById(id).addEventListener("click", () => showImage(currentImageIndex + 1));
+        document.getElementById(id).addEventListener("click", () => navigateImage(1));
     }
 
     lightbox.addEventListener("click", (e) => {
-        if (e.target === lightbox) lightbox.close();
+        if (e.target === lightbox) closeLightbox();
     });
 
     lightbox.addEventListener("keydown", (e) => {
-        if (e.key === "ArrowRight") showImage(currentImageIndex + 1);
-        if (e.key === "ArrowLeft") showImage(currentImageIndex - 1);
+        if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+            e.preventDefault();
+            navigateImage(e.key === "ArrowRight" ? 1 : -1);
+        }
     });
+
+    window.addEventListener("popstate", syncLightboxFromUrl);
+    window.addEventListener("hashchange", syncLightboxFromUrl);
+    syncLightboxFromUrl();
 </script>

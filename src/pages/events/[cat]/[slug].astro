@@ -248,6 +248,7 @@ outlookCalendarUrl.searchParams.set("body", eventPageUrl);
           {!isUpcoming && event.images && event.images.length > 0 && (
             <Gallery
               images={event.images.map((img) => ({
+                id: img.image.id,
                 url: img.image.url,
                 alt: img.image?.alt ?? event.name,
                 width: img.image.width,
