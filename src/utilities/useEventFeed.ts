@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { EVENT_CATEGORIES, type EventType, type SemesterType } from "@/types";
 import { isKnownCategory, setCardSelectParams } from "./helpers";
 import { useUrlFilters, type UrlFilters } from "./useUrlFilters";
+import { EVENT_DATE_SELECT, getEventDateKey, scrollToEventDate } from "./eventNavigation";
 
 const SEARCH_DEBOUNCE_MS = 300;
 const INITIAL_PAGE = 1;
@@ -47,6 +48,10 @@ export function useEventFeed({
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const skippedInitialFetch = useRef(false);
   const lastFetchedQuery = useRef("");
+  const loadMoreController = useRef<AbortController | null>(null);
+  const [navigation, setNavigation] = useState<
+    (Pick<UrlFilters, "query" | "category" | "semester"> & { date: string }) | null
+  >(null);
 
   const buildFetchParams = (pageNum: number): URLSearchParams | null => {
     const params = new URLSearchParams();
@@ -63,6 +68,31 @@ export function useEventFeed({
     setCardSelectParams(params);
     return params;
   };
+
+  useEffect(() => {
+    setNavigation(null);
+    setIsLoadingMore(false);
+
+    const onDateSelect = (event: Event) => {
+      const date = (event as CustomEvent<string>).detail;
+      const params = buildFetchParams(INITIAL_PAGE);
+      const start = params?.get("where[start][greater_than]");
+      const end = params?.get("where[start][less_than]");
+      // Only the list whose date window contains this day should load pages.
+      if (!params || (start && date < getEventDateKey(start)) || (end && date > getEventDateKey(end))) {
+        setNavigation(null);
+        return;
+      }
+      setNavigation({ date, query, category, semester });
+    };
+
+    window.addEventListener(EVENT_DATE_SELECT, onDateSelect);
+    return () => {
+      window.removeEventListener(EVENT_DATE_SELECT, onDateSelect);
+      loadMoreController.current?.abort();
+      loadMoreController.current = null;
+    };
+  }, [query, category, semester]);
 
   useEffect(() => {
     // The first run happens with default filter state; when the server
@@ -116,7 +146,7 @@ export function useEventFeed({
   }, [query, category, semester]);
 
   const loadMore = async () => {
-    if (!hasNextPage || isLoadingMore) return;
+    if (!hasNextPage || isLoading || loadMoreController.current) return;
 
     setIsLoadingMore(true);
     const nextPage = page + 1;
@@ -126,10 +156,13 @@ export function useEventFeed({
       return;
     }
 
+    const controller = new AbortController();
+    loadMoreController.current = controller;
     try {
-      const res = await fetch(`${apiUrl}?${params.toString()}`);
+      const res = await fetch(`${apiUrl}?${params.toString()}`, { signal: controller.signal });
       if (!res.ok) {
         setHasNextPage(false);
+        setNavigation(null);
         return;
       }
 
@@ -140,10 +173,40 @@ export function useEventFeed({
       });
       setPage(nextPage);
       setHasNextPage(Boolean(data.hasNextPage));
+    } catch (err) {
+      if ((err as Error)?.name !== "AbortError") setNavigation(null);
     } finally {
-      setIsLoadingMore(false);
+      if (loadMoreController.current === controller) {
+        loadMoreController.current = null;
+        setIsLoadingMore(false);
+      }
     }
   };
+
+  useEffect(() => {
+    if (!navigation || navigation.query !== query || navigation.category !== category || navigation.semester !== semester) return;
+    if (isLoading || isLoadingMore) return;
+
+    const { date } = navigation;
+    if (events.some((event) => getEventDateKey(event.start) === date)) {
+      // Effects run after the cards render, so newly loaded events are ready.
+      scrollToEventDate(date);
+      setNavigation(null);
+      return;
+    }
+
+    const lastEvent = events.at(-1);
+    const lastDate = lastEvent ? getEventDateKey(lastEvent.start) : null;
+    const passedDate = lastDate && (sort === "start" ? lastDate > date : lastDate < date);
+    if (!hasNextPage || passedDate) {
+      setNavigation(null);
+      return;
+    }
+
+    // Keep the existing list and filters; reveal older pages until the day is
+    // reached. A newer calendar click replaces the pending destination.
+    void loadMore();
+  }, [navigation, events, isLoading, isLoadingMore, hasNextPage, query, category, semester]);
 
   return { ...filters, events, isLoading, hasNextPage, isLoadingMore, loadMore };
 }

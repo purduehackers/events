@@ -61,7 +61,7 @@ const initialClock = formatEasternClock();
             initialHasNextPage={initialUpcomingHasNextPage}
           />
           <PastEvents
-            client:visible
+            client:load
             limit={INITIAL_LIMIT}
             apiUrl={apiUrl}
             initialEvents={initialPast}

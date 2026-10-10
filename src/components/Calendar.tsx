@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { DayPicker, getDefaultClassNames } from "@daypicker/react";
 import "@daypicker/react/style.css";
+import { EVENT_DATE_SELECT, getEventDateKey } from "@/utilities/eventNavigation";
 
 interface CalendarProps {
     apiUrl: string;
@@ -118,6 +119,13 @@ export default function Calendar({ apiUrl, selectedCategory = "", semesterMonth 
                 timeZone="America/New_York"
                 selected={selected}
                 onSelect={setSelected}
+                onDayClick={(day, dayModifiers) => {
+                    if (Object.keys(modifiers).some((key) => dayModifiers[key])) {
+                        window.dispatchEvent(new CustomEvent(EVENT_DATE_SELECT, {
+                            detail: getEventDateKey(day),
+                        }));
+                    }
+                }}
                 month={month}
                 onMonthChange={setMonth}
                 className="text-gray-500 dark:text-zinc-100"

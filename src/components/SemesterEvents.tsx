@@ -12,6 +12,7 @@ import {
   isKnownCategory,
 } from "@/utilities/helpers";
 import { useUrlFilters } from "@/utilities/useUrlFilters";
+import { getEventDateKey } from "@/utilities/eventNavigation";
 
 interface SemesterEventsProps {
   events: EventType[];
@@ -57,6 +58,7 @@ export default function SemesterEvents({
           <Card
             key={event.id}
             date={format(localizedStart, "MMM d")}
+            eventDate={getEventDateKey(event.start)}
             time={`${localizedStartTime}`}
             location={event.location_name}
             name={event.name}
@@ -67,6 +69,7 @@ export default function SemesterEvents({
           <ListCard
             key={event.id}
             date={format(localizedStart, "MMM d")}
+            eventDate={getEventDateKey(event.start)}
             startTime={localizedStartTime}
             endTime={localizedEndTime ? localizedEndTime : "???"}
             location={event.location_name}
