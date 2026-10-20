@@ -13,8 +13,9 @@ export default defineConfig({
     isr: {
       expiration: 60 * 60,
       bypassToken: process.env.ISR_REVALIDATION_TOKEN || "",
-      // API routes manage their own CDN caching via Cache-Control headers
-      exclude: [/^\/api\/.+/],
+      // API routes manage their own CDN caching; the Hack Night redirect
+      // must resolve the next event on every request.
+      exclude: [/^\/api\/.+/, "/events/hack-night"],
     },
     // Serve image transforms from Vercel's edge optimizer instead of running
     // sharp inside our function. sizes must match OPTIMIZED_WIDTHS in
